@@ -1,0 +1,39 @@
+{
+  "classification": "SOURCE_CODE_DEPENDENCIES_ONLY_NO_CAPTURED_SOURCE_CONTENT",
+  "implementation_files": [
+    {
+      "path": "workspace/research/a_v193_multiyear_validation_v1/input_gate_recovery_r4/archive_identity_b2/process_archive_material_b2.py",
+      "role": "B2 one-read wrapper, binding validation, registration and report annotation",
+      "sha256": "980a99e299b64c52bf3d6a7f31fe154d59583b471be62bef426d137fad104ed3"
+    },
+    {
+      "path": "workspace/research/a_v193_multiyear_validation_v1/input_gate_recovery_r4/archive_identity_b2/test_archive_material_b2.py",
+      "role": "synthetic regression controls; no archive source reads",
+      "sha256": "7c77b70c221147e188160ae81368ba9ca4f9c4207f52546aa2c13d73b0e26659"
+    },
+    {
+      "path": "workspace/research/a_v193_multiyear_validation_v1/input_gate_recovery_r4/archive_identity_b/extract_archive_identity.py",
+      "role": "frozen B1 static report builder; imported by B2 without editing",
+      "sha256": "faee005cfddbfa24322d178ebdcea587b4721b233250c95de436def02ee21830"
+    },
+    {
+      "path": "workspace/hkconnect_price_semantics_v2_20260919/zero_label_parity/execution_guard_core.py",
+      "role": "existing no-fit execution lifecycle",
+      "sha256": "85929366a7b018480085c02f80edd312f7f47de94bab5c32982d4e8637d7d7e0"
+    },
+    {
+      "path": "workspace/hkconnect_price_semantics_v2_20260919/zero_label_parity/registry_adapter.py",
+      "role": "existing official append/validate/lock lifecycle",
+      "sha256": "8596f2a20c165b5fbc2b92a597cb3e1177f6e40bfefac62753b40b3c7daae17f"
+    }
+  ],
+  "member_source_content_published": false,
+  "original_zip_read": false,
+  "safety": {
+    "buy_gate_updated": false,
+    "orders_sent": false,
+    "production_allowed": false,
+    "research_only": true
+  },
+  "schema_version": "V193_R4_ARCHIVE_MEMBER_STATIC_IDENTITY_B2_SOURCE_ALLOWLIST_V1"
+}

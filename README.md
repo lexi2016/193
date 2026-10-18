@@ -1,3 +1,19 @@
+# 当前状态：R4 输入门补件待办（2026-10-18）
+
+两份 JSON 的当前 raw 字节与既有捕获一致。修正后的缺失 SHA-256 常量复现器精确命中两条旧摘要（2/2），独立 Reviewer 已完成合成回归与收据复核。原 A 阶段的错误复现结论已由 A2 附记取代，历史工件保持不变。
+
+已受限恢复原提供代码包的 19 个成员并完成 B2 静态报告。2022 年价格历史已有；现有 selector 增量机制不回填旧年份。原生 193 导出/版本身份，以及 INDEXC、历史名称/ST 等上下文输入的 PIT 绑定仍为 CANNOT_CONFIRM，训练门保持关闭，fit/backtest/prediction 均为 0。
+
+独立验收：A2 合成测试 4/4、B2 合成测试 3/3；PASS 仅覆盖诊断工具修正、静态报告消费及对应收据生命周期，不代表研究突破或训练资格。
+
+本地注册表：全局 route/event/execution/correction = 329/2489/680/85；V193 = 9/20/11/0，未终止执行 0。全局未注册路线及 contract-only 数量未在本范围审计，均为 CANNOT_CONFIRM。此次公开同步只包含必要源码、测试和安全摘要，原注册表与私有捕获件没有上传。
+
+源码依赖见 B2 的 SOURCE_ALLOWLIST.json；其中既有 registry adapter 与 execution guard 是本地运行依赖，本次未复制。B1 模块供 B2 复用静态构建器，其原报告入口已有失败记录；最终修正入口为 B2。本文下方及旧报告保留历史状态，以本段和 R4 安全摘要为当前结论。
+
+RESEARCH_ONLY=true；production_allowed=false；buy_gate_updated=false；orders_sent=false。
+
+---
+
 # V193 R2 / R3 review entry
 
 The current no-fit result and annual-boundary interpretation are in the [R3 progress report](research/a_v193_multiyear_validation_v1/batches/materialized_inputs_r2_20261018/targeted_acceptance_r3/public_export/PROGRESS_REPORT_R3.md) and [R3 safe aggregate](research/a_v193_multiyear_validation_v1/batches/materialized_inputs_r2_20261018/targeted_acceptance_r3/public_export/SAFE_AGGREGATE_R3.json). These report the strict `trade_date` audit and annual coverage gaps without linking to private tables or the batch evidence index. The [transport summary](research/a_v193_multiyear_validation_v1/batches/materialized_inputs_r2_20261018/targeted_acceptance_r3/public_export/CURRENT_SOURCE_TRANSPORT_SAFE_SUMMARY_R3.json), [focused test output](research/a_v193_multiyear_validation_v1/batches/materialized_inputs_r2_20261018/targeted_acceptance_r3/public_export/CALENDAR_TEST_RESULTS.txt), and [R3 dependencies](research/a_v193_multiyear_validation_v1/batches/materialized_inputs_r2_20261018/targeted_acceptance_r3/public_export/DEPENDENCIES_R3.md) describe the source-capture evidence and review setup.

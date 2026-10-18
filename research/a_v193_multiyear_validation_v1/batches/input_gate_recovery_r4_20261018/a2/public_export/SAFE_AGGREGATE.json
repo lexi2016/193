@@ -1,0 +1,42 @@
+{
+  "backtest_calls": 0,
+  "classification": "SAFE_AGGREGATE_NO_SOURCE_PATHS_OR_CONTENT",
+  "corrected_reproducer_matches_historical_expected_count": 2,
+  "current_capture_sha_matches_count": 2,
+  "fault_model_match": "REPORTED_MISSING_CONSTANT_FAULT_MODEL_REPRODUCED; ORIGINAL_DEPLOYED_RECEIVER_CALL_PATH_UNAUTHENTICATED",
+  "fit_calls": 0,
+  "labels_read": 0,
+  "native_v193_identity": "CANNOT_CONFIRM",
+  "original_receiver_algorithm_causal_evidence": "CONTROLLER_REPORTED_SOURCE_DIFF; EXACT_DEPLOYED_CALL_PATH_NOT_AUTHENTICATED",
+  "pit_and_required_fields": "CANNOT_CONFIRM_NOT_CHECKED",
+  "prediction_calls": 0,
+  "prior_phase_a_reproducer_status": "INVALID_IMPLEMENTATION_SUPERSEDED_BY_A2",
+  "raw_matches_historical_expected_count": 0,
+  "registry": {
+    "full_legacy_schema_status": "NOT_CLAIMED",
+    "global_contract_only_count": null,
+    "global_correction_count": 85,
+    "global_event_count": 2487,
+    "global_execution_count": 679,
+    "global_inventory_status": "CANNOT_CONFIRM_NOT_AUDITED_IN_THIS_SCOPE",
+    "global_route_count": 328,
+    "global_unregistered_route_count": null,
+    "track_correction_count": 0,
+    "track_event_count": 18,
+    "track_execution_count": 10,
+    "track_open_execution_count": 0,
+    "track_route_count": 8
+  },
+  "safety": {
+    "buy_gate_updated": false,
+    "orders_sent": false,
+    "production_allowed": false,
+    "research_only": true
+  },
+  "schema_version": "V193_R4_SHA_CONSTANT_PARITY_A2_SAFE_AGGREGATE_V1",
+  "selector_2022": "CANNOT_CONFIRM_NOT_NUMERICALLY_CHECKED",
+  "source_count": 2,
+  "source_json_parse_calls": 0,
+  "status": "MISSING_CONSTANT_REPRODUCER_MATCHES_2_OF_2",
+  "weights_read": 0
+}

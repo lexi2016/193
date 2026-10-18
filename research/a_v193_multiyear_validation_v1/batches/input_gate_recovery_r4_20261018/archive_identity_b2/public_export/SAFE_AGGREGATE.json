@@ -1,0 +1,40 @@
+{
+  "captured_member_bytes": 278807,
+  "captured_member_count": 19,
+  "classification": "SAFE_AGGREGATE_NO_FORMULA_TEXT_OR_PRIVATE_MEMBER_CONTENT",
+  "current_archive_sha256": "c1a5b9f8a16f530754ba1954aed4f447f3a8ab98a741ca7f5d36a7922732876d",
+  "current_archive_size_bytes": 194062,
+  "historical_archive_identity": "CANNOT_CONFIRM_NO_PRIOR_ZIP_SHA_WAS_SUPPLIED",
+  "market_rows_labels_weights_fit_backtest_prediction_read": false,
+  "member_readback_sha256_verified": true,
+  "native_formula_engine_identity": "CANNOT_CONFIRM",
+  "original_zip_reopened": false,
+  "panel_reread": false,
+  "pit_status": "CANNOT_CONFIRM_REQUIRED_SOURCE_PUBLICATION_REVISION_VINTAGE_AND_ADJUSTMENT_ASOF_METADATA_NOT_BOUND",
+  "registry": {
+    "global_contract_only_count": null,
+    "global_correction_count": 85,
+    "global_event_count": 2489,
+    "global_execution_count": 680,
+    "global_inventory_status": "CANNOT_CONFIRM_NOT_AUDITED_IN_THIS_SCOPE",
+    "global_route_count": 329,
+    "global_unregistered_route_count": null,
+    "track_correction_count": 0,
+    "track_event_count": 20,
+    "track_execution_count": 11,
+    "track_open_execution_count": 0,
+    "track_route_count": 9
+  },
+  "safety": {
+    "buy_gate_updated": false,
+    "orders_sent": false,
+    "production_allowed": false,
+    "research_only": true
+  },
+  "schema_version": "V193_R4_ARCHIVE_MEMBER_STATIC_IDENTITY_B2_SAFE_AGGREGATE_V1",
+  "selector_2022_status": "CANNOT_CONFIRM_PHYSICAL_HISTORY_EXISTS_BUT_INCREMENTAL_SELECTOR_MECHANISM_DOES_NOT_FILL_OLDER_YEARS",
+  "source_code_executed": false,
+  "static_dependency_status": "BOUNDED_STATIC_REFERENCES_RECORDED; ACTUAL_INPUT_PARITY_NOT_CHECKED",
+  "status": "CAPTURED_MEMBER_STATIC_REVIEW_COMPLETED_NATIVE_IDENTITY_PIT_SELECTOR_UNCONFIRMED",
+  "v193_orig_r2_s0_cand3_identity": "MATCH_REPORTED_BY_INDEPENDENT_LINEAGE_REVIEW; CURRENT_B2_BINDS_CAPTURED_BYTES"
+}
