@@ -1,0 +1,76 @@
+{
+  "as_of_utc": "2026-10-18T06:09:00Z",
+  "as_of_beijing": "2026-10-18T14:09:00+08:00",
+  "latest_external_check_utc": "2026-10-18T05:47:29Z",
+  "overall": "PARTIAL",
+  "new_work_this_report": {
+    "fit": 0,
+    "inference": 0,
+    "model_audit": 0
+  },
+  "historical": {
+    "own_exploration_configurations": 84,
+    "rank_huber_initial_fit_attempts": 12,
+    "rank_huber_initial_pass": 7,
+    "rank_huber_initial_numerical_fail": 5,
+    "same_objective_continuation_pass": 5,
+    "industry_new_fits": 12,
+    "industry_baseline_reused": 3,
+    "industry_cap_skips": 3,
+    "industry_audit": {
+      "PASS": 47,
+      "FAIL": 1,
+      "NOT_RUN": 5
+    },
+    "industry_t5_daily_equal_label_mean_pct": 0.669967,
+    "industry_test_days": 26,
+    "long_history_new_track_fits": 0,
+    "own_exploration_count_basis": "historical reported cumulative 84; composition not revalidated from per-configuration ledger"
+  },
+  "recovered": {
+    "prediction_rows": 82356,
+    "prediction_securities": 5501,
+    "prediction_dates": 672,
+    "prediction_range": [
+      "20240102",
+      "20261015"
+    ],
+    "industry_securities": 5576,
+    "industry_unknown_securities": 62,
+    "event_domain_unknown_events": 30,
+    "event_domain_unknown_securities": 19,
+    "event_industry_key_match_pct": 100,
+    "non_pit_events": 82356,
+    "study_restore_file_hash_pass": 12,
+    "study_restore_file_hash_fail": 0,
+    "parquet_decode": "NOT_RUN",
+    "stdlib_join_reviews": 1,
+    "join_review_is_historical_reproduction": true
+  },
+  "blocked_inputs": [
+    "2021-2023 author candidate events",
+    "2021-2025 upper features and complete EPPY/BKEXIST",
+    "author market/board identity",
+    "long-history market_context and low-level caches currently not restored",
+    "actual frozen next protocol/configurations/folds"
+  ],
+  "github": {
+    "publication_scope": "public progress summary only; excludes private source links, raw data, predictions and weights",
+    "historical_target_status": "CANCELLED_DESTINATION_CHANGED_TO_GOOGLE_DRIVE",
+    "target_url": "https://github.com/lexi2016/193",
+    "visibility": "public",
+    "repository_created": true
+  },
+  "google_drive": {
+    "uploaded": true,
+    "permissions_changed": false,
+    "files": [
+      "README.md",
+      "PROGRESS_REPORT.md",
+      "status.json"
+    ],
+    "record_is_historical": true
+  },
+  "as_of_scope": "RESEARCH_EVIDENCE_ONLY",
+  "publication_history_outside_research_as_of": true
+}
