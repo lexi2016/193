@@ -17,9 +17,10 @@ import os
 import shutil
 import sys
 import tempfile
+import contextlib
 from dataclasses import dataclass
-from pathlib import Path
-from typing import Any, Mapping, Sequence
+from pathlib import Path, PurePosixPath
+from typing import Any, Iterator, Mapping, Sequence
 
 import joblib
 import numpy as np
@@ -72,6 +73,9 @@ MODEL_PARAMS = {
     "random_state": 193,
 }
 KEYS = ("date", "code")
+KEY_IDENTITY_SCHEMA = "A_SHARE_DATE_CODE_SORTED_KEYS_V1"
+MATRIX_IDENTITY_SCHEMA = "A_SHARE_FLOAT64_MATRIX_V1"
+REPLAY_RECEIPT_SCHEMA = "A_SHARE_SAVED_CHECKPOINT_REPLAY_V1"
 INDEXED_ARMS = ("M1", "M2", "M3", "M4")
 OHLC_COLUMNS = ("open", "high", "low", "close")
 STAGE_SPECS = {
@@ -1202,16 +1206,103 @@ def arm_source_identity(binding: Mapping[str, Any], arm: str) -> dict[str, str]:
     return identity
 
 
+def key_frame_identity(frame: pd.DataFrame) -> dict[str, Any]:
+    """Return a versioned, order-independent identity for exact date/code keys."""
+    if not set(KEYS).issubset(frame.columns):
+        raise ContractError("key identity frame must contain date and code")
+    dates = pd.to_datetime(frame["date"], errors="coerce").dt.normalize()
+    codes = frame["code"]
+    if dates.isna().any() or codes.isna().any():
+        raise ContractError("key identity frame contains a missing date or code")
+    code_values = codes.astype(str)
+    if code_values.str.strip().eq("").any():
+        raise ContractError("key identity frame contains an empty code")
+    ordered = [[date.strftime("%Y-%m-%d"), code]
+               for date, code in zip(dates, code_values)]
+    if len(set((row[0], row[1]) for row in ordered)) != len(ordered):
+        raise ContractError("key identity frame contains duplicate date/code keys")
+    sorted_keys = sorted(ordered, key=lambda row: (row[0], row[1]))
+    return {
+        "schema_version": KEY_IDENTITY_SCHEMA,
+        "encoding": "ISO-8601-date-and-exact-UTF8-code; sorted by date then code",
+        "row_count": int(len(ordered)),
+        "unique_key_count": int(len(sorted_keys)),
+        "unique_date_count": int(dates.nunique()),
+        "date_min": dates.min().strftime("%Y-%m-%d") if len(dates) else None,
+        "date_max": dates.max().strftime("%Y-%m-%d") if len(dates) else None,
+        "sorted_keyset_sha256": canonical_sha256({
+            "schema_version": KEY_IDENTITY_SCHEMA, "keys": sorted_keys,
+        }),
+        "ordered_keys_sha256": canonical_sha256({
+            "schema_version": f"{KEY_IDENTITY_SCHEMA}_ORDERED", "keys": ordered,
+        }),
+    }
+
+
+def numeric_matrix_identity(values: Any, columns: Sequence[str]) -> dict[str, Any]:
+    """Hash a finite numeric matrix by explicit little-endian float64 bytes."""
+    array = np.asarray(values, dtype="<f8", order="C")
+    if array.ndim != 2:
+        raise ContractError("matrix identity input must be two-dimensional")
+    if array.shape[1] != len(columns):
+        raise ContractError("matrix identity feature order does not match matrix width")
+    if not np.isfinite(array).all():
+        raise ContractError("matrix identity input contains a non-finite value")
+    payload = {
+        "schema_version": MATRIX_IDENTITY_SCHEMA,
+        "dtype": "float64-little-endian-C-order",
+        "shape": [int(array.shape[0]), int(array.shape[1])],
+        "columns": [str(column) for column in columns],
+        "values_sha256": hashlib.sha256(array.tobytes(order="C")).hexdigest(),
+    }
+    return {**payload, "sha256": canonical_sha256(payload)}
+
+
+def numeric_vector_identity(values: Any, *, name: str) -> dict[str, Any]:
+    """Hash one finite numeric training vector with a versioned representation."""
+    array = np.asarray(values, dtype="<f8", order="C").reshape(-1, 1)
+    result = numeric_matrix_identity(array, (str(name),))
+    return {**result, "vector_name": str(name), "row_count": int(array.shape[0])}
+
+
+def cell_data_identity(*, train: pd.DataFrame, test: pd.DataFrame,
+                       feature_columns: Sequence[str], x: np.ndarray, y: np.ndarray,
+                       weights: np.ndarray, xt: np.ndarray) -> dict[str, Any]:
+    """Bind the exact finite train and unlabeled test slices passed to a cell."""
+    columns = tuple(str(column) for column in feature_columns)
+    if not columns or any(column not in train or column not in test for column in columns):
+        raise ContractError("checkpoint evidence feature order is incomplete")
+    x_array, y_array, weight_array, xt_array = (np.asarray(value) for value in (x, y, weights, xt))
+    if (x_array.ndim != 2 or xt_array.ndim != 2 or y_array.ndim != 1 or weight_array.ndim != 1 or
+            len(x_array) != len(train) or len(y_array) != len(train) or len(weight_array) != len(train) or
+            len(xt_array) != len(test)):
+        raise ContractError("checkpoint evidence matrices/vectors do not align to their exact key rows")
+    train_keys = key_frame_identity(train)
+    test_keys = key_frame_identity(test)
+    return {
+        "schema_version": "A_SHARE_CANARY_CELL_DATA_IDENTITY_V1",
+        "training_keys": train_keys,
+        "test_keys": test_keys,
+        "feature_columns": list(columns),
+        "training_feature_matrix": numeric_matrix_identity(x, columns),
+        "training_label_vector": numeric_vector_identity(y, name="label_return"),
+        "training_sample_weight_vector": numeric_vector_identity(weights, name="sample_weight"),
+        "test_feature_matrix": numeric_matrix_identity(xt, columns),
+    }
+
+
 def checkpoint_identity(*, stage: str, fold: Fold, arm: str, horizon: int, attempt: str,
                         contract_sha256: str, code_shas: Mapping[str, str],
                         binding: Mapping[str, Any], feature_names: Sequence[str],
-                        training_key_sha256: str) -> dict[str, Any]:
+                        data_identity: Mapping[str, Any]) -> dict[str, Any]:
     if stage not in STAGE_SPECS or arm not in STAGE_SPECS[stage]["arms"] or horizon not in HORIZONS:
         raise ContractError("checkpoint cell is outside the frozen stage plan")
+    if tuple(str(value) for value in feature_names) != tuple(data_identity.get("feature_columns", ())):
+        raise ContractError("checkpoint feature order differs from the training/test data identity")
     config = {"model_params": MODEL_PARAMS, "feature_names": tuple(feature_names),
               "label": "close(T+h)/close(T)-1", "horizon": int(horizon),
               "fold": [fold.fold_id, fold.start.isoformat(), fold.end.isoformat()],
-              "training_key_sha256": training_key_sha256}
+              "data_identity": dict(data_identity)}
     return {
         "stage": stage,
         "fold": fold.fold_id,
@@ -1221,6 +1312,7 @@ def checkpoint_identity(*, stage: str, fold: Fold, arm: str, horizon: int, attem
         "contract_sha256": contract_sha256,
         "input_components": arm_source_identity(binding, arm),
         "code_sha256": dict(sorted(code_shas.items())),
+        "data_identity": dict(data_identity),
         "config_sha256": canonical_sha256(config),
     }
 
@@ -1537,15 +1629,889 @@ def _finite_arm_frame(frame: pd.DataFrame) -> tuple[pd.DataFrame, tuple[str, ...
     return out.loc[finite].sort_values(list(KEYS), kind="mergesort").reset_index(drop=True), features
 
 
+def prepare_cell_data(*, features: pd.DataFrame, labels: pd.DataFrame, fold: Fold,
+                      canary: bool) -> dict[str, Any]:
+    """Materialize the exact finite train/test matrices consumed by one cell."""
+    clean_features, feature_columns = _finite_arm_frame(features)
+    train, test = split_fold(clean_features, labels, fold)
+    if canary:
+        train, test = canary_subset(train, test)
+    x = train[list(feature_columns)].to_numpy(dtype=np.float64)
+    y = pd.to_numeric(train["label_return"], errors="raise").to_numpy(dtype=np.float64)
+    weights = equal_day_weights(train["date"])
+    xt = test[list(feature_columns)].to_numpy(dtype=np.float64)
+    if (not len(x) or not len(xt) or not np.isfinite(x).all() or
+            not np.isfinite(y).all() or not np.isfinite(weights).all() or not np.isfinite(xt).all()):
+        raise ContractError("non-finite or empty training/test matrix")
+    identity = cell_data_identity(
+        train=train, test=test, feature_columns=feature_columns, x=x, y=y, weights=weights, xt=xt,
+    )
+    return {"train": train, "test": test, "feature_columns": feature_columns,
+            "x": x, "y": y, "weights": weights, "xt": xt, "identity": identity,
+            "training_label_preparation_slots": int(len(labels))}
+
+
+def prediction_frame_identity(predictions: pd.DataFrame) -> dict[str, Any]:
+    """Hash date/code/prediction rows in their exact stored order."""
+    if not {"date", "code", "prediction"}.issubset(predictions.columns):
+        raise ContractError("candidate predictions are missing date/code/prediction")
+    keys = key_frame_identity(predictions)
+    values = pd.to_numeric(predictions["prediction"], errors="coerce").to_numpy(dtype=np.float64)
+    if len(values) != keys["row_count"] or not np.isfinite(values).all():
+        raise ContractError("candidate predictions contain missing or non-finite scores")
+    ordered_rows = [
+        [row[0], row[1], float(value).hex()]
+        for row, value in zip(
+            [[date, code] for date, code in zip(
+                pd.to_datetime(predictions["date"]).dt.normalize().dt.strftime("%Y-%m-%d"),
+                predictions["code"].astype(str),
+            )],
+            values,
+        )
+    ]
+    payload = {"schema_version": "A_SHARE_ORDERED_PREDICTIONS_HEX_FLOAT_V1", "rows": ordered_rows}
+    return {"schema_version": payload["schema_version"], "row_count": int(len(values)),
+            "keyset_sha256": keys["sorted_keyset_sha256"],
+            "ordered_rows_sha256": canonical_sha256(payload)}
+
+
+def _same_key_order(left: pd.DataFrame, right: pd.DataFrame) -> bool:
+    try:
+        return key_frame_identity(left)["ordered_keys_sha256"] == key_frame_identity(right)["ordered_keys_sha256"]
+    except ContractError:
+        return False
+
+
+def verify_saved_checkpoint_replay(*, checkpoint_path: Path, replay_receipt_path: Path,
+                                   identity: Mapping[str, Any], execution_id: str,
+                                   provenance: str = "FIT_TIME_SAVED_MODEL_REPLAY") -> dict[str, Any]:
+    """Reload a durable checkpoint and require exact key, score, and Top10 parity."""
+    checkpoint_path = Path(checkpoint_path)
+    metadata_path = checkpoint_path.with_suffix(checkpoint_path.suffix + ".json")
+    checkpoint_sha_before = sha256_file(checkpoint_path)
+    metadata_sha_before = sha256_file(metadata_path)
+    metadata = load_json(metadata_path)
+    if metadata.get("status") != "COMPLETED" or metadata.get("artifact_sha256") != checkpoint_sha_before:
+        raise ContractError("saved checkpoint metadata is not complete or its SHA does not match")
+    if metadata.get("identity") != dict(identity):
+        raise ContractError("saved checkpoint metadata identity differs from the planned cell")
+    payload = joblib.load(checkpoint_path)
+    if not isinstance(payload, dict) or not {"model", "predictions", "feature_columns", "replay_fixture"}.issubset(payload):
+        raise ContractError("saved checkpoint lacks the immutable replay fixture")
+    fixture = payload["replay_fixture"]
+    if not isinstance(fixture, Mapping) or not {"test_keys", "test_features"}.issubset(fixture):
+        raise ContractError("saved checkpoint replay fixture is incomplete")
+    test_keys = fixture["test_keys"]
+    if not isinstance(test_keys, pd.DataFrame) or not set(KEYS).issubset(test_keys.columns):
+        raise ContractError("saved replay keys are invalid")
+    feature_columns = tuple(str(column) for column in payload["feature_columns"])
+    if feature_columns != tuple(identity["data_identity"]["feature_columns"]):
+        raise ContractError("saved replay feature order differs from the fit identity")
+    matrix = np.asarray(fixture["test_features"], dtype=np.float64, order="C")
+    matrix_identity = numeric_matrix_identity(matrix, feature_columns)
+    expected_matrix = identity["data_identity"]["test_feature_matrix"]
+    if matrix_identity != expected_matrix or len(matrix) != len(test_keys):
+        raise ContractError("saved test feature matrix differs from the fit identity")
+    if key_frame_identity(test_keys) != identity["data_identity"]["test_keys"]:
+        raise ContractError("saved test keys differ from the fit identity")
+    original = payload["predictions"]
+    if not isinstance(original, pd.DataFrame) or not {"date", "code", "prediction"}.issubset(original.columns):
+        raise ContractError("saved candidate predictions are invalid")
+    if not _same_key_order(test_keys, original):
+        raise ContractError("saved prediction key order differs from the persisted test matrix")
+    if key_frame_identity(original) != identity["data_identity"]["test_keys"]:
+        raise ContractError("saved prediction keys differ from the fitted test key identity")
+
+    replay_scores = np.asarray(payload["model"].predict(matrix), dtype=np.float64)
+    original_scores = pd.to_numeric(original["prediction"], errors="coerce").to_numpy(dtype=np.float64)
+    if len(replay_scores) != len(original_scores) or not np.isfinite(replay_scores).all():
+        raise ContractError("reloaded checkpoint produced missing or non-finite predictions")
+    replay = test_keys.loc[:, list(KEYS)].reset_index(drop=True).copy()
+    replay["code"] = replay["code"].astype(str)
+    replay["prediction"] = replay_scores
+    expected = original.loc[:, [*KEYS, "prediction"]].reset_index(drop=True).copy()
+    expected["date"] = pd.to_datetime(expected["date"], errors="coerce").dt.normalize()
+    expected["code"] = expected["code"].astype(str)
+    expected["prediction"] = original_scores
+    replay["date"] = pd.to_datetime(replay["date"], errors="coerce").dt.normalize()
+    joined = replay.merge(expected, on=list(KEYS), how="outer", validate="one_to_one",
+                          suffixes=("_replay", "_saved"), indicator=True, sort=False)
+    if len(joined) != len(replay) or not joined["_merge"].eq("both").all():
+        raise ContractError("replay and saved candidate keys do not form a one-to-one join")
+    joined_scores = joined[["prediction_replay", "prediction_saved"]].to_numpy(dtype=np.float64)
+    if not np.array_equal(replay_scores, original_scores) or not np.array_equal(joined_scores[:, 0], joined_scores[:, 1]):
+        raise ContractError("saved checkpoint replay prediction parity failed at tolerance 0")
+    original_top = stable_top10(expected)
+    replay_top = stable_top10(replay)
+    top_columns = ["date", "code", "rank"]
+    if not original_top[top_columns].equals(replay_top[top_columns]):
+        raise ContractError("saved checkpoint replay Top10 key/rank parity failed")
+    original_top_sha = key_frame_identity(original_top[top_columns])["ordered_keys_sha256"]
+    replay_top_sha = key_frame_identity(replay_top[top_columns])["ordered_keys_sha256"]
+    checkpoint_sha_after = sha256_file(checkpoint_path)
+    metadata_sha_after = sha256_file(metadata_path)
+    if checkpoint_sha_after != checkpoint_sha_before or metadata_sha_after != metadata_sha_before:
+        raise ContractError("checkpoint or metadata changed during saved-model replay")
+    receipt = {
+        "schema_version": REPLAY_RECEIPT_SCHEMA,
+        "status": "VERIFIED",
+        "provenance": provenance,
+        "execution_id": str(execution_id),
+        "checkpoint_path": str(checkpoint_path.resolve()),
+        "checkpoint_sha256": checkpoint_sha_before,
+        "checkpoint_metadata_path": str(metadata_path.resolve()),
+        "checkpoint_metadata_sha256": metadata_sha_before,
+        "config_sha256": str(identity["config_sha256"]),
+        "data_identity": dict(identity["data_identity"]),
+        "prediction_identity": prediction_frame_identity(original),
+        "replay_prediction_identity": prediction_frame_identity(replay),
+        "top10_parity": {"status": "EXACT", "count": int(len(original_top)),
+                          "saved_ordered_key_sha256": original_top_sha,
+                          "replay_ordered_key_sha256": replay_top_sha},
+        "comparison": {"join_validation": "ONE_TO_ONE", "rtol": 0.0, "atol": 0.0,
+                       "prediction_equal": True, "key_order_equal": True},
+        "immutability": {"checkpoint_unchanged": True, "metadata_unchanged": True},
+    }
+    atomic_write_json(Path(replay_receipt_path), receipt)
+    return receipt
+
+
+def _archive_member_bytes(archive_path: Path, member_name: str) -> bytes:
+    try:
+        with zipfile.ZipFile(archive_path, "r") as archive:
+            matches = [name for name in archive.namelist()
+                       if PurePosixPath(name).name == member_name]
+            if len(matches) != 1:
+                raise ContractError(f"source archive must contain one {member_name}")
+            return archive.read(matches[0])
+    except (OSError, zipfile.BadZipFile, KeyError) as exc:
+        raise ContractError(f"source archive member unavailable: {member_name}") from exc
+
+
+def _create_exclusive_json(path: Path, payload: Mapping[str, Any]) -> tuple[int, int]:
+    """Create one receipt without replacing a file created by another run."""
+    path = Path(path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    try:
+        fd = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
+    except FileExistsError as exc:
+        raise ExecutionBlocked(f"checkpoint replay receipt path already exists: {path}") from exc
+    created = os.fstat(fd)
+    owner = (int(created.st_dev), int(created.st_ino))
+    try:
+        encoded = json.dumps(payload, ensure_ascii=False, sort_keys=True, indent=2).encode("utf-8") + b"\n"
+        with os.fdopen(fd, "wb") as handle:
+            handle.write(encoded)
+            handle.flush()
+            os.fsync(handle.fileno())
+        dir_fd = os.open(path.parent, os.O_RDONLY)
+        try:
+            os.fsync(dir_fd)
+        finally:
+            os.close(dir_fd)
+        return owner
+    except BaseException:
+        # If receipt initialization itself fails, remove only the inode this
+        # call created; an existing or concurrently replaced path is untouched.
+        try:
+            current = path.stat()
+            if (int(current.st_dev), int(current.st_ino)) == owner:
+                path.unlink()
+        except OSError:
+            pass
+        raise
+
+
+def _update_owned_json(path: Path, payload: Mapping[str, Any], owner: tuple[int, int]) -> tuple[int, int]:
+    """Atomically update only the receipt inode created by this execution."""
+    path = Path(path)
+    try:
+        current = path.stat()
+    except FileNotFoundError as exc:
+        raise ExecutionBlocked("checkpoint replay receipt ownership was lost") from exc
+    if (int(current.st_dev), int(current.st_ino)) != owner:
+        raise ExecutionBlocked("checkpoint replay receipt was replaced after this execution claimed it")
+    atomic_write_json(path, payload)
+    updated = path.stat()
+    return int(updated.st_dev), int(updated.st_ino)
+
+
+@contextlib.contextmanager
+def _pinned_route_from_archives(*, source_archive_path: Path,
+                                expected_source_archive_sha256: str,
+                                dependency_archive_path: Path,
+                                expected_dependency_archive_sha256: str,
+                                expected_code_shas: Mapping[str, str],
+                                project_root: Path,
+                                contract_path: Path,
+                                binding_path: Path,
+                                activation_path: Path) -> Iterator[Any]:
+    """Load only SHA-bound route/runtime source from reviewed archives."""
+    source_archive_path = Path(source_archive_path)
+    dependency_archive_path = Path(dependency_archive_path)
+    if sha256_file(source_archive_path) != expected_source_archive_sha256:
+        raise ExecutionBlocked("reviewed route source archive SHA mismatch")
+    if sha256_file(dependency_archive_path) != expected_dependency_archive_sha256:
+        raise ExecutionBlocked("reviewed dependency source archive SHA mismatch")
+    temp = tempfile.TemporaryDirectory(prefix="pv-checkpoint-replay-source-")
+    isolated_project_root = Path(temp.name) / "project"
+    source_root = isolated_project_root / "workspace/research/a_share_model_selection_v1"
+    runtime_root = (isolated_project_root / "workspace/research/a_v193_multiyear_validation_v1"
+                    / "s0_recovery_r7/private/engine_runtime")
+    source_root.mkdir(parents=True)
+    runtime_root.mkdir(parents=True)
+    try:
+        members = {
+            "model_selection": (source_archive_path, "model_selection.py"),
+            "formula_adapter": (dependency_archive_path, "formula_adapter.py"),
+            "tdx_ast_engine_injected": (dependency_archive_path, "tdx_ast_engine_injected.py"),
+        }
+        for component, (archive_path, filename) in members.items():
+            raw = _archive_member_bytes(archive_path, filename)
+            actual_sha = hashlib.sha256(raw).hexdigest()
+            if actual_sha != str(expected_code_shas.get(component, "")):
+                raise ExecutionBlocked(f"reviewed source component SHA mismatch: {component}")
+            (source_root / filename).write_bytes(raw)
+        runtime_source = (Path(project_root).resolve() / "workspace/research/a_v193_multiyear_validation_v1"
+                          / "s0_recovery_r7/private/engine_runtime/fast_builder_c.py")
+        try:
+            runtime_bytes = runtime_source.read_bytes()
+        except OSError as exc:
+            raise ExecutionBlocked("SHA-bound fast_builder_c runtime is unavailable") from exc
+        runtime_sha = hashlib.sha256(runtime_bytes).hexdigest()
+        if runtime_sha != str(expected_code_shas.get("fast_builder_c", "")):
+            raise ExecutionBlocked("reviewed source component SHA mismatch: fast_builder_c")
+        (runtime_root / "fast_builder_c.py").write_bytes(runtime_bytes)
+        saved_path = list(sys.path)
+        dependency_names = ("formula_adapter", "tdx_ast_engine_injected")
+        saved_modules = {name: sys.modules.pop(name, None) for name in dependency_names}
+        sys.path.insert(0, str(source_root))
+        try:
+            source_path = source_root / "model_selection.py"
+            spec = importlib.util.spec_from_file_location("pv_pinned_model_selection", source_path)
+            if spec is None or spec.loader is None:
+                raise ExecutionBlocked("reviewed model-selection source could not be loaded")
+            module = importlib.util.module_from_spec(spec)
+            sys.modules[spec.name] = module
+            spec.loader.exec_module(module)
+            module.PROJECT_ROOT = isolated_project_root
+            module.FROZEN_ROUTE_DEPENDENCY_ROOT = source_root
+            module.BATCH_ROOT = Path(contract_path).resolve().parent
+            module.CONTRACT_PATH = Path(contract_path).resolve()
+            module.INPUT_BINDING_PATH = Path(binding_path).resolve()
+            module.ACTIVATION_PATH = Path(activation_path).resolve()
+            if module.code_identity() != dict(expected_code_shas):
+                raise ExecutionBlocked("loaded reviewed route identity differs from the original manifest")
+            yield module
+        finally:
+            sys.path[:] = saved_path
+            sys.modules.pop("pv_pinned_model_selection", None)
+            for name in dependency_names:
+                sys.modules.pop(name, None)
+                if saved_modules[name] is not None:
+                    sys.modules[name] = saved_modules[name]
+    finally:
+        temp.cleanup()
+
+
+def _read_registered_events(registry_path: Path) -> list[dict[str, Any]]:
+    events: list[dict[str, Any]] = []
+    with Path(registry_path).open("r", encoding="utf-8") as handle:
+        for line_number, line in enumerate(handle, start=1):
+            try:
+                event = json.loads(line)
+            except json.JSONDecodeError as exc:
+                raise ExecutionBlocked(f"official registry JSONL is invalid at line {line_number}") from exc
+            if not isinstance(event, dict):
+                raise ExecutionBlocked(f"official registry event is not an object at line {line_number}")
+            events.append(event)
+    return events
+
+
+def _verify_original_fit_event_pair(events: Sequence[Mapping[str, Any]], *, execution_id: str,
+                                    stage: str, experiment_id: str,
+                                    expected_route_code_sha256: str,
+                                    contract_sha256: str, binding_sha256: str) -> dict[str, Any]:
+    matching = [dict(event) for event in events
+                if event.get("experiment_id") == experiment_id and event.get("execution_id") == execution_id]
+    starts = [event for event in matching if event.get("event_type") == "RUN_STARTED"]
+    terminals = [event for event in matching if event.get("event_type") == "TERMINAL"]
+    if len(matching) != 2 or len(starts) != 1 or len(terminals) != 1:
+        raise ExecutionBlocked(f"original fit lifecycle is not an exact start/terminal pair: {execution_id}")
+    start, terminal = starts[0], terminals[0]
+    for event, expected_stage in ((start, f"{stage}_RUN_STARTED"), (terminal, f"{stage}_TERMINAL")):
+        if (event.get("stage") != expected_stage or event.get("route_id") != "a-share-model-selection-pv-environment-r1-20261019" or
+                event.get("registration_mode") != "LIVE_EXECUTION" or
+                event.get("code_sha256") != expected_route_code_sha256 or
+                event.get("contract_sha256") != contract_sha256 or
+                event.get("input_binding_sha256") != binding_sha256):
+            raise ExecutionBlocked(f"original fit event identity mismatch: {execution_id}")
+        event_sha = event.get("event_sha256")
+        if not isinstance(event_sha, str) or len(event_sha) != 64:
+            raise ExecutionBlocked(f"original fit event SHA is missing: {execution_id}")
+    terminal_metrics = dict(terminal.get("deterministic_metrics") or {})
+    fit_counts = (
+        terminal_metrics.get("planned_real_fit_count"),
+        terminal_metrics.get("real_fit_budget_debit"),
+        terminal_metrics.get("real_fit_returned_count"),
+    )
+    if (terminal.get("decision") != "COMPLETED" or
+            terminal_metrics.get("execution_kind") != "REAL_FIT" or
+            terminal_metrics.get("fit_call_entered") is not True or
+            any(not isinstance(count, int) or isinstance(count, bool) or count != 1
+                for count in fit_counts)):
+        raise ExecutionBlocked(f"original fit terminal does not confirm one returned fit: {execution_id}")
+    metrics = dict(start.get("deterministic_metrics") or {})
+    return {
+        "execution_id": execution_id,
+        "run_started_event_sha256": str(start["event_sha256"]),
+        "terminal_event_sha256": str(terminal["event_sha256"]),
+        "training_rows_from_start_event": metrics.get("training_rows"),
+        "training_label_preparation_slots": metrics.get("training_label_preparation_slots"),
+        "start_artifact_sha256": dict((start.get("input_identity") or {}).get("artifact_sha256") or {}),
+        "terminal_artifact_sha256": dict((terminal.get("input_identity") or {}).get("artifact_sha256") or {}),
+    }
+
+
+def _prepare_pinned_cell_data(route_module: Any, *, features: pd.DataFrame,
+                              labels: pd.DataFrame, fold: Any, canary: bool) -> dict[str, Any]:
+    clean, columns = route_module._finite_arm_frame(features)
+    train, test = route_module.split_fold(clean, labels, fold)
+    if canary:
+        train, test = route_module.canary_subset(train, test)
+    x = train[list(columns)].to_numpy(dtype=np.float64)
+    y = pd.to_numeric(train["label_return"], errors="raise").to_numpy(dtype=np.float64)
+    weights = route_module.equal_day_weights(train["date"])
+    xt = test[list(columns)].to_numpy(dtype=np.float64)
+    if (not len(x) or not len(xt) or not np.isfinite(x).all() or
+            not np.isfinite(y).all() or not np.isfinite(weights).all() or not np.isfinite(xt).all()):
+        raise ContractError("reconstructed train or test matrix is empty or non-finite")
+    return {
+        "train": train, "test": test, "feature_columns": tuple(columns),
+        "x": x, "y": y, "weights": weights, "xt": xt,
+        "identity": cell_data_identity(train=train, test=test, feature_columns=columns,
+                                        x=x, y=y, weights=weights, xt=xt),
+        "training_label_preparation_slots": int(len(labels)),
+    }
+
+
+def _preflight_checkpoint_replay_audit(*, stage: str, attempt: str,
+                                       manifest_path: Path, expected_manifest_sha256: str,
+                                       source_archive_path: Path, expected_source_archive_sha256: str,
+                                       dependency_archive_path: Path, expected_dependency_archive_sha256: str,
+                                       contract_path: Path, binding_path: Path, activation_path: Path,
+                                       registry_path: Path | None, execution_id: str,
+                                       guard: Any) -> dict[str, Any]:
+    """Validate pinned artifacts after the no-fit intent has been claimed."""
+    if sha256_file(manifest_path) != expected_manifest_sha256:
+        raise ExecutionBlocked("original stage manifest SHA mismatch")
+    original_manifest = load_json(manifest_path)
+    if (original_manifest.get("stage") != stage or original_manifest.get("attempt") != attempt or
+            int(original_manifest.get("fit_calls", -1)) != 3):
+        raise ExecutionBlocked("original stage manifest does not identify the requested three-cell canary")
+    contract_sha256, binding_sha256 = sha256_file(contract_path), sha256_file(binding_path)
+    if (original_manifest.get("contract_sha256") != contract_sha256 or
+            original_manifest.get("input_binding_sha256") != binding_sha256):
+        raise ExecutionBlocked("original manifest contract or input-binding SHA mismatch")
+    expected_code_shas = original_manifest.get("code_sha256")
+    if not isinstance(expected_code_shas, dict):
+        raise ExecutionBlocked("original manifest lacks a per-file code identity")
+    expected_route_code_sha256 = canonical_sha256(expected_code_shas)
+    source_archive_sha_before = sha256_file(source_archive_path)
+    dependency_archive_sha_before = sha256_file(dependency_archive_path)
+    if (source_archive_sha_before != expected_source_archive_sha256 or
+            dependency_archive_sha_before != expected_dependency_archive_sha256):
+        raise ExecutionBlocked("reviewed source archive SHA mismatch")
+    output_manifest_path = Path(str(original_manifest.get("output_manifest_path", ""))).resolve()
+    if not output_manifest_path.is_file():
+        raise ExecutionBlocked("original stage output manifest is missing")
+    output_manifest_sha_before = sha256_file(output_manifest_path)
+    output_manifest = load_json(output_manifest_path)
+    if (output_manifest.get("stage") != stage or output_manifest.get("attempt") != attempt or
+            output_manifest.get("contract_sha256") != contract_sha256 or
+            output_manifest.get("input_binding_sha256") != binding_sha256):
+        raise ExecutionBlocked("original output manifest identity mismatch")
+    manifest_artifacts = original_manifest.get("output_artifacts")
+    output_artifacts = output_manifest.get("artifacts")
+    if not isinstance(manifest_artifacts, dict) or output_artifacts != manifest_artifacts:
+        raise ExecutionBlocked("stage and output manifests disagree on artifact identities")
+    selected_info = output_artifacts.get("selected_keys")
+    if not isinstance(selected_info, Mapping) or not selected_info.get("path") or not selected_info.get("sha256"):
+        raise ExecutionBlocked("original output manifest lacks the selected-key artifact identity")
+    selected_keys_path = Path(str(selected_info["path"])).resolve()
+    if sha256_file(selected_keys_path) != selected_info["sha256"]:
+        raise ExecutionBlocked("selected-key artifact SHA differs from the output manifest")
+
+    planned_cells = {item.get("cell"): item for item in original_manifest.get("cell_results", [])
+                     if isinstance(item, Mapping)}
+    expected_plan = stage_plan(stage, attempt=attempt)
+    if len(planned_cells) != len(expected_plan) or len(expected_plan) != 3:
+        raise ExecutionBlocked("original manifest does not contain the exact canary cell plan")
+    cell_records: list[dict[str, Any]] = []
+    immutable_paths = [manifest_path, output_manifest_path, selected_keys_path,
+                       source_archive_path, dependency_archive_path,
+                       contract_path, binding_path, activation_path]
+    for cell in expected_plan:
+        cell_key = f"{stage}_{cell['arm']}_H{cell['horizon']}_{cell['fold'].fold_id}_{attempt}"
+        record = planned_cells.get(cell_key)
+        if not isinstance(record, Mapping) or record.get("status") != "COMPLETED" or record.get("fit_called") is not True:
+            raise ExecutionBlocked(f"original manifest does not confirm the completed fit cell {cell_key}")
+        checkpoint_path = Path(str(record.get("checkpoint_path", ""))).resolve()
+        if checkpoint_path.name != f"{cell_key}.joblib" or not checkpoint_path.is_file():
+            raise ExecutionBlocked(f"original checkpoint path is invalid for {cell_key}")
+        metadata_path = checkpoint_path.with_suffix(checkpoint_path.suffix + ".json")
+        if not metadata_path.is_file():
+            raise ExecutionBlocked(f"original checkpoint metadata is missing for {cell_key}")
+        immutable_paths.extend((checkpoint_path, metadata_path))
+        cell_records.append({"cell": cell_key, "arm": cell["arm"], "horizon": int(cell["horizon"]),
+                             "fold": cell["fold"], "canary": bool(cell["canary"]),
+                             "checkpoint_path": checkpoint_path, "metadata_path": metadata_path})
+    immutable_sha_before = {str(path): sha256_file(path) for path in immutable_paths}
+
+    accounting = guard.accounting()
+    prior_dangling = set(accounting.dangling_execution_ids) - {str(execution_id)}
+    if prior_dangling:
+        raise ExecutionBlocked(f"official registry has dangling executions before checkpoint replay: {sorted(prior_dangling)}")
+    registry_before = _read_registered_events(
+        Path(registry_path) if registry_path is not None else PROJECT_ROOT / "contracts/EXPERIMENT_REGISTRY.jsonl"
+    )
+    expected_fit_events: dict[str, dict[str, Any]] = {}
+    for cell_record in cell_records:
+        fit_execution_id = str(cell_record["cell"])
+        fit_events = _verify_original_fit_event_pair(
+            registry_before, execution_id=fit_execution_id, stage=stage,
+            experiment_id=EXPERIMENT_ID, expected_route_code_sha256=expected_route_code_sha256,
+            contract_sha256=contract_sha256, binding_sha256=binding_sha256,
+        )
+        checkpoint_path = Path(cell_record["checkpoint_path"])
+        metadata_path = Path(cell_record["metadata_path"])
+        terminal_artifact_sha = fit_events["terminal_artifact_sha256"]
+        if (terminal_artifact_sha.get(str(checkpoint_path)) != sha256_file(checkpoint_path) or
+                terminal_artifact_sha.get(str(metadata_path)) != sha256_file(metadata_path)):
+            raise ExecutionBlocked(f"original fit terminal artifact SHA mismatch: {fit_execution_id}")
+        expected_fit_events[fit_execution_id] = fit_events
+    return {
+        "contract_sha256": contract_sha256, "binding_sha256": binding_sha256,
+        "expected_code_shas": expected_code_shas,
+        "expected_route_code_sha256": expected_route_code_sha256,
+        "source_archive_sha_before": source_archive_sha_before,
+        "dependency_archive_sha_before": dependency_archive_sha_before,
+        "output_manifest_path": output_manifest_path,
+        "output_manifest_sha_before": output_manifest_sha_before,
+        "output_manifest": output_manifest, "manifest_artifacts": manifest_artifacts,
+        "selected_info": selected_info, "selected_keys_path": selected_keys_path,
+        "cell_records": cell_records, "immutable_paths": immutable_paths,
+        "immutable_sha_before": immutable_sha_before,
+        "expected_fit_events": expected_fit_events,
+    }
+
+
+def run_checkpoint_replay_audit(*, stage: str, attempt: str,
+                                manifest_path: Path, expected_manifest_sha256: str,
+                                source_archive_path: Path, expected_source_archive_sha256: str,
+                                dependency_archive_path: Path, expected_dependency_archive_sha256: str,
+                                contract_path: Path, binding_path: Path, activation_path: Path,
+                                receipt_path: Path, execution_id: str,
+                                registry_path: Path | None = None) -> dict[str, Any]:
+    """No-fit reconstruct a canary's cells and replay its immutable checkpoints.
+
+    The official no-fit intent is claimed before artifact preflight. Bound input
+    reads occur only after that ``RUN_STARTED`` is durably claimed.
+    The receipt records reconstructed evidence and never rewrites the old run.
+    """
+    if stage not in {"M0_CANARY", "M4_CANARY"}:
+        raise ContractError("checkpoint replay audit is limited to the frozen M0/M4 canary stages")
+    manifest_path = Path(manifest_path).resolve()
+    receipt_path = Path(receipt_path).resolve()
+    contract_path, binding_path, activation_path = (
+        Path(contract_path).resolve(), Path(binding_path).resolve(), Path(activation_path).resolve()
+    )
+    source_archive_path = Path(source_archive_path).resolve()
+    dependency_archive_path = Path(dependency_archive_path).resolve()
+    nofit_stage = f"{stage}_CHECKPOINT_REPLAY_VERIFICATION"
+    requested_contract_sha = sha256_file(contract_path) if contract_path.is_file() else None
+    requested_binding_sha = sha256_file(binding_path) if binding_path.is_file() else None
+    claim_contract_path = contract_path if requested_contract_sha else Path(CONTRACT_PATH).resolve()
+    claim_binding_path = binding_path if requested_binding_sha else Path(INPUT_BINDING_PATH).resolve()
+    claim_contract_sha = requested_contract_sha or sha256_file(claim_contract_path)
+    claim_binding_sha = requested_binding_sha or sha256_file(claim_binding_path)
+    audit_config_sha256 = canonical_sha256({
+        "schema_version": REPLAY_RECEIPT_SCHEMA, "stage": stage, "attempt": attempt,
+        "execution_id": str(execution_id),
+        "manifest_sha256": expected_manifest_sha256,
+        "source_archive_sha256": expected_source_archive_sha256,
+        "dependency_archive_sha256": expected_dependency_archive_sha256,
+    })
+    receipt = {
+        "schema_version": REPLAY_RECEIPT_SCHEMA,
+        "status": "NO_FIT_INTENT_PREPARED",
+        "provenance": "PROVENANCE_RECONSTRUCTED",
+        "original_fit_time_training_key_hash": "CANNOT_CONFIRM",
+        "execution_id": execution_id,
+        "stage": stage,
+        "attempt": attempt,
+        "original_manifest_path": str(manifest_path),
+        "expected_original_manifest_sha256": expected_manifest_sha256,
+        "expected_source_archive_sha256": expected_source_archive_sha256,
+        "expected_dependency_archive_sha256": expected_dependency_archive_sha256,
+        "requested_control_file_identity": {
+            "contract_path": str(contract_path), "contract_sha256": requested_contract_sha,
+            "input_binding_path": str(binding_path), "input_binding_sha256": requested_binding_sha,
+        },
+        "null_reasons": {
+            **({"requested_control_file_identity.contract_sha256": "REQUESTED_CONTRACT_FILE_MISSING"}
+               if requested_contract_sha is None else {}),
+            **({"requested_control_file_identity.input_binding_sha256": "REQUESTED_INPUT_BINDING_FILE_MISSING"}
+               if requested_binding_sha is None else {}),
+            "original_manifest_sha256": "EXPECTED_SHA_NOT_YET_VERIFIED",
+            "source_archive_sha256": "EXPECTED_SHA_NOT_YET_VERIFIED",
+            "dependency_archive_sha256": "EXPECTED_SHA_NOT_YET_VERIFIED",
+        },
+        "source_archive_path": str(source_archive_path),
+        "dependency_archive_path": str(dependency_archive_path),
+        "preflight_status": "NOT_STARTED",
+        "cells": [],
+        "security_flags": {"research_only": True, "production_allowed": False,
+                           "buy_gate_updated": False, "orders_sent": False},
+    }
+    receipt_owner = _create_exclusive_json(receipt_path, receipt)
+    verification_guard = make_official_fit_guard(
+        contract_path=claim_contract_path, binding_path=claim_binding_path, stage=nofit_stage,
+        artifact_paths=(receipt_path,),
+        registry_path=registry_path,
+    )
+    registry_context = build_registry_event_context(
+        stage=nofit_stage, binding={},
+        contract_sha256=claim_contract_sha, binding_sha256=claim_binding_sha,
+        code_shas=code_identity(), config_sha256=audit_config_sha256,
+        arms=STAGE_SPECS[stage]["input_arms"], truth_access="NO_FIT_AUDIT_INTENT_UNVERIFIED",
+        artifact_paths=(receipt_path,),
+        deterministic_metrics={"fit_calls": 0, "cells_planned": None, "cells_verified": 0,
+                               "training_label_preparation_slots_by_horizon": None,
+                               "truth_positive_denominator": None, "selection_slots": None},
+    )
+    registry_context["input_paths"] = [str(path) for path in (
+        manifest_path, source_archive_path, dependency_archive_path,
+        contract_path, binding_path, activation_path,
+    )]
+    registry_context["input_identity"]["requested_control_file_identity"] = {
+        "contract_path": str(contract_path), "contract_sha256": requested_contract_sha,
+        "input_binding_path": str(binding_path), "input_binding_sha256": requested_binding_sha,
+    }
+    registry_context["input_identity"]["null_reasons"].update(receipt["null_reasons"])
+    registry_context["input_identity"]["preflight_status"] = "NOT_STARTED"
+    set_registry_execution_context(verification_guard, execution_id, registry_context)
+    claim = verification_guard.claim_no_fit(
+        execution_id=execution_id, arm=f"{stage}:CHECKPOINT_REPLAY_RECONSTRUCTION",
+        contract_sha256=claim_contract_sha, input_binding_sha256=claim_binding_sha,
+    )
+    input_read_started = False
+    terminalized = False
+    terminal_attempted = False
+    try:
+        receipt.update({"status": "RUNNING", "preflight_status": "IN_PROGRESS",
+                        "registry_claim": {"execution_id": execution_id,
+                                           "contract_sha256": claim_contract_sha,
+                                           "input_binding_sha256": claim_binding_sha,
+                                           "fit_budget_debit": 0}})
+        receipt_owner = _update_owned_json(receipt_path, receipt, receipt_owner)
+        audit = _preflight_checkpoint_replay_audit(
+            stage=stage, attempt=attempt,
+            manifest_path=manifest_path, expected_manifest_sha256=expected_manifest_sha256,
+            source_archive_path=source_archive_path, expected_source_archive_sha256=expected_source_archive_sha256,
+            dependency_archive_path=dependency_archive_path,
+            expected_dependency_archive_sha256=expected_dependency_archive_sha256,
+            contract_path=contract_path, binding_path=binding_path, activation_path=activation_path,
+            registry_path=registry_path, execution_id=execution_id, guard=verification_guard,
+        )
+        contract_sha256, binding_sha256 = audit["contract_sha256"], audit["binding_sha256"]
+        expected_code_shas = audit["expected_code_shas"]
+        expected_route_code_sha256 = audit["expected_route_code_sha256"]
+        source_archive_sha_before = audit["source_archive_sha_before"]
+        dependency_archive_sha_before = audit["dependency_archive_sha_before"]
+        output_manifest_path = audit["output_manifest_path"]
+        output_manifest_sha_before = audit["output_manifest_sha_before"]
+        selected_info, selected_keys_path = audit["selected_info"], audit["selected_keys_path"]
+        cell_records = audit["cell_records"]
+        immutable_paths, immutable_sha_before = audit["immutable_paths"], audit["immutable_sha_before"]
+        expected_fit_events = audit["expected_fit_events"]
+        receipt.update({
+            "preflight_status": "VERIFIED",
+            "original_manifest_sha256": expected_manifest_sha256,
+            "contract_sha256": contract_sha256, "input_binding_sha256": binding_sha256,
+            "source_archive_sha256": source_archive_sha_before,
+            "dependency_archive_sha256": dependency_archive_sha_before,
+            "original_code_sha256": expected_code_shas,
+            "output_manifest_path": str(output_manifest_path),
+            "output_manifest_sha256": output_manifest_sha_before,
+            "selected_key_path": str(selected_keys_path),
+            "selected_key_sha256": str(selected_info["sha256"]),
+            "immutable_artifact_sha256_before": immutable_sha_before,
+            "null_reasons": {},
+        })
+        verified_context = build_registry_event_context(
+            stage=nofit_stage, binding=load_json(binding_path),
+            contract_sha256=contract_sha256, binding_sha256=binding_sha256,
+            code_shas=code_identity(), config_sha256=audit_config_sha256,
+            arms=STAGE_SPECS[stage]["input_arms"], truth_access="BOUND_INPUT_READ_NOT_STARTED",
+            artifact_paths=tuple(Path(path) for path in immutable_paths) + (receipt_path,),
+            deterministic_metrics={"fit_calls": 0, "cells_planned": len(cell_records), "cells_verified": 0,
+                                   "training_label_preparation_slots_by_horizon": None,
+                                   "truth_positive_denominator": None, "selection_slots": None},
+        )
+        update_registry_execution_context(verification_guard, execution_id, **verified_context)
+        receipt_owner = _update_owned_json(receipt_path, receipt, receipt_owner)
+        with _pinned_route_from_archives(
+            source_archive_path=source_archive_path,
+            expected_source_archive_sha256=expected_source_archive_sha256,
+            dependency_archive_path=dependency_archive_path,
+            expected_dependency_archive_sha256=expected_dependency_archive_sha256,
+            expected_code_shas=expected_code_shas,
+            project_root=PROJECT_ROOT,
+            contract_path=contract_path,
+            binding_path=binding_path,
+            activation_path=activation_path,
+        ) as pinned_route:
+            if sha256_file(activation_path) != immutable_sha_before[str(activation_path)]:
+                raise ExecutionBlocked("activation changed before pinned source validation")
+            input_read_started = True
+            panel, calendar, arm_frames, _, records = pinned_route.load_stage_inputs(
+                stage=stage, contract_path=contract_path, binding_path=binding_path,
+                activation_path=activation_path, preparation_claim=claim,
+            )
+            labels_by_horizon: dict[int, pd.DataFrame] = {}
+            cells_receipts: list[dict[str, Any]] = []
+            folds = {fold.fold_id: fold for fold in pinned_route.fixed_folds()}
+            if not STAGE_SPECS[stage]["requires_common_keys"]:
+                selected_frames = {"M0": arm_frames["M0"]}
+            else:
+                selected_frames, _ = pinned_route.assemble_common_arm_features(arm_frames)
+            for cell_record in cell_records:
+                horizon, fold, arm = int(cell_record["horizon"]), cell_record["fold"], cell_record["arm"]
+                if horizon not in labels_by_horizon:
+                    labels_by_horizon[horizon] = pinned_route.build_close_return_labels(
+                        panel, horizons=(horizon,), calendar=calendar,
+                        signal_start=fold.start - pd.DateOffset(years=2),
+                        signal_end_exclusive=fold.start,
+                    )[horizon]
+                prepared = _prepare_pinned_cell_data(
+                    pinned_route, features=selected_frames[arm], labels=labels_by_horizon[horizon],
+                    fold=fold, canary=bool(cell_record["canary"]),
+                )
+                checkpoint_path = Path(cell_record["checkpoint_path"])
+                metadata = load_json(Path(cell_record["metadata_path"]))
+                actual_key_rows = prepared["identity"]["training_keys"]["row_count"]
+                expected_fit = expected_fit_events[str(cell_record["cell"])]
+                if (expected_fit.get("training_rows_from_start_event") is not None and
+                        int(expected_fit["training_rows_from_start_event"]) != actual_key_rows):
+                    raise ExecutionBlocked(f"reconstructed train row count differs from original start event for {cell_record['cell']}")
+                original_identity_train, original_identity_test = pinned_route.split_fold(
+                    selected_frames[arm], labels_by_horizon[horizon], fold,
+                )
+                if bool(cell_record["canary"]):
+                    original_identity_train, _ = pinned_route.canary_subset(
+                        original_identity_train, original_identity_test,
+                    )
+                original_raw_key_identity = key_frame_identity(original_identity_train)
+                original_key_sha = canonical_sha256({
+                    "keys": [[pd.Timestamp(date).strftime("%Y-%m-%d"), str(code)]
+                             for date, code in original_identity_train[list(KEYS)].itertuples(index=False, name=None)]
+                })
+                expected_old_identity = pinned_route.checkpoint_identity(
+                    stage=stage, fold=fold, arm=arm, horizon=horizon, attempt=attempt,
+                    contract_sha256=contract_sha256,
+                    code_shas=expected_code_shas,
+                    binding=load_json(binding_path), feature_names=prepared["feature_columns"],
+                    training_key_sha256=original_key_sha,
+                )
+                if metadata.get("identity") != expected_old_identity:
+                    raise ExecutionBlocked(f"reconstructed identity differs from immutable checkpoint config for {cell_record['cell']}")
+                if metadata.get("artifact_sha256") != sha256_file(checkpoint_path):
+                    raise ExecutionBlocked(f"immutable checkpoint hash differs from its sidecar for {cell_record['cell']}")
+                payload = joblib.load(checkpoint_path)
+                if tuple(payload.get("feature_columns", ())) != tuple(prepared["feature_columns"]):
+                    raise ExecutionBlocked(f"reconstructed feature order differs from checkpoint for {cell_record['cell']}")
+                if not _same_key_order(prepared["test"], payload.get("predictions", pd.DataFrame())):
+                    raise ExecutionBlocked(f"reconstructed test key order differs from saved predictions for {cell_record['cell']}")
+                original = payload["predictions"].copy()
+                replay_scores = np.asarray(payload["model"].predict(prepared["xt"]), dtype=np.float64)
+                original_scores = pd.to_numeric(original["prediction"], errors="coerce").to_numpy(dtype=np.float64)
+                if len(replay_scores) != len(original_scores) or not np.isfinite(replay_scores).all() or not np.array_equal(replay_scores, original_scores):
+                    raise ExecutionBlocked(f"reconstructed saved-model replay differs at tolerance 0 for {cell_record['cell']}")
+                replay = prepared["test"].loc[:, list(KEYS)].reset_index(drop=True).copy()
+                replay["date"] = pd.to_datetime(replay["date"]).dt.normalize()
+                replay["code"] = replay["code"].astype(str)
+                replay["prediction"] = replay_scores
+                expected_predictions = original.loc[:, [*KEYS, "prediction"]].copy()
+                expected_predictions["date"] = pd.to_datetime(expected_predictions["date"]).dt.normalize()
+                expected_predictions["code"] = expected_predictions["code"].astype(str)
+                expected_predictions["prediction"] = original_scores
+                join = replay.merge(expected_predictions, on=list(KEYS), how="outer", validate="one_to_one",
+                                    suffixes=("_replay", "_saved"), indicator=True, sort=False)
+                if len(join) != len(replay) or not join["_merge"].eq("both").all():
+                    raise ExecutionBlocked(f"reconstructed prediction keys do not join one-to-one for {cell_record['cell']}")
+                replay_top = pinned_route.stable_top10(replay)
+                selected_keys = pd.read_csv(selected_keys_path)
+                selected_keys["date"] = pd.to_datetime(selected_keys["date"], errors="coerce").dt.normalize()
+                saved_top = selected_keys.loc[
+                    selected_keys["model_arm"].eq(arm) & selected_keys["model_horizon"].eq(horizon) &
+                    selected_keys["fold"].eq(fold.fold_id),
+                    ["date", "code", "rank", "prediction"],
+                ].sort_values(["date", "rank"], kind="mergesort").reset_index(drop=True)
+                replay_top = replay_top[["date", "code", "rank", "prediction"]].sort_values(
+                    ["date", "rank"], kind="mergesort").reset_index(drop=True)
+                if (not saved_top[["date", "code", "rank"]].equals(replay_top[["date", "code", "rank"]]) or
+                        not np.array_equal(saved_top["prediction"].to_numpy(dtype=np.float64),
+                                           replay_top["prediction"].to_numpy(dtype=np.float64))):
+                    raise ExecutionBlocked(f"reconstructed top10 differs from original selected keys for {cell_record['cell']}")
+                cells_receipts.append({
+                    "cell": cell_record["cell"], "arm": arm, "horizon": horizon,
+                    "fold": fold.fold_id, "fit_execution_id": expected_fit["execution_id"],
+                    "fit_run_started_event_sha256": expected_fit["run_started_event_sha256"],
+                    "fit_terminal_event_sha256": expected_fit["terminal_event_sha256"],
+                    "checkpoint_path": str(checkpoint_path),
+                    "checkpoint_sha256": immutable_sha_before[str(checkpoint_path)],
+                    "checkpoint_metadata_sha256": immutable_sha_before[str(cell_record["metadata_path"])],
+                    "reconstructed_training_rows": int(len(prepared["train"])),
+                    "reconstructed_original_raw_training_rows": int(len(original_identity_train)),
+                    "training_label_preparation_slots": int(prepared["training_label_preparation_slots"]),
+                    "reconstructed_original_checkpoint_training_key_identity": original_raw_key_identity,
+                    "reconstructed_original_checkpoint_training_key_sha256": original_key_sha,
+                    "reconstructed_finite_fit_training_key_identity": prepared["identity"]["training_keys"],
+                    "reconstructed_test_key_identity": prepared["identity"]["test_keys"],
+                    "feature_columns": list(prepared["feature_columns"]),
+                    "training_feature_matrix_sha256": prepared["identity"]["training_feature_matrix"]["sha256"],
+                    "training_label_vector_sha256": prepared["identity"]["training_label_vector"]["sha256"],
+                    "test_feature_matrix_sha256": prepared["identity"]["test_feature_matrix"]["sha256"],
+                    "saved_candidate_prediction_identity": prediction_frame_identity(original),
+                    "replay_prediction_identity": prediction_frame_identity(replay),
+                    "prediction_join_validation": "ONE_TO_ONE",
+                    "prediction_comparison": {"rtol": 0.0, "atol": 0.0, "status": "EXACT"},
+                    "top10_parity": "EXACT",
+                })
+            immutable_sha_after = {str(path): sha256_file(path) for path in immutable_paths}
+            if immutable_sha_after != immutable_sha_before:
+                raise ExecutionBlocked("an original stage/source/checkpoint artifact changed during reconstruction")
+            if sha256_file(manifest_path) != expected_manifest_sha256:
+                raise ExecutionBlocked("original stage manifest changed during reconstruction")
+            receipt.update({
+                "status": "VERIFIED_RECONSTRUCTED_REPLAY",
+                "expected_no_fit_terminal_status": "ENGINEERING_CANARY_ONLY",
+                "cells": cells_receipts,
+                "training_label_preparation_slots_by_horizon": {
+                    str(horizon): int(len(labels)) for horizon, labels in labels_by_horizon.items()
+                },
+                "fit_time_training_key_hash": "CANNOT_CONFIRM",
+                "reconstructed_training_key_hashes_are_retrospective": True,
+                "fit_budget_debit": 0,
+                "fit_calls": 0,
+                "immutable_artifact_sha256_after": immutable_sha_after,
+                "source_archive_sha256_after": sha256_file(source_archive_path),
+                "dependency_archive_sha256_after": sha256_file(dependency_archive_path),
+                "output_manifest_sha256_after": sha256_file(output_manifest_path),
+                "selected_key_sha256_after": sha256_file(selected_keys_path),
+                "limitations": [
+                    "Reconstructed train/test identities describe the replay reconstruction, not contemporaneous fit-time capture.",
+                    "Original fit-time train-key SHA remains CANNOT_CONFIRM.",
+                    "No model acceptance or sealed-forward status is changed by this engineering receipt.",
+                ],
+            })
+            registry_after = _read_registered_events(
+                Path(registry_path) if registry_path is not None else PROJECT_ROOT / "contracts/EXPERIMENT_REGISTRY.jsonl"
+            )
+            for fit_execution_id, original_events in expected_fit_events.items():
+                again = _verify_original_fit_event_pair(
+                    registry_after, execution_id=fit_execution_id, stage=stage,
+                    experiment_id=EXPERIMENT_ID, expected_route_code_sha256=expected_route_code_sha256,
+                    contract_sha256=contract_sha256, binding_sha256=binding_sha256,
+                )
+                if (again["run_started_event_sha256"] != original_events["run_started_event_sha256"] or
+                        again["terminal_event_sha256"] != original_events["terminal_event_sha256"]):
+                    raise ExecutionBlocked("original fit registry evidence changed during no-fit verification")
+            receipt_owner = _update_owned_json(receipt_path, receipt, receipt_owner)
+            update_registry_execution_context(
+                verification_guard, execution_id,
+                truth_access="BOUND_INPUT_READ_AND_CHECKPOINT_REPLAY_COMPLETED_NO_FIT",
+                deterministic_metrics={"fit_calls": 0, "cells_planned": 3, "cells_verified": len(cells_receipts),
+                                       "training_label_preparation_slots_by_horizon": {
+                                           str(horizon): int(len(value))
+                                           for horizon, value in labels_by_horizon.items()},
+                                       "truth_positive_denominator": None, "selection_slots": None,
+                                       "checkpoint_replay_status": "VERIFIED_RECONSTRUCTED_REPLAY"},
+            )
+            terminal_attempted = True
+            verification_guard.append_no_fit_terminal(claim, succeeded=True)
+            terminalized = True
+            return receipt
+    except BaseException as exc:
+        if not terminalized:
+            if terminal_attempted:
+                receipt.update({"status": "CANNOT_CONFIRM_NO_FIT_TERMINAL",
+                                "error_type": type(exc).__name__, "error": str(exc)[:500],
+                                "terminal_outcome": "CANNOT_CONFIRM", "fit_budget_debit": 0,
+                                "fit_calls": 0, "no_fit_terminal_status": "CANNOT_CONFIRM",
+                                "terminal_error_type": type(exc).__name__,
+                                "terminal_error": str(exc)[:500]})
+                try:
+                    receipt_owner = _update_owned_json(receipt_path, receipt, receipt_owner)
+                except BaseException as receipt_exc:
+                    exc.add_note(f"Could not persist checkpoint replay failure receipt: {type(receipt_exc).__name__}: {receipt_exc}")
+                raise
+
+            finalization_errors: list[BaseException] = []
+            try:
+                update_registry_execution_context(
+                    verification_guard, execution_id,
+                    truth_access=("BOUND_INPUT_READ_OR_RECONSTRUCTION_FAILED" if input_read_started
+                                  else "BOUND_INPUT_READ_NOT_COMPLETED"),
+                    deterministic_metrics={"fit_calls": 0, "checkpoint_replay_status": "CANNOT_CONFIRM",
+                                           "truth_positive_denominator": None, "selection_slots": None},
+                )
+            except BaseException as context_exc:
+                finalization_errors.append(context_exc)
+            receipt.update({"status": "CANNOT_CONFIRM_RECONSTRUCTED_REPLAY",
+                            "error_type": type(exc).__name__, "error": str(exc)[:500],
+                            "preflight_status": ("VERIFIED" if input_read_started else "FAILED"),
+                            "fit_budget_debit": 0, "fit_calls": 0,
+                            "expected_no_fit_terminal_status": "CANNOT_CONFIRM_ENGINEERING_CANARY"})
+            try:
+                receipt_owner = _update_owned_json(receipt_path, receipt, receipt_owner)
+            except BaseException as receipt_exc:
+                finalization_errors.append(receipt_exc)
+            terminal_attempted = True
+            try:
+                verification_guard.append_no_fit_terminal(claim, succeeded=False,
+                                                          error_type=type(exc).__name__)
+                terminalized = True
+            except BaseException as terminal_exc:
+                receipt.update({"status": "CANNOT_CONFIRM_NO_FIT_TERMINAL",
+                                "no_fit_terminal_status": "CANNOT_CONFIRM",
+                                "terminal_error_type": type(terminal_exc).__name__,
+                                "terminal_error": str(terminal_exc)[:500]})
+                try:
+                    receipt_owner = _update_owned_json(receipt_path, receipt, receipt_owner)
+                except BaseException as receipt_exc:
+                    exc.add_note(f"Could not persist no-fit terminal failure: {type(receipt_exc).__name__}: {receipt_exc}")
+                exc.add_note(f"No-fit terminalization was not confirmed: {type(terminal_exc).__name__}: {terminal_exc}")
+                raise exc from terminal_exc
+            if finalization_errors:
+                finalization_detail = "; ".join(
+                    f"{type(error).__name__}: {error}" for error in finalization_errors
+                )
+                exc.add_note(f"No-fit failure finalization encountered: {finalization_detail}")
+        raise
+
+
 def _fit_one_cell(*, cell: Mapping[str, Any], features: pd.DataFrame, labels: pd.DataFrame,
                   output_root: Path, identity: Mapping[str, Any], guard: Any,
                   contract_sha256: str, binding_sha256: str,
-                  binding: Mapping[str, Any]) -> dict[str, Any]:
+                  binding: Mapping[str, Any], prepared: Mapping[str, Any] | None = None) -> dict[str, Any]:
     arm = str(cell["arm"])
     fold: Fold = cell["fold"]
     horizon = int(cell["horizon"])
     cell_key = f"{cell['stage']}_{arm}_H{horizon}_{fold.fold_id}_{cell['attempt']}"
     checkpoint_path = Path(output_root) / "checkpoints" / f"{cell_key}.joblib"
+    replay_receipt_path = checkpoint_path.with_suffix(checkpoint_path.suffix + ".replay.json")
     candidates = sorted(checkpoint_path.parent.glob(f"{cell['stage']}_{arm}_H{horizon}_{fold.fold_id}_*.joblib"))
     cached = None
     cached_path = None
@@ -1561,7 +2527,7 @@ def _fit_one_cell(*, cell: Mapping[str, Any], features: pd.DataFrame, labels: pd
     if guard is None:
         raise ExecutionBlocked("real fit requires the existing official registry guard")
     metadata_path = checkpoint_path.with_suffix(checkpoint_path.suffix + ".json")
-    if checkpoint_path.exists() or metadata_path.exists():
+    if checkpoint_path.exists() or metadata_path.exists() or replay_receipt_path.exists():
         raise ExecutionBlocked(f"checkpoint path already exists but is not reusable: {checkpoint_path.name}")
     # The official registry hashes artifact paths for RUN_STARTED, so persist a
     # small pre-fit intent at those exact paths before claiming the fit debit.
@@ -1570,16 +2536,21 @@ def _fit_one_cell(*, cell: Mapping[str, Any], features: pd.DataFrame, labels: pd
                                         "identity": dict(identity)})
     atomic_write_json(metadata_path, {"status": "PLANNED_BEFORE_FIT", "identity": dict(identity),
                                       "artifact_sha256": sha256_file(checkpoint_path)})
-    clean_features, feature_columns = _finite_arm_frame(features)
-    train, test = split_fold(clean_features, labels, fold)
-    if bool(cell["canary"]):
-        train, test = canary_subset(train, test)
-    x = train[list(feature_columns)].to_numpy(dtype=np.float64)
-    y = pd.to_numeric(train["label_return"], errors="raise").to_numpy(dtype=np.float64)
-    weights = equal_day_weights(train["date"])
-    xt = test[list(feature_columns)].to_numpy(dtype=np.float64)
-    if not len(x) or not len(xt) or not np.isfinite(x).all() or not np.isfinite(y).all() or not np.isfinite(xt).all():
-        raise ContractError(f"non-finite or empty design matrix in {cell_key}")
+    atomic_write_json(replay_receipt_path, {
+        "schema_version": REPLAY_RECEIPT_SCHEMA,
+        "status": "PLANNED_BEFORE_FIT",
+        "provenance": "FIT_TIME_SAVED_MODEL_REPLAY",
+        "execution_id": f"{cell['stage']}_{arm}_H{horizon}_{fold.fold_id}_{cell['attempt']}",
+        "config_sha256": str(identity["config_sha256"]),
+    })
+    prepared_data = dict(prepared or prepare_cell_data(
+        features=features, labels=labels, fold=fold, canary=bool(cell["canary"]),
+    ))
+    if prepared_data.get("identity") != identity.get("data_identity"):
+        raise ContractError(f"prepared train/test identity differs from checkpoint plan in {cell_key}")
+    train, test = prepared_data["train"], prepared_data["test"]
+    feature_columns = tuple(prepared_data["feature_columns"])
+    x, y, weights, xt = (prepared_data[key] for key in ("x", "y", "weights", "xt"))
     model = model_for_arm()
     execution_id = f"{cell['stage']}_{arm}_H{horizon}_{fold.fold_id}_{cell['attempt']}"
     registry_context = build_registry_event_context(
@@ -1588,11 +2559,23 @@ def _fit_one_cell(*, cell: Mapping[str, Any], features: pd.DataFrame, labels: pd
         code_shas=identity["code_sha256"], config_sha256=str(identity["config_sha256"]),
         arms=(arm,), truth_access="TRAIN_LABELS_READ_PAST_ONLY",
         signal_dates=train["date"], target_dates=train["label_end_date"],
-        checkpoint_path=checkpoint_path, artifact_paths=(checkpoint_path, metadata_path),
+        checkpoint_path=checkpoint_path,
+        artifact_paths=(checkpoint_path, metadata_path, replay_receipt_path),
         deterministic_metrics={"training_rows": int(len(train)),
                                "training_signal_dates": int(train["date"].nunique()),
                                "test_prediction_rows": int(len(test)),
-                               "test_signal_dates": int(test["date"].nunique())},
+                               "test_signal_dates": int(test["date"].nunique()),
+                               "training_keyset_sha256": identity["data_identity"]["training_keys"]["sorted_keyset_sha256"],
+                               "training_key_order_sha256": identity["data_identity"]["training_keys"]["ordered_keys_sha256"],
+                               "training_unique_keys": identity["data_identity"]["training_keys"]["unique_key_count"],
+                               "training_signal_date_min": identity["data_identity"]["training_keys"]["date_min"],
+                               "training_signal_date_max": identity["data_identity"]["training_keys"]["date_max"],
+                               "training_feature_matrix_sha256": identity["data_identity"]["training_feature_matrix"]["sha256"],
+                               "training_label_vector_sha256": identity["data_identity"]["training_label_vector"]["sha256"],
+                               "test_keyset_sha256": identity["data_identity"]["test_keys"]["sorted_keyset_sha256"],
+                               "test_feature_matrix_sha256": identity["data_identity"]["test_feature_matrix"]["sha256"],
+                               "training_label_preparation_slots": int(prepared_data["training_label_preparation_slots"]),
+                               "checkpoint_replay_status": "PENDING_BEFORE_FIT"},
     )
     set_registry_execution_context(guard, execution_id, registry_context)
 
@@ -1615,13 +2598,40 @@ def _fit_one_cell(*, cell: Mapping[str, Any], features: pd.DataFrame, labels: pd
         finally:
             if replay_path.exists():
                 replay_path.unlink()
-        # Persist before the official terminal event, so its artifact path exists
-        # when the registry confirms the one-fit lifecycle.
+        # Persist the test matrix with the estimator, then reload the actual
+        # durable checkpoint and write its replay receipt before the fit terminal.
         save_checkpoint(checkpoint_path, {"model": model, "predictions": predictions,
-                                          "feature_columns": feature_columns}, identity)
+                                          "feature_columns": feature_columns,
+                                          "replay_fixture": {
+                                              "test_keys": test.loc[:, list(KEYS)].reset_index(drop=True),
+                                              "test_features": np.asarray(xt, dtype=np.float64, order="C"),
+                                          }}, identity)
+        replay_receipt = verify_saved_checkpoint_replay(
+            checkpoint_path=checkpoint_path, replay_receipt_path=replay_receipt_path,
+            identity=identity, execution_id=execution_id,
+        )
         update_registry_execution_context(
             guard, execution_id,
             checkpoint_ref={"path": str(checkpoint_path.resolve()), "sha256": sha256_file(checkpoint_path)},
+            deterministic_metrics={
+                "training_rows": int(len(train)),
+                "training_signal_dates": int(train["date"].nunique()),
+                "test_prediction_rows": int(len(test)),
+                "test_signal_dates": int(test["date"].nunique()),
+                "training_keyset_sha256": identity["data_identity"]["training_keys"]["sorted_keyset_sha256"],
+                "training_key_order_sha256": identity["data_identity"]["training_keys"]["ordered_keys_sha256"],
+                "training_unique_keys": identity["data_identity"]["training_keys"]["unique_key_count"],
+                "training_signal_date_min": identity["data_identity"]["training_keys"]["date_min"],
+                "training_signal_date_max": identity["data_identity"]["training_keys"]["date_max"],
+                "training_feature_matrix_sha256": identity["data_identity"]["training_feature_matrix"]["sha256"],
+                "training_label_vector_sha256": identity["data_identity"]["training_label_vector"]["sha256"],
+                "test_keyset_sha256": identity["data_identity"]["test_keys"]["sorted_keyset_sha256"],
+                "test_feature_matrix_sha256": identity["data_identity"]["test_feature_matrix"]["sha256"],
+                "training_label_preparation_slots": int(prepared_data["training_label_preparation_slots"]),
+                "checkpoint_replay_status": replay_receipt["status"],
+                "checkpoint_replay_prediction_sha256": replay_receipt["replay_prediction_identity"]["ordered_rows_sha256"],
+                "checkpoint_replay_top10_status": replay_receipt["top10_parity"]["status"],
+            },
         )
         return predictions
 
@@ -1662,21 +2672,19 @@ def run_stage_cells(*, stage: str, arm_frames: Mapping[str, pd.DataFrame],
     for cell in cells:
         arm = cell["arm"]
         fold = folds[cell["fold"].fold_id]
-        feature_names = [column for column in selected_frames[arm].columns if column not in KEYS]
         label_key = (fold.fold_id, int(cell["horizon"]))
         if label_key not in labels_by_cell:
             raise ContractError(f"missing purged training labels for {label_key}")
-        identity_train, identity_test = split_fold(selected_frames[arm], labels_by_cell[label_key], fold)
-        if bool(cell["canary"]):
-            identity_train, _ = canary_subset(identity_train, identity_test)
+        prepared = prepare_cell_data(
+            features=selected_frames[arm], labels=labels_by_cell[label_key], fold=fold,
+            canary=bool(cell["canary"]),
+        )
+        feature_names = prepared["feature_columns"]
         identity = checkpoint_identity(
             stage=stage, fold=fold, arm=arm, horizon=cell["horizon"], attempt=cell["attempt"],
             contract_sha256=contract_sha256, code_shas=code_shas or code_identity(),
             binding=binding, feature_names=feature_names,
-            training_key_sha256=canonical_sha256({
-                "keys": [[pd.Timestamp(date).strftime("%Y-%m-%d"), str(code)]
-                         for date, code in identity_train[["date", "code"]].itertuples(index=False, name=None)]
-            }),
+            data_identity=prepared["identity"],
         )
         checkpoint_path = Path(output_root) / "checkpoints" / f"{stage}_{arm}_H{cell['horizon']}_{fold.fold_id}_{cell['attempt']}.joblib"
         cell_guard = cell_guard_factory(cell, checkpoint_path) if cell_guard_factory is not None else guard
@@ -1684,7 +2692,7 @@ def run_stage_cells(*, stage: str, arm_frames: Mapping[str, pd.DataFrame],
                                     labels=labels_by_cell[label_key],
                                     output_root=output_root, identity=identity, guard=cell_guard,
                                     contract_sha256=contract_sha256, binding_sha256=binding_sha256,
-                                    binding=binding))
+                                    binding=binding, prepared=prepared))
     return {"stage": stage, "cells_planned": len(cells), "fit_calls": sum(item["fit_called"] for item in output),
             "results": output, "state": "ENGINEERING_CANARY_ONLY" if STAGE_SPECS[stage]["canary"] else "DIRECTION_ONLY"}
 
@@ -1701,16 +2709,15 @@ def load_m0_formal_baseline(*, arm_frames: Mapping[str, pd.DataFrame], labels_by
             label_key = (fold.fold_id, horizon)
             if label_key not in labels_by_cell:
                 raise ContractError(f"M0 baseline requires training labels for {label_key}")
-            train, test = split_fold(features, labels_by_cell[label_key], fold)
-            feature_names = [column for column in features.columns if column not in KEYS]
+            prepared = prepare_cell_data(features=features, labels=labels_by_cell[label_key],
+                                         fold=fold, canary=False)
+            train, test = prepared["train"], prepared["test"]
+            feature_names = prepared["feature_columns"]
             identity = checkpoint_identity(
                 stage="M0_FORMAL", fold=fold, arm="M0", horizon=horizon, attempt="attempt_01",
                 contract_sha256=contract_sha256, code_shas=code_shas, binding=binding,
                 feature_names=feature_names,
-                training_key_sha256=canonical_sha256({
-                    "keys": [[pd.Timestamp(date).strftime("%Y-%m-%d"), str(code)]
-                             for date, code in train[["date", "code"]].itertuples(index=False, name=None)]
-                }),
+                data_identity=prepared["identity"],
             )
             pattern = f"M0_FORMAL_M0_H{horizon}_{fold.fold_id}_*.joblib"
             candidates = sorted((Path(output_root) / "checkpoints").glob(pattern))
@@ -1817,7 +2824,8 @@ def run_reviewed_stage(*, stage: str, output_root: Path, attempt: str = "attempt
         code_shas=code_identity(), config_sha256=contract_sha,
         arms=STAGE_SPECS[stage]["input_arms"], truth_access="BOUND_INPUT_READ_NOT_STARTED",
         artifact_paths=(preparation_receipt_path, compatibility_sidecar_path),
-        deterministic_metrics={"training_label_rows": None, "selection_slots": None},
+        deterministic_metrics={"training_label_preparation_slots_by_cell_key": None,
+                               "selection_slots": None},
     )
     set_registry_execution_context(prep_guard, prep_execution_id, prep_registry_context)
     prep_claim = prep_guard.claim_no_fit(execution_id=prep_execution_id,
@@ -1875,7 +2883,9 @@ def run_reviewed_stage(*, stage: str, output_root: Path, attempt: str = "attempt
             arms=STAGE_SPECS[stage]["input_arms"], truth_access="TRAIN_LABELS_READ_PAST_ONLY",
             signal_dates=training_dates, target_dates=target_dates,
             artifact_paths=(preparation_receipt_path, compatibility_sidecar_path),
-            deterministic_metrics={"training_label_rows": int(sum(len(frame) for frame in labels_by_cell.values())),
+            deterministic_metrics={"training_label_preparation_slots_by_cell_key": {
+                                       f"{fold_id}:H{horizon}": int(len(frame))
+                                       for (fold_id, horizon), frame in labels_by_cell.items()},
                                    "training_label_cells": int(len(labels_by_cell)),
                                    "selection_slots": None},
         )
@@ -1899,7 +2909,9 @@ def run_reviewed_stage(*, stage: str, output_root: Path, attempt: str = "attempt
             contract_path=contract_path,
             binding_path=binding_path,
             stage=str(cell["stage"]),
-            artifact_paths=(checkpoint_path, checkpoint_path.with_suffix(checkpoint_path.suffix + ".json")),
+            artifact_paths=(checkpoint_path,
+                            checkpoint_path.with_suffix(checkpoint_path.suffix + ".json"),
+                            checkpoint_path.with_suffix(checkpoint_path.suffix + ".replay.json")),
         )
 
     baseline: dict[tuple[str, int], dict[str, Any]] = {}

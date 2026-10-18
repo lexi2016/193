@@ -1,102 +1,90 @@
 {
   "schema_version": "PV_PUBLIC_REVIEWED_SOURCE_STATUS_V1",
-  "as_of_utc": "2026-10-18T20:12:43.397974+00:00",
-  "baseline_commit": "4a7ed49d12bbd675b458821eef51ff5524d6acac",
+  "as_of_utc": "2026-10-18T21:06:20.191349+00:00",
+  "baseline_commit": "56df1c7fa8d468acc85a834a56544f5a077cf2a1",
   "target_repository": "lexi2016/193",
   "target_branch": "main",
   "route": "A_SHARE_PANEL_MODEL_SELECTION_RESEARCH",
-  "code_composite": "79b2758643dbf0a24623324c02481cd315c762e1e5e213d383bda809bf071608",
+  "code_composite": "d201b447108d98ff24dbedc6539555bb284ea16880ee7736c03dffa75e6d76ac",
   "files": [
     {
       "path": "research/a_share_model_selection_v1/formula_adapter.py",
       "sha256": "862d4835e3e0ee0e47833e7be57c0dfc584b30cddbbc5a43176b3d60b2654f94",
-      "previous_remote_sha256": null,
-      "previous_remote_reason": "Path absent from verified baseline tree",
+      "previous_remote_sha256": "862d4835e3e0ee0e47833e7be57c0dfc584b30cddbbc5a43176b3d60b2654f94",
       "bytes": 9076
     },
     {
       "path": "research/a_share_model_selection_v1/futu_index_capability_probe_v1.py",
       "sha256": "08d86d610fa1f859ed89bb586a3716b5e6ce207def4e532a777dfd27e4b6c5f7",
-      "previous_remote_sha256": null,
-      "previous_remote_reason": "Path absent from verified baseline tree",
+      "previous_remote_sha256": "08d86d610fa1f859ed89bb586a3716b5e6ce207def4e532a777dfd27e4b6c5f7",
       "bytes": 22530
     },
     {
       "path": "research/a_share_model_selection_v1/futu_index_history_recovery_v1.py",
       "sha256": "64a87cc94ab38ca0d53715a6f8ee0cd988c7a9c80163809abc12a946efee7613",
-      "previous_remote_sha256": null,
-      "previous_remote_reason": "Path absent from verified baseline tree",
+      "previous_remote_sha256": "64a87cc94ab38ca0d53715a6f8ee0cd988c7a9c80163809abc12a946efee7613",
       "bytes": 37703
     },
     {
       "path": "research/a_share_model_selection_v1/model_selection.py",
-      "sha256": "afa187f27d3489c4834e65213c58ad1b6eb00c52d9ffb6f9cbabafe7834fa175",
-      "previous_remote_sha256": null,
-      "previous_remote_reason": "Path absent from verified baseline tree",
-      "bytes": 150309
+      "sha256": "3fc442d87da3ab457f11c33a82140b15b1a4be90b1d363a753836034eb31f367",
+      "previous_remote_sha256": "afa187f27d3489c4834e65213c58ad1b6eb00c52d9ffb6f9cbabafe7834fa175",
+      "bytes": 215600
     },
     {
       "path": "research/a_share_model_selection_v1/tdx_ast_engine_injected.py",
       "sha256": "d4af457232e14dc54c38d8b5593a3a8ce8783d4805d85976deccd073ba1dea9c",
-      "previous_remote_sha256": null,
-      "previous_remote_reason": "Path absent from verified baseline tree",
+      "previous_remote_sha256": "d4af457232e14dc54c38d8b5593a3a8ce8783d4805d85976deccd073ba1dea9c",
       "bytes": 12571
     },
     {
       "path": "research/a_share_model_selection_v1/test_formula_input_compat_v1.py",
       "sha256": "2517aaa1b75190a71ac6d06c97fa7277f3ebc583abb50d0b90f9447e10355283",
-      "previous_remote_sha256": null,
-      "previous_remote_reason": "Path absent from verified baseline tree",
+      "previous_remote_sha256": "2517aaa1b75190a71ac6d06c97fa7277f3ebc583abb50d0b90f9447e10355283",
       "bytes": 7666
     },
     {
       "path": "research/a_share_model_selection_v1/test_futu_index_capability_probe_v1.py",
       "sha256": "cbca9dccf01385bbc0bcef246c690befea00947e137a01a43aec86be4dc0dffa",
-      "previous_remote_sha256": null,
-      "previous_remote_reason": "Path absent from verified baseline tree",
+      "previous_remote_sha256": "cbca9dccf01385bbc0bcef246c690befea00947e137a01a43aec86be4dc0dffa",
       "bytes": 7717
     },
     {
       "path": "research/a_share_model_selection_v1/test_futu_index_history_recovery_v1.py",
       "sha256": "58218f2762f9ab03db367a455562ba80f393ba52e48a7b0e60d630db9e2179a6",
-      "previous_remote_sha256": null,
-      "previous_remote_reason": "Path absent from verified baseline tree",
+      "previous_remote_sha256": "58218f2762f9ab03db367a455562ba80f393ba52e48a7b0e60d630db9e2179a6",
       "bytes": 18189
     },
     {
       "path": "research/a_share_model_selection_v1/test_input_compat_consumer_v1.py",
       "sha256": "fd01b878f9a2058ce9f11d8f45a6bf07e16d1ceaf7f38213d24721013969dd7b",
-      "previous_remote_sha256": null,
-      "previous_remote_reason": "Path absent from verified baseline tree",
+      "previous_remote_sha256": "fd01b878f9a2058ce9f11d8f45a6bf07e16d1ceaf7f38213d24721013969dd7b",
       "bytes": 29424
     },
     {
       "path": "research/a_share_model_selection_v1/test_m0_canary_v1.py",
-      "sha256": "dfcf2e2a877df9a9721774209558745509213debc9398ea39b27b6b5384c4a4d",
-      "previous_remote_sha256": null,
-      "previous_remote_reason": "Path absent from verified baseline tree",
-      "bytes": 16018
+      "sha256": "71dd902143ac9bff81e1bdc26e040c5ccb104b0a91d5a2753f3a349cb1e55bc6",
+      "previous_remote_sha256": "dfcf2e2a877df9a9721774209558745509213debc9398ea39b27b6b5384c4a4d",
+      "bytes": 55763
     },
     {
       "path": "research/a_share_model_selection_v1/input_compat_diagnostic_v1.py",
       "sha256": "a45dc0e152ed9d1f1b8e9918fde3c4f5ec372b2b1ff344759cece240302eab4d",
-      "previous_remote_sha256": null,
-      "previous_remote_reason": "Path absent from verified baseline tree",
+      "previous_remote_sha256": "a45dc0e152ed9d1f1b8e9918fde3c4f5ec372b2b1ff344759cece240302eab4d",
       "bytes": 33391
     },
     {
       "path": "research/a_share_model_selection_v1/test_input_compat_diagnostic_v1.py",
       "sha256": "a2e60985d889bd465201ec50bef8900fc42f2cf85faee66d2bd74319188e0ed2",
-      "previous_remote_sha256": null,
-      "previous_remote_reason": "Path absent from verified baseline tree",
+      "previous_remote_sha256": "a2e60985d889bd465201ec50bef8900fc42f2cf85faee66d2bd74319188e0ed2",
       "bytes": 17335
     }
   ],
-  "actual_completed_canary_fits": 3,
+  "actual_completed_canary_fits": 6,
   "actual_completed_formal_fits": 0,
   "planned_canary_fits": 6,
   "planned_formal_fits": 90,
-  "status": "M0_ENGINEERING_CANARY_COMPLETE_M4_RETRY_RUNNING",
+  "status": "SIX_CANARY_FITS_COMPLETE_NO_FIT_REPLAY_IN_PROGRESS",
   "business_acceptance": "CANNOT_CONFIRM",
   "evidence_ceiling": "DIRECTION_ONLY",
   "independent_validation": [
@@ -123,6 +111,19 @@
     {
       "scope": "diagnostic calendar parser delta",
       "tests_passed": 1
+    },
+    {
+      "scope": "pinned runtime loader and raw versus finite replay identities",
+      "tests_passed": 21
+    },
+    {
+      "scope": "no-fit claim, failure closure, exclusive receipt",
+      "tests_passed": 4
+    },
+    {
+      "scope": "official event schema and real frozen runtime import",
+      "tests_passed": 2,
+      "actual_m0_fit_event_pairs_verified": 3
     }
   ],
   "test_commands": [
@@ -144,5 +145,9 @@
     "credentials and account information",
     "full local registry"
   ],
-  "registry_external_persistence": "CANNOT_CONFIRM"
+  "registry_external_persistence": "CANNOT_CONFIRM",
+  "historical_fit_time_key_identity": "CANNOT_CONFIRM",
+  "retrospective_provenance": "PROVENANCE_RECONSTRUCTED",
+  "prospective_fit_evidence": "Training/test key and matrix identities, labels and weights, durable checkpoint reload, exact prediction and Top10 replay before completed terminal",
+  "retrospective_replay": "Separate registered no-fit receipt using exact archived code; original checkpoints and events immutable"
 }
