@@ -1,0 +1,152 @@
+{
+  "acceptance_state": "INDEPENDENT_REVIEW_PENDING",
+  "annual_coverage_gaps": {
+    "boundary_note": "Observed date boundaries do not prove missing or complete exchange sessions.",
+    "complete_trading_day_coverage": "CANNOT_CONFIRM",
+    "derived_from_prior_annual_aggregate_only": true,
+    "outer_half_year_coverage_status": "CANNOT_CONFIRM_FROM_ANNUAL_AGGREGATES",
+    "required_gap": {
+      "panel_id": "selector_panel_20261015",
+      "status": "NO_OBSERVED_ROWS",
+      "year": 2022
+    }
+  },
+  "as_of_snapshot": "20261015",
+  "classification": "SAFE_AGGREGATE_NO_SOURCE_IDS_OR_RAW_VALUES",
+  "registry": {
+    "append_compatibility": "PASS",
+    "global_contract_only_count": null,
+    "global_inventory_status": "CANNOT_CONFIRM_NOT_AUDITED_IN_THIS_SCOPE",
+    "global_unregistered_route_count": null,
+    "registry_sha256": "0b8bac59c6291ba52a638b75c67cdb9a4ee292deae1b551b47b28be3c03f9121",
+    "track_correction_count": 0,
+    "track_event_count": 12,
+    "track_execution_count": 7,
+    "track_open_execution_count": 0,
+    "track_route_count": 5
+  },
+  "s0_identity_and_trainability": {
+    "backtests": 0,
+    "fit_calls": 0,
+    "labels_read": 0,
+    "native_v193_identity": "CANNOT_CONFIRM",
+    "predictions": 0,
+    "trainable_coverage": "CANNOT_CONFIRM",
+    "weights_read": 0
+  },
+  "safety": {
+    "buy_gate_updated": false,
+    "orders_sent": false,
+    "production_allowed": false,
+    "research_only": true
+  },
+  "schema_version": "V193_R2_R3_PUBLIC_SAFE_AGGREGATE_V1",
+  "scope": "No-fit strict calendar-date token validation and annual-boundary interpretation for already frozen R2 panels.",
+  "source_materialization": {
+    "expected_original_byte_matches": 2,
+    "identity_status": "PARTIAL_CANNOT_CONFIRM",
+    "items": [
+      {
+        "captured_or_materialized_bytes": 16427,
+        "captured_or_materialized_sha256": "0b637ef5d591964932921c8b3bdca3f258faf199d4cb0aed8cbfccd3edc1abd4",
+        "expected_bytes": 16427,
+        "expected_sha256": "0b637ef5d591964932921c8b3bdca3f258faf199d4cb0aed8cbfccd3edc1abd4",
+        "historical_identity": "MATCH",
+        "logical_name": "v193_original_snapshot",
+        "status": "MATERIALIZED_BYTE_IDENTICAL"
+      },
+      {
+        "captured_or_materialized_bytes": 16427,
+        "captured_or_materialized_sha256": "0b637ef5d591964932921c8b3bdca3f258faf199d4cb0aed8cbfccd3edc1abd4",
+        "expected_bytes": 16427,
+        "expected_sha256": "0b637ef5d591964932921c8b3bdca3f258faf199d4cb0aed8cbfccd3edc1abd4",
+        "historical_identity": "MATCH",
+        "logical_name": "v192_cand3_comparison",
+        "status": "MATERIALIZED_BYTE_IDENTICAL"
+      },
+      {
+        "captured_or_materialized_bytes": 4026,
+        "captured_or_materialized_sha256": "b02813c24916488c03684513bac36da6ed39bf87a8ae919f8b5f2f6cc5a7e516",
+        "expected_bytes": 4026,
+        "expected_sha256": "ef60a6c9141c8d1dd871c6815fc250b2be171f1f535d6ebfcf016d40ddb6b8cd",
+        "historical_identity": "MISMATCH",
+        "logical_name": "input_data_manifest",
+        "status": "CANNOT_CONFIRM_SOURCE_SHA_MISMATCH"
+      },
+      {
+        "captured_or_materialized_bytes": 1296,
+        "captured_or_materialized_sha256": "e81c184e96e18f39c9884c1c448071b8c73a5b560b4600e0af00aea0df6766f1",
+        "expected_bytes": 1296,
+        "expected_sha256": "7ec5e16286a0291484c7a80ebf8b24cea36479cb1448d24dfb548742587f7ae4",
+        "historical_identity": "MISMATCH",
+        "logical_name": "independent_verification_receipt",
+        "status": "CANNOT_CONFIRM_SOURCE_SHA_MISMATCH"
+      },
+      {
+        "captured_or_materialized_bytes": 11527,
+        "captured_or_materialized_sha256": "ead178dfd418a2a2d1f83867551748a1055db8e0367ca52a277c2cc9385d2115",
+        "expected_bytes": 11527,
+        "expected_sha256": null,
+        "historical_identity": "CANNOT_CONFIRM",
+        "logical_name": "readme_raw",
+        "status": "MATERIALIZED_BYTE_IDENTICAL"
+      }
+    ],
+    "materialized_file_count": 3,
+    "total_logical_inputs": 5,
+    "transport": [
+      {
+        "captured_bytes": 4026,
+        "captured_sha256": "b02813c24916488c03684513bac36da6ed39bf87a8ae919f8b5f2f6cc5a7e516",
+        "historical_sha256_matches": false,
+        "logical_name": "input_data_manifest",
+        "observed_recorded_fetch_calls_in_saved_task_history": 1,
+        "response_body_matches_local_capture": true,
+        "total_fetch_count": null,
+        "total_fetch_count_status": "CANNOT_CONFIRM_OUTSIDE_RECORDED_TASK_HISTORY"
+      },
+      {
+        "captured_bytes": 1296,
+        "captured_sha256": "e81c184e96e18f39c9884c1c448071b8c73a5b560b4600e0af00aea0df6766f1",
+        "historical_sha256_matches": false,
+        "logical_name": "independent_verification_receipt",
+        "observed_recorded_fetch_calls_in_saved_task_history": 1,
+        "response_body_matches_local_capture": true,
+        "total_fetch_count": null,
+        "total_fetch_count_status": "CANNOT_CONFIRM_OUTSIDE_RECORDED_TASK_HISTORY"
+      }
+    ]
+  },
+  "strict_calendar_date_audit": {
+    "columns_read": [
+      "trade_date"
+    ],
+    "interpretation_limit": "PASS_INVALID_ZERO only establishes that no malformed unique date token or null date row was found in the three frozen trade_date projections; it does not establish PIT, features, warmup, or trainable coverage.",
+    "panels": [
+      {
+        "invalid_unique_date_tokens": 0,
+        "null_date_rows": 0,
+        "panel_id": "qfq_market_20261015",
+        "status": "PASS_INVALID_ZERO",
+        "unique_nonnull_raw_date_tokens": 1320
+      },
+      {
+        "invalid_unique_date_tokens": 0,
+        "null_date_rows": 0,
+        "panel_id": "backtest_panel_20261015",
+        "status": "PASS_INVALID_ZERO",
+        "unique_nonnull_raw_date_tokens": 1322
+      },
+      {
+        "invalid_unique_date_tokens": 0,
+        "null_date_rows": 0,
+        "panel_id": "selector_panel_20261015",
+        "status": "PASS_INVALID_ZERO",
+        "unique_nonnull_raw_date_tokens": 1243
+      }
+    ],
+    "raw_values_persisted": false,
+    "source_content_rehashed": false,
+    "status": "PASS_INVALID_ZERO"
+  }
+}

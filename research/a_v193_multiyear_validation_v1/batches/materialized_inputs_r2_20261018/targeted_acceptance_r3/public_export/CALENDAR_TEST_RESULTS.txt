@@ -1,0 +1,11 @@
+test_accepts_existing_compact_date_tokens (test_calendar_dates.ParseCalendarDayTests.test_accepts_existing_compact_date_tokens) ... ok
+test_accepts_valid_leap_day_and_date_objects (test_calendar_dates.ParseCalendarDayTests.test_accepts_valid_leap_day_and_date_objects) ... ok
+test_rejects_invalid_leap_days_months_and_days (test_calendar_dates.ParseCalendarDayTests.test_rejects_invalid_leap_days_months_and_days) ... ok
+test_rejects_non_date_or_non_midnight_values (test_calendar_dates.ParseCalendarDayTests.test_rejects_non_date_or_non_midnight_values) ... ok
+test_rejects_repairable_but_noncanonical_tokens (test_calendar_dates.ParseCalendarDayTests.test_rejects_repairable_but_noncanonical_tokens) ... ok
+test_reproduces_permissive_legacy_parser_bug (test_calendar_dates.ParseCalendarDayTests.test_reproduces_permissive_legacy_parser_bug) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.000s
+
+OK

@@ -1,0 +1,1 @@
+The runner reuses OfficialRegistryAdapter and ExecutionGuard from workspace/hkconnect_price_semantics_v2_20260919/zero_label_parity. The public copy is for source review only and is not standalone: execution also requires the private frozen contract, input binding, and local source files. It contains no Drive IDs or account-local source paths.

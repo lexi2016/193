@@ -1,0 +1,9 @@
+# V193 R2 / R3 review entry
+
+The current no-fit result and annual-boundary interpretation are in the [R3 progress report](PROGRESS_REPORT_R3.md) and [R3 safe aggregate](SAFE_AGGREGATE_R3.json). These report the strict `trade_date` audit and annual coverage gaps without linking to private tables or the batch evidence index. The [transport summary](CURRENT_SOURCE_TRANSPORT_SAFE_SUMMARY_R3.json), [focused test output](CALENDAR_TEST_RESULTS.txt), and [R3 dependencies](DEPENDENCIES_R3.md) describe the source-capture evidence and review setup.
+
+Public R3 source and regression coverage: [date audit](materialized_inputs_r2/targeted_acceptance_r3/audit_panel_trade_dates_r3.py), [strict calendar parser](materialized_inputs_r2/targeted_acceptance_r3/calendar_dates.py), [test](materialized_inputs_r2/targeted_acceptance_r3/test_calendar_dates.py), and its [legacy R2 parser dependency](materialized_inputs_r2/run_materialization_r2.py).
+
+R2 context: [initial materialization report](../../public_export/PROGRESS_REPORT.md), [R2 safe aggregate](../../public_export/SAFE_AGGREGATE.json), [R2 materialization runner](../../public_export/run_materialization_r2.py), [R2 continuation helper](../../public_export/recover_missing_inputs_r2.py), [R2 dependencies](../../public_export/DEPENDENCIES.md), and [continuation dependencies](../../public_export/CONTINUATION_DEPENDENCIES.md). Latest captured-source evidence: [capture report](../../continuation_capture_r1/public_export/CURRENT_SOURCE_CAPTURE_REPORT.md), [capture safe summary](../../continuation_capture_r1/public_export/CURRENT_SOURCE_CAPTURE_SAFE_SUMMARY.json), [capture helper](../../continuation_capture_r1/public_export/capture_r2_payloads.py), and [capture dependencies](../../continuation_capture_r1/public_export/CAPTURE_DEPENDENCIES.md).
+
+Native V193 identity and trainable coverage remain `CANNOT_CONFIRM`. R3 is an engineering-only date-token canary and does not establish model or training acceptance.

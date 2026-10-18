@@ -1,0 +1,28 @@
+{
+  "interpretation": "One recorded raw retrieval call is visible for each captured source in the saved task history, and each decoded body hash matches its local capture. The historical expected hashes differ for both JSON files. Total fetch counts outside saved task history remain CANNOT_CONFIRM.",
+  "schema_version": "V193_R2_R3_PUBLIC_TRANSPORT_SUMMARY_V1",
+  "scope": "Saved task-history call records paired with already persisted response captures; no new fetch was made during R3.",
+  "source_identifiers_included": false,
+  "sources": [
+    {
+      "captured_bytes": 4026,
+      "captured_sha256": "b02813c24916488c03684513bac36da6ed39bf87a8ae919f8b5f2f6cc5a7e516",
+      "historical_sha256_matches": false,
+      "logical_name": "input_data_manifest",
+      "observed_recorded_fetch_calls_in_saved_task_history": 1,
+      "response_body_matches_local_capture": true,
+      "total_fetch_count": null,
+      "total_fetch_count_status": "CANNOT_CONFIRM_OUTSIDE_RECORDED_TASK_HISTORY"
+    },
+    {
+      "captured_bytes": 1296,
+      "captured_sha256": "e81c184e96e18f39c9884c1c448071b8c73a5b560b4600e0af00aea0df6766f1",
+      "historical_sha256_matches": false,
+      "logical_name": "independent_verification_receipt",
+      "observed_recorded_fetch_calls_in_saved_task_history": 1,
+      "response_body_matches_local_capture": true,
+      "total_fetch_count": null,
+      "total_fetch_count_status": "CANNOT_CONFIRM_OUTSIDE_RECORDED_TASK_HISTORY"
+    }
+  ]
+}

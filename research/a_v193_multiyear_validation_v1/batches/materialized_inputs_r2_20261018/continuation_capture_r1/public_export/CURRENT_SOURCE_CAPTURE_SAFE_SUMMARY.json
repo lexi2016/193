@@ -1,0 +1,38 @@
+{
+  "backtests": 0,
+  "buy_gate_updated": false,
+  "capture_status": "RAW_BYTES_CAPTURED",
+  "fit_calls": 0,
+  "historical_identity_status": "CANNOT_CONFIRM",
+  "labels_read": 0,
+  "orders_sent": false,
+  "predictions": 0,
+  "production_allowed": false,
+  "research_only": true,
+  "schema_version": "R2_CURRENT_SOURCE_CAPTURE_SAFE_SUMMARY_V1",
+  "sources": [
+    {
+      "actual_bytes": 4026,
+      "actual_sha256": "b02813c24916488c03684513bac36da6ed39bf87a8ae919f8b5f2f6cc5a7e516",
+      "capture_path": "continuation_capture_r1/private/captures/input_data_manifest__sha256_b02813c24916488c03684513bac36da6ed39bf87a8ae919f8b5f2f6cc5a7e516.json",
+      "historical_expected_bytes": 4026,
+      "historical_expected_sha256": "ef60a6c9141c8d1dd871c6815fc250b2be171f1f535d6ebfcf016d40ddb6b8cd",
+      "json_parse_status": "PASS",
+      "logical_name": "input_data_manifest",
+      "sha256_matches_historical": false,
+      "size_matches_historical": true
+    },
+    {
+      "actual_bytes": 1296,
+      "actual_sha256": "e81c184e96e18f39c9884c1c448071b8c73a5b560b4600e0af00aea0df6766f1",
+      "capture_path": "continuation_capture_r1/private/captures/independent_verification_receipt__sha256_e81c184e96e18f39c9884c1c448071b8c73a5b560b4600e0af00aea0df6766f1.json",
+      "historical_expected_bytes": 1296,
+      "historical_expected_sha256": "7ec5e16286a0291484c7a80ebf8b24cea36479cb1448d24dfb548742587f7ae4",
+      "json_parse_status": "PASS",
+      "logical_name": "independent_verification_receipt",
+      "sha256_matches_historical": false,
+      "size_matches_historical": true
+    }
+  ],
+  "weights_read": 0
+}
