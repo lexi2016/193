@@ -1,0 +1,95 @@
+{
+  "boundary": {
+    "affected_date": "2021-05-07",
+    "classification": "BELOW",
+    "prior_20_observed_close_mean": 5070.24205,
+    "prior_observed_close_count": 20,
+    "t_minus_1_date": "2021-05-06",
+    "t_minus_1_index_close": 5061.1244
+  },
+  "code_sha256": "7d20864565855251bddb11e9ef98598e9fe592a3148dbd012c277403070a0a20",
+  "config_sha256": "3b5a944a587117c1401afd1478349663eb270159c7100abc3ff9796f3ecd905d",
+  "contract_sha256": "9eb9eaf6b03d5999be46ad983e63c2dab53ed9f65659bf5291824a2af3f15473",
+  "delta_path": "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/market_boundary_repair_r1/outputs_attempt_03/BOUNDARY_DELTA.json",
+  "delta_sha256": "d072fa7794fc3c91581a4d71eeccc1eb699bf65528f3f82cbd74d4c0667dd21b",
+  "execution_id": "A_SHARE_TOP100_ENVIRONMENT_R1_20261019_MARKET_BOUNDARY_REPAIR_03",
+  "experiment_id": "A_SHARE_TOP100_ENVIRONMENT_R1_20261019",
+  "input_binding_sha256": "8f7f799737dc82ca33f3906b2cbda1ed7bc8c6dedcb4a2e966f2160231a0b21a",
+  "input_index_receipt_sha256": "b1e58e310d55a95f21817cdb523e13a060cdccac96a8e82e23147f0b6cb76c8a",
+  "input_index_sha256": "ed55aaab1691999863461e38482fb66cc7bc0c4da85c0fed2556f0925eadaa70",
+  "input_table_sha256": {
+    "COVERAGE_BY_DAY.csv": "4f0000817775f95b6cba6ebc8c378f27d24ccbf6b99d46a7a21823268d4b533e",
+    "COVERAGE_BY_INDUSTRY_DAY.csv": "a595244d97b1ce970cbef0ffbd83ba130299608405272dd77bd731750013f009",
+    "COVERAGE_BY_INDUSTRY_YEAR.csv": "8d8389a1d37a8925cd867917f8ffd6fae9b1bb181e2aa0489b40b8c96e27e580",
+    "COVERAGE_BY_YEAR.csv": "0b9826258fdc19f5393ff92cd6b5f3e7baffd2f6d054b4a0143581e2deaf49c8",
+    "DAILY_ENVIRONMENT.csv": "01aba4ad120411ed0061e591b6956ed6d108d5c0037aad54b04f73046e9bc645",
+    "INDUSTRY_CELLS.csv": "56ad2e66ab0de5d2f0cb5f499c52034ce7ae34d1af38072ff06b486d4ba3c6a3",
+    "MONTH_MARKET_ENVIRONMENT.csv": "838f2770c9d4aecfc263611a52172e5e18e5ee8deb2a6099a0affdbf48862e31"
+  },
+  "main_code_sha256": "628ef44b6a8082e1f49179d943e8d1c062916849c9726190d00d2fefa4afba90",
+  "output_bytes": {
+    "BOUNDARY_DELTA.json": 451908,
+    "COMPACT_REPORT.md": 8416,
+    "COVERAGE_BY_DAY.csv": 83570,
+    "COVERAGE_BY_INDUSTRY_DAY.csv": 6133161,
+    "COVERAGE_BY_INDUSTRY_YEAR.csv": 27459,
+    "COVERAGE_BY_YEAR.csv": 781,
+    "DAILY_ENVIRONMENT.csv": 257306,
+    "INDUSTRY_CELLS.csv": 1987242,
+    "MONTH_MARKET_ENVIRONMENT.csv": 53747
+  },
+  "output_sha256": {
+    "BOUNDARY_DELTA.json": "d072fa7794fc3c91581a4d71eeccc1eb699bf65528f3f82cbd74d4c0667dd21b",
+    "COMPACT_REPORT.md": "b0545f00a23f79253dfdc5472d5593fd9f883ef92784aadbedd8b8e7488fef80",
+    "COVERAGE_BY_DAY.csv": "4f0000817775f95b6cba6ebc8c378f27d24ccbf6b99d46a7a21823268d4b533e",
+    "COVERAGE_BY_INDUSTRY_DAY.csv": "a595244d97b1ce970cbef0ffbd83ba130299608405272dd77bd731750013f009",
+    "COVERAGE_BY_INDUSTRY_YEAR.csv": "8d8389a1d37a8925cd867917f8ffd6fae9b1bb181e2aa0489b40b8c96e27e580",
+    "COVERAGE_BY_YEAR.csv": "0b9826258fdc19f5393ff92cd6b5f3e7baffd2f6d054b4a0143581e2deaf49c8",
+    "DAILY_ENVIRONMENT.csv": "525fe19a11a1f07b3a23c9c66251fb00fa4220e5355733b8e43f3ab26db8243c",
+    "INDUSTRY_CELLS.csv": "de1b461aa022ed08de0358c6a4530af976b201dcacc4df76baa7a52a3cdfe87a",
+    "MONTH_MARKET_ENVIRONMENT.csv": "4f212a0a41880674d07d2c53a921ea48e67a64ac4decc9d89b980f28dc1347a8"
+  },
+  "preserved_prior_failures": {
+    "full_stats_execution_id": "A_SHARE_TOP100_ENVIRONMENT_R1_20261019_FULL_STATS_01",
+    "full_stats_terminal": "FAILED_NO_FIT",
+    "r1_review_execution_id": "A_SHARE_TOP100_ENVIRONMENT_R1_20261019_REVIEW_SAMPLE_01",
+    "r1_review_terminal": "FAILED_NO_FIT"
+  },
+  "route_id": "a-share-top100-environment-descriptive-stats-r1-20261019",
+  "runtime_seconds": 43.260212,
+  "schema_version": "A_SHARE_TOP100_MARKET_BOUNDARY_REPAIR_RECEIPT_V1",
+  "status": "REPAIRED_FROM_EXISTING_AGGREGATES",
+  "test_sha256": "da1ae05db102e92b52ff2938eec6e18d8ab334042bf1a4203697cfda2f4cc393",
+  "validation": {
+    "annual_industry_parity": {
+      "industry_aggregate_equals_sum_of_years": true,
+      "industry_all_expected_hits_equal_100_per_day": true,
+      "industry_all_hits_equal_100_per_day": true,
+      "industry_lag_market_aggregate_equals_sum_of_years": true,
+      "industry_lag_market_all_expected_hits_equal_100_per_day": true,
+      "industry_lag_market_all_hits_equal_100_per_day": true,
+      "industry_month_aggregate_equals_sum_of_years": true,
+      "industry_month_all_expected_hits_equal_100_per_day": true,
+      "industry_month_all_hits_equal_100_per_day": true,
+      "industry_month_lag_market_aggregate_equals_sum_of_years": true,
+      "industry_month_lag_market_all_expected_hits_equal_100_per_day": true,
+      "industry_month_lag_market_all_hits_equal_100_per_day": true
+    },
+    "coverage_tables_byte_identical": true,
+    "daily_market_label_delta_count": 1,
+    "industry_and_industry_month_values_unchanged": true,
+    "industry_hits_recomputed": false,
+    "only_affected_market_groups_changed": true,
+    "ranking_recomputed": false,
+    "returns_recomputed": false,
+    "safety_flags": {
+      "buy_gate_updated": false,
+      "orders_sent": false,
+      "production_allowed": false,
+      "research_only": true
+    },
+    "source_panel_read": false,
+    "summary_rebuilt_from_daily_aggregate": true,
+    "unknown_industry_cells_migrated": 240
+  }
+}

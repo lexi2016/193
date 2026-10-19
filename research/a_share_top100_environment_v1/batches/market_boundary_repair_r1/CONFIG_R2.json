@@ -1,0 +1,44 @@
+{
+  "affected_date": "2021-05-07",
+  "expected_new_label": "BELOW",
+  "expected_old_label": "UNKNOWN",
+  "industry_hits_recomputed": false,
+  "input_table_names": [
+    "COVERAGE_BY_DAY.csv",
+    "COVERAGE_BY_INDUSTRY_DAY.csv",
+    "COVERAGE_BY_INDUSTRY_YEAR.csv",
+    "COVERAGE_BY_YEAR.csv",
+    "DAILY_ENVIRONMENT.csv",
+    "INDUSTRY_CELLS.csv",
+    "MONTH_MARKET_ENVIRONMENT.csv"
+  ],
+  "mode": "LOSSLESS_DERIVED_AGGREGATE_CORRECTION",
+  "preserve_byte_identical_tables": [
+    "COVERAGE_BY_DAY.csv",
+    "COVERAGE_BY_YEAR.csv",
+    "COVERAGE_BY_INDUSTRY_DAY.csv",
+    "COVERAGE_BY_INDUSTRY_YEAR.csv"
+  ],
+  "preserve_value_identical_dimensions": [
+    "industry",
+    "industry_month"
+  ],
+  "ranking_recomputed": false,
+  "reference_rule": "Take the 20 nearest bound index rows strictly before bound-calendar T-1; require every close finite and positive; compare T-1 close with their arithmetic mean.",
+  "returns_recomputed": false,
+  "reviewed_calendar_position": 1,
+  "reviewed_prior_20_mean": 5070.24205,
+  "reviewed_t_minus_1_index_close": 5061.1244,
+  "safety_flags": {
+    "buy_gate_updated": false,
+    "orders_sent": false,
+    "production_allowed": false,
+    "research_only": true
+  },
+  "schema_version": "A_SHARE_TOP100_MARKET_BOUNDARY_REPAIR_CONFIG_V1",
+  "source_contract_path": "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/top100_environment_r1_20261019/CONTRACT.json",
+  "source_input_binding_path": "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/top100_environment_r1_20261019/INPUT_BINDING.json",
+  "source_panel_read": false,
+  "source_review_receipt_path": "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/top100_environment_r1_20261019/INDEPENDENT_REVIEW_R1.json",
+  "t_minus_1_date": "2021-05-06"
+}

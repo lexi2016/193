@@ -1,0 +1,137 @@
+{
+  "baseline_id": "OBSERVED_QFQ_DAILY_TOP100_DESCRIPTION_V1",
+  "canary": {
+    "date": "2021-08-02",
+    "expected_position_state": "UNKNOWN_IF_252_CONSECUTIVE_PRIOR_LEVELS_ARE_UNAVAILABLE",
+    "no_shorten_window": true
+  },
+  "common_year_rule": "Within each event x industry x lag_market, compare all six bins only on years complete for every bin and with nonempty same-year/state baseline support.",
+  "daily_industry_projection_fields": [
+    "N",
+    "return_sum",
+    "return_square_sum",
+    "mean",
+    "median",
+    "crosssection_sample_std_if_N_gt_1",
+    "top100_hits",
+    "expected_hits",
+    "top100_return_sum",
+    "date_fullpool_N",
+    "date_pool_mean",
+    "same_day_000300_return",
+    "lag_market",
+    "coverage"
+  ],
+  "event_anchor_rule": "Offset 0 is the first bound shared-calendar session on or after the fixed calendar anchor.",
+  "event_anchors": {
+    "MAY_DAY": {
+      "day": 1,
+      "month": 5
+    },
+    "NATIONAL_DAY": {
+      "day": 1,
+      "month": 10
+    }
+  },
+  "event_baseline": "For each industry x year x lag_market, compare each event bin with the same-year same-lag_market industry rows outside the union of all pre-registered May and October windows.",
+  "event_bins": [
+    {
+      "end_offset": -11,
+      "name": "pre_20_11",
+      "start_offset": -20
+    },
+    {
+      "end_offset": -6,
+      "name": "pre_10_6",
+      "start_offset": -10
+    },
+    {
+      "end_offset": -1,
+      "name": "pre_5_1",
+      "start_offset": -5
+    },
+    {
+      "end_offset": 4,
+      "name": "post_0_4",
+      "start_offset": 0
+    },
+    {
+      "end_offset": 9,
+      "name": "post_5_9",
+      "start_offset": 5
+    },
+    {
+      "end_offset": 19,
+      "name": "post_10_19",
+      "start_offset": 10
+    }
+  ],
+  "event_industry_codes": [
+    "B06",
+    "D44",
+    "D45",
+    "H61",
+    "H62",
+    "G56",
+    "N78",
+    "L72"
+  ],
+  "event_industry_rule": "B06, D44, D45, H61, H62, G56 are primary descriptive sectors; N78 and L72 are separately labeled MIXED_PROXY.",
+  "event_window_completeness": "Each fixed bin requires every expected shared-calendar session to have a projection row and an eligible strict Top100. Otherwise preserve bounded support and a missing reason, and exclude the year from complete-window summaries.",
+  "full_years": [
+    2022,
+    2023,
+    2024,
+    2025
+  ],
+  "goal": "Describe daily A-share strict Top100 returns and industry distribution by calendar month and fixed ten-day segment, with all fixed May Day and National Day windows retained.",
+  "inference": "No p-value, confidence interval, bootstrap, regression, causality, prediction, strategy, or economic total-return claim.",
+  "month_tenday": {
+    "day_11_to_20": 2,
+    "day_1_to_10": 1,
+    "day_21_to_month_end": 3
+  },
+  "partial_years": [
+    2021,
+    2026
+  ],
+  "pass_signal": [
+    "each eligible date has exactly 100 Top100 hits",
+    "daily industry expected hits sum to 100",
+    "complete month x ten-day grid is retained",
+    "event window support and reasons reconcile",
+    "year and full-period rows are derived from the same daily projection"
+  ],
+  "pool_rule": {
+    "classification_pit": "CURRENT_RETROSPECTIVE; not historical PIT",
+    "industry_unknown": "retain as UNKNOWN in the valid-pool denominator and Top100 distribution",
+    "return": "close(T) / close(T-1) - 1",
+    "source": "B0 INPUT_BINDING.json exact bound QFQ panel fields and current retrospective industry classification",
+    "top100": "return DESC, exact code ASC tie break, exactly 100 rows on dates with valid pool N >= 100",
+    "valid_row": "finite positive close(T), finite positive close at exact immediately previous shared-calendar date, finite positive volume(T)"
+  },
+  "sample_range": {
+    "first": "2021-05-06",
+    "last": "2026-10-15",
+    "main_full_years": [
+      2022,
+      2023,
+      2024,
+      2025
+    ],
+    "partial_years": [
+      2021,
+      2026
+    ]
+  },
+  "schema_version": "A_SHARE_TOP100_SEASONALITY_CONFIG_V1",
+  "summary_weighting": {
+    "daily_industry_mean_median_excess_sample_std": "equal date across dates with N > 0",
+    "excess": "daily industry mean return minus same-day valid-pool mean return, then equal-date average",
+    "median_summary_name": "mean_daily_industry_median_equal_date; never presented as pooled median",
+    "row_weighted_return_mean": "sum of daily returns / sum of daily N",
+    "top100_lift": "sum daily hits / sum daily expected hits across eligible dates"
+  },
+  "summer_winter_rule": "Inspect the complete month x ten-day grid for B06/D44 patterns; do not choose or tune post-hoc date windows.",
+  "zero_n_rule": "When N=0, all industry return statistics including sums, mean, median, and sample std are null; expected Top100 hits is zero only on a Top100-eligible date."
+}

@@ -1,0 +1,65 @@
+{
+  "baseline_id": "OBSERVED_QFQ_DAILY_TOP100_DESCRIPTION_V1",
+  "canary": {
+    "date": "2021-08-02",
+    "expected_position_state": "UNKNOWN_IF_252_CONSECUTIVE_PRIOR_LEVELS_ARE_UNAVAILABLE",
+    "no_shorten_window": true
+  },
+  "goal": "Describe each industry equal-weight price position and relative strength as of T-1, then summarize same-day T industry return, excess, and Top100 lift by state.",
+  "industry_level": "Start each uninterrupted shared-calendar segment at 100 and compound that date's valid-pool cross-sectional equal-weight industry mean return. Any missing date or N=0 breaks the segment; the next valid date restarts at 100; never forward-fill.",
+  "inference": "Descriptive only; no stability or statistical significance PASS.",
+  "latest_snapshot": {
+    "date": "2026-10-15",
+    "no_stock_rows": true,
+    "timing": "ASOF_CLOSE_T_INCLUDED_NOT_OPENING_STATE"
+  },
+  "main_summary": "industry x 3 position buckets x 2 RS20 buckets, then stratified by T-1 lag_market; UNKNOWN buckets retained separately for coverage.",
+  "market_linkage": {
+    "not_permitted": [
+      "regression",
+      "fit",
+      "p-value",
+      "confidence interval",
+      "causal interpretation"
+    ],
+    "same_day": "Per-industry Spearman rho between the same-day industry mean and same-day bound 000300 close-to-close return, with paired-day count.",
+    "up_nonup": "On paired dates, report equal-date industry mean/excess and mean daily Top100 lift for index return > 0 (UP) and <= 0 (NONUP)."
+  },
+  "outcome_fields": [
+    "same-day industry mean return",
+    "same-day industry excess over valid-pool mean",
+    "Top100 hit sum",
+    "Top100 expected hit sum",
+    "Top100 lift",
+    "cross-sectional sample std",
+    "support counts"
+  ],
+  "pass_signal": [
+    "T states use only data dated before T",
+    "252-window state stays UNKNOWN when support is insufficient",
+    "missing dates/N=0 break the level chain",
+    "main and RS60 summaries preserve support and UNKNOWN cells",
+    "latest snapshot labels its close-inclusive timing"
+  ],
+  "position_buckets": {
+    "HIGH": "midrank >= 0.80",
+    "LOW": "midrank <= 0.20",
+    "MID": "0.20 < midrank < 0.80",
+    "UNKNOWN": "fewer than 252 contiguous valid prior levels"
+  },
+  "position_high_min_inclusive": 0.8,
+  "position_low_max_inclusive": 0.2,
+  "position_midrank_denominator": 252,
+  "position_midrank_formula": "(count(level < current) + 0.5 * count(level == current)) / 252",
+  "position_window_rule": "For outcome date T, rank the close level at T-1 within exactly 252 contiguous valid industry levels ending at T-1.",
+  "position_window_sessions": 252,
+  "rs60_summary": "Independent RS60 sensitivity by industry and lag_market; no 3 x 2 position cross.",
+  "rs_definition": "Difference between compounded industry equal-weight and valid-pool equal-weight returns over exactly the named consecutive sessions ending T-1; missing component return makes state UNKNOWN.",
+  "rs_positive_rule": "COMPOUND_INDUSTRY_RETURN_MINUS_COMPOUND_POOL_RETURN_GT_ZERO",
+  "rs_windows_sessions": [
+    20,
+    60
+  ],
+  "schema_version": "A_SHARE_TOP100_INDUSTRY_POSITION_CONFIG_V1",
+  "state_cutoff": "T_MINUS_1_ONLY"
+}

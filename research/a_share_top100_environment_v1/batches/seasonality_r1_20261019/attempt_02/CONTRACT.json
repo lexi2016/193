@@ -1,0 +1,86 @@
+{
+  "allowed_paths": [
+    "workspace/.task_worktrees/a-top100-environment-20261019/research/a_share_top100_environment_v1/seasonality_stats.py",
+    "workspace/.task_worktrees/a-top100-environment-20261019/research/a_share_top100_environment_v1/tests/test_seasonality_stats.py",
+    "research/a_share_top100_environment_v1/batches/seasonality_r1_20261019/**",
+    "contracts/EXPERIMENT_REGISTRY.jsonl (official locked append only)",
+    "CURRENT_STATE.md (append only)",
+    "HK_OHLCV_RESEARCH_STATE.md (append only)",
+    "PROGRESS.md (append only)",
+    "contracts/A_SHARE_TOP100_ENVIRONMENT_INDEX_20261019.json (preserve existing R1 and add seasonality study reference)"
+  ],
+  "attempt_id": "R1_CANARY_02",
+  "baseline_and_dependencies_path": "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/seasonality_r1_20261019/attempt_02/BASELINE_AND_DEPENDENCIES.json",
+  "baseline_and_dependencies_sha256": "3034efccf4f515667c28bc5ec8451c0ef4af20b30cae7675f05ee41ce6840710",
+  "baseline_id": "OBSERVED_QFQ_DAILY_TOP100_DESCRIPTION_V1",
+  "canary": {
+    "date": "2021-08-02",
+    "do_not_shorten_windows": true,
+    "position_and_rs_unknown_when_warmup_is_insufficient": true
+  },
+  "code_sha256": "08dbc8f15c94bffe9b875f27ae00a4e7e483d506bd1cc7dd949dc460b4f3f564",
+  "execution_order": [
+    "verify and reuse prior registered completed FAST_BIND for routes A and B",
+    "registered fixed-date real-data canary attempt 02",
+    "registered full statistics from the same bound raw-panel read after canary PASS",
+    "terminalize both independent routes",
+    "independent review of full outputs"
+  ],
+  "execution_runner_path": "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/seasonality_r1_20261019/attempt_02/run_registered_seasonality.py",
+  "execution_runner_sha256": "b27193c257eb50d4a42315aa2921ff96df1747f2b7f6e0cd93c9caeeb916090d",
+  "experiment_id": "A_SHARE_TOP100_SEASONALITY_INDUSTRY_POSITION_R1_20261019",
+  "forbidden_paths": [
+    "raw data and source archives",
+    "existing R1 helper source and tests",
+    "existing B0 batch and prior batch outputs",
+    "legacy V3, V4, models, training, selection recommendations, services, scheduler, BUY/production/orders"
+  ],
+  "goal": "从既有全市场日涨幅 Top100 描述统计中观察季节/月旬、节前节后窗口、行业价格位置和相对强弱的历史分布，不训练、不预测、不改变选股决策。",
+  "input_binding_path": "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/seasonality_r1_20261019/INPUT_BINDING.json",
+  "input_binding_sha256": "bcb9e9ea9281b2160906ce406181977ab010304485726c4ad77ef0da0cf88e09",
+  "prior_canary_failure_receipt_path": "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/seasonality_r1_20261019/CANARY_ATTEMPT_01_FAILURE_RECEIPT.json",
+  "prior_canary_failure_receipt_sha256": "ad0f73d796bf56b5beed94e1abe4cb26d857f2d97bcc2eaa086bc8d299fcdf8f",
+  "registry_ownership": "TRANSFERRED_TO_A_SEASONALITY_WRITER_BY_CONTROLLER; official locked append only, root state/index updates preserve R1.",
+  "registry_status": "OWNER_CONFIRMED_BY_CONTROLLER; PRIOR_FAST_BIND_REUSED; ATTEMPT_02_FROZEN",
+  "reused_fastbind_receipt_path": "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/seasonality_r1_20261019/attempt_02/FAST_BIND_REUSE_RECEIPT.json",
+  "reused_fastbind_receipt_sha256": "3cd71a04f0d9f21dbed430146492c4cdbaf5dec22ca50d92bc349eb06b0ec771",
+  "reused_r1_reader_sha256": "628ef44b6a8082e1f49179d943e8d1c062916849c9726190d00d2fefa4afba90",
+  "reused_source_binding_path": "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/top100_environment_r1_20261019/INPUT_BINDING.json",
+  "reused_source_binding_sha256": "0ef7d5e0e893a9b6ed6f8984ae1a84bef1ffe72785224448081e6a5b153b96a5",
+  "safety_flags": {
+    "buy_gate_updated": false,
+    "orders_sent": false,
+    "production_allowed": false,
+    "research_only": true
+  },
+  "schema_version": "A_SHARE_TOP100_SEASONALITY_BATCH_CONTRACT_V1",
+  "shared_projection": "One date x industry derived consumer projection from one bound QFQ panel read. It is a traceable derivative and does not replace the shared research authority.",
+  "signal_date_range": {
+    "first": "2021-05-06",
+    "last": "2026-10-15",
+    "observed_dates": 1320
+  },
+  "status": "FROZEN_ATTEMPT_02_READY_CANARY_NOT_STARTED",
+  "subcontracts": {
+    "A": {
+      "code_sha256": "08dbc8f15c94bffe9b875f27ae00a4e7e483d506bd1cc7dd949dc460b4f3f564",
+      "config_path": "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/seasonality_r1_20261019/CONFIG_A.json",
+      "config_sha256": "db88ff371381beea5b78379efd8dbeebc366a2af6f8fd78c46636e300d34ba3e",
+      "execution_runner_sha256": "b27193c257eb50d4a42315aa2921ff96df1747f2b7f6e0cd93c9caeeb916090d",
+      "one_variable": "FROZEN_MONTH_TENDAY_AND_MAY_OCT_EVENT_WINDOW_DESCRIPTIVE_GROUPING",
+      "path": "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/seasonality_r1_20261019/attempt_02/CONTRACT_A.json",
+      "route_id": "a-share-top100-seasonality-descriptive-r1-20261019",
+      "sha256": "d38bfce1b53ce0ab2effe8317f5cb6cdd5abb1dc3450c2a8f4d5eb9c99062b5d"
+    },
+    "B": {
+      "code_sha256": "08dbc8f15c94bffe9b875f27ae00a4e7e483d506bd1cc7dd949dc460b4f3f564",
+      "config_path": "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/seasonality_r1_20261019/CONFIG_B.json",
+      "config_sha256": "f9004b865e0e1773f686e22208bc335c4d8cfd0b114fca998606cb6c8b85d1c8",
+      "execution_runner_sha256": "b27193c257eb50d4a42315aa2921ff96df1747f2b7f6e0cd93c9caeeb916090d",
+      "one_variable": "FROZEN_INDUSTRY_LEVEL_POSITION_AND_RELATIVE_STRENGTH_DESCRIPTIVE_GROUPING",
+      "path": "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/seasonality_r1_20261019/attempt_02/CONTRACT_B.json",
+      "route_id": "a-share-top100-industry-position-descriptive-r1-20261019",
+      "sha256": "2881b94aa25d7c85e0439317b6d3ac7dde5c48ee75d6f5400de225d0b5425de8"
+    }
+  }
+}

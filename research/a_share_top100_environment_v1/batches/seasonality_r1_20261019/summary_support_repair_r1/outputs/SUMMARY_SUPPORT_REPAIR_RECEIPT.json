@@ -1,0 +1,80 @@
+{
+  "analysis_sha256": "3da6c2b03716c57e35a10602acfe75dc8e6ef238132fcf0eef71bc252f91aaf7",
+  "checks": {
+    "all_six_bin_calendar_candidate_years_unchanged": true,
+    "cross_bin_flags_match_effective_support_sets": true,
+    "empty_support_has_reason": true,
+    "excess_has_independent_finite_paired_support": true,
+    "lift_difference_equals_window_minus_baseline": true,
+    "lift_means_use_same_finite_paired_years": true,
+    "original_attempt_02_outputs_unchanged": true,
+    "raw_panel_reread": false,
+    "support_counts_match_year_lists": true,
+    "training_or_prediction": false
+  },
+  "contract_sha256": "aadf86b4cc788a44db0bef19b5653f734c9ede2692c73d777e23f4ad6ce769a6",
+  "execution_id": "A_SHARE_TOP100_SEASONALITY_INDUSTRY_POSITION_R1_20261019_SEASONALITY_SUPPORT_REPAIR_02",
+  "experiment_id": "A_SHARE_TOP100_SEASONALITY_INDUSTRY_POSITION_R1_20261019",
+  "identity_sha256": "e8299ed999a51a513f31d237204486aa6bc8013a84f1ef38a6d4ec8c971992ae",
+  "input_event_csv_path": "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/seasonality_r1_20261019/attempt_02/outputs/full/MAY_OCT_EVENT_WINDOWS.csv",
+  "input_event_csv_sha256": "ff8c8e23ee045c6085b3f0e5a2507d87f28e71851233077b58c3ea5c605bd315",
+  "input_rows": 1728,
+  "metrics": {
+    "cross_bin_comparable_rows": 0,
+    "excess_support_pair_count": 656,
+    "lift_support_pair_count": 656,
+    "source_rows": 1728,
+    "summary_rows": 288
+  },
+  "original_full_output_sha256_before_and_after": {
+    "after": {
+      "COMPACT_REPORT.md": "480bfb887d37d431080fea3864fda6b068819aa62f6623a744c48b68c924fd0d",
+      "DAILY_INDUSTRY_PROJECTION.csv": "7d611628775462ddd5f9e796d5568bac6441c58fefdba2371a892decc91cdd72",
+      "INDEX_UP_NONUP.csv": "3cab3918635d7e45e6c563630a48485bc4cef10f24a3c4e74867716bb71402ab",
+      "INDUSTRY_POSITION_DAILY.csv": "217bbeeb7de892c5b5f72be32c8933be76817d069f9245405ef87e8ce3b88565",
+      "INDUSTRY_POSITION_STATE_STATS.csv": "43dfe9d4d8494b82ca369e114cd6d148fa72c6c4c0f8edc79da715282904f12f",
+      "LATEST_ASOF_CLOSE.csv": "b1e337d10d1f2fc34796dc13d1b96aac7630a95cd7b9699637063c0403f0ccf4",
+      "MAY_OCT_COMMON_YEARS.csv": "a290537c9f0895ca106e42c91b3639aee53c34b30f135f01049b6ab7a190314f",
+      "MAY_OCT_EVENT_WINDOWS.csv": "ff8c8e23ee045c6085b3f0e5a2507d87f28e71851233077b58c3ea5c605bd315",
+      "MONTH_TENDAY_INDUSTRY_STATS.csv": "27a731f3883b3a2d0d318ebbca1959772ede17aeedce1a1deb88bcfd95d118fc",
+      "QA_RECEIPT.json": "7c644efdce0b0a5bba6e4238b827a289d5b75f4bc6c02e7020ea65f1c88a0c9e",
+      "RS60_SENSITIVITY.csv": "b219fa07777d6af810d2205c3ccd88a46c53aba9c638bd4f670ed6dd0ebdd4f3",
+      "SAME_DAY_000300_SPEARMAN.csv": "b16ace8bd567657247616cbb77dfc145fb371cf968898e6179e2793b70001f19"
+    },
+    "before": {
+      "COMPACT_REPORT.md": "480bfb887d37d431080fea3864fda6b068819aa62f6623a744c48b68c924fd0d",
+      "DAILY_INDUSTRY_PROJECTION.csv": "7d611628775462ddd5f9e796d5568bac6441c58fefdba2371a892decc91cdd72",
+      "INDEX_UP_NONUP.csv": "3cab3918635d7e45e6c563630a48485bc4cef10f24a3c4e74867716bb71402ab",
+      "INDUSTRY_POSITION_DAILY.csv": "217bbeeb7de892c5b5f72be32c8933be76817d069f9245405ef87e8ce3b88565",
+      "INDUSTRY_POSITION_STATE_STATS.csv": "43dfe9d4d8494b82ca369e114cd6d148fa72c6c4c0f8edc79da715282904f12f",
+      "LATEST_ASOF_CLOSE.csv": "b1e337d10d1f2fc34796dc13d1b96aac7630a95cd7b9699637063c0403f0ccf4",
+      "MAY_OCT_COMMON_YEARS.csv": "a290537c9f0895ca106e42c91b3639aee53c34b30f135f01049b6ab7a190314f",
+      "MAY_OCT_EVENT_WINDOWS.csv": "ff8c8e23ee045c6085b3f0e5a2507d87f28e71851233077b58c3ea5c605bd315",
+      "MONTH_TENDAY_INDUSTRY_STATS.csv": "27a731f3883b3a2d0d318ebbca1959772ede17aeedce1a1deb88bcfd95d118fc",
+      "QA_RECEIPT.json": "7c644efdce0b0a5bba6e4238b827a289d5b75f4bc6c02e7020ea65f1c88a0c9e",
+      "RS60_SENSITIVITY.csv": "b219fa07777d6af810d2205c3ccd88a46c53aba9c638bd4f670ed6dd0ebdd4f3",
+      "SAME_DAY_000300_SPEARMAN.csv": "b16ace8bd567657247616cbb77dfc145fb371cf968898e6179e2793b70001f19"
+    }
+  },
+  "output_path": "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/seasonality_r1_20261019/summary_support_repair_r1/outputs/MAY_OCT_COMMON_YEARS_SUPPORT_REPAIRED.csv",
+  "output_sha256": "1170fda554c01e8e59a66beb3f6f07541f6bb348c55972b624375223e99b367c",
+  "prior_summary_path": "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/seasonality_r1_20261019/attempt_02/outputs/full/MAY_OCT_COMMON_YEARS.csv",
+  "prior_summary_sha256": "a290537c9f0895ca106e42c91b3639aee53c34b30f135f01049b6ab7a190314f",
+  "route_id": "a-share-top100-seasonality-descriptive-r1-20261019",
+  "runner_sha256": "630713e66de9aa6be09f52e9f00a9ff100f3e0debf508e49d3a924efbfeedf04",
+  "runtime": {
+    "numpy": "2.5.2",
+    "pandas": "3.0.5",
+    "python": "/Users/lexi/Documents/Codex/2026-08-13/factor-mining-mac/.venv-training-v1/bin/python",
+    "python_version": "3.12.13"
+  },
+  "safety_flags": {
+    "buy_gate_updated": false,
+    "orders_sent": false,
+    "production_allowed": false,
+    "research_only": true
+  },
+  "schema_version": "A_SHARE_TOP100_SEASONALITY_SUMMARY_SUPPORT_REPAIR_RECEIPT_V1",
+  "status": "PASS",
+  "test_sha256": "eb07e565150e4c5b0d0e6d2c05bd33e605af4f3a29bef7d8d846fe9e51730fff"
+}

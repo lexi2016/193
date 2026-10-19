@@ -1,0 +1,233 @@
+{
+  "baseline_record_path": "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/top100_environment_r1_20261019/BASELINE_AND_DEPENDENCIES.json",
+  "execution_id": "A_SHARE_TOP100_ENVIRONMENT_R1_20261019_MARKET_BOUNDARY_REPAIR_03",
+  "experiment_id": "A_SHARE_TOP100_ENVIRONMENT_R1_20261019",
+  "index_source": {
+    "adjustment": "AuType.NONE",
+    "column_map": {
+      "close": "close",
+      "code": "code",
+      "date": "date"
+    },
+    "coverage_evidence": "BOUND_DIAGNOSTIC_DATE_CODE_COVERAGE; revalidate values only after activation",
+    "csv_header": [
+      "date",
+      "code",
+      "open",
+      "high",
+      "low",
+      "close",
+      "volume",
+      "turnover"
+    ],
+    "date_range": [
+      "2021-01-04",
+      "2026-10-15"
+    ],
+    "frequency": "K_DAY",
+    "index_code": "SH.000300",
+    "official_exchange_calendar_parity": "CANNOT_CONFIRM",
+    "official_model_member": "context_data/index_000300_official_history.csv",
+    "official_model_member_identity": "CANNOT_CONFIRM; recovered Futu CSV is not asserted to be the missing original TDX artifact",
+    "path": "/Users/lexi/Desktop/学习/因子工厂/research/a_share_model_selection_v1/batches/pv_environment_r1_20261019/index_recovery_futu/FUTU_000300_HISTORY_FULL_20261019_R1/index_000300_daily.csv",
+    "receipt_path": "/Users/lexi/Desktop/学习/因子工厂/research/a_share_model_selection_v1/batches/pv_environment_r1_20261019/index_recovery_futu/FUTU_000300_HISTORY_FULL_20261019_R1/receipt.json",
+    "receipt_sha256": "b1e58e310d55a95f21817cdb523e13a060cdccac96a8e82e23147f0b6cb76c8a",
+    "row_count": 1399,
+    "sha256": "ed55aaab1691999863461e38482fb66cc7bc0c4da85c0fed2556f0925eadaa70",
+    "sha_basis": "FUTU_RECOVERY_RECEIPT_NORMALIZED_SHA256; replacement source identity only",
+    "source_columns": [
+      "date",
+      "code",
+      "close"
+    ],
+    "source_identity_status": "FUTU_RECOVERED_REPLACEMENT; ORIGINAL_TDX_FILE_IDENTITY_CANNOT_CONFIRM",
+    "source_type": "FUTU_RECOVERED_REPLACEMENT",
+    "status": "BOUND"
+  },
+  "parent_full_stats_execution": {
+    "execution_id": "A_SHARE_TOP100_ENVIRONMENT_R1_20261019_FULL_STATS_01",
+    "terminal_event_sha256": "e8205e4a185faeac0835d5782af9246124e8dd30051c9e92ffdd0e0c1c4a516e",
+    "terminal_status": "FAILED_NO_FIT"
+  },
+  "parent_report_repair": {
+    "execution_id": "A_SHARE_TOP100_ENVIRONMENT_R1_20261019_REPORT_REPAIR_02",
+    "receipt_path": "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/top100_environment_r1_20261019/outputs/REPORT_REPAIR_RECEIPT.json",
+    "receipt_sha256": "cde1855b68e5c61b69743411c1a8195d1f727d130a1c5cdd53ab716dc1edb203",
+    "status": "COMPLETED"
+  },
+  "parent_review": {
+    "execution_id": "A_SHARE_TOP100_ENVIRONMENT_R1_20261019_REVIEW_SAMPLE_01",
+    "receipt_path": "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/top100_environment_r1_20261019/INDEPENDENT_REVIEW_R1.json",
+    "receipt_sha256": "63df11ba232164dd9b798b58492ad4a4d2ec3f2b8bd794df48560b7a1c1dcf90",
+    "registry_terminal_event_sha256": "3bfcfec2dc2d7041df58b2fb270a37a2373064a6a5cbe89e9936fc8390c5f3b8",
+    "review_verdict": "FAIL"
+  },
+  "parent_statistics_identity": {
+    "code_sha256": "e900ffb00486cc3054e8ff490f3d6d39cc70168e5aee9a7ce1c224558c70f162",
+    "config_sha256": "18fc5ce8566c610ec0190bd4cbf02014bfb6505fc1578e5d36dbae9883b1afd9",
+    "contract_sha256": "ac34c81e675433103bb73b8307931eeebcbc6ee3f3dbb8e0964a710d969d745f",
+    "input_binding_sha256": "0ef7d5e0e893a9b6ed6f8984ae1a84bef1ffe72785224448081e6a5b153b96a5",
+    "schema_version": "A_SHARE_TOP100_FROZEN_IDENTITY_V1",
+    "test_sha256": "84331655e7c7cd420242851e7b7279ca96846609d9052b70fff72d05851e2583"
+  },
+  "previous_attempt": {
+    "aggregate_table_data_read": false,
+    "failure": "AttributeError: source_snapshot_paths entries are strings; _make_context called .resolve() without Path conversion.",
+    "index_series_data_read": false,
+    "output_files_written": false,
+    "preflight_event_id": "A_SHARE_TOP100_ENVIRONMENT_R1_20261019_MARKET_BOUNDARY_PREFLIGHT_01_PREFLIGHT_FAILED",
+    "preflight_event_sha256": "15f8412c4833b00daeda07dee571dccfe34f1859526ca1458db87fade188d58d",
+    "preflight_execution_id": "A_SHARE_TOP100_ENVIRONMENT_R1_20261019_MARKET_BOUNDARY_PREFLIGHT_01",
+    "preflight_provenance_path": "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/market_boundary_repair_r1/PREFLIGHT_01_PROVENANCE.json",
+    "preflight_provenance_sha256": "3c98b02207325fd8787c48c8c8bc14297a51ddbb659d0674d477efaffb822b7f",
+    "run_started_registered": false,
+    "superseded_execution_id": "A_SHARE_TOP100_ENVIRONMENT_R1_20261019_MARKET_BOUNDARY_REPAIR_01",
+    "superseded_frozen_identity_sha256": "2009dbc460e0ce44b3ce33a36f7f08d18b665be8ffa29a62ecea3904a277bf9d"
+  },
+  "previous_r2_repair": {
+    "delta_path": "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/market_boundary_repair_r1/outputs_attempt_02/BOUNDARY_DELTA.json",
+    "delta_sha256": "654d20202bf521234d949f7f17e5b197fbac0374b695b906d7e4114045d1ba40",
+    "execution_id": "A_SHARE_TOP100_ENVIRONMENT_R1_20261019_MARKET_BOUNDARY_REPAIR_02",
+    "immutability": "PRESERVE_R2_OUTPUTS; R3 writes only outputs_attempt_03",
+    "prior_output_dir": "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/market_boundary_repair_r1/outputs_attempt_02",
+    "prior_output_hashes": {
+      "BOUNDARY_DELTA.json": "654d20202bf521234d949f7f17e5b197fbac0374b695b906d7e4114045d1ba40",
+      "COMPACT_REPORT.md": "f6d30c3f036b308e1c11ba46ba2627dfba368aee2549c48bac530042184a3d94",
+      "COVERAGE_BY_DAY.csv": "4f0000817775f95b6cba6ebc8c378f27d24ccbf6b99d46a7a21823268d4b533e",
+      "COVERAGE_BY_INDUSTRY_DAY.csv": "a595244d97b1ce970cbef0ffbd83ba130299608405272dd77bd731750013f009",
+      "COVERAGE_BY_INDUSTRY_YEAR.csv": "8d8389a1d37a8925cd867917f8ffd6fae9b1bb181e2aa0489b40b8c96e27e580",
+      "COVERAGE_BY_YEAR.csv": "0b9826258fdc19f5393ff92cd6b5f3e7baffd2f6d054b4a0143581e2deaf49c8",
+      "DAILY_ENVIRONMENT.csv": "82cc1a9878f15d90602312b7361cd98ced232a392543c6f9e676e995eec82f2f",
+      "INDUSTRY_CELLS.csv": "e3d12bec7e4242827f8bea82a6981a8b90ee58848cf052d492af6fde7bf727d1",
+      "MONTH_MARKET_ENVIRONMENT.csv": "d3502d530017dcd2cbeeb8e0d7eff5cd04525e731f0f05e7b24ee10633efd335"
+    },
+    "receipt_path": "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/market_boundary_repair_r1/outputs_attempt_02/MARKET_BOUNDARY_REPAIR_RECEIPT.json",
+    "receipt_reference_correction": {
+      "pre_correction_control_sha256": "b30f1635f072397cf0b057c2e3be955a7d314d35aae1ac87321c4b861cdc457d",
+      "reason": "R3 control pre-freeze typo correction; exact R2 receipt SHA read from the bound artifact."
+    },
+    "receipt_sha256": "e5c164bf12c8753aab662f650d1350e99bc729a36599044e3ffd47bb200dc1a0",
+    "terminal_status": "COMPLETED"
+  },
+  "prior_incremental_review": {
+    "execution_id": "A_SHARE_TOP100_ENVIRONMENT_R1_20261019_INCREMENTAL_REVIEW_02",
+    "receipt_path": "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/market_boundary_repair_r1/INDEPENDENT_REVIEW_R2_FAIL_TRANSCRIPTION.json",
+    "receipt_sha256": "ec53e5ca62d3c6f6f9174c8245e1c70d8b8c5ac52f5c98206b499644511043d8",
+    "review_verdict": "FAIL",
+    "sole_failure": "unaffected_numeric_values_strictly_identical=false due default CSV float parser 1 ULP drift",
+    "superseded_by_minimal_fix": "pd.read_csv(..., float_precision='round_trip') in aggregate reader only",
+    "terminal_status": "FAILED_NO_FIT"
+  },
+  "r3_code_sha256": "7d20864565855251bddb11e9ef98598e9fe592a3148dbd012c277403070a0a20",
+  "r3_source_files": {
+    "/Users/lexi/Desktop/学习/因子工厂/workspace/.task_worktrees/a-top100-environment-20261019/research/a_share_top100_environment_v1/market_boundary_repair.py": "7d20864565855251bddb11e9ef98598e9fe592a3148dbd012c277403070a0a20",
+    "/Users/lexi/Desktop/学习/因子工厂/workspace/.task_worktrees/a-top100-environment-20261019/research/a_share_top100_environment_v1/tests/test_market_boundary_repair.py": "083d07588f21f83cbb9104add39f9c253cf8813d9632049d52b89f1c9ad7179e"
+  },
+  "r3_test_sha256": "da1ae05db102e92b52ff2938eec6e18d8ab334042bf1a4203697cfda2f4cc393",
+  "registry_baseline_sha256": "34a6b5c5e660a74809b5256e4894dd4e1597f396721ad7bde605e9cc545fb3e9",
+  "registry_path": "/Users/lexi/Desktop/学习/因子工厂/contracts/EXPERIMENT_REGISTRY.jsonl",
+  "registry_snapshot_semantics": {
+    "append_policy": "OfficialRegistryAdapter appends under its existing lock; do not compare post-append registry bytes to this snapshot.",
+    "counts_scoped_before_r3": {
+      "events": 22,
+      "executions": 14,
+      "open_executions": 0,
+      "routes": 1
+    },
+    "post_run_hash_equality_expected": false,
+    "role": "REFERENCE_ONLY_PRE_RUN_SNAPSHOT",
+    "runtime_invariant": false
+  },
+  "review_execution_id": "A_SHARE_TOP100_ENVIRONMENT_R1_20261019_INCREMENTAL_REVIEW_03",
+  "route_id": "a-share-top100-environment-descriptive-stats-r1-20261019",
+  "safety_flags": {
+    "buy_gate_updated": false,
+    "orders_sent": false,
+    "production_allowed": false,
+    "research_only": true
+  },
+  "schema_version": "A_SHARE_TOP100_MARKET_BOUNDARY_REPAIR_INPUT_BINDING_V2",
+  "shared_dependencies": {
+    "execution_guard_core": {
+      "path": "/Users/lexi/Desktop/学习/因子工厂/workspace/hkconnect_price_semantics_v2_20260919/zero_label_parity/execution_guard_core.py",
+      "sha256": "85929366a7b018480085c02f80edd312f7f47de94bab5c32982d4e8637d7d7e0",
+      "source_control_status": "IGNORED_UNTRACKED"
+    },
+    "model_selection": {
+      "path": "/Users/lexi/Desktop/学习/因子工厂/workspace/research/a_share_model_selection_v1/model_selection.py",
+      "sha256": "0aa1428f2b62447e35ecbebce4843613dd01111cfb4340f38221e022eecbd40c",
+      "source_control_status": "IGNORED_UNTRACKED"
+    },
+    "registry_adapter": {
+      "path": "/Users/lexi/Desktop/学习/因子工厂/workspace/hkconnect_price_semantics_v2_20260919/zero_label_parity/registry_adapter.py",
+      "sha256": "8596f2a20c165b5fbc2b92a597cb3e1177f6e40bfefac62753b40b3c7daae17f",
+      "source_control_status": "IGNORED_UNTRACKED"
+    },
+    "registry_builder": {
+      "path": "/Users/lexi/Desktop/学习/因子工厂/contracts/build_experiment_registry_backfill_20260821.py",
+      "sha256": "df4bfc89fa5487966a8c7e1c1c50832e140339c2ccda3a02a9a59e5aaaeb58cf",
+      "source_control_status": "OUTSIDE_REPOSITORY"
+    },
+    "registry_validator": {
+      "path": "/Users/lexi/Desktop/学习/因子工厂/contracts/validate_experiment_registry_append_compatibility_v1.py",
+      "sha256": "80e49d05d13f33ee7e2cb8d4d10cae0e297bcdf5b113ff857d3bd141dea0f438",
+      "source_control_status": "OUTSIDE_REPOSITORY"
+    }
+  },
+  "source_input_binding_path": "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/top100_environment_r1_20261019/INPUT_BINDING.json",
+  "source_input_binding_sha256": "0ef7d5e0e893a9b6ed6f8984ae1a84bef1ffe72785224448081e6a5b153b96a5",
+  "source_scope": "EXISTING_SEVEN_AGGREGATE_TABLES_AND_BOUND_INDEX_ONLY",
+  "source_snapshot_paths": [
+    "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/top100_environment_r1_20261019/source_snapshots/top100_environment_pre_boundary_fix.py",
+    "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/top100_environment_r1_20261019/source_snapshots/test_top100_environment_pre_boundary_fix.py",
+    "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/market_boundary_repair_r1/source_snapshots/market_boundary_repair_preflight_01.py",
+    "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/market_boundary_repair_r1/source_snapshots/test_market_boundary_repair_preflight_01.py",
+    "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/market_boundary_repair_r1/source_snapshots/market_boundary_repair_pre_r3_round_trip.py",
+    "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/market_boundary_repair_r1/source_snapshots/test_market_boundary_repair_pre_r3_round_trip.py"
+  ],
+  "source_snapshot_sha256": {
+    "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/market_boundary_repair_r1/source_snapshots/market_boundary_repair_pre_r3_round_trip.py": "9ccc08cb7c16a72760a35eb53c08f541ca200840479a78d936e9d926a5e0beaf",
+    "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/market_boundary_repair_r1/source_snapshots/market_boundary_repair_preflight_01.py": "36cb1abf93e8359c11665406e49e0cd31ef55eba94296ea434f2ef6ec76d6336",
+    "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/market_boundary_repair_r1/source_snapshots/test_market_boundary_repair_pre_r3_round_trip.py": "c666f920940fd2568004e6fefaa0f3b64442c83d7e28b842773489853886a928",
+    "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/market_boundary_repair_r1/source_snapshots/test_market_boundary_repair_preflight_01.py": "db32e32f0fa925b7f62deb1f0139844d032c8cd64da2e3ace6802dc0f0d58fb7",
+    "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/top100_environment_r1_20261019/source_snapshots/test_top100_environment_pre_boundary_fix.py": "84331655e7c7cd420242851e7b7279ca96846609d9052b70fff72d05851e2583",
+    "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/top100_environment_r1_20261019/source_snapshots/top100_environment_pre_boundary_fix.py": "e900ffb00486cc3054e8ff490f3d6d39cc70168e5aee9a7ce1c224558c70f162"
+  },
+  "table_inputs": {
+    "COVERAGE_BY_DAY.csv": {
+      "bytes": 83570,
+      "path": "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/top100_environment_r1_20261019/outputs/COVERAGE_BY_DAY.csv",
+      "sha256": "4f0000817775f95b6cba6ebc8c378f27d24ccbf6b99d46a7a21823268d4b533e"
+    },
+    "COVERAGE_BY_INDUSTRY_DAY.csv": {
+      "bytes": 6133161,
+      "path": "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/top100_environment_r1_20261019/outputs/COVERAGE_BY_INDUSTRY_DAY.csv",
+      "sha256": "a595244d97b1ce970cbef0ffbd83ba130299608405272dd77bd731750013f009"
+    },
+    "COVERAGE_BY_INDUSTRY_YEAR.csv": {
+      "bytes": 27459,
+      "path": "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/top100_environment_r1_20261019/outputs/COVERAGE_BY_INDUSTRY_YEAR.csv",
+      "sha256": "8d8389a1d37a8925cd867917f8ffd6fae9b1bb181e2aa0489b40b8c96e27e580"
+    },
+    "COVERAGE_BY_YEAR.csv": {
+      "bytes": 781,
+      "path": "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/top100_environment_r1_20261019/outputs/COVERAGE_BY_YEAR.csv",
+      "sha256": "0b9826258fdc19f5393ff92cd6b5f3e7baffd2f6d054b4a0143581e2deaf49c8"
+    },
+    "DAILY_ENVIRONMENT.csv": {
+      "bytes": 257308,
+      "path": "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/top100_environment_r1_20261019/outputs/DAILY_ENVIRONMENT.csv",
+      "sha256": "01aba4ad120411ed0061e591b6956ed6d108d5c0037aad54b04f73046e9bc645"
+    },
+    "INDUSTRY_CELLS.csv": {
+      "bytes": 2008611,
+      "path": "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/top100_environment_r1_20261019/outputs/INDUSTRY_CELLS.csv",
+      "sha256": "56ad2e66ab0de5d2f0cb5f499c52034ce7ae34d1af38072ff06b486d4ba3c6a3"
+    },
+    "MONTH_MARKET_ENVIRONMENT.csv": {
+      "bytes": 54540,
+      "path": "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/top100_environment_r1_20261019/outputs/MONTH_MARKET_ENVIRONMENT.csv",
+      "sha256": "838f2770c9d4aecfc263611a52172e5e18e5ee8deb2a6099a0affdbf48862e31"
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "analysis_sha256": "3da6c2b03716c57e35a10602acfe75dc8e6ef238132fcf0eef71bc252f91aaf7",
+  "contract_path": "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/seasonality_r1_20261019/summary_support_repair_r1/CONTRACT_03.json",
+  "contract_sha256": "aadf86b4cc788a44db0bef19b5653f734c9ede2692c73d777e23f4ad6ce769a6",
+  "failed_start_recovery": {
+    "correction_event_sha256": "b57890fbc69e7b26292460f8b6d19d2c1c62cbb040e4c670d953ee803e2c2323",
+    "execution_id": "A_SHARE_TOP100_SEASONALITY_INDUSTRY_POSITION_R1_20261019_SEASONALITY_SUPPORT_REPAIR_01",
+    "terminal_event_sha256": "53345168ed8caa65698faed28ccf577dfdde220fe3316991d3932c1d75491360"
+  },
+  "frozen_at_utc": "2026-10-19T10:21:58.290550+00:00",
+  "identity_path": "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/seasonality_r1_20261019/summary_support_repair_r1/FROZEN_IDENTITY_03.json",
+  "identity_sha256": "e8299ed999a51a513f31d237204486aa6bc8013a84f1ef38a6d4ec8c971992ae",
+  "input_path": "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/seasonality_r1_20261019/attempt_02/outputs/full/MAY_OCT_EVENT_WINDOWS.csv",
+  "input_sha256": "ff8c8e23ee045c6085b3f0e5a2507d87f28e71851233077b58c3ea5c605bd315",
+  "prior_summary_path": "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/seasonality_r1_20261019/attempt_02/outputs/full/MAY_OCT_COMMON_YEARS.csv",
+  "prior_summary_sha256": "a290537c9f0895ca106e42c91b3639aee53c34b30f135f01049b6ab7a190314f",
+  "recovery_receipt_path": "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/seasonality_r1_20261019/summary_support_repair_r1/FAILED_START_RECOVERY_RECEIPT_01.json",
+  "recovery_receipt_sha256": "bfea9d2f920ce64368c3635495a8ccc7ab98d89afb88c7fe806305af9cad8915",
+  "runner_path": "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/seasonality_r1_20261019/summary_support_repair_r1/run_summary_support_repair.py",
+  "runner_sha256": "630713e66de9aa6be09f52e9f00a9ff100f3e0debf508e49d3a924efbfeedf04",
+  "safety_flags": {
+    "buy_gate_updated": false,
+    "orders_sent": false,
+    "production_allowed": false,
+    "research_only": true
+  },
+  "schema_version": "A_SHARE_TOP100_SEASONALITY_SUMMARY_SUPPORT_REPAIR_FREEZE_RECEIPT_V1",
+  "status": "FROZEN_CONTROL_03",
+  "supersedes_contract_02_sha256": "3f324be4d854b29f596c656dacb1abc2431fb0ce46c5b571fdf401da545e9bd8",
+  "test_sha256": "eb07e565150e4c5b0d0e6d2c05bd33e605af4f3a29bef7d8d846fe9e51730fff"
+}

@@ -1,0 +1,105 @@
+{
+  "canary_receipt_sha256": "7868a698f654f6b075f333a1073002976a29851095b0245785ac6380abae377b",
+  "identity": {
+    "analysis_module_sha256": "5a08c49f90e77e08b53ff21a37c5af71e5f53c94dd398719f47829cf9ed87dcc",
+    "code_sha256": "08dbc8f15c94bffe9b875f27ae00a4e7e483d506bd1cc7dd949dc460b4f3f564",
+    "composite_contract_sha256": "7fa948259906ef4df409b8fa1ceb7c75f9499176186465180ff7033a2e30e9e4",
+    "config_a_sha256": "db88ff371381beea5b78379efd8dbeebc366a2af6f8fd78c46636e300d34ba3e",
+    "config_b_sha256": "f9004b865e0e1773f686e22208bc335c4d8cfd0b114fca998606cb6c8b85d1c8",
+    "contract_a_sha256": "d38bfce1b53ce0ab2effe8317f5cb6cdd5abb1dc3450c2a8f4d5eb9c99062b5d",
+    "contract_b_sha256": "2881b94aa25d7c85e0439317b6d3ac7dde5c48ee75d6f5400de225d0b5425de8",
+    "execution_runner_sha256": "b27193c257eb50d4a42315aa2921ff96df1747f2b7f6e0cd93c9caeeb916090d",
+    "input_binding_sha256": "bcb9e9ea9281b2160906ce406181977ab010304485726c4ad77ef0da0cf88e09",
+    "reused_r1_reader_sha256": "628ef44b6a8082e1f49179d943e8d1c062916849c9726190d00d2fefa4afba90",
+    "test_sha256": "f0f9f578fbdd7a6c8c3433410d1c6103b35f6d1fbc27b6f5a9bd651c8d0f283b"
+  },
+  "limitations": [
+    "Industry classification is current retrospective, not historical PIT.",
+    "The 000300 series is a bound Futu-recovered replacement; official TDX source identity and exchange-calendar parity remain CANNOT_CONFIRM.",
+    "QFQ close returns are descriptive price-return proxies, not certified economic total returns.",
+    "Observed history is exposed and no sealed validation or prediction is claimed."
+  ],
+  "output_sha256": {
+    "COMPACT_REPORT.md": "480bfb887d37d431080fea3864fda6b068819aa62f6623a744c48b68c924fd0d",
+    "DAILY_INDUSTRY_PROJECTION.csv": "7d611628775462ddd5f9e796d5568bac6441c58fefdba2371a892decc91cdd72",
+    "INDEX_UP_NONUP.csv": "3cab3918635d7e45e6c563630a48485bc4cef10f24a3c4e74867716bb71402ab",
+    "INDUSTRY_POSITION_DAILY.csv": "217bbeeb7de892c5b5f72be32c8933be76817d069f9245405ef87e8ce3b88565",
+    "INDUSTRY_POSITION_STATE_STATS.csv": "43dfe9d4d8494b82ca369e114cd6d148fa72c6c4c0f8edc79da715282904f12f",
+    "LATEST_ASOF_CLOSE.csv": "b1e337d10d1f2fc34796dc13d1b96aac7630a95cd7b9699637063c0403f0ccf4",
+    "MAY_OCT_COMMON_YEARS.csv": "a290537c9f0895ca106e42c91b3639aee53c34b30f135f01049b6ab7a190314f",
+    "MAY_OCT_EVENT_WINDOWS.csv": "ff8c8e23ee045c6085b3f0e5a2507d87f28e71851233077b58c3ea5c605bd315",
+    "MONTH_TENDAY_INDUSTRY_STATS.csv": "27a731f3883b3a2d0d318ebbca1959772ede17aeedce1a1deb88bcfd95d118fc",
+    "QA_RECEIPT.json": "7c644efdce0b0a5bba6e4238b827a289d5b75f4bc6c02e7020ea65f1c88a0c9e",
+    "RS60_SENSITIVITY.csv": "b219fa07777d6af810d2205c3ccd88a46c53aba9c638bd4f670ed6dd0ebdd4f3",
+    "SAME_DAY_000300_SPEARMAN.csv": "b16ace8bd567657247616cbb77dfc145fb371cf968898e6179e2793b70001f19"
+  },
+  "qa": {
+    "calendar_bins_predeclared_and_retained": true,
+    "claims": "DIRECTION_ONLY_DESCRIPTIVE; no inference or prospective validity",
+    "common_complete_year_support_max": 5,
+    "daily_expected_hits_equal_100": true,
+    "daily_top100_hits_equal_100": true,
+    "eligible_top100_date_count": 1319,
+    "event_window_complete_count": 1584,
+    "event_window_incomplete_count": 144,
+    "full_month_tenday_grid": true,
+    "industry_count_including_unknown": 84,
+    "position_state_timing_prior_only": true,
+    "projection_dates": 1320,
+    "projection_rows": 110880,
+    "rs20_state_timing_prior_only": true,
+    "rs60_state_timing_prior_only": true,
+    "safety_flags": {
+      "buy_gate_updated": false,
+      "orders_sent": false,
+      "production_allowed": false,
+      "research_only": true
+    },
+    "zero_n_return_statistics_are_null": true
+  },
+  "qa_receipt_sha256": "7c644efdce0b0a5bba6e4238b827a289d5b75f4bc6c02e7020ea65f1c88a0c9e",
+  "routes": {
+    "A": {
+      "execution_ids": {
+        "canary": "A_SHARE_TOP100_SEASONALITY_INDUSTRY_POSITION_R1_20261019_SEASONALITY_CANARY_02",
+        "fast_bind": "A_SHARE_TOP100_SEASONALITY_INDUSTRY_POSITION_R1_20261019_SEASONALITY_FAST_BIND_01",
+        "full_stats": "A_SHARE_TOP100_SEASONALITY_INDUSTRY_POSITION_R1_20261019_SEASONALITY_FULL_STATS_02"
+      },
+      "experiment_id": "A_SHARE_TOP100_SEASONALITY_INDUSTRY_POSITION_R1_20261019",
+      "one_variable": "FROZEN_MONTH_TENDAY_AND_MAY_OCT_EVENT_WINDOW_DESCRIPTIVE_GROUPING",
+      "route_id": "a-share-top100-seasonality-descriptive-r1-20261019",
+      "status": "COMPLETED"
+    },
+    "B": {
+      "execution_ids": {
+        "canary": "A_SHARE_TOP100_SEASONALITY_INDUSTRY_POSITION_R1_20261019_INDUSTRY_POSITION_CANARY_02",
+        "fast_bind": "A_SHARE_TOP100_SEASONALITY_INDUSTRY_POSITION_R1_20261019_INDUSTRY_POSITION_FAST_BIND_01",
+        "full_stats": "A_SHARE_TOP100_SEASONALITY_INDUSTRY_POSITION_R1_20261019_INDUSTRY_POSITION_FULL_STATS_02"
+      },
+      "experiment_id": "A_SHARE_TOP100_SEASONALITY_INDUSTRY_POSITION_R1_20261019",
+      "one_variable": "FROZEN_INDUSTRY_LEVEL_POSITION_AND_RELATIVE_STRENGTH_DESCRIPTIVE_GROUPING",
+      "route_id": "a-share-top100-industry-position-descriptive-r1-20261019",
+      "status": "COMPLETED"
+    }
+  },
+  "safety_flags": {
+    "buy_gate_updated": false,
+    "orders_sent": false,
+    "production_allowed": false,
+    "research_only": true
+  },
+  "signal_date_range": {
+    "count": 1320,
+    "max": "2026-10-15",
+    "min": "2021-05-06",
+    "scope": "ALL_BOUND_OBSERVED_PANEL_DATES"
+  },
+  "source_scope": {
+    "distinct_codes": 5576,
+    "eligible_top100_dates": 1319,
+    "observed_dates": 1320,
+    "selection_slots": 131900,
+    "source_rows": 6453109
+  },
+  "status": "DIRECTION_ONLY_PENDING_INDEPENDENT_REVIEW"
+}

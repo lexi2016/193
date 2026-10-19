@@ -1,0 +1,70 @@
+{
+  "checks": {
+    "all_12_prior_full_output_hashes_unchanged": true,
+    "calendar_candidate_years_preserved": true,
+    "cross_bin_comparable_rows_zero": true,
+    "cross_bin_flags_match_effective_support_sets": true,
+    "empty_support_96_rows_per_metric": true,
+    "empty_support_reasons_present": true,
+    "excess_support_pairs_656_of_656": true,
+    "input_1728_rows_reconciled_to_288_summary_rows": true,
+    "lift_differences_equal_window_minus_baseline_means": true,
+    "lift_support_pairs_656_of_656": true,
+    "paired_support_years_counts_and_means_consistent": true,
+    "run_freeze_and_start_event_hashes_match_nested_identity": true,
+    "summary_shape_48_groups_by_6_bins": true,
+    "two_targeted_synthetic_tests_passed": true
+  },
+  "evidence_level": "DIRECTION_ONLY",
+  "experiment_id": "A_SHARE_TOP100_SEASONALITY_INDUSTRY_POSITION_R1_20261019",
+  "identity": {
+    "analysis_sha256": "3da6c2b03716c57e35a10602acfe75dc8e6ef238132fcf0eef71bc252f91aaf7",
+    "config_sha256": "db88ff371381beea5b78379efd8dbeebc366a2af6f8fd78c46636e300d34ba3e",
+    "contract_sha256": "aadf86b4cc788a44db0bef19b5653f734c9ede2692c73d777e23f4ad6ce769a6",
+    "event_csv_sha256": "ff8c8e23ee045c6085b3f0e5a2507d87f28e71851233077b58c3ea5c605bd315",
+    "frozen_identity_sha256": "e8299ed999a51a513f31d237204486aa6bc8013a84f1ef38a6d4ec8c971992ae",
+    "input_binding_sha256": "bcb9e9ea9281b2160906ce406181977ab010304485726c4ad77ef0da0cf88e09",
+    "output_receipt_sha256": "e36b31864ff7815bede51c4cdb76414368cdaf803a986ef6e391fca7412a2e28",
+    "output_sha256": "1170fda554c01e8e59a66beb3f6f07541f6bb348c55972b624375223e99b367c",
+    "repair_terminal_event_sha256": "fefe694dedb23e8265d86fa8e023781d9d9af7b87130e8fdc4c249fd023fb12e",
+    "review_start_event_sha256": "fecf00b566eb8a1ff82ade50b5f95e35ed15f07cc1b60fbd9fde686478238ff1",
+    "runner_sha256": "630713e66de9aa6be09f52e9f00a9ff100f3e0debf508e49d3a924efbfeedf04",
+    "test_sha256": "eb07e565150e4c5b0d0e6d2c05bd33e605af4f3a29bef7d8d846fe9e51730fff"
+  },
+  "metadata_note": {
+    "classification": "REVIEWED_PASS_WITH_METADATA_NOTE",
+    "contract_frozen_identity_code_sha256": "3da6c2b03716c57e35a10602acfe75dc8e6ef238132fcf0eef71bc252f91aaf7",
+    "contract_top_level_code_sha256": "5eb6bf690ab38a15a1752a853a000eeac83cea27097278fe38e6b71670990f1c",
+    "disposition": "Keep the stale top-level metadata visible; no code/config/event identity mismatch was found in the authoritative nested binding.",
+    "frozen_identity_file_code_sha256": "3da6c2b03716c57e35a10602acfe75dc8e6ef238132fcf0eef71bc252f91aaf7",
+    "registry_correction_appended": false,
+    "run_event_code_sha256": "3da6c2b03716c57e35a10602acfe75dc8e6ef238132fcf0eef71bc252f91aaf7",
+    "validator_authority": "verify_frozen_identity consumes contract.frozen_identity.code_sha256; the stale top-level duplicate field is not read by the validator."
+  },
+  "recorded_at_utc": "2026-10-19T10:35:37.175819+00:00",
+  "review_execution_id": "A_SHARE_TOP100_SEASONALITY_INDUSTRY_POSITION_R1_20261019_SEASONALITY_INCREMENTAL_RESULT_REVIEW_02",
+  "review_metrics": {
+    "bins_per_group": 6,
+    "cross_bin_comparable_rows": 0,
+    "empty_support_rows_per_metric": 96,
+    "excess_support_pairs": 656,
+    "group_count": 48,
+    "input_event_window_rows": 1728,
+    "lift_support_pairs": 656,
+    "output_summary_rows": 288,
+    "prior_attempt02_output_hashes_checked": 12,
+    "targeted_synthetic_tests_passed": 2
+  },
+  "review_scope": "CONTROL_03 summary-support correction, paired-support calculations, output identity, and frozen metadata binding",
+  "review_source": "Independent Reviewer result forwarded by controller; this file transcribes that result.",
+  "review_verdict": "REVIEWED_PASS_WITH_METADATA_NOTE",
+  "route_id": "a-share-top100-seasonality-descriptive-r1-20261019",
+  "safety_flags": {
+    "buy_gate_updated": false,
+    "orders_sent": false,
+    "production_allowed": false,
+    "research_only": true
+  },
+  "schema_version": "A_SHARE_TOP100_SEASONALITY_INCREMENTAL_REVIEW_RECEIPT_V1",
+  "terminal_status": "COMPLETED"
+}

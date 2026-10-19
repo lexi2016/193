@@ -1,0 +1,101 @@
+{
+  "affected_date": "2021-05-07",
+  "allowed_paths": [
+    "worktree/research/a_share_top100_environment_v1/market_boundary_repair.py",
+    "worktree/research/a_share_top100_environment_v1/tests/test_market_boundary_repair.py",
+    "ROOT/research/a_share_top100_environment_v1/batches/market_boundary_repair_r1/CONTRACT_R3.json",
+    "ROOT/research/a_share_top100_environment_v1/batches/market_boundary_repair_r1/INPUT_BINDING_R3.json",
+    "ROOT/research/a_share_top100_environment_v1/batches/market_boundary_repair_r1/FROZEN_IDENTITY_R3.json",
+    "ROOT/research/a_share_top100_environment_v1/batches/market_boundary_repair_r1/outputs_attempt_03/**"
+  ],
+  "baseline_commit": "20610d06fc1767bdd8dd9c6c54d48776b4b874d8",
+  "baseline_id": "OBSERVED_QFQ_DAILY_TOP100_DESCRIPTION_V1",
+  "config_path": "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/market_boundary_repair_r1/CONFIG_R2.json",
+  "execution_id": "A_SHARE_TOP100_ENVIRONMENT_R1_20261019_MARKET_BOUNDARY_REPAIR_03",
+  "experiment_id": "A_SHARE_TOP100_ENVIRONMENT_R1_20261019",
+  "forbidden_paths": [
+    "R1 original contract/input/config/identity/seven aggregate outputs/report/receipts/terminal events",
+    "R2 CONFIG_R2/CONTRACT_R2/INPUT_BINDING_R2/FROZEN_IDENTITY_R2 and outputs_attempt_02/**",
+    "shared QFQ panel bytes or raw security data",
+    "seasonality files, registry/state/index (owned by a_seasonality_writer)",
+    "legacy V3, V4, services, scheduled tasks, production, BUY, live orders, unrelated tracks"
+  ],
+  "frozen_identity": {
+    "code_sha256": "7d20864565855251bddb11e9ef98598e9fe592a3148dbd012c277403070a0a20",
+    "config_sha256": "3b5a944a587117c1401afd1478349663eb270159c7100abc3ff9796f3ecd905d",
+    "main_code_sha256": "628ef44b6a8082e1f49179d943e8d1c062916849c9726190d00d2fefa4afba90",
+    "main_test_sha256": "96d03f26a01dc5a18cf79a969321e51dbf18e1ea0b812ea64b25a7aaf616dbc8",
+    "repair_test_sha256": "083d07588f21f83cbb9104add39f9c253cf8813d9632049d52b89f1c9ad7179e",
+    "test_sha256": "da1ae05db102e92b52ff2938eec6e18d8ab334042bf1a4203697cfda2f4cc393"
+  },
+  "frozen_identity_path": "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/market_boundary_repair_r1/FROZEN_IDENTITY_R3.json",
+  "goal": "Rerun the same lossless 2021-05-07 derived aggregate correction using round-trip CSV float parsing so unaffected numeric cells retain exact binary64 values; do not reopen labels, rank, returns, or pool construction.",
+  "hypothesis": "FLOAT_PRECISION_ROUND_TRIP_READER_PRESERVES_SERIALIZED_BINARY64_VALUES",
+  "input_binding_path": "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/market_boundary_repair_r1/INPUT_BINDING_R3.json",
+  "input_binding_sha256": "8f7f799737dc82ca33f3906b2cbda1ed7bc8c6dedcb4a2e966f2160231a0b21a",
+  "input_paths": [
+    "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/top100_environment_r1_20261019/outputs/COVERAGE_BY_DAY.csv",
+    "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/top100_environment_r1_20261019/outputs/COVERAGE_BY_INDUSTRY_DAY.csv",
+    "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/top100_environment_r1_20261019/outputs/COVERAGE_BY_INDUSTRY_YEAR.csv",
+    "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/top100_environment_r1_20261019/outputs/COVERAGE_BY_YEAR.csv",
+    "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/top100_environment_r1_20261019/outputs/DAILY_ENVIRONMENT.csv",
+    "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/top100_environment_r1_20261019/outputs/INDUSTRY_CELLS.csv",
+    "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/top100_environment_r1_20261019/outputs/MONTH_MARKET_ENVIRONMENT.csv",
+    "/Users/lexi/Desktop/学习/因子工厂/research/a_share_model_selection_v1/batches/pv_environment_r1_20261019/index_recovery_futu/FUTU_000300_HISTORY_FULL_20261019_R1/index_000300_daily.csv",
+    "/Users/lexi/Desktop/学习/因子工厂/research/a_share_model_selection_v1/batches/pv_environment_r1_20261019/index_recovery_futu/FUTU_000300_HISTORY_FULL_20261019_R1/receipt.json",
+    "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/top100_environment_r1_20261019/INPUT_BINDING.json",
+    "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/top100_environment_r1_20261019/INDEPENDENT_REVIEW_R1.json",
+    "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/top100_environment_r1_20261019/outputs/REPORT_REPAIR_RECEIPT.json",
+    "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/market_boundary_repair_r1/outputs_attempt_02/MARKET_BOUNDARY_REPAIR_RECEIPT.json",
+    "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/market_boundary_repair_r1/outputs_attempt_02/BOUNDARY_DELTA.json",
+    "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/market_boundary_repair_r1/INDEPENDENT_REVIEW_R2_FAIL_TRANSCRIPTION.json",
+    "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/market_boundary_repair_r1/source_snapshots/market_boundary_repair_pre_r3_round_trip.py",
+    "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/market_boundary_repair_r1/source_snapshots/test_market_boundary_repair_pre_r3_round_trip.py"
+  ],
+  "one_variable": "PANDAS_AGGREGATE_CSV_READ_FLOAT_PRECISION_ROUND_TRIP_ONLY",
+  "output_dir": "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/market_boundary_repair_r1/outputs_attempt_03",
+  "parent_full_stats_status": "FAILED_NO_FIT",
+  "parent_review_status": "R1 FAIL; boundary repair was addressed in R2; R2 repair review terminalized FAILED_NO_FIT solely due default parser float drift.",
+  "pass_signal": {
+    "parser_regression": "one synthetic CSV fixture demonstrates default parser is one ULP off while _table_inputs with float_precision=round_trip equals exact to_csv source float by float.hex()",
+    "provenance": "R1 aggregate sources remain byte-bound; R2 inputs/outputs/review remain preserved; R3 outputs isolated in outputs_attempt_03",
+    "r2_accepted_scope": "classification BELOW; 240 cells migrated; four coverage CSVs byte-identical; annual totals/lift parity and 39 summary groups/nine means reconcile",
+    "registry": "RUN_STARTED and terminal via official locked adapter; pre-run registry hash is reference only, not post-append equality",
+    "unaffected_numeric_values": "strict equality for all untouched numeric values after R3 repair; no tolerance"
+  },
+  "prediction": "Unchanged serialized numeric cells parse to the same binary64 values as before serialization when read with float_precision=round_trip; output tables pass the already-accepted R2 boundaries and coverage checks.",
+  "rejection_condition": "Any R2 accepted classification/migration/preservation/parity check fails, any unaffected numeric value changes, any bound input/code/control identity drifts, or the registry lifecycle fails.",
+  "review_execution_id": "A_SHARE_TOP100_ENVIRONMENT_R1_20261019_INCREMENTAL_REVIEW_03",
+  "route_id": "a-share-top100-environment-descriptive-stats-r1-20261019",
+  "safety_flags": {
+    "buy_gate_updated": false,
+    "orders_sent": false,
+    "production_allowed": false,
+    "research_only": true
+  },
+  "schema_version": "A_SHARE_TOP100_MARKET_BOUNDARY_REPAIR_CONTRACT_V3",
+  "sealed_data": "NONE; exposed historical descriptive aggregates only; no sealed evaluation.",
+  "signal_date_range": {
+    "count": 1,
+    "first": "2021-05-07",
+    "last": "2021-05-07"
+  },
+  "stage": "MARKET_BOUNDARY_REPAIR",
+  "status": "FROZEN_DERIVED_ARTIFACT_REPAIR_ONLY",
+  "stop_rule": "Stop and terminalize honestly if the sole parser regression fails or any previously accepted R2 invariant differs; do not alter serializer, tolerances, values, thresholds, classification, ranking, return, or pool logic.",
+  "supersedes_identity": {
+    "contract_path": "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/market_boundary_repair_r1/CONTRACT_R2.json",
+    "contract_sha256": "6189e51dd33c9e4d7ac92b4b409f708d55ea70bdeb734f1e8e4f1ac9b05ab941",
+    "execution_id": "A_SHARE_TOP100_ENVIRONMENT_R1_20261019_MARKET_BOUNDARY_REPAIR_02",
+    "frozen_identity_path": "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/market_boundary_repair_r1/FROZEN_IDENTITY_R2.json",
+    "frozen_identity_sha256": "dde99df91c1b4bdeac8c064986332dee0bb86f72fd276f42d84a6966abd7378a",
+    "input_binding_path": "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/market_boundary_repair_r1/INPUT_BINDING_R2.json",
+    "input_binding_sha256": "6c42948263113621ebc28dc9cc510dc33eacfc3a7d50d92467621689b473d64a",
+    "output_dir": "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/market_boundary_repair_r1/outputs_attempt_02",
+    "repair_receipt_sha256": "e5c164bf12c8753aab662f650d1350e99bc729a36599044e3ffd47bb200dc1a0",
+    "review_execution_id": "A_SHARE_TOP100_ENVIRONMENT_R1_20261019_INCREMENTAL_REVIEW_02",
+    "review_verdict": "FAIL"
+  },
+  "target_date_range": null,
+  "track_id": "A_SHARE_TOP100_ENVIRONMENT_RESEARCH"
+}

@@ -1,0 +1,104 @@
+{
+  "allowed_paths": [
+    "workspace/.task_worktrees/a-top100-environment-20261019/research/a_share_top100_environment_v1/seasonality_stats.py",
+    "workspace/.task_worktrees/a-top100-environment-20261019/research/a_share_top100_environment_v1/tests/test_seasonality_stats.py",
+    "research/a_share_top100_environment_v1/batches/seasonality_r1_20261019/**",
+    "contracts/EXPERIMENT_REGISTRY.jsonl (official locked append only)",
+    "CURRENT_STATE.md (append only)",
+    "HK_OHLCV_RESEARCH_STATE.md (append only)",
+    "PROGRESS.md (append only)",
+    "contracts/A_SHARE_TOP100_ENVIRONMENT_INDEX_20261019.json (preserve existing R1 and add seasonality study reference)"
+  ],
+  "analysis_code_sha256": "5a08c49f90e77e08b53ff21a37c5af71e5f53c94dd398719f47829cf9ed87dcc",
+  "attempt_id": "R1_CANARY_02",
+  "baseline_id": "OBSERVED_QFQ_DAILY_TOP100_DESCRIPTION_V1",
+  "code_path": "/Users/lexi/Desktop/学习/因子工厂/workspace/.task_worktrees/a-top100-environment-20261019/research/a_share_top100_environment_v1/seasonality_stats.py",
+  "code_sha256": "08dbc8f15c94bffe9b875f27ae00a4e7e483d506bd1cc7dd949dc460b4f3f564",
+  "config_path": "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/seasonality_r1_20261019/CONFIG_B.json",
+  "config_sha256": "f9004b865e0e1773f686e22208bc335c4d8cfd0b114fca998606cb6c8b85d1c8",
+  "execution_ids": {
+    "CANARY": "A_SHARE_TOP100_SEASONALITY_INDUSTRY_POSITION_R1_20261019_INDUSTRY_POSITION_CANARY_02",
+    "FAST_BIND": "A_SHARE_TOP100_SEASONALITY_INDUSTRY_POSITION_R1_20261019_INDUSTRY_POSITION_FAST_BIND_01",
+    "FULL_STATS": "A_SHARE_TOP100_SEASONALITY_INDUSTRY_POSITION_R1_20261019_INDUSTRY_POSITION_FULL_STATS_02"
+  },
+  "execution_runner_path": "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/seasonality_r1_20261019/attempt_02/run_registered_seasonality.py",
+  "execution_runner_sha256": "b27193c257eb50d4a42315aa2921ff96df1747f2b7f6e0cd93c9caeeb916090d",
+  "experiment_id": "A_SHARE_TOP100_SEASONALITY_INDUSTRY_POSITION_R1_20261019",
+  "forbidden_paths": [
+    "raw data and source archives",
+    "existing R1 helper source and tests",
+    "existing B0 batch and prior batch outputs",
+    "legacy V3, V4, models, training, selection recommendations, services, scheduler, BUY/production/orders"
+  ],
+  "goal": "Describe each industry equal-weight price position and relative strength as of T-1, then summarize same-day T industry return, excess, and Top100 lift by state.",
+  "hypothesis": "DESCRIPTIVE_ONLY_NO_PREDICTIVE_HYPOTHESIS",
+  "input_binding_path": "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/seasonality_r1_20261019/INPUT_BINDING.json",
+  "input_binding_sha256": "bcb9e9ea9281b2160906ce406181977ab010304485726c4ad77ef0da0cf88e09",
+  "input_paths_and_sha256": {
+    "index_series": {
+      "identity_status": "FUTU_RECOVERED_REPLACEMENT; ORIGINAL_TDX_FILE_IDENTITY_CANNOT_CONFIRM",
+      "path": "/Users/lexi/Desktop/学习/因子工厂/research/a_share_model_selection_v1/batches/pv_environment_r1_20261019/index_recovery_futu/FUTU_000300_HISTORY_FULL_20261019_R1/index_000300_daily.csv",
+      "row_count": 1399,
+      "sha256": "ed55aaab1691999863461e38482fb66cc7bc0c4da85c0fed2556f0925eadaa70"
+    },
+    "industry_classification_member": {
+      "member": "v192_external_v2_20261017/industry_cap_inputs_20261017/industry_current_retrospective.csv",
+      "sha256": "c9044f6d2413aad5c0e0cead62d591a4b2bdbc8f10cc5878fdfc9b1497f5e1ff",
+      "sha_basis": "REUSE_EXISTING_BOUND_RECEIPT_NO_REEXTRACTION"
+    },
+    "price_panel": {
+      "path": "/Users/lexi/Desktop/学习/因子工厂/research/a_v192_signal_pool_return_stability_v1/derived_inputs/qfq_market_20261015.parquet",
+      "rows": 6453109,
+      "sha256": "c30f847cb0929a398ccfe93b4bc29e910a52e0052fff2c29cbf4bf789cd56c07",
+      "sha_basis": "REUSE_EXISTING_BOUND_RECEIPT_NO_REHASH"
+    },
+    "shared_calendar_member": {
+      "member": "v192_research_20261016/independent_192_193_cloud/data/calendar.csv",
+      "sha256": "766f0385719fb241600064e3257c5d80d6bc039fe88dc5f0e2b66b2da356fb98",
+      "sha_basis": "REUSE_EXISTING_BOUND_RECEIPT_NO_REEXTRACTION"
+    }
+  },
+  "metrics": [
+    "T states use only data dated before T",
+    "252-window state stays UNKNOWN when support is insufficient",
+    "missing dates/N=0 break the level chain",
+    "main and RS60 summaries preserve support and UNKNOWN cells",
+    "latest snapshot labels its close-inclusive timing"
+  ],
+  "one_variable": "FROZEN_INDUSTRY_LEVEL_POSITION_AND_RELATIVE_STRENGTH_DESCRIPTIVE_GROUPING",
+  "pass_threshold": "COMPLETENESS_AND_RECONCILIATION_ONLY; no effect-size or significance threshold.",
+  "path": "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/seasonality_r1_20261019/attempt_02/CONTRACT_B.json",
+  "prediction": "NONE; no model or forward label is used.",
+  "previous_canary_failure_receipt_path": "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/seasonality_r1_20261019/CANARY_ATTEMPT_01_FAILURE_RECEIPT.json",
+  "previous_canary_failure_receipt_sha256": "ad0f73d796bf56b5beed94e1abe4cb26d857f2d97bcc2eaa086bc8d299fcdf8f",
+  "registry_ownership": "TRANSFERRED_TO_A_SEASONALITY_WRITER_BY_CONTROLLER; official registry append uses the existing OS lock.",
+  "rejection_condition": "Any frozen identity drift, T/T-1 leak, shortened 252/20/60 window, forward-filled missing level, broken segment continuation, or incomplete support reconciliation stops the full run.",
+  "reused_fastbind_receipt_path": "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/seasonality_r1_20261019/attempt_02/FAST_BIND_REUSE_RECEIPT.json",
+  "reused_fastbind_receipt_sha256": "3cd71a04f0d9f21dbed430146492c4cdbaf5dec22ca50d92bc349eb06b0ec771",
+  "reused_r1_reader_path": "/Users/lexi/Desktop/学习/因子工厂/workspace/.task_worktrees/a-top100-environment-20261019/research/a_share_top100_environment_v1/top100_environment.py",
+  "reused_r1_reader_sha256": "628ef44b6a8082e1f49179d943e8d1c062916849c9726190d00d2fefa4afba90",
+  "reviewer": "/root/a_top100_stat_review",
+  "route_id": "a-share-top100-industry-position-descriptive-r1-20261019",
+  "safety_flags": {
+    "buy_gate_updated": false,
+    "orders_sent": false,
+    "production_allowed": false,
+    "research_only": true
+  },
+  "schema_version": "A_SHARE_TOP100_SEASONALITY_SUBCONTRACT_V1",
+  "sealed_data": "NONE; all observed history is exposed. Maximum evidence level is DIRECTION_ONLY.",
+  "signal_date_range": {
+    "first": "2021-05-06",
+    "last": "2026-10-15",
+    "observed_dates": 1320
+  },
+  "source_binding_path": "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/top100_environment_r1_20261019/INPUT_BINDING.json",
+  "source_binding_sha256": "0ef7d5e0e893a9b6ed6f8984ae1a84bef1ffe72785224448081e6a5b153b96a5",
+  "status": "FROZEN_RETRY_CANARY_02_PENDING",
+  "stop_rule": "On any source/code/config identity drift, semantic conflict, failed registered lifecycle, failed canary, or completeness failure, close the current registered execution with its failure and stop before the next stage. Never change windows, data, or thresholds to recover.",
+  "target_date_range": null,
+  "test_path": "/Users/lexi/Desktop/学习/因子工厂/workspace/.task_worktrees/a-top100-environment-20261019/research/a_share_top100_environment_v1/tests/test_seasonality_stats.py",
+  "test_sha256": "f0f9f578fbdd7a6c8c3433410d1c6103b35f6d1fbc27b6f5a9bd651c8d0f283b",
+  "track_id": "A_SHARE_TOP100_ENVIRONMENT_RESEARCH",
+  "writer": "/root/a_seasonality_writer"
+}

@@ -1,0 +1,41 @@
+{
+  "baseline_commit": "20610d06fc1767bdd8dd9c6c54d48776b4b874d8",
+  "code_sha256": "3da6c2b03716c57e35a10602acfe75dc8e6ef238132fcf0eef71bc252f91aaf7",
+  "config_sha256": "db88ff371381beea5b78379efd8dbeebc366a2af6f8fd78c46636e300d34ba3e",
+  "contract_sha256": "aadf86b4cc788a44db0bef19b5653f734c9ede2692c73d777e23f4ad6ce769a6",
+  "control_revision": 3,
+  "execution_id": "A_SHARE_TOP100_SEASONALITY_INDUSTRY_POSITION_R1_20261019_SEASONALITY_SUPPORT_REPAIR_02",
+  "experiment_id": "A_SHARE_TOP100_SEASONALITY_INDUSTRY_POSITION_R1_20261019",
+  "input_binding_sha256": "bcb9e9ea9281b2160906ce406181977ab010304485726c4ad77ef0da0cf88e09",
+  "input_event_csv_sha256": "ff8c8e23ee045c6085b3f0e5a2507d87f28e71851233077b58c3ea5c605bd315",
+  "original_full_output_sha256": {
+    "COMPACT_REPORT.md": "480bfb887d37d431080fea3864fda6b068819aa62f6623a744c48b68c924fd0d",
+    "DAILY_INDUSTRY_PROJECTION.csv": "7d611628775462ddd5f9e796d5568bac6441c58fefdba2371a892decc91cdd72",
+    "INDEX_UP_NONUP.csv": "3cab3918635d7e45e6c563630a48485bc4cef10f24a3c4e74867716bb71402ab",
+    "INDUSTRY_POSITION_DAILY.csv": "217bbeeb7de892c5b5f72be32c8933be76817d069f9245405ef87e8ce3b88565",
+    "INDUSTRY_POSITION_STATE_STATS.csv": "43dfe9d4d8494b82ca369e114cd6d148fa72c6c4c0f8edc79da715282904f12f",
+    "LATEST_ASOF_CLOSE.csv": "b1e337d10d1f2fc34796dc13d1b96aac7630a95cd7b9699637063c0403f0ccf4",
+    "MAY_OCT_COMMON_YEARS.csv": "a290537c9f0895ca106e42c91b3639aee53c34b30f135f01049b6ab7a190314f",
+    "MAY_OCT_EVENT_WINDOWS.csv": "ff8c8e23ee045c6085b3f0e5a2507d87f28e71851233077b58c3ea5c605bd315",
+    "MONTH_TENDAY_INDUSTRY_STATS.csv": "27a731f3883b3a2d0d318ebbca1959772ede17aeedce1a1deb88bcfd95d118fc",
+    "QA_RECEIPT.json": "7c644efdce0b0a5bba6e4238b827a289d5b75f4bc6c02e7020ea65f1c88a0c9e",
+    "RS60_SENSITIVITY.csv": "b219fa07777d6af810d2205c3ccd88a46c53aba9c638bd4f670ed6dd0ebdd4f3",
+    "SAME_DAY_000300_SPEARMAN.csv": "b16ace8bd567657247616cbb77dfc145fb371cf968898e6179e2793b70001f19"
+  },
+  "prior_summary_sha256": "a290537c9f0895ca106e42c91b3639aee53c34b30f135f01049b6ab7a190314f",
+  "recovery_receipt_sha256": "bfea9d2f920ce64368c3635495a8ccc7ab98d89afb88c7fe806305af9cad8915",
+  "review_execution_id": "A_SHARE_TOP100_SEASONALITY_INDUSTRY_POSITION_R1_20261019_SEASONALITY_INCREMENTAL_RESULT_REVIEW_02",
+  "route_id": "a-share-top100-seasonality-descriptive-r1-20261019",
+  "runner_sha256": "630713e66de9aa6be09f52e9f00a9ff100f3e0debf508e49d3a924efbfeedf04",
+  "safety_flags": {
+    "buy_gate_updated": false,
+    "orders_sent": false,
+    "production_allowed": false,
+    "research_only": true
+  },
+  "schema_version": "A_SHARE_TOP100_FROZEN_IDENTITY_V1",
+  "status": "FROZEN_CODE_TEST_CONFIG_BINDING_INPUT_AND_FAILED_START_RECOVERY; SUMMARY_ONLY",
+  "supersedes_control_02_contract_sha256": "3f324be4d854b29f596c656dacb1abc2431fb0ce46c5b571fdf401da545e9bd8",
+  "supersedes_preflight_identity_sha256": "8b0d64463b33ddf58a2842fa678f0d0ded2e85c654aafbfdfef75696d91a50b7",
+  "test_sha256": "eb07e565150e4c5b0d0e6d2c05bd33e605af4f3a29bef7d8d846fe9e51730fff"
+}

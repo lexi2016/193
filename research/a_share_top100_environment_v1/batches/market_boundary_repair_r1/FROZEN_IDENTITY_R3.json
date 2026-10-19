@@ -1,0 +1,28 @@
+{
+  "contract_sha256": "9eb9eaf6b03d5999be46ad983e63c2dab53ed9f65659bf5291824a2af3f15473",
+  "execution_id": "A_SHARE_TOP100_ENVIRONMENT_R1_20261019_MARKET_BOUNDARY_REPAIR_03",
+  "frozen_identity": {
+    "code_sha256": "7d20864565855251bddb11e9ef98598e9fe592a3148dbd012c277403070a0a20",
+    "config_sha256": "3b5a944a587117c1401afd1478349663eb270159c7100abc3ff9796f3ecd905d",
+    "main_code_sha256": "628ef44b6a8082e1f49179d943e8d1c062916849c9726190d00d2fefa4afba90",
+    "main_test_sha256": "96d03f26a01dc5a18cf79a969321e51dbf18e1ea0b812ea64b25a7aaf616dbc8",
+    "repair_test_sha256": "083d07588f21f83cbb9104add39f9c253cf8813d9632049d52b89f1c9ad7179e",
+    "test_sha256": "da1ae05db102e92b52ff2938eec6e18d8ab334042bf1a4203697cfda2f4cc393"
+  },
+  "input_binding_sha256": "8f7f799737dc82ca33f3906b2cbda1ed7bc8c6dedcb4a2e966f2160231a0b21a",
+  "previous_frozen_identity_path": "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/market_boundary_repair_r1/FROZEN_IDENTITY_R2.json",
+  "previous_frozen_identity_sha256": "dde99df91c1b4bdeac8c064986332dee0bb86f72fd276f42d84a6966abd7378a",
+  "registry_snapshot_semantics": {
+    "append_policy": "OfficialRegistryAdapter appends under its existing lock; do not compare post-append registry bytes to this snapshot.",
+    "counts_scoped_before_r3": {
+      "events": 22,
+      "executions": 14,
+      "open_executions": 0,
+      "routes": 1
+    },
+    "post_run_hash_equality_expected": false,
+    "role": "REFERENCE_ONLY_PRE_RUN_SNAPSHOT",
+    "runtime_invariant": false
+  },
+  "schema_version": "A_SHARE_TOP100_MARKET_BOUNDARY_FROZEN_IDENTITY_V3"
+}

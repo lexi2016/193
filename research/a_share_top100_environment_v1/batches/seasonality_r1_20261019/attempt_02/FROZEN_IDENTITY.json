@@ -1,0 +1,59 @@
+{
+  "analysis_module_sha256": "5a08c49f90e77e08b53ff21a37c5af71e5f53c94dd398719f47829cf9ed87dcc",
+  "attempt_id": "R1_CANARY_02",
+  "baseline_and_dependencies_path": "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/seasonality_r1_20261019/attempt_02/BASELINE_AND_DEPENDENCIES.json",
+  "baseline_and_dependencies_sha256": "3034efccf4f515667c28bc5ec8451c0ef4af20b30cae7675f05ee41ce6840710",
+  "baseline_id": "OBSERVED_QFQ_DAILY_TOP100_DESCRIPTION_V1",
+  "code_sha256": "08dbc8f15c94bffe9b875f27ae00a4e7e483d506bd1cc7dd949dc460b4f3f564",
+  "composite_contract_path": "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/seasonality_r1_20261019/attempt_02/CONTRACT.json",
+  "composite_contract_sha256": "7fa948259906ef4df409b8fa1ceb7c75f9499176186465180ff7033a2e30e9e4",
+  "config_a_sha256": "db88ff371381beea5b78379efd8dbeebc366a2af6f8fd78c46636e300d34ba3e",
+  "config_b_sha256": "f9004b865e0e1773f686e22208bc335c4d8cfd0b114fca998606cb6c8b85d1c8",
+  "contract_a_path": "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/seasonality_r1_20261019/attempt_02/CONTRACT_A.json",
+  "contract_a_sha256": "d38bfce1b53ce0ab2effe8317f5cb6cdd5abb1dc3450c2a8f4d5eb9c99062b5d",
+  "contract_b_path": "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/seasonality_r1_20261019/attempt_02/CONTRACT_B.json",
+  "contract_b_sha256": "2881b94aa25d7c85e0439317b6d3ac7dde5c48ee75d6f5400de225d0b5425de8",
+  "execution_ids": {
+    "A": {
+      "CANARY": "A_SHARE_TOP100_SEASONALITY_INDUSTRY_POSITION_R1_20261019_SEASONALITY_CANARY_02",
+      "FAST_BIND": "A_SHARE_TOP100_SEASONALITY_INDUSTRY_POSITION_R1_20261019_SEASONALITY_FAST_BIND_01",
+      "FULL_STATS": "A_SHARE_TOP100_SEASONALITY_INDUSTRY_POSITION_R1_20261019_SEASONALITY_FULL_STATS_02"
+    },
+    "B": {
+      "CANARY": "A_SHARE_TOP100_SEASONALITY_INDUSTRY_POSITION_R1_20261019_INDUSTRY_POSITION_CANARY_02",
+      "FAST_BIND": "A_SHARE_TOP100_SEASONALITY_INDUSTRY_POSITION_R1_20261019_INDUSTRY_POSITION_FAST_BIND_01",
+      "FULL_STATS": "A_SHARE_TOP100_SEASONALITY_INDUSTRY_POSITION_R1_20261019_INDUSTRY_POSITION_FULL_STATS_02"
+    }
+  },
+  "execution_runner_path": "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/seasonality_r1_20261019/attempt_02/run_registered_seasonality.py",
+  "execution_runner_sha256": "b27193c257eb50d4a42315aa2921ff96df1747f2b7f6e0cd93c9caeeb916090d",
+  "input_binding_path": "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/seasonality_r1_20261019/INPUT_BINDING.json",
+  "input_binding_sha256": "bcb9e9ea9281b2160906ce406181977ab010304485726c4ad77ef0da0cf88e09",
+  "input_sha256_reused_without_rehash": {
+    "index_series": "ed55aaab1691999863461e38482fb66cc7bc0c4da85c0fed2556f0925eadaa70",
+    "industry_classification_member": "c9044f6d2413aad5c0e0cead62d591a4b2bdbc8f10cc5878fdfc9b1497f5e1ff",
+    "price_panel": "c30f847cb0929a398ccfe93b4bc29e910a52e0052fff2c29cbf4bf789cd56c07",
+    "shared_calendar_member": "766f0385719fb241600064e3257c5d80d6bc039fe88dc5f0e2b66b2da356fb98"
+  },
+  "one_variables": {
+    "a-share-top100-industry-position-descriptive-r1-20261019": "FROZEN_INDUSTRY_LEVEL_POSITION_AND_RELATIVE_STRENGTH_DESCRIPTIVE_GROUPING",
+    "a-share-top100-seasonality-descriptive-r1-20261019": "FROZEN_MONTH_TENDAY_AND_MAY_OCT_EVENT_WINDOW_DESCRIPTIVE_GROUPING"
+  },
+  "prior_canary_failure_receipt_sha256": "ad0f73d796bf56b5beed94e1abe4cb26d857f2d97bcc2eaa086bc8d299fcdf8f",
+  "registry_status": "OWNER_CONFIRMED_BY_CONTROLLER; READY_REGISTERED_FAST_BIND",
+  "reused_fastbind_receipt_path": "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/seasonality_r1_20261019/attempt_02/FAST_BIND_REUSE_RECEIPT.json",
+  "reused_fastbind_receipt_sha256": "3cd71a04f0d9f21dbed430146492c4cdbaf5dec22ca50d92bc349eb06b0ec771",
+  "reused_r1_reader_sha256": "628ef44b6a8082e1f49179d943e8d1c062916849c9726190d00d2fefa4afba90",
+  "safety_flags": {
+    "buy_gate_updated": false,
+    "orders_sent": false,
+    "production_allowed": false,
+    "research_only": true
+  },
+  "schema_version": "A_SHARE_TOP100_SEASONALITY_FROZEN_IDENTITY_V1",
+  "source_config_sha256": "18fc5ce8566c610ec0190bd4cbf02014bfb6505fc1578e5d36dbae9883b1afd9",
+  "source_contract_sha256": "ac34c81e675433103bb73b8307931eeebcbc6ee3f3dbb8e0964a710d969d745f",
+  "source_input_binding_sha256": "0ef7d5e0e893a9b6ed6f8984ae1a84bef1ffe72785224448081e6a5b153b96a5",
+  "status": "FROZEN_CODE_INPUT_CONFIG_CONTRACT_AND_EXECUTION_RUNNER; ATTEMPT_02_NOT_STARTED",
+  "test_sha256": "f0f9f578fbdd7a6c8c3433410d1c6103b35f6d1fbc27b6f5a9bd651c8d0f283b"
+}

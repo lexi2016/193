@@ -1,0 +1,18 @@
+{
+  "baseline_commit": "20610d06fc1767bdd8dd9c6c54d48776b4b874d8",
+  "files": {
+    "seasonality_stats.py": {
+      "snapshot_path": "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/seasonality_r1_20261019/summary_support_repair_r1/source_snapshots/seasonality_stats.py",
+      "snapshot_sha256": "5a08c49f90e77e08b53ff21a37c5af71e5f53c94dd398719f47829cf9ed87dcc",
+      "source_path": "/Users/lexi/Desktop/学习/因子工厂/workspace/.task_worktrees/a-top100-environment-20261019/research/a_share_top100_environment_v1/seasonality_stats.py",
+      "source_sha256": "5a08c49f90e77e08b53ff21a37c5af71e5f53c94dd398719f47829cf9ed87dcc"
+    },
+    "test_seasonality_stats.py": {
+      "snapshot_path": "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/seasonality_r1_20261019/summary_support_repair_r1/source_snapshots/test_seasonality_stats.py",
+      "snapshot_sha256": "f0f9f578fbdd7a6c8c3433410d1c6103b35f6d1fbc27b6f5a9bd651c8d0f283b",
+      "source_path": "/Users/lexi/Desktop/学习/因子工厂/workspace/.task_worktrees/a-top100-environment-20261019/research/a_share_top100_environment_v1/tests/test_seasonality_stats.py",
+      "source_sha256": "f0f9f578fbdd7a6c8c3433410d1c6103b35f6d1fbc27b6f5a9bd651c8d0f283b"
+    }
+  },
+  "schema_version": "A_SHARE_TOP100_SEASONALITY_SOURCE_SNAPSHOT_RECEIPT_V1"
+}

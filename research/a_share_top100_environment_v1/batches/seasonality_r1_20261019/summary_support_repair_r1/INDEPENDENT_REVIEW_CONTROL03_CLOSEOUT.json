@@ -1,0 +1,15 @@
+{
+  "event_count_for_review_execution": 2,
+  "no_correction_appended": true,
+  "registry_path": "/Users/lexi/Desktop/学习/因子工厂/contracts/EXPERIMENT_REGISTRY.jsonl",
+  "registry_sha256_after_append": "904baaaf0fefb6041655b265861e995ecd7dc26a59d5d428297c8e5ba9fe666b",
+  "review_execution_id": "A_SHARE_TOP100_SEASONALITY_INDUSTRY_POSITION_R1_20261019_SEASONALITY_INCREMENTAL_RESULT_REVIEW_02",
+  "review_transcription_path": "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/seasonality_r1_20261019/summary_support_repair_r1/INDEPENDENT_REVIEW_CONTROL03_TRANSCRIPTION.json",
+  "review_transcription_sha256": "498ab6aac8f2f15b36639a907ba573d4d440ea8981c50640a0373dd98f19da92",
+  "review_verdict": "REVIEWED_PASS_WITH_METADATA_NOTE",
+  "route_id": "a-share-top100-seasonality-descriptive-r1-20261019",
+  "schema_version": "A_SHARE_TOP100_SEASONALITY_REVIEW_CLOSEOUT_RECEIPT_V1",
+  "start_event_sha256": "fecf00b566eb8a1ff82ade50b5f95e35ed15f07cc1b60fbd9fde686478238ff1",
+  "terminal_event_sha256": "cee0f0676869f44fcb83e489aa163df559dd5b4fd770fdb724075a68c45f4a6b",
+  "terminal_status": "COMPLETED"
+}

@@ -1,0 +1,74 @@
+{
+  "checks": {
+    "R2_outputs_9_of_9_preserved": true,
+    "daily_environment_only_target_day_changed": true,
+    "daily_non_target_numeric_float_hex_exact_18466": true,
+    "four_coverage_tables_byte_identical": true,
+    "industry_and_industry_month_subsets_exact": true,
+    "industry_non_target_numeric_float_hex_exact_102626": true,
+    "industry_unknown_to_below_240_cells": true,
+    "month_market_non_target_numeric_float_hex_exact_1892": true,
+    "month_market_unknown_to_below_4_rows": true,
+    "round_trip_parser_synthetic_regression_passed": true,
+    "source_and_return_rank_hit_boundaries_unchanged": true,
+    "test_bundle_sha_is_main_and_repair_test_pair": true
+  },
+  "evidence_level": "DIRECTION_ONLY",
+  "experiment_id": "A_SHARE_TOP100_ENVIRONMENT_R1_20261019",
+  "identity": {
+    "code_sha256": "7d20864565855251bddb11e9ef98598e9fe592a3148dbd012c277403070a0a20",
+    "config_sha256": "3b5a944a587117c1401afd1478349663eb270159c7100abc3ff9796f3ecd905d",
+    "contract_sha256": "9eb9eaf6b03d5999be46ad983e63c2dab53ed9f65659bf5291824a2af3f15473",
+    "delta_sha256": "d072fa7794fc3c91581a4d71eeccc1eb699bf65528f3f82cbd74d4c0667dd21b",
+    "frozen_identity_sha256": "a1d87ca51ec994de57754b9e2d9fb347938f480648c5e8d31d76849042ccc496",
+    "input_binding_sha256": "8f7f799737dc82ca33f3906b2cbda1ed7bc8c6dedcb4a2e966f2160231a0b21a",
+    "main_code_sha256": "628ef44b6a8082e1f49179d943e8d1c062916849c9726190d00d2fefa4afba90",
+    "main_test_sha256": "96d03f26a01dc5a18cf79a969321e51dbf18e1ea0b812ea64b25a7aaf616dbc8",
+    "repair_receipt_sha256": "7777a0c435a46f4d9eb92bf39e9f73782c4f543d68e56ab87990091c118091ab",
+    "repair_terminal_event_sha256": "f1ff6d2b98dcdd6dc99698d59731f59d75f6df95cc4a0f6f2851c275109e0775",
+    "repair_test_sha256": "083d07588f21f83cbb9104add39f9c253cf8813d9632049d52b89f1c9ad7179e",
+    "review_handoff_sha256": "aa74736427114092db6218586a7b5374c187397670730959cb2c6790c7aedd49",
+    "review_start_event_sha256": "82d4fb389e7b159436a608170060a0729faa17fe43cf6ef7e7c060cf7d354c31",
+    "test_bundle_sha256": "da1ae05db102e92b52ff2938eec6e18d8ab334042bf1a4203697cfda2f4cc393"
+  },
+  "metrics": {
+    "coverage_tables_byte_identical": 4,
+    "daily_non_target_numeric_float_hex_exact": 18466,
+    "industry_non_target_numeric_float_hex_exact": 102626,
+    "industry_unknown_to_below_migrations": 240,
+    "month_market_non_target_numeric_float_hex_exact": 1892,
+    "month_market_unknown_to_below_migrations": 4,
+    "r2_outputs_expected": 9,
+    "r2_outputs_preserved": 9,
+    "synthetic_regression_tests_passed": 1
+  },
+  "recorded_at_utc": "2026-10-19T10:53:40.537622+00:00",
+  "research_boundary": {
+    "breakthrough_claim": false,
+    "official_exchange_calendar_parity": "CANNOT_CONFIRM",
+    "official_original_tdx_000300_identity": "CANNOT_CONFIRM",
+    "overall_evidence": "DIRECTION_ONLY",
+    "prediction_or_oof": false,
+    "sealed_forward": false
+  },
+  "review_execution_id": "A_SHARE_TOP100_ENVIRONMENT_R1_20261019_INCREMENTAL_REVIEW_03",
+  "review_scope": "R3 round-trip CSV parser delta and directly affected aggregate cells; unaffected R2 review conclusions reused.",
+  "review_source": "Independent Reviewer FINAL verdict forwarded by controller; exact reported checks transcribed here.",
+  "review_stage": "INCREMENTAL_REVIEW_03",
+  "review_verdict": "REVIEWED_PASS",
+  "route_id": "a-share-top100-environment-descriptive-stats-r1-20261019",
+  "safety_flags": {
+    "buy_gate_updated": false,
+    "orders_sent": false,
+    "production_allowed": false,
+    "research_only": true
+  },
+  "schema_version": "A_SHARE_TOP100_MARKET_BOUNDARY_INCREMENTAL_REVIEW_RECEIPT_V1",
+  "terminal_status": "COMPLETED",
+  "test_bundle_note": {
+    "disposition": "Bundle SHA correctly represents main test plus repair test; no identity defect.",
+    "main_test_sha256": "96d03f26a01dc5a18cf79a969321e51dbf18e1ea0b812ea64b25a7aaf616dbc8",
+    "repair_test_sha256": "083d07588f21f83cbb9104add39f9c253cf8813d9632049d52b89f1c9ad7179e",
+    "test_sha256": "da1ae05db102e92b52ff2938eec6e18d8ab334042bf1a4203697cfda2f4cc393"
+  }
+}

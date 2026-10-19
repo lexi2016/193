@@ -1,0 +1,18 @@
+{
+  "evidence_level": "DIRECTION_ONLY",
+  "no_registry_correction": true,
+  "registry_path": "/Users/lexi/Desktop/学习/因子工厂/contracts/EXPERIMENT_REGISTRY.jsonl",
+  "registry_sha256_after_terminal": "66e53ba9d321ae6f9483aa5330cf1f83e69eed8481fc2cf9abb34a463c07ab5d",
+  "repair_execution_id": "A_SHARE_TOP100_ENVIRONMENT_R1_20261019_MARKET_BOUNDARY_REPAIR_03",
+  "repair_terminal_event_sha256": "f1ff6d2b98dcdd6dc99698d59731f59d75f6df95cc4a0f6f2851c275109e0775",
+  "review_event_count": 2,
+  "review_execution_id": "A_SHARE_TOP100_ENVIRONMENT_R1_20261019_INCREMENTAL_REVIEW_03",
+  "review_transcription_path": "/Users/lexi/Desktop/学习/因子工厂/research/a_share_top100_environment_v1/batches/market_boundary_repair_r1/outputs_attempt_03/INDEPENDENT_REVIEW_03_TRANSCRIPTION.json",
+  "review_transcription_sha256": "5b4f4a97eb5aa1fb78353ca0642c3eef0fee02cb8e1c1e1e34ed500d06a63a55",
+  "review_verdict": "REVIEWED_PASS",
+  "route_id": "a-share-top100-environment-descriptive-stats-r1-20261019",
+  "schema_version": "A_SHARE_TOP100_MARKET_BOUNDARY_REVIEW_CLOSEOUT_RECEIPT_V1",
+  "start_event_sha256": "82d4fb389e7b159436a608170060a0729faa17fe43cf6ef7e7c060cf7d354c31",
+  "terminal_event_sha256": "05e14b437731763f056b5566384768abba0ffb45fed98fc6f0c439894ad96f8e",
+  "terminal_status": "COMPLETED"
+}
