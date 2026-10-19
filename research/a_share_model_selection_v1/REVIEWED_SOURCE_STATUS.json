@@ -1,11 +1,11 @@
 {
   "schema_version": "PV_PUBLIC_REVIEWED_SOURCE_STATUS_V1",
-  "as_of_utc": "2026-10-18T21:06:20.191349+00:00",
-  "baseline_commit": "56df1c7fa8d468acc85a834a56544f5a077cf2a1",
+  "as_of_utc": "2026-10-19T02:50:09.543346+00:00",
+  "baseline_commit": "8c7229ee1299dadc9a5fa9c72c36c5321fab7b58",
   "target_repository": "lexi2016/193",
   "target_branch": "main",
   "route": "A_SHARE_PANEL_MODEL_SELECTION_RESEARCH",
-  "code_composite": "d201b447108d98ff24dbedc6539555bb284ea16880ee7736c03dffa75e6d76ac",
+  "code_composite": "d11d65942d6c5a3eb7edc02a01b4b8e312304c167824ea6b0dd83f85a54022bb",
   "files": [
     {
       "path": "research/a_share_model_selection_v1/formula_adapter.py",
@@ -27,9 +27,9 @@
     },
     {
       "path": "research/a_share_model_selection_v1/model_selection.py",
-      "sha256": "3fc442d87da3ab457f11c33a82140b15b1a4be90b1d363a753836034eb31f367",
-      "previous_remote_sha256": "afa187f27d3489c4834e65213c58ad1b6eb00c52d9ffb6f9cbabafe7834fa175",
-      "bytes": 215600
+      "sha256": "0aa1428f2b62447e35ecbebce4843613dd01111cfb4340f38221e022eecbd40c",
+      "previous_remote_sha256": "3fc442d87da3ab457f11c33a82140b15b1a4be90b1d363a753836034eb31f367",
+      "bytes": 215630
     },
     {
       "path": "research/a_share_model_selection_v1/tdx_ast_engine_injected.py",
@@ -63,9 +63,9 @@
     },
     {
       "path": "research/a_share_model_selection_v1/test_m0_canary_v1.py",
-      "sha256": "71dd902143ac9bff81e1bdc26e040c5ccb104b0a91d5a2753f3a349cb1e55bc6",
-      "previous_remote_sha256": "dfcf2e2a877df9a9721774209558745509213debc9398ea39b27b6b5384c4a4d",
-      "bytes": 55763
+      "sha256": "ea9bc8eeeedde52911d7c9a0696bf6e902c47ef02a3085b0b3caf05b5ce3ec3a",
+      "previous_remote_sha256": "71dd902143ac9bff81e1bdc26e040c5ccb104b0a91d5a2753f3a349cb1e55bc6",
+      "bytes": 58297
     },
     {
       "path": "research/a_share_model_selection_v1/input_compat_diagnostic_v1.py",
@@ -84,7 +84,7 @@
   "actual_completed_formal_fits": 0,
   "planned_canary_fits": 6,
   "planned_formal_fits": 90,
-  "status": "SIX_CANARY_FITS_COMPLETE_NO_FIT_REPLAY_IN_PROGRESS",
+  "status": "SIX_CANARY_FITS_AND_EXACT_REPLAYS_COMPLETE_FORMAL_PENDING",
   "business_acceptance": "CANNOT_CONFIRM",
   "evidence_ceiling": "DIRECTION_ONLY",
   "independent_validation": [
@@ -124,6 +124,10 @@
       "scope": "official event schema and real frozen runtime import",
       "tests_passed": 2,
       "actual_m0_fit_event_pairs_verified": 3
+    },
+    {
+      "scope": "CSV round-trip parsing preserves zero-tolerance replay comparison",
+      "tests_passed": 1
     }
   ],
   "test_commands": [
@@ -149,5 +153,17 @@
   "historical_fit_time_key_identity": "CANNOT_CONFIRM",
   "retrospective_provenance": "PROVENANCE_RECONSTRUCTED",
   "prospective_fit_evidence": "Training/test key and matrix identities, labels and weights, durable checkpoint reload, exact prediction and Top10 replay before completed terminal",
-  "retrospective_replay": "Separate registered no-fit receipt using exact archived code; original checkpoints and events immutable"
+  "retrospective_replay": "Separate registered no-fit receipt using exact archived code; original checkpoints and events immutable",
+  "actual_checkpoint_replay": {
+    "m0_cells": 3,
+    "m4_cells": 3,
+    "fit_calls": 0,
+    "prediction_parity": "EXACT",
+    "top10_parity": "EXACT",
+    "original_artifacts_unchanged": true,
+    "receipt_sha256": {
+      "M0_ATTEMPT04_REPLAY_R3.json": "426deaa5c2754ce96841a8c1b3e452e4004b53e7d28a8588a0bd3f5bdd6851f6",
+      "M4_ATTEMPT02_REPLAY_R1.json": "3daaa9cd0fb9841dd776da25f1087e2d209132d1c5e53139454acf528e69910d"
+    }
+  }
 }

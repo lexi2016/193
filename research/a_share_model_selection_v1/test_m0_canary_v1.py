@@ -702,6 +702,12 @@ class M0CanaryBoundaryTests(unittest.TestCase):
             "f0": np.tile(np.arange(len(codes), dtype=np.float64), len(dates)),
             "f1": np.repeat(np.arange(len(dates), dtype=np.float64), len(codes)),
         })
+        high_precision_score = 0.009955564222698996
+        first_test_date = features["date"].eq(test_dates[0])
+        features.loc[first_test_date, "f0"] = 0.0
+        features.loc[first_test_date, "f1"] = -np.arange(len(codes), dtype=np.float64)
+        exact_score_row = first_test_date & features["code"].eq(codes[0])
+        features.loc[exact_score_row, "f1"] = high_precision_score
         features.loc[(features["date"] == train_dates[0]) & features["code"].eq(codes[0]), "f1"] = np.nan
         panel = features[["date", "code"]].assign(close=10.0)
         code_shas = {"model_selection": "1" * 64, "formula_adapter": "2" * 64,
@@ -787,7 +793,38 @@ class M0CanaryBoundaryTests(unittest.TestCase):
                 ])
 
             selected_keys_path = tmp_path / "selected_keys.csv"
-            pd.concat(selected_rows, ignore_index=True).to_csv(selected_keys_path, index=False)
+            selected_frame = pd.concat(selected_rows, ignore_index=True)
+            selected_frame.to_csv(selected_keys_path, index=False)
+            selected_row = (selected_frame["date"].eq(test_dates[0]) &
+                            selected_frame["code"].eq(codes[0]) &
+                            selected_frame["model_arm"].eq("M0") &
+                            selected_frame["model_horizon"].eq(1) &
+                            selected_frame["fold"].eq("2024H1"))
+            self.assertEqual(int(selected_row.sum()), 1)
+            self.assertEqual(float(selected_frame.loc[selected_row, "prediction"].iloc[0]),
+                             high_precision_score)
+            default_read = pd.read_csv(selected_keys_path)
+            default_read["date"] = pd.to_datetime(default_read["date"]).dt.normalize()
+            round_trip_read = pd.read_csv(selected_keys_path, float_precision="round_trip")
+            round_trip_read["date"] = pd.to_datetime(round_trip_read["date"]).dt.normalize()
+            selected_identity = (default_read["date"].eq(test_dates[0]) &
+                                 default_read["code"].eq(codes[0]) &
+                                 default_read["model_arm"].eq("M0") &
+                                 default_read["model_horizon"].eq(1) &
+                                 default_read["fold"].eq("2024H1"))
+            selected_identity_round_trip = (round_trip_read["date"].eq(test_dates[0]) &
+                                            round_trip_read["code"].eq(codes[0]) &
+                                            round_trip_read["model_arm"].eq("M0") &
+                                            round_trip_read["model_horizon"].eq(1) &
+                                            round_trip_read["fold"].eq("2024H1"))
+            self.assertFalse(np.array_equal(
+                default_read.loc[selected_identity, "prediction"].to_numpy(dtype=np.float64),
+                np.array([high_precision_score], dtype=np.float64),
+            ))
+            self.assertTrue(np.array_equal(
+                round_trip_read.loc[selected_identity_round_trip, "prediction"].to_numpy(dtype=np.float64),
+                np.array([high_precision_score], dtype=np.float64),
+            ))
             artifacts = {"selected_keys": {"path": str(selected_keys_path),
                                             "sha256": route.sha256_file(selected_keys_path)}}
             output_manifest_path = tmp_path / "output_manifest.json"

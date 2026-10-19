@@ -2351,7 +2351,7 @@ def run_checkpoint_replay_audit(*, stage: str, attempt: str,
                 if len(join) != len(replay) or not join["_merge"].eq("both").all():
                     raise ExecutionBlocked(f"reconstructed prediction keys do not join one-to-one for {cell_record['cell']}")
                 replay_top = pinned_route.stable_top10(replay)
-                selected_keys = pd.read_csv(selected_keys_path)
+                selected_keys = pd.read_csv(selected_keys_path, float_precision="round_trip")
                 selected_keys["date"] = pd.to_datetime(selected_keys["date"], errors="coerce").dt.normalize()
                 saved_top = selected_keys.loc[
                     selected_keys["model_arm"].eq(arm) & selected_keys["model_horizon"].eq(horizon) &
