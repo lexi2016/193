@@ -1,7 +1,7 @@
 {
   "schema_version": "PV_PUBLIC_REVIEWED_SOURCE_STATUS_V1",
-  "as_of_utc": "2026-10-19T02:50:09.543346+00:00",
-  "baseline_commit": "8c7229ee1299dadc9a5fa9c72c36c5321fab7b58",
+  "as_of_utc": "2026-10-19T05:07:44.114Z",
+  "baseline_commit": "64137f358927757a8e6da5d7b4d53330df311137",
   "target_repository": "lexi2016/193",
   "target_branch": "main",
   "route": "A_SHARE_PANEL_MODEL_SELECTION_RESEARCH",
@@ -28,7 +28,7 @@
     {
       "path": "research/a_share_model_selection_v1/model_selection.py",
       "sha256": "0aa1428f2b62447e35ecbebce4843613dd01111cfb4340f38221e022eecbd40c",
-      "previous_remote_sha256": "3fc442d87da3ab457f11c33a82140b15b1a4be90b1d363a753836034eb31f367",
+      "previous_remote_sha256": "0aa1428f2b62447e35ecbebce4843613dd01111cfb4340f38221e022eecbd40c",
       "bytes": 215630
     },
     {
@@ -64,7 +64,7 @@
     {
       "path": "research/a_share_model_selection_v1/test_m0_canary_v1.py",
       "sha256": "ea9bc8eeeedde52911d7c9a0696bf6e902c47ef02a3085b0b3caf05b5ce3ec3a",
-      "previous_remote_sha256": "71dd902143ac9bff81e1bdc26e040c5ccb104b0a91d5a2753f3a349cb1e55bc6",
+      "previous_remote_sha256": "ea9bc8eeeedde52911d7c9a0696bf6e902c47ef02a3085b0b3caf05b5ce3ec3a",
       "bytes": 58297
     },
     {
@@ -78,14 +78,24 @@
       "sha256": "a2e60985d889bd465201ec50bef8900fc42f2cf85faee66d2bd74319188e0ed2",
       "previous_remote_sha256": "a2e60985d889bd465201ec50bef8900fc42f2cf85faee66d2bd74319188e0ed2",
       "bytes": 17335
+    },
+    {
+      "path": "research/a_share_model_selection_v1/thread_benchmark_v1.py",
+      "sha256": "ec47fa0fbb9e9e743c7c88f3bc503a4fe0749ac5fc133ba243bac7a0ed8707d2",
+      "previous_remote_sha256": null
+    },
+    {
+      "path": "research/a_share_model_selection_v1/test_thread_benchmark_v1.py",
+      "sha256": "902fe72fcb7efdc2f3e9d9d27d4ac8c60ff6a463eefef88a084c53fc2d6bddd3",
+      "previous_remote_sha256": null
     }
   ],
   "actual_completed_canary_fits": 6,
-  "actual_completed_formal_fits": 0,
+  "actual_completed_formal_fits": 90,
   "planned_canary_fits": 6,
   "planned_formal_fits": 90,
-  "status": "SIX_CANARY_FITS_AND_EXACT_REPLAYS_COMPLETE_FORMAL_PENDING",
-  "business_acceptance": "CANNOT_CONFIRM",
+  "status": "FORMAL_90_COMPLETE_METRICS_REVIEWED_M4_REJECTED",
+  "business_acceptance": "M4_GATE_FAILED_ALL_THREE_HORIZONS",
   "evidence_ceiling": "DIRECTION_ONLY",
   "independent_validation": [
     {
@@ -128,6 +138,20 @@
     {
       "scope": "CSV round-trip parsing preserves zero-tolerance replay comparison",
       "tests_passed": 1
+    },
+    {
+      "scope": "Formal recorded checkpoint artifacts",
+      "checkpoint_files_verified": 90
+    },
+    {
+      "scope": "Actual formal metrics and 100800 selected rows",
+      "result": "METRICS_CONSISTENT_M4_GATE_FAILED",
+      "tolerance": 1e-12
+    },
+    {
+      "scope": "Thread-benchmark startup and budget repairs",
+      "result": "INCREMENTAL_SOURCE_REVIEW_PASS; ACTUAL_PARITY_REJECTED",
+      "test_evidence": "15 earlier synthetic checks plus one new budget regression, incrementally independently reviewed; no passing actual-parity claim"
     }
   ],
   "test_commands": [
@@ -165,5 +189,29 @@
       "M0_ATTEMPT04_REPLAY_R3.json": "426deaa5c2754ce96841a8c1b3e452e4004b53e7d28a8588a0bd3f5bdd6851f6",
       "M4_ATTEMPT02_REPLAY_R1.json": "3daaa9cd0fb9841dd776da25f1087e2d209132d1c5e53139454acf528e69910d"
     }
+  },
+  "formal_metrics_summary": "FORMAL_RESULT_SUMMARY.json",
+  "formal_runtime": {
+    "stage_wall_seconds": 7045.44,
+    "maximum_stage_rss_bytes": 71384236032,
+    "scope": "Includes preparation, fitting, prediction, replay and evaluation"
+  },
+  "formal_checkpoint_validation": {
+    "checkpoint_count": 90,
+    "artifact_hashes_independently_verified": 90,
+    "recorded_prediction_replay_exact": 90,
+    "recorded_top10_exact": 90,
+    "second_deserialization_run": false
+  },
+  "thread_benchmark": {
+    "status": "PAUSED_BY_USER",
+    "real_fit_calls": 1,
+    "result": "PARITY_REJECTED",
+    "fit_seconds": 5.307266124989837,
+    "worker_peak_rss_bytes": 9713909760,
+    "comparison_status": "CANNOT_CONFIRM",
+    "retry_allowed": false,
+    "known_issue": "Stored comparison has zero maximum prediction difference and matching rank hashes, but exact-parity flags are false. Diagnosis and further tests paused by user.",
+    "source_local_commit": "51a35859ac18b9df54c468a271923db26f395105"
   }
 }

@@ -1,0 +1,191 @@
+{
+  "schema_version": "PV_FORMAL_METRICS_REVIEW_V1",
+  "reviewer": "Independent backtest validation auditor",
+  "recorded_by": "Research controller",
+  "verdict": "METRICS_CONSISTENT",
+  "research_decision": "M4_GATE_FAILED",
+  "evidence_ceiling": "DIRECTION_ONLY",
+  "matching_horizon_full_date_means_percent": {
+    "M0": [
+      2.454,
+      2.6207,
+      1.1273
+    ],
+    "M1": [
+      2.2028,
+      1.9709,
+      0.9077
+    ],
+    "M2": [
+      1.9856,
+      1.9905,
+      0.6696
+    ],
+    "M3": [
+      1.8288,
+      1.8176,
+      0.6197
+    ],
+    "M4": [
+      1.4459,
+      1.1069,
+      0.3495
+    ]
+  },
+  "full_date_counts": {
+    "M0": [
+      650,
+      638,
+      627
+    ],
+    "M1": [
+      645,
+      621,
+      645
+    ],
+    "M2": [
+      645,
+      617,
+      645
+    ],
+    "M3": [
+      643,
+      633,
+      650
+    ],
+    "M4": [
+      653,
+      633,
+      643
+    ]
+  },
+  "paired_mean_deltas_percentage_points": {
+    "M1": [
+      -0.2581,
+      -0.683,
+      -0.2754
+    ],
+    "M2": [
+      -0.4786,
+      -0.6372,
+      -0.5181
+    ],
+    "M3": [
+      -0.6343,
+      -0.7754,
+      -0.5276
+    ],
+    "M4": [
+      -1.0266,
+      -1.4857,
+      -0.8582
+    ]
+  },
+  "positive_paired_folds": {
+    "M1": [
+      2,
+      2,
+      2
+    ],
+    "M2": [
+      3,
+      1,
+      1
+    ],
+    "M3": [
+      2,
+      1,
+      2
+    ],
+    "M4": [
+      0,
+      0,
+      1
+    ]
+  },
+  "paired_date_counts": {
+    "M1": [
+      635,
+      610,
+      618
+    ],
+    "M2": [
+      636,
+      608,
+      615
+    ],
+    "M3": [
+      632,
+      616,
+      620
+    ],
+    "M4": [
+      639,
+      615,
+      614
+    ]
+  },
+  "horizon_order": [
+    1,
+    2,
+    5
+  ],
+  "table_rounding": "Return percentages and percentage-point differences rounded to four decimal places; exact M4 metrics remain in the frozen machine artifact",
+  "audit": {
+    "method": "Reviewed existing selected_returns.csv against summary and metrics; matching model and outcome horizon, complete ten-known-label dates, paired by fold and date",
+    "numeric_tolerance": 1e-12,
+    "summary_counts_and_means_match": true,
+    "m4_deltas_fold_counts_medians_p10_and_flags_match": true,
+    "rank_or_count_errors": 0,
+    "artifact_hashes_match": true,
+    "refit_performed": false,
+    "checkpoint_deserialization_repeated": false
+  },
+  "frozen_acceptance": {
+    "applies_to": "M4 versus M0 only",
+    "h1_passed": false,
+    "h2_passed": false,
+    "h5_passed": false,
+    "p10_subgate_passed": {
+      "h1": true,
+      "h2": false,
+      "h5": true
+    },
+    "m1_m2_m3": "EXPLORATORY_ONLY_NOT_PREFROZEN_ACCEPTANCE"
+  },
+  "signal_date_range": {
+    "start": "2024-01-02",
+    "end": "2026-10-15",
+    "fold_count": 6,
+    "last_fold_partial": true
+  },
+  "artifacts": {
+    "contract_sha256": "00ee5563e5feef7a5012650c7f8a6e57b6ce7a386a902f5d6fe7082179da85d5",
+    "output_manifest_sha256": "0ae28a40448a6a0c11e075581021ecc3a6944b3f9232d6c3336af4dc21a0dce8",
+    "metrics_sha256": "43e12155d97aa141e2ce54b5cb6e6e3f06bca491d7d01008c783fe440bda67b0",
+    "selection_summary_sha256": "83a4d0035627b86317bba92b5bed4f5b6bb297e0bfe0ea8d6f7ad4eaadf6b3a0",
+    "selected_returns_sha256": "57a9c604d5b6bc354c3c2637f3e361daee6a41315b045496d5458350c5b8874c"
+  },
+  "limitations": [
+    "Gross close-to-close adjusted-price outcomes; no costs, position sizing, capital or execution model",
+    "Exposed history, no sealed-forward validation",
+    "Each arm full-date mean uses its own valid dates; causal comparison uses paired complete dates",
+    "Retrospective current-industry classification is not proven historical PIT",
+    "Exact old candidate-pool identity, historical all-A listing/trading eligibility, official CSI300 source identity and exchange-calendar parity are not independently established by these final artifacts",
+    "Formula comparisons are diagnostics, not the M0 acceptance baseline; V193 comparator had zero selected slots"
+  ],
+  "safety_flags": {
+    "research_only": true,
+    "production_allowed": false,
+    "buy_gate_updated": false,
+    "orders_sent": false
+  },
+  "formal_fits_completed": 90,
+  "selected_records": 100800,
+  "runtime": {
+    "stage_wall_seconds": 7045.44,
+    "maximum_stage_rss_bytes": 71384236032,
+    "scope": "Includes preparation, fitting, prediction, replay and evaluation"
+  },
+  "baseline_id": "M0_SHARED_V192_V193_CORE_CLOSE_RETURN_TOP10"
+}
