@@ -1,0 +1,72 @@
+{
+  "archival_not_portable": {
+    "frozen_m0": [
+      "original formula sources and runtime engine including fast_loops.dylib omitted"
+    ],
+    "history_market_view_core.py": [
+      "original bound TDX index member and data provenance"
+    ],
+    "orchestration": [
+      "original ROOT/BATCH frozen controls and inputs",
+      "official local registry_adapter and canonical registry",
+      "original checkpoint/model/predictions",
+      "joblib, threadpoolctl and full training dependencies",
+      "original frozen formula text and engine binary, not published"
+    ],
+    "seasonality": [
+      "original hsjday_panel_dependency and top100_environment modules",
+      "original official registry helper",
+      "original TDX archive/company actions and bound aggregates/roster",
+      "pyarrow/PDF/name-map dependencies as used locally, not fully locked"
+    ]
+  },
+  "data_not_published": [
+    "raw prices",
+    "labels/raw truth",
+    "daily residuals",
+    "exact valid-day mask/calendar",
+    "selection/prediction rows",
+    "full aggregate-year counts",
+    "RNG state/checkpoint arrays",
+    "model weights",
+    "full registry"
+  ],
+  "full_reproduction_status": "CANNOT_CONFIRM_MISSING_ORIGINAL_INPUTS_AND_RUNTIME",
+  "path_adaptation": "qstar HAC_SOURCE uses adjacent frozen core; source roots replaced only in archival path literals",
+  "portable_statistical_core": {
+    "g1_ci_weight.py": [
+      "numpy",
+      "pandas"
+    ],
+    "g1_diagnostic.py": [
+      "numpy",
+      "pandas"
+    ],
+    "g1_hac_core.py": [
+      "numpy"
+    ],
+    "g1_qstar_core.py": [
+      "numpy",
+      "scipy.signal",
+      "scipy.stats",
+      "adjacent frozen g1_hac_core.py"
+    ],
+    "g1_qstar_state.py": [
+      "numpy",
+      "Python stdlib"
+    ],
+    "s1_industry_month_prior.py": [
+      "numpy",
+      "pandas"
+    ]
+  },
+  "public_import_check_scope": "six src cores only, no function calls; archive AST only",
+  "schema": "PUBLIC_DEPENDENCY_MAP_V1",
+  "test_limitation": "S1 test_frozen_route_split_purges_label_maturity_before_any_fit requires original runner/bindings/M0 dynamic engine; unavailable publicly. Other fixture masks are synthetic, not original mask.",
+  "test_requirements": [
+    "pytest",
+    "numpy",
+    "pandas",
+    "scipy"
+  ]
+}

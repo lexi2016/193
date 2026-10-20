@@ -1,0 +1,1049 @@
+{
+  "receipts": [
+    {
+      "original_logical_path": "local-evidence/factor_factory/research/a_share_top100_environment_v1/batches/hsjday_20y_20261019/interpretation_20261020_01/freeze_03/REVIEW_DATA_CHECK_01/INDEPENDENT_REVIEW_TRANSCRIPTION.json",
+      "original_sha256": "6efdb4a16c69beb8d4407b13eb37303ab8f95509d5f27ab98d82431d373f845a",
+      "projection": {
+        "actual_model_identity": "CANNOT_CONFIRM",
+        "behavior_verdict": "BEHAVIOR_VERIFIED_FROZEN_AGGREGATE_INTERPRETATION_ONLY",
+        "buy_gate_updated": false,
+        "code_sha256": "2b130fbfba221fb170efa1478959f4defd31c3071bf502ff065089cd7f1ef807",
+        "commands": [
+          "PYTHONDONTWRITEBYTECODE=1 research Python -m unittest research.a_share_top100_environment_v1.tests.test_hsjday_interpretation -v",
+          "Independent read-only Python stdin: frozen and manifest hashes, registry pre-registration; all9256 cells from original aggregate-year CSVs, pooled/annual L and S, half-period and both drop3 baselines, positive-excess shares, flags and MAIN/EX cross-check",
+          "Bundled Python pypdf: all83 CAPCO Chinese names checked on researcher-cited pages of the same official JR/T0020-2024 PDF; taxonomy keys preserved"
+        ],
+        "config_sha256": "d0d93d6e27f360c63e1b8442653c97a51324963eb410e04e6ac2db0f5c31af66",
+        "contract_sha256": "33ed937a9a2be7778f83176a3a6793da05cedbae9b9d7f06770d9f3efff51d80",
+        "findings": [],
+        "input_binding_sha256": "27b95fa96f1102528b97d1a881aa0a18aa290d9334a858bc28ea7f9979064a9d",
+        "key_examples": {
+          "C40_November": {
+            "L_main": 1.2707263994,
+            "S_main": 1.2152954143,
+            "positive_L_years": 15,
+            "positive_S_years": 15,
+            "robust_absolute": true,
+            "robust_seasonal": true,
+            "seasonal_drop3_S": 1.132688131
+          },
+          "I65_February": {
+            "L_main": 1.5188202762,
+            "S_main": 1.2257226415,
+            "positive_S_years": 10,
+            "robust_absolute": true,
+            "robust_seasonal": false,
+            "seasonal_drop3_S": 1.0933413157
+          },
+          "I65_January": {
+            "L_main": 1.3537691593,
+            "S_main": 1.0925226216,
+            "positive_S_years": 11,
+            "robust_absolute": true,
+            "robust_seasonal": false,
+            "seasonal_drop3_S": 0.9864841959
+          }
+        },
+        "limits": [
+          "DIRECTION_ONLY historical descriptive screening; no significance, causal, breakthrough or future-return validation",
+          "Original package/official-adjustment/all-market/calendar/historical-industry-PIT limitations retained; prior20-year PASS reused",
+          "Chinese mapping verifies category names only, not historical issuer membership",
+          "Git remote not configured: NOT_SYNCED; actual runtime model identity CANNOT_CONFIRM"
+        ],
+        "metrics": {
+          "annual_rows_reconciled": 185120,
+          "comparison_rows": 4628,
+          "core_numerical_functions_ast_identical": 11,
+          "diagnostic_cells_reconciled": 9256,
+          "failures": 0,
+          "few_year_inflated_both_absolute": 22,
+          "few_year_inflated_both_seasonal": 20,
+          "fixture_failures": 0,
+          "fixture_tests": 14,
+          "identity_and_output_hash_checks": 53,
+          "mapping_rows": 89,
+          "official_CAPCO_name_page_checks": 83,
+          "official_name_mismatches": 0,
+          "old_full_repeats": 0,
+          "raw_price_reads": 0,
+          "relative_only_without_absolute": 1,
+          "robust_absolute": 30,
+          "robust_seasonal": 1,
+          "robust_seasonal_only_including_overlap": 2,
+          "scalar_metric_checks": 453544
+        },
+        "nonblocking_precision_limit": "104 population-by-industry full-year rows have floating seasonal-excess residues below1e-10, so their positive-excess shares are numerically degenerate; their S values remain1 and no seasonal/few-year conclusion uses those shares. This does not affect month/third classifications or report conclusions.",
+        "not_executed": [
+          "raw price, ZIP/date/XDXR census or old FULL re-audit",
+          "training/backtest/V4/services/schedules/production/trading",
+          "source, numerical artifact or registry writes"
+        ],
+        "numerical_manifest_sha256": "0ca293bc5543f195e04728b7c4a2d7b3cc299579287656bf89cbcc7dba410e77",
+        "numerical_source_snapshot_sha256": "31a4a735b14f917a25125c0858e0016b6b66f8f5d81cea5c2989728f77d67915",
+        "official_chinese_codebook_pdf_sha256": "407e8f6f7cee18a68783da6ff1b06bf723149f889a25f7a86232ac0ab27ea507",
+        "orders_sent": false,
+        "presentation_manifest_sha256": "3cab43d1dec20e3a11e530e59d6209f77c2e689e7c366660f6a3832dbc03984c",
+        "production_allowed": false,
+        "ready_marker_sha256": "746d6a5569f945ff565e20138bd5c9daf9d7e98c6fafc921b84c417896b2665d",
+        "receipt_delivery": "canonical reviewer-output JSON for Writer transcription and terminalization of existing review execution",
+        "report_sha256": "dfbd8c4553ce42319813369b3de3523085c38562ed5686a9d4ff3baa5d039b4c",
+        "requested_model_effort": "gpt-6.1-sol/high",
+        "research_only": true,
+        "review_execution_id": "A_SHARE_HSJDAY_INTERPRETATION_20261020_FREEZE_03_REVIEW_DATA_CHECK_REVIEW_DATA_CHECK_01",
+        "review_registration_context_sha256": "b84f74dfe29aa3e8958f6fe972015d038b264b87b5e656fa6622983871f25c0d",
+        "reviewer": "/root/stats_independent_review",
+        "schema": "INDEPENDENT_INTERPRETATION_REVIEW_V1",
+        "scope": [
+          "Chinese display-name mapping preserves CAPCO/TDX/CSRC2012/UNKNOWN keys",
+          "L=pooled cell hits/expected; S=Lcell/Lindustry, not raw sector strength",
+          "annual and identical-year pooled half/drop3 industry baselines; frozen eligibility/stability/few-year rules",
+          "complete grids/support/zero cases; stable and intermediate/relative-only conclusions",
+          "report-only patch retains numeric CSV hashes and11 core numerical function AST identities; report key examples agree"
+        ],
+        "verdict": "REVIEWED/PASS",
+        "writer": "/root/top100_stats_writer"
+      },
+      "projection_type": "path-redacted parsed JSON; not original-byte receipt",
+      "stage": "seasonality"
+    },
+    {
+      "original_logical_path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/s1_industry_month_prior_20261020/S1_FORMAL_INDEPENDENT_REVIEW_01/INDEPENDENT_REVIEW_STDOUT.json",
+      "original_sha256": "1303579523605a4f20b42b621ee4e8c025c736e309191d7bd5fe228bbe50cb20",
+      "projection": {
+        "boundary_status": {
+          "buy_gate_updated": false,
+          "formal_review": "REVIEWED_RESULT_REPRODUCTION_PASS",
+          "orders_sent": false,
+          "production_allowed": false,
+          "research_gate": "S1_DEVELOPMENT_GATE_FAILED",
+          "research_only": true,
+          "research_status": "DIRECTION_ONLY",
+          "s2": "PROHIBITED"
+        },
+        "candidate_recall_check": {
+          "fixed_common_feature_pool_codes": 5576,
+          "future_winner_recall_at_k": "NOT_COMPUTED",
+          "interpretation": "This route scores the frozen common feature pool directly to Top10; it does not establish D-1 candidate-pool recall. A future winner outside the fixed candidate pool cannot be recovered by a reranker.",
+          "status": "CANNOT_CONFIRM",
+          "top100_top200_candidate_truncation": "NOT_TESTED"
+        },
+        "cannot_confirm": [
+          "Future-winner recall and recovery under a fixed D-1 candidate pool.",
+          "Full-universe OOF score coverage and ranking metrics beyond the saved selected Top10 lists.",
+          "Historical industry classification point-in-time validity; source is a retrospective proxy.",
+          "Official historical calendar, full-market coverage and survivorship completeness.",
+          "Executable net returns after transaction costs and sealed-forward performance.",
+          "Probability calibration, IC/IR, rolling_predictions, Recall@K, nDCG/MRR, and Top100/Top200 truncation behavior.",
+          "Paired segment/tail lift or regression; only the predeclared descriptive diagnostics were reproduced.",
+          "Daily inference latency against an authorized budget; no per-day latency measurement or budget was supplied."
+        ],
+        "evidence_paths": [
+          {
+            "path": "research/a_share_model_selection_v1/batches/s1_industry_month_prior_20261020/FINAL_REVIEW_HANDOFF.json",
+            "sha256": "61859f87517ab680d18732ff6c73883b0ba4639390caadb3ac819ef9ff206ac2"
+          },
+          {
+            "path": "research/a_share_model_selection_v1/batches/s1_industry_month_prior_20261020/S1_FORMAL_01/OUTPUT_MANIFEST.json",
+            "sha256": "c82fb15d0f22db4c0b76a13e99facc836405dbe8cd3c053a0bf42c7705aaa488",
+            "verification": "All 26 manifest-listed output file SHA256 values independently matched."
+          },
+          {
+            "path": "research/a_share_model_selection_v1/batches/s1_industry_month_prior_20261020/S1_FORMAL_01/METRICS.json",
+            "sha256": "57cb81c72f50227f6ac2fdb50d9625b95bc8b46ccffeb706da23dc17dfe912b3"
+          },
+          {
+            "path": "research/a_share_model_selection_v1/batches/s1_industry_month_prior_20261020/S1_FORMAL_01/PREPARATION_RECEIPT.json",
+            "sha256": "2a53f8eccc1370e7947630808342673927b7693028eed6ee3249fdaefa32e980"
+          },
+          {
+            "path": "research/a_share_model_selection_v1/batches/s1_industry_month_prior_20261020/S1_FORMAL_01/SELECTION_KEYS_BEFORE_LABELS.csv",
+            "verification": "Manifest SHA verified; independently compared with post-label selected-return keys."
+          },
+          {
+            "path": "research/a_share_model_selection_v1/batches/s1_industry_month_prior_20261020/S1_FORMAL_01/SELECTED_RETURNS_DIAGNOSTICS.csv",
+            "verification": "Manifest SHA verified; used only for frozen h2 and predeclared diagnostics reproduction."
+          },
+          {
+            "path": "research/a_share_model_selection_v1/batches/s1_industry_month_prior_20261020/S1_FORMAL_01/calendar.parquet",
+            "verification": "Manifest SHA verified; used for the frozen contiguous-session block construction."
+          },
+          {
+            "path": "contracts/EXPERIMENT_REGISTRY.jsonl",
+            "review_execution": "S1_FORMAL_INDEPENDENT_REVIEW_01",
+            "review_run_started_event_sha256": "93afad4aebe7c62dd3182f9a817ed142d67a501bfe049762d86d9ad0562dc47b",
+            "sha256_at_readback": "bf5730fd0d217373eebb8dc5c59312f1185f0319a0928b91cdc3a098a5eb02b4",
+            "verification": "Relevant event hashes recomputed; the review RUN_STARTED event was the sole open review execution at readback."
+          }
+        ],
+        "fixed_pool_and_label_check": {
+          "asof_leakage_sentinel": {
+            "observed_max_years": "2021->2020 through 2026->2025",
+            "point_in_time_source_classification": "CANNOT_CONFIRM; retrospective proxy",
+            "rule": "Only complete calendar years strictly earlier than the signal year are used.",
+            "status": "PASS_FOR_NUMERICAL_YEAR_CUTOFF"
+          },
+          "candidate_universe": {
+            "all_six_old_m0_data_identity_parities_exact": true,
+            "codes": 5576,
+            "common_m0_s1_keys": 6313420,
+            "preparation_signal_dates": 1294,
+            "prior_missing_rows_retained": 1193
+          },
+          "label_and_selection_order": {
+            "label_gaps": "Five complete gate folds span 601 dates; 564 dates have complete paired h2 outcomes and 37 are excluded for incomplete paired outcomes, without refill. The separate partial 2026H2 diagnostic spans 71 dates.",
+            "primary_label": "h2 close(T+2)/close(T)-1",
+            "saved_selected_rows": 13440,
+            "selection_days_per_arm": 672,
+            "selection_rule": "score descending, canonical code ascending for ties",
+            "top10_order_violations": 0,
+            "training_maturity": "Source split enforces label_end_date < fold.start; old M0 data_identity parity was exact for all six folds.",
+            "truth_access_order": "Top10 keys frozen before outcome join; independent key-to-outcome comparison matched exactly."
+          },
+          "status": "PASS_FOR_FROZEN_COMPARISON"
+        },
+        "paired_metric_deltas": {
+          "bootstrap": {
+            "method": "noncircular moving blocks of 20 observed sessions, constrained within fold and contiguous calendar intervals",
+            "replicates": 2000,
+            "reproduction_tolerance": 1e-14,
+            "seed": 19320261020,
+            "valid_blocks": 148
+          },
+          "comparison": "S1 minus M0, selected Top10 h2 gross-return metrics",
+          "complete_fold_dates": 601,
+          "complete_paired_dates": 564,
+          "event_p10_delta_95ci": [
+            -0.005197929193140816,
+            0.004690660264407188
+          ],
+          "fold_mean_deltas": {
+            "2024H1": -0.001580024907511924,
+            "2024H2": -0.0027927879767501926,
+            "2025H1": -0.0018805720140234292,
+            "2025H2": 0.0010111539629379534,
+            "2026H1": -0.0012270377694461284
+          },
+          "frozen_gate": "All five gates reproduced false: mean delta threshold, bootstrap lower bound >0, at least 4/5 positive folds, median daily delta nonnegative, and selected-event P10 nonnegative.",
+          "mean_daily_top10_delta": -0.0013053941994153233,
+          "mean_delta_95ci": [
+            -0.003496726085471142,
+            -0.0005393522201890834
+          ],
+          "median_daily_delta": -0.001460870955835962,
+          "median_delta_95ci": [
+            -0.006213779407561968,
+            0.00044553664635109646
+          ],
+          "partial_2026H2_diagnostic_only": {
+            "dates": 71,
+            "excluded_from_primary_gate": true,
+            "m0_mean_h2": 0.01050257619540524,
+            "m0_missing_outcome_rows": 20,
+            "s1_mean_h2": 0.016377657881629707,
+            "s1_missing_outcome_rows": 24
+          },
+          "positive_complete_folds": "1/5",
+          "runtime_and_resources": {
+            "formal_elapsed_seconds": 782.84,
+            "latency_budget_assessment": "CANNOT_CONFIRM",
+            "new_s1_fits": 6,
+            "peak_memory_footprint_bytes": 62939529480,
+            "peak_rss_bytes": 16338780160,
+            "reused_m0_checkpoints": 6,
+            "threads": 4
+          },
+          "selected_event_p10_delta": -0.000283869597846112,
+          "status": "INDEPENDENT_REPRODUCTION_PASS; FROZEN_RESEARCH_GATE_FAIL"
+        },
+        "recommended_next_step": "Writer should append this exact receipt and SHA as the registered terminal for S1_FORMAL_INDEPENDENT_REVIEW_01. Preserve S1_DEVELOPMENT_GATE_FAILED and DIRECTION_ONLY; do not start S2 or retune this frozen route. Any later candidate-recall, PIT-source, ranking-metric, or segment study requires its own predeclared contract.",
+        "review_scope": {
+          "evidence": "Hashes, six-fold fixed-pool parity, model/checkpoint identities, Top10 key/order, and frozen h2 metrics/bootstrap independently checked; no training was launched.",
+          "no_full_preparation_rerun": true,
+          "no_new_metrics_or_posthoc_segments": true,
+          "no_refit": true,
+          "read_only": true
+        },
+        "segment_and_truncation_risk": {
+          "outcome_scope": "Gross selected-return comparison, not net executable return.",
+          "ranking_quality_metrics": "No Recall@K, nDCG/MRR, IC/IR, rolling_predictions, full-universe OOF score artifact, or probability calibration result is present.",
+          "segment_tail_paired_lift": "Not computed; predeclared fold, partial-fold, concentration descriptors, and swap diagnostics were reproduced, but they do not establish segment/tail lift.",
+          "status": "CANNOT_CONFIRM",
+          "top100_top200_sensitivity": "Not measured; current evaluation selects Top10 directly from the 5576-code common pool."
+        }
+      },
+      "projection_type": "path-redacted parsed JSON; not original-byte receipt",
+      "stage": "S1"
+    },
+    {
+      "original_logical_path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_prior_diagnostic_20261020/INDEPENDENT_REVIEW_STDOUT.json",
+      "original_sha256": "09d5c3a6c37680a6aed8ae2fffce1a6f8a456b6d2efbba81743ada88d778b709",
+      "projection": {
+        "boundary_status": {
+          "S1": "S1_DEVELOPMENT_GATE_FAILED",
+          "S2": "NOT_AUTHORIZED; do not start",
+          "buy_gate_updated": false,
+          "evidence_level": "DIRECTION_ONLY",
+          "fit_calls": 0,
+          "independent_inferential_gate": "CANNOT_CONFIRM",
+          "orders_sent": false,
+          "original_metrics_decision_not_accepted": "INFORMATION_GATE_PASS_DEVELOPMENT_ONLY",
+          "production_allowed": false,
+          "research_only": true,
+          "review": "INDEPENDENT_ARITHMETIC_REPRODUCTION_PASS_WITH_STATISTICAL_LIMITATION"
+        },
+        "candidate_recall_check": {
+          "common_m0_s1_keys": 6313420,
+          "fixed_d1_candidate_pool": "NOT_DEFINED_OR_TESTED",
+          "fixed_m0_common_universe_codes": 5576,
+          "future_winner_recall_at_k": "NOT_COMPUTED",
+          "interpretation": "G1 is a conditional prior-information diagnostic inside M0 Top50; it does not measure recall of future winners in a fixed D-1 candidate pool. A reranker cannot restore a winner absent from that pool.",
+          "selected_top50_rows": 33600,
+          "status": "CANNOT_CONFIRM",
+          "stored_fullpool_predictions_rows": 3599471
+        },
+        "cannot_confirm": [
+          "Confidence-interval validity for the equal-date primary estimand because pooled legal-start resampling weights folds differently from the point estimate and the frozen contract omits fold allocation.",
+          "Future-winner recall in a fixed D-1 candidate pool; absent candidates cannot be recovered.",
+          "Baseline-versus-candidate ranking lifts and full-universe OOF ranking metrics.",
+          "Historical industry classification PIT/source fidelity; official calendar, full-market coverage and survivorship completeness.",
+          "Net executable returns after costs, sealed-forward performance, and authorized daily inference latency/memory budget.",
+          "Top100/Top200 truncation sensitivity, segment/tail regression, IC/IR, rolling_predictions, and probability calibration."
+        ],
+        "evidence_paths": [
+          {
+            "finding": "All 46 manifest-listed artifact hashes matched; binds the original preterminal and stable terminal evaluation receipt hashes.",
+            "path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_prior_diagnostic_20261020/FINAL_OUTPUT_MANIFEST.json",
+            "sha256": "5c27d33a92250a547675a374e82a93585c8522e90cb2290aef9284577a62233e"
+          },
+          {
+            "path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_prior_diagnostic_20261020/REVIEW_HANDOFF.json",
+            "sha256": "cf362f779c0f5d1a8fc22a25ce64d5b7bbc7daf4f6d56fd26abf39bc1f2db7ed"
+          },
+          {
+            "path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_prior_diagnostic_20261020/CONTRACT.json",
+            "sha256": "f649e27eac6cd57913447d5ac92db3ab6d600dc6e77aabb7a56c97434cefc94e"
+          },
+          {
+            "path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_prior_diagnostic_20261020/CONFIG.json",
+            "sha256": "128117c78b987bfaa5090c15921012217c4666a6dbb7ace55393eb493988e7c1"
+          },
+          {
+            "path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_prior_diagnostic_20261020/KEY_FREEZE_MANIFEST.json",
+            "sha256": "a705e86303d7be4da0738be162839ce91c7f3e704937d42b0a6c82ac688ef988"
+          },
+          {
+            "path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_prior_diagnostic_20261020/ALL_GROUP_KEYS_BEFORE_LABELS.parquet",
+            "sha256": "6eb9d36aec34dedcc32aa70c2079b77a5b73ba2ff17e8cb1c1942c1c094483c3"
+          },
+          {
+            "path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_prior_diagnostic_20261020/VALIDATION_DATES_BEFORE_LABELS.parquet",
+            "sha256": "fa784f7585cea43f0305ff999b4ebfb6d3715b7221de0b50913a3a8344b2a693"
+          },
+          {
+            "path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_prior_diagnostic_20261020/EVALUATION/LABELED_TOP50.parquet",
+            "sha256": "1c84723a288089c7c4789b55047f62951c4aea48a159c263abaac887ce8ab68d"
+          },
+          {
+            "path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_prior_diagnostic_20261020/EVALUATION/METRICS.json",
+            "sha256": "4d80b5622617610bd7c60fa512f2806a77390f37a8345bc30050f4e35b6b8ec2"
+          },
+          {
+            "finding": "Bound close panel used to independently reconstruct T+2 h2 labels; exact equality, including missing labels.",
+            "path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/s1_industry_month_prior_20261020/S1_FORMAL_01/panel.parquet",
+            "sha256": "78debd1de28b5c1bb27e1f0a6519f49958ba679b27740fdb68b03fef7791aee5"
+          },
+          {
+            "path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/s1_industry_month_prior_20261020/S1_FORMAL_01/calendar.parquet",
+            "sha256": "e893c66086168a23148c21626d6b5b1ed169a85e0c546bb76fbba376e0b3e861"
+          },
+          {
+            "finding": "G1_INDEPENDENT_REVIEW_01 RUN_STARTED event SHA 6cfea76acfd74ddb4b8a42d0316e5d471fac1297909ce31d6d875ba716cde503; metadata-finalization event hashes verified; review execution remains open.",
+            "path": "local-evidence/factor_factory/contracts/EXPERIMENT_REGISTRY.jsonl",
+            "sha256": "5f0ceb44c1cd7bfae5d75b67679b92ddcd7d552a753ced777763aba9a5110aff"
+          }
+        ],
+        "fixed_pool_and_label_check": {
+          "baseline_identity": "Six bound M0 checkpoint identities and stored OOF fullpool prediction identities were verified; six single-date model replays matched saved predictions and old M0 Top10 keys/scores; fit_calls=0.",
+          "folds": [
+            "2024H1",
+            "2024H2",
+            "2025H1",
+            "2025H2",
+            "2026H1",
+            "2026H2_PARTIAL_TO_2026_10_15"
+          ],
+          "label": "Recomputed close(T+2)/close(T)-1 from the bound observed-date calendar and close panel; saved label keys and values matched exactly, including 199 missing h2 rows; no refill.",
+          "point_in_time": "Numerical prior cutoff is prior calendar years, but historical industry classification source/PIT remains CANNOT_CONFIRM.",
+          "prior_grouping": "Recomputed known-prior filter, linear q30/q70, inclusive ties, group-size and overlap handling exactly matched frozen label-blind high/low membership.",
+          "status": "PASS_FOR_FROZEN_G1_DIAGNOSTIC",
+          "top50_rebuilt_from_stored_fullpool": "Exact date/code/rank/score parity; 672 dates and 33600 selected rows."
+        },
+        "paired_metric_deltas": {
+          "M0_prediction_gap": 3.668434809245034e-05,
+          "bootstrap": {
+            "allocation_issue": "Start blocks are sampled uniformly from the pooled 170 starts, while the point estimand weights valid dates equally. Start-share versus point-date share: 2024H1 26.47% vs 20.11%; 2024H2 38.82% vs 22.49%; 2025H1 20.00% vs 19.38%; 2025H2 10.00% vs 20.48%; 2026H1 4.71% vs 17.55%. Contract fixes within-fold contiguous blocks but does not specify fold draw allocation; the saved positive lower confidence bound is therefore not independently accepted for the equal-date estimand. No alternate bootstrap was run.",
+            "blocks_by_fold": {
+              "2024H1": 45,
+              "2024H2": 66,
+              "2025H1": 34,
+              "2025H2": 17,
+              "2026H1": 8
+            },
+            "replicates": 2000,
+            "reproduction": "Exact under the saved implementation",
+            "saved_ci95": [
+              0.0015383116391024388,
+              0.006403277096514368
+            ],
+            "seed": 19320261020,
+            "valid_blocks": 170
+          },
+          "denominator_dates": 601,
+          "estimand": "Equal-date mean across valid dates of the equal-five-rank-band high-minus-low h2 residual (h2-M0 prediction); this is not a candidate reranker versus baseline ranking comparison.",
+          "fold_coverage": {
+            "2024H1": 0.9401709401709402,
+            "2024H2": 0.984,
+            "2025H1": 0.905982905982906,
+            "2025H2": 0.8888888888888888,
+            "2026H1": 0.8275862068965517
+          },
+          "fold_means": {
+            "2024H1": 0.0003143907856164795,
+            "2024H2": 0.005439747568456093,
+            "2025H1": 0.007117212737424578,
+            "2025H2": 0.0007757601523499695,
+            "2026H1": 0.0008614419773583796
+          },
+          "independent_decision": "CANNOT_CONFIRM_BOOTSTRAP_ALLOCATION",
+          "original_metrics_decision_not_accepted": "INFORMATION_GATE_PASS_DEVELOPMENT_ONLY",
+          "overall_coverage": 0.9101497504159733,
+          "positive_folds": "5/5",
+          "primary_residual_spread": 0.002975649093957072,
+          "primary_residual_spread_bp": 29.75649093957072,
+          "raw_h2_spread": 0.0030123334420495227,
+          "reconciliation_error": -4.336808689942018e-19,
+          "status": "ARITHMETIC_REPRODUCTION_PASS; INFERENTIAL_GATE_CANNOT_CONFIRM",
+          "valid_dates": 547
+        },
+        "recommended_next_step": "Append this review as a registered terminal with numerical/identity reproduction PASS and bootstrap allocation/CIs/information-gate independent acceptance CANNOT_CONFIRM stated separately. Show the +29.76bp residual spread descriptively with 5/5 positive fold estimates and the 91.01% complete-date coverage. Label the saved CI only as original implementation output, not statistically accepted evidence. Do not run a post-hoc alternate bootstrap, tune this route, or start S2. Any future inferential gate needs a separately authorized, predeclared fold-allocation contract; any eventual reranker acceptance also needs fixed-pool recall, paired ranking metrics, segments/tail, truncation, cost and runtime evidence.",
+        "segment_and_truncation_risk": {
+          "evaluation_window": "Top50 only, with five M0 score-rank bands; bands are diagnostic strata.",
+          "outcome_scope": "Gross h2 outcomes; transaction-cost-adjusted executable results and sealed-forward outcomes are absent.",
+          "paired_segment_or_tail_regression": "NOT_MEASURED as a candidate-versus-baseline reranker outcome.",
+          "ranking_metrics": "No Recall@K, Hit@K, nDCG/MRR, IC/IR, rolling_predictions artifact, or probability calibration evidence.",
+          "resource_measurement": {
+            "G1_elapsed_seconds": 37.43,
+            "checkpoint_model_loads": 7,
+            "daily_latency_budget": "CANNOT_CONFIRM",
+            "fit_calls": 0,
+            "new_fullpool_predict_calls": 0,
+            "peak_memory_footprint_bytes": 2911325352,
+            "peak_rss_bytes": 2441904128,
+            "sample_replay_predict_calls": 6
+          },
+          "status": "CANNOT_CONFIRM",
+          "top100_top200_truncation_sensitivity": "NOT_TESTED."
+        }
+      },
+      "projection_type": "path-redacted parsed JSON; not original-byte receipt",
+      "stage": "G1_original"
+    },
+    {
+      "original_logical_path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_ci_weight_fix_20261020/INDEPENDENT_REVIEW_STDOUT.json",
+      "original_sha256": "932abf03bddd99c73ba8fae7cd4928ffee9164aceda7afd0bf08f55a0645c078",
+      "projection": {
+        "boundary_status": {
+          "S1": "S1_DEVELOPMENT_GATE_FAILED",
+          "S2_started": false,
+          "buy_gate_updated": false,
+          "ci_implementation_review": "PASS_WITH_FROZEN_SUPPORT_STOP",
+          "fit_calls": 0,
+          "formal_bootstrap_replicates": 0,
+          "model_loads": 0,
+          "orders_sent": false,
+          "predict_calls": 0,
+          "production_allowed": false,
+          "research_information_gate": "CANNOT_CONFIRM_BLOCK_COVERAGE",
+          "research_only": true,
+          "research_status": "DIRECTION_ONLY"
+        },
+        "candidate_recall_check": {
+          "finding": "This CI-only correction computes no Recall@K and does not establish whether future winners outside a fixed D-1 candidate pool are recoverable. Prior G1 fixed-pool/Top50 diagnostic identity is reused; no pool or grouping is changed.",
+          "status": "CANNOT_CONFIRM"
+        },
+        "cannot_confirm": [
+          "A corrected numerical CI and inferential information-gate pass, because valid dates with c=0 trigger the frozen stop rule.",
+          "Future-winner recall for a fixed D-1 candidate pool and omitted ranking, calibration, segment, truncation, rolling-prediction and latency metrics.",
+          "Final combined dashboard/UI behavior; this review covers CI implementation and support only."
+        ],
+        "evidence_paths": [
+          {
+            "path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_ci_weight_fix_20261020/REVIEW_HANDOFF.json",
+            "sha256": "34cfe1edf9598510fdb7940548af8af181a0e3e515663d16328c3970b2eb61c8"
+          },
+          {
+            "path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_ci_weight_fix_20261020/CONTRACT.json",
+            "sha256": "08b640678550d100af8a0df138dfaa5369ad9f3b8e7fffd1f81c2a9b590b6962"
+          },
+          {
+            "path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_ci_weight_fix_20261020/CONFIG.json",
+            "sha256": "4fa7b7320281bceeb9a129568692b583f64a7b85c93a728c4f77ecbb7e637e6e"
+          },
+          {
+            "path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_ci_weight_fix_20261020/FROZEN_IDENTITY.json",
+            "sha256": "ca603b81db28615e39850f2709af0b21c676f6b60c30f50e70e0d7e4cbe361e1"
+          },
+          {
+            "path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_ci_weight_fix_20261020/INPUT_BINDING.json",
+            "sha256": "9f21d754f47e470de3ca869964204c8d3bccb222f2d3a7fb332cb47b139e61ab"
+          },
+          {
+            "path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_ci_weight_fix_20261020/OUTPUT_MANIFEST.json",
+            "sha256": "098fdb1708a67fc2e7289630ca4edd5bdfc99ee17745162e90fac6462325a418"
+          },
+          {
+            "path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_ci_weight_fix_20261020/FINAL_RESULT.json",
+            "sha256": "4d9231867fe6199de3d2bac6aee8693bc623a8b71cf2c0e39fd582ffa6a40928"
+          },
+          {
+            "path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_ci_weight_fix_20261020/G1_CI_SUPPORT_01/SUPPORT_DIAGNOSTICS.json",
+            "sha256": "2d604f45b6b97d303ca3a2425c21de8d0d7738b2a6ab36a4780479f0a1df4a84"
+          },
+          {
+            "path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_ci_weight_fix_20261020/G1_CI_SUPPORT_01/VALID_DAY_BLOCK_COVERAGE.csv",
+            "sha256": "06691ecd9e13de5091cf547a452f15e49ad85b8baaa78321267a4ee5df421082"
+          },
+          {
+            "path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_ci_weight_fix_20261020/G1_CI_CANARY_01/RUN_RECEIPT.json",
+            "sha256": "cf5878cc1fa4a262ae00fcb297c9094e8ea5fb3aae8adeca90ea83362e6424cb"
+          },
+          {
+            "path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_ci_weight_fix_20261020/G1_CI_SYNTHETIC_TEST_01/RUN_RECEIPT.json",
+            "sha256": "bc4c374435abeb041b25fb5e073f047aab4f14823960a00cf749a7e55feeda38"
+          },
+          {
+            "path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_prior_diagnostic_20261020/EVALUATION/DAILY_DIAGNOSTICS.csv",
+            "sha256": "bf9919ff511faf93a73474e549e4a612810df17b2af8abd7cfea706ac6a129e4"
+          },
+          {
+            "path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_prior_diagnostic_20261020/EVALUATION/METRICS.json",
+            "sha256": "4d80b5622617610bd7c60fa512f2806a77390f37a8345bc30050f4e35b6b8ec2"
+          },
+          {
+            "path": "local-evidence/factor_factory/workspace/.task_worktrees/g1-ci-weight-fix-20261020/research/a_share_model_selection_v1/g1_ci_weight.py",
+            "sha256": "dc018da7474d03b143032b5a5812683c1a96bc30cf35e999d0d6ee4b1bc3c968"
+          },
+          {
+            "path": "local-evidence/factor_factory/workspace/.task_worktrees/g1-ci-weight-fix-20261020/research/a_share_model_selection_v1/g1_ci_runner.py",
+            "sha256": "f1ac20c435bfd5ff3830990c3bdd8ee2f895cf3a66f329211bb6f09c6ab88dc1"
+          },
+          {
+            "path": "local-evidence/factor_factory/workspace/.task_worktrees/g1-ci-weight-fix-20261020/research/a_share_model_selection_v1/g1_ci_registry.py",
+            "sha256": "4909548c8cefa71e650956546f7dfa0d7bb2558a0eb075f8b1b84d9a148543a0"
+          },
+          {
+            "path": "local-evidence/factor_factory/workspace/.task_worktrees/g1-ci-weight-fix-20261020/research/a_share_model_selection_v1/test_g1_ci_weight.py",
+            "sha256": "308b1d844aebd6ab26979b91e9ef28fab0fabcd3a792018e7604043dba96c7f0"
+          },
+          {
+            "finding": "G1_CI_INDEPENDENT_REVIEW_01 RUN_STARTED event SHA 6004ba2a5d0b0aa4fd70b3162631ea6c6abe0906b897af2c42dce3cb493610e5 verified; pre-terminal registry SHA.",
+            "path": "local-evidence/factor_factory/contracts/EXPERIMENT_REGISTRY.jsonl",
+            "sha256": "76f76755ae00e2378a975963116cb06575c06161e38b5e195dec4f435bf50f42"
+          }
+        ],
+        "fixed_pool_and_label_check": {
+          "finding": "Frozen accepted G1 daily diagnostics, original metrics and manifests matched their bound SHA-256 values. No Top50 regrouping, label recomputation, model/checkpoint/prediction access, or new fit/predict occurred. G1 remains post-hoc exposed-history DIRECTION_ONLY, not sealed-forward acceptance.",
+          "status": "REUSED_PRIOR_IDENTITY_PASS"
+        },
+        "paired_metric_deltas": {
+          "ci95": null,
+          "ci_status": "CANNOT_CONFIRM_BLOCK_COVERAGE",
+          "coverage": {
+            "denominator_dates": 601,
+            "ratio": 0.9101497504159733,
+            "valid_dates": 547
+          },
+          "finding": "The previously accepted descriptive point, fold means, coverage and partial diagnostic match the bound original METRICS.json exactly as parsed JSON values. No new candidate-versus-baseline rank-metric delta or inferential interval was produced.",
+          "formal_replicates": 0,
+          "point": 0.002975649093957072,
+          "positive_complete_folds": 5,
+          "status": "DESCRIPTIVE_POINT_UNCHANGED_CI_UNAVAILABLE"
+        },
+        "recommended_next_step": "Close this CI review with an independent receipt preserving CANNOT_CONFIRM_BLOCK_COVERAGE. Keep G1 figures descriptive and DIRECTION_ONLY. Separately review the combined history_market_view dashboard increment only after its lineage and Writer READY handoff; do not claim a CI or business acceptance pass.",
+        "review_checks": {
+          "artifact_binding": "PASS: all 14 OUTPUT_MANIFEST entries, current code/control identity hashes, and accepted input hashes verified.",
+          "formal_gate": "CANNOT_CONFIRM_BLOCK_COVERAGE: 187 valid point dates have zero legal-block coverage across four folds. FINAL_RESULT carries ci95=null, replicates_executed=0 and machine_decision=CANNOT_CONFIRM_BLOCK_COVERAGE; this is the frozen stop rule, not a failed attempt to calculate an interval.",
+          "frozen_rule_and_implementation": "PASS: source implements frozen fold-specific centered residuals, inverse legal-block coverage, fixed n_f/547 weights, m=ceil(n_f/20), uniform replacement sampling and linear 2.5/97.5 quantiles around the original point; c=0 and K<2 stop before formal bootstrap and return null CI.",
+          "presentation_scope": "NOT_REVIEWED: this batch manifest preserves original presentation files but has no changed rendered dashboard; combined CI/20-year dashboard update remains a separate pending review.",
+          "preservation": "PASS: point, all fold means, overall and per-fold coverage, five-positive-fold count and partial 2026H2 diagnostic match the bound original METRICS.json exactly as parsed JSON values; recompute flags remain false.",
+          "result_status": "FINAL_RESULT.accepted_status remains INDEPENDENT_REVIEW_PENDING in this pre-terminal snapshot; the machine decision is CANNOT_CONFIRM_BLOCK_COVERAGE and must not be treated as an acceptance pass.",
+          "runner_limit": "NON_BLOCKING: run() checks canary receipt existence rather than status/decision. The actual bound canary receipt is COMPLETED/ENGINEERING_CANARY_ONLY and registered, so the observed support run did not bypass the successful canary. No rerun requested.",
+          "support_reproduction": "PASS: independently recomputed support from only the SHA-bound accepted DAILY_DIAGNOSTICS.csv; all 547 date/index coverage rows exactly match. Fold n/K/m/c0: 2024H1 110/45/6/27; 2024H2 123/66/7/0; 2025H1 106/34/6/34; 2025H2 112/17/6/76; 2026H1 96/8/5/50. No date was dropped or refilled.",
+          "synthetic_tests": "PASS: independently reran the frozen test file with the designated training venv; 7 passed in 0.31s, with one non-blocking pytest cache_dir warning."
+        },
+        "review_execution": "G1_CI_INDEPENDENT_REVIEW_01",
+        "segment_and_truncation_risk": {
+          "finding": "No paired Recall@K, Hit@K, nDCG/MRR, IC/IR, calibration, rolling_predictions, Top100/Top200 truncation, segment/tail regression, or inference-latency measurement was produced by this correction.",
+          "status": "NOT_EVALUATED_IN_CI_ONLY_SCOPE"
+        }
+      },
+      "projection_type": "path-redacted parsed JSON; not original-byte receipt",
+      "stage": "G1_CI_support_stop"
+    },
+    {
+      "original_logical_path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_hac_all_dates_20261020/INDEPENDENT_REVIEW_FINAL_STDOUT.json",
+      "original_sha256": "1b7a7c8f23039fd5dbcf4a08b0515a2aebb47ee3664c1de95b921414dad89329",
+      "projection": {
+        "D": 460.30270684044444,
+        "N": 547,
+        "S1_crop_pixels_unchanged": true,
+        "behavior_verified": "FROZEN_HAC20_MASK_CALIBRATION_CORRECT_STOP_AND_STATIC_PRESENTATION_ONLY",
+        "buy_gate_updated": false,
+        "c": 1.1883484321755413,
+        "code_control_hashes_verified": 7,
+        "code_sha256": "8461e91318741cb64c7c80c5e6090a8b0cfc174d53bd749f6030a35baeef031b",
+        "config_sha256": "c00f2048fbf16c849f677e87aecf7abb4c79f333a7f5ef038063f45e1a83e688",
+        "contract_sha256": "ad9eef88147764efb1e310922c79a8a2a78d47ce59d6e668e06eb69b95c2b1f3",
+        "decision": "CANNOT_CONFIRM_CI_CALIBRATION",
+        "findings": [],
+        "fixtures_passed": 9,
+        "history_data_SHA_unchanged": true,
+        "hits": [
+          9440,
+          9426,
+          9284,
+          9206
+        ],
+        "independent_method": "original-calendar lag-sum replay; no core.calibrate call",
+        "input_hashes_verified": 4,
+        "limits": [
+          "REAL_DATA_95_COVERAGE_CANNOT_CONFIRM",
+          "UI_NOT_VERIFIED",
+          "NO_TRAINING_LIFT_OR_STRATEGY_RETURN_ACCEPTANCE",
+          "SOURCE_SYNC_NOT_REVIEWED"
+        ],
+        "non_G1_HTML_unchanged_except_G1_status_note": true,
+        "numeric_manifest_files_verified": 52,
+        "orders_sent": false,
+        "presentation_hashes_verified": 15,
+        "presentation_source_sha256": "70a5d3aa4a376e8bfae130ffca633fbd1dc201e6e006d87626adbd181ab18766",
+        "primary_calendar_rows": 601,
+        "production_allowed": false,
+        "real_ci95": null,
+        "real_ci_executed": false,
+        "real_guard_refused_before_residual_parse": true,
+        "real_x_read_during_review": false,
+        "registry_scoped_events_at_review": 57,
+        "registry_scoped_executions_at_review": 29,
+        "registry_sha256_at_review": "283481e35b853283f2d5c84a0f9a9bb439bb9daf50b58f9f54e9f4954cda7287",
+        "reps_each": 10000,
+        "research_only": true,
+        "review_execution": "G1_HAC_INDEPENDENT_REVIEW_01",
+        "reviewed_numeric_manifest_sha256": "c3d99c0114c1bdb34c811ddaf18cf1f8dd1b2cf3eaf51638cfc80e74fb8f228e",
+        "reviewed_presentation_manifest_sha256": "5f5494596ba352bec7781ba527aec491afe8f7a2d3c85e935f31c32a6b39d3c1",
+        "reviewer": "/root/ci_all_dates_design",
+        "schema": "G1_HAC_INDEPENDENT_REVIEW_V1",
+        "verdict": "REVIEWED/PASS",
+        "wilson_lower": [
+          0.9393207622704972,
+          0.9378687695143805,
+          0.9231805218521728,
+          0.9151380476574077
+        ]
+      },
+      "projection_type": "path-redacted parsed JSON; not original-byte receipt",
+      "stage": "G1_HAC"
+    },
+    {
+      "original_logical_path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_qstar_20261020/INDEPENDENT_REVIEW_FINAL_STDOUT.json",
+      "original_sha256": "35098ab68b243876b770b769040592ec1059cfac71990399d4e6b7bdeab05f26",
+      "projection": {
+        "S1_crop_pixels_unchanged": true,
+        "all_final_RNG_states_match": true,
+        "behavior_verified": "FROZEN_EIGHT_SCENARIO_QSTAR_CALIBRATION_LOCK_VALIDATION_REAL_CI_AND_STATIC_PRESENTATION_ONLY",
+        "buy_gate_updated": false,
+        "calibration_draws_replayed": 400000,
+        "code_control_hashes_verified": 9,
+        "code_sha256": "2b326bbdde7b482fd0c4ed2a038626551e78b405cd28f9ecae3292eb1ff4c598",
+        "config_sha256": "b7efa7a6ef6e7d8c2952dee80ae5fd4f0597f933c861e0570e0deb36610c52e1",
+        "decision": "INCONCLUSIVE",
+        "findings": [],
+        "formal_real_CI_executions": 1,
+        "history_data_SHA_unchanged": true,
+        "independent_method": "handwritten AR recurrence; original-calendar lag variance; binomial tail summation; no project simulation/statistic calls",
+        "independent_real_CI": [
+          -0.0006017494756064773,
+          0.0065530476635206215
+        ],
+        "limits": [
+          "REAL_DATA_UNIVERSAL_95_COVERAGE_CANNOT_CONFIRM",
+          "UI_NOT_VERIFIED",
+          "NO_TRAINING_LIFT_STRATEGY_RETURN_OR_SEALED_ACCEPTANCE",
+          "SOURCE_SYNC_NOT_REVIEWED"
+        ],
+        "lock_before_phase1_verified": true,
+        "maximum_absT_delta": 6.217248937900877e-15,
+        "new_fixtures_passed": 11,
+        "non_G1_HTML_unchanged_except_G1_status_note": true,
+        "numeric_manifest_files_verified": 253,
+        "old_HAC_mask_S1_history_PASS_reused": true,
+        "order_k": 47647,
+        "orders_sent": false,
+        "original_point_foldmeans_coverage_unchanged": true,
+        "presentation_hashes_verified": 15,
+        "presentation_source_sha256": "1e50ddf58453fd5808b9d3b0348dfdd2eb4c97468beffdefd932f66eb4c4a1d0",
+        "production_allowed": false,
+        "qstar": 2.9877439760955102,
+        "qstar_lock_sha256": "4a5bb086d7dda6eafd993f30a215d79d125d5b41d246191a3aff33585c024221",
+        "registry_scoped_events_at_review": 159,
+        "registry_scoped_executions_at_review": 80,
+        "registry_sha256_at_review": "00eeafc6d9ca2a2b83f2866f4b728f54179149f1b4be7503769dc49031efb583",
+        "research_only": true,
+        "review_execution": "G1_QSTAR_INDEPENDENT_REVIEW_01",
+        "reviewed_numeric_manifest_sha256": "a3713d4eddd250c143a3babeb6c68cb91214106025f5b949c32a2ed7bf9b2d0b",
+        "reviewed_presentation_manifest_sha256": "aec256f0a0d841db9f3b4ee846d1d90a3e27bccfb42bd75ad49e8bb98efff440",
+        "reviewer": "/root/ci_all_dates_design",
+        "schema": "G1_QSTAR_INDEPENDENT_REVIEW_V1",
+        "validation_draws_replayed": 80000,
+        "validation_gate_before_real_CI_verified": true,
+        "validation_hits": [
+          9951,
+          9942,
+          9932,
+          9903,
+          9567,
+          9600,
+          9908,
+          9542
+        ],
+        "verdict": "REVIEWED/PASS"
+      },
+      "projection_type": "path-redacted parsed JSON; not original-byte receipt",
+      "stage": "G1_qstar"
+    },
+    {
+      "original_logical_path": "local-evidence/factor_factory/research/a_share_top100_environment_v1/batches/hsjday_20y_20261019/historical_descriptive_04/REVIEW_DATA_CHECK_01/INDEPENDENT_REVIEW_TRANSCRIPTION.json",
+      "original_sha256": "cc893fcf3da72f2619b212892bdb9326d1c28e51a80760609b1a3ddd43caf369",
+      "projection": {
+        "actual_model_identity": "CANNOT_CONFIRM",
+        "actual_scope": [
+          "2006-2025 output bounds and pre2006 warm-start denominator",
+          "sequential original apply_xdxr_pre_close for all cached actions in (prior,current], resumed flag, missing/nonpositive denominator and no clipping",
+          "Top100 gain descending/code ascending ties, 100 per day, companion reranking excluding resumed",
+          "complete industry/month/third/month-third by all20 years, zero hits/unsupported grids, expected hits, support and annual stability/streak",
+          "current CAPCO/TDX/CSRC2012/UNKNOWN taxonomy separation and BJ source-bound inclusion/exclusion",
+          "real panel/statistics outputs exist and independently reconcile"
+        ],
+        "behavior_verdict": "BEHAVIOR_VERIFIED_PACKAGE_OBSERVED_DESCRIPTIVE_SCOPE_ONLY",
+        "buy_gate_updated": false,
+        "cannot_confirm": [
+          "official daily-gain/complete adjustment-action identity",
+          "historical all-market universe, official calendar and historical BJ eligibility",
+          "historical industry PIT and current classification free of survival/classification bias",
+          "external/Git synchronization; remote is not configured",
+          "actual runtime model identity"
+        ],
+        "checker_recoveries": [
+          "Initial independent checker had a pandas subset-index comparison error before financial output reconciliation; corrected in stdin only, no source/output edits",
+          "Research Python lacked PDF parser; archived issuer-source readback completed successfully with bundled Python pypdf"
+        ],
+        "code_sha256": "e8071ebea55783312d0b1ae5946a9e5f9a5f9c183f19e85710613b9c381ee003",
+        "commands": [
+          "PYTHONDONTWRITEBYTECODE=1 'local-evidence/private_home/Library/Application Support/com.lexi.v4.local/runtime/venvs/v3.5-mac/bin/python' -m unittest research.a_share_top100_environment_v1.tests.test_hsjday_history_stats -v",
+          "Read-only Python stdin: frozen/47-output/7-input SHA verification; registry pre-registration targeted lookup; complete MAIN and EX_RESUMED daily/annual/summary reconciliation; 40 actual-session Top100/industry-denominator samples; 8 source-row manual sequential-formula checks; 5514 CAPCO source-row identities",
+          "Bundled Python pypdf stdin: archived issuer-source pages 1/136/3 and 001232 identity page1 hash/content readback"
+        ],
+        "config_sha256": "b5b4b13e4f9f18b9db0dd6695f53a66d991d7cce5e934361abf569d1838d3e8d",
+        "contract_sha256": "6d36c4ccd61f49c828bab20b9182f196e9af4d7ce7429c9c6b279fbeee04baa9",
+        "findings": [],
+        "input_binding_sha256": "9adc338d436524f9708811a441925dc6ddac55978b2e013468f65a7aa0b52a5e",
+        "metrics": {
+          "actual_hits_per_population": 485900,
+          "annual_grid_rows_per_population": 92560,
+          "bj_included": 318,
+          "bj_unverified_excluded": 37,
+          "bound_input_hashes_verified": 7,
+          "capco_roster_codes": 5516,
+          "capco_source_rows_reconciled": 5514,
+          "csrc2012_roster_codes": 1,
+          "days_per_population": 4859,
+          "end": "2025-12-31",
+          "ex_resumed_valid_stock_days": 14649188,
+          "expected_hits_per_population": 485900.0,
+          "focused_fixture_failures": 0,
+          "focused_fixture_tests": 13,
+          "industries": 89,
+          "main_valid_stock_days": 14703002,
+          "output_file_hashes_verified": 47,
+          "panel_rows": 14707393,
+          "panel_year_files": 20,
+          "primary_supplement_sources_page_checked": 3,
+          "reconciliation_failures": 0,
+          "representative_real_rows": 8,
+          "roster_codes": 5879,
+          "sampled_actual_panel_days": 40,
+          "sampled_actual_panel_rows": 121723,
+          "start": "2006-01-04",
+          "summary_grid_rows_per_population": 4628,
+          "targeted_zip_members_read": 6,
+          "tdx_roster_codes": 4,
+          "top100_rows_per_population": 485900,
+          "unknown_roster_codes": 358
+        },
+        "nonblocking_limits": [
+          "CAPCO industry tokens such as CAPCO:A01 are preserved from bound source; Chinese division_name is not substituted. Category identity and counts are intact",
+          "Current industry is retrospective; source-asof dates are recorded; no predictive, causal, statistical-significance or breakthrough acceptance"
+        ],
+        "not_executed": [
+          "FULL/CANARY recomputation",
+          "ZIP census/date coverage/XDXR full re-audit",
+          "training/V4/services/schedules/production/trading",
+          "registry or business/source/numerical artifact writes"
+        ],
+        "orders_sent": false,
+        "output_manifest_sha256": "02256b4d5f154268f7d167e02841b2fbb08491f2931ecf3f48eb0eb930053fe8",
+        "production_allowed": false,
+        "ready_marker_sha256": "155e8256687b5c82458458e7ecbde5183af6428533bac7d6e4a463be041de512",
+        "receipt_delivery": "reviewer stdout; persist verbatim as reviewer-output transcription, not a reviewer-owned filesystem artifact",
+        "representative_suspension_case": {
+          "adjusted_denominator": 4.869999999850989,
+          "code": "000426.SZ",
+          "matched_action_dates": [
+            "20150825",
+            "20150923"
+          ],
+          "previous_close": 9.76,
+          "prior_date": "2015-07-07",
+          "proxy_gain": 0.10061601646078122,
+          "trade_date": "2015-10-08"
+        },
+        "requested_model_effort": "gpt-6.1-sol/high",
+        "research_only": true,
+        "review_execution_id": "A_SHARE_HSJDAY_20Y_DESCRIPTIVE_20261019_HISTORICAL_DESCRIPTIVE_04_REVIEW_DATA_CHECK_REVIEW_DATA_CHECK_01",
+        "review_registration_context_sha256": "31979a4303c639ae90457b16bb6e21754c34002ffcd2b7b041d01646519cdac7",
+        "reviewer": "/root/stats_independent_review",
+        "run_receipt_sha256": "bfb68ca60c6db58e83f077245a40ee6b549e912180c831bf91888c6d6cf89725",
+        "schema": "INDEPENDENT_REVIEW_RECEIPT_V1",
+        "study_path": "local-evidence/factor_factory/research/a_share_top100_environment_v1/batches/hsjday_20y_20261019/historical_descriptive_04",
+        "verdict": "REVIEWED/PASS",
+        "writer": "/root/top100_stats_writer"
+      },
+      "projection_type": "path-redacted parsed JSON; not original-byte receipt",
+      "stage": "20y_historical_descriptive"
+    },
+    {
+      "original_logical_path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/history_market_view_20261020/SOURCE_REVIEW_STDOUT.json",
+      "original_sha256": "f269774834f84b2df568cd938358c1412e8e6d4b49541064eb8b2637b8f1a07d",
+      "projection": {
+        "boundary_status": "SOURCE_SCOPE_PASS_WITH_LIMITS; EXPORT_STAGE_CANNOT_CONFIRM; RESEARCH_ONLY=true; DIRECTION_ONLY",
+        "cannot_confirm": [
+          "Inventory identity and Futu parity do not certify TDX history as official exchange-published data or establish official calendar completeness; the bound code reference is not a certification of ZIP prices.",
+          "The archive container SHA is reused from the accepted inventory/FAST_BIND basis. This review did not rehash the full ZIP or read the raw .day member.",
+          "The overall HISTORY_EXPORT_01 receipt remains CANNOT_CONFIRM because of the monthly schema/key conflict; this source-scope result does not close the full export or period/display review."
+        ],
+        "evidence_paths": [
+          {
+            "finding": "Binds hsjday.zip SHA a56c962378a5d3dd86a90186cc830ee6c8fd968557ce6eddeb310d203c5ff3c0; member sh\\lday\\sh000300.day SHA 2e5adb536fa0f03860e70dbcb0e4f67c7151f35d3e7595df174a5ad15a27c9ac; Futu SH.000300 AuType.NONE CSV SHA ed55aaab1691999863461e38482fb66cc7bc0c4da85c0fed2556f0925eadaa70.",
+            "path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/history_market_view_20261020/INPUT_BINDING.json",
+            "sha256": "21fa2262b5b2e97beba8ff8c44ca07ddb5b766878dbd38e519fa8d7c02dfe8bf"
+          },
+          {
+            "finding": "Member row: 5290 records, 2005-01-04..2026-10-19, zero duplicate/out-of-order/invalid dates, no trailing bytes; index classification is TDX code-prefix classification.",
+            "path": "local-evidence/factor_factory/research/a_share_top100_environment_v1/batches/hsjday_20y_20261019/outputs/A_SHARE_TDX_20Y_DATA_INVENTORY_20261019_HSJDAY_ZIP_INVENTORY_03/FINAL_01/FILE_INVENTORY_INDEX.csv",
+            "sha256": "b7bdac2e5916dd7dcfd0f1116cfeb83f490906630145a13d105daf2cfaa4d3f3"
+          },
+          {
+            "finding": "Canary receipt records same member SHA, 1/100 fixed scale, no QFQ/XDXR.",
+            "path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/history_market_view_20261020/HISTORY_MEMBER_CANARY_01/RUN_RECEIPT.json",
+            "sha256": "03ad5bb2aaf9efa5bbcc951b494ae23354c00911eabb3c5d565868fa45c1fe2b"
+          },
+          {
+            "finding": "Bound decoder uses 32-byte DAY_DTYPE (date/open/high/low/close uint32; amount float32; volume/reserved uint32), /100 OHLC, strict date and OHLC checks; no adjustment logic.",
+            "path": "local-evidence/factor_factory/workspace/.task_worktrees/g1-ci-weight-fix-20261020/research/a_share_model_selection_v1/history_market_view_core.py",
+            "sha256": "666a84182749549be39070f3abe676b88f8cc27e85bfa7e4b4165c0ebb0e75f2"
+          },
+          {
+            "finding": "Existing reader has matching DAY_DTYPE and /100 OHLC projection; source binding says stock action/QFQ branches were not imported.",
+            "path": "local-evidence/factor_factory/workspace/.task_worktrees/a-hsjday-20y-20261019/research/a_share_top100_environment_v1/hsjday_history_stats.py",
+            "sha256": "e8071ebea55783312d0b1ae5946a9e5f9a5f9c183f19e85710613b9c381ee003"
+          },
+          {
+            "finding": "5290 rows 2005-01-04..2026-10-19; reviewer check found strictly increasing dates, all OHLC finite and positive, and valid OHLC ordering.",
+            "path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/history_market_view_20261020/HISTORY_EXPORT_01/INDEX_DECODED_FULL.csv",
+            "sha256": "3d9288b7adcbb3ca1227589057b3253899ee3f61811a590ff9ed4718008b335b"
+          },
+          {
+            "finding": "1399-row Futu intersection, max absolute difference 0.005400000000008731 points, 0 rows >0.02; status CROSS_SOURCE_INTERSECTION_PARITY_WITH_LIMITS.",
+            "path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/history_market_view_20261020/HISTORY_EXPORT_01/SOURCE_PARITY.json",
+            "sha256": "639ef5ee0fb10308016ecac734165dae3dbda48e6634196537d3b1716c58c64f"
+          },
+          {
+            "finding": "1399 unique sorted intersection dates 2021-01-04..2026-10-15; row differences and within-tolerance flags independently reconcile to the summary.",
+            "path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/history_market_view_20261020/HISTORY_EXPORT_01/SOURCE_PARITY_ROWS.csv",
+            "sha256": "0e002d9bfdcce511e513b43caa9187ecdd6e1cc3e60ddadb30d7986175b5a330"
+          },
+          {
+            "finding": "Export-stage receipt remains CANNOT_CONFIRM with error monthly accepted schema/key conflict.",
+            "path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/history_market_view_20261020/HISTORY_EXPORT_01/RUN_RECEIPT.json",
+            "sha256": "159821f41b199dd30f866a556478cb3bddc8ce4995f62512dbece559a3ec06d2"
+          },
+          {
+            "finding": "Manifest binds the export, parity, and receipt artifacts; stable_closed_artifacts_only=true.",
+            "path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/history_market_view_20261020/OUTPUT_MANIFEST.json",
+            "sha256": "cd9092bfd09f76c737e3d2d2c75af3b2050f9bd66d59c73f075367be87419217"
+          }
+        ],
+        "execution_id": "HISTORY_SOURCE_REVIEW_01",
+        "recommended_next_step": "Attach this scoped verdict to HISTORY_SOURCE_REVIEW_01; preserve the single-member /100/no-QFQ binding and keep official-history, calendar, historical PIT, and full-universe claims CANNOT_CONFIRM. Let the separate period/display reviewer resolve its assigned scope and reconcile the stale export-stage CANNOT_CONFIRM receipt.",
+        "review_status": "SOURCE_IDENTITY_PARITY_PASS_WITH_LIMITS",
+        "scope": "source/member identity, fixed TDX DAY_DTYPE and /100 OHLC scale, observed date coverage and Futu intersection parity; excludes annual/monthly period calculations and industry display"
+      },
+      "projection_type": "path-redacted parsed JSON; not original-byte receipt",
+      "stage": "history_index_source"
+    },
+    {
+      "original_logical_path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/history_market_view_20261020/PERIOD_REVIEW_STDOUT.json",
+      "original_sha256": "f2274b00b2d297352991f1ba1d2eeb97dbda8d842a0bef5e5f2846bbc4e8c718",
+      "projection": {
+        "boundary_status": "PERIOD_AND_EXISTING_INDUSTRY_DISPLAY_REPRODUCTION_PASS_WITH_SOURCE_LIMITS; OVERALL_VIEW_ACCEPTANCE_REMAINS_INDEPENDENT_REVIEW_PENDING; FACTOR/RERANKER_ACCEPTANCE_CANNOT_CONFIRM; DIRECTION_ONLY; S1_FAILED; S2_NOT_STARTED; RESEARCH_ONLY",
+        "candidate_recall_check": {
+          "reason": "No D-1 candidate/query key set or future-winner labels are present in this descriptive-view review. Cannot establish whether future winners were absent from a fixed candidate pool.",
+          "status": "CANNOT_CONFIRM"
+        },
+        "cannot_confirm": [
+          "Official CSI300 historical numerical source/calendar certification, PIT, and source/member identity/Futu parity are outside this review and remain dependent on the separate lineage review.",
+          "Historical industry mapping is retrospective, not PIT; the displayed frequency/price co-view is descriptive and not predictive or causal.",
+          "Candidate recall, fixed D-1 pool, target labels, complete comparable OOF coverage, paired ranking deltas, calibration, truncation sensitivity, runtime budget, and UI readback are not established here.",
+          "This review does not re-evaluate separate G1 CI block-coverage or S1 model development gates. Existing S1 remains S1_DEVELOPMENT_GATE_FAILED/DIRECTION_ONLY; S2 has not started."
+        ],
+        "decision": "PASS_PERIOD_AND_EXISTING_INDUSTRY_PROJECTION_REPRODUCTION_WITH_LIMITS",
+        "evidence_paths": {
+          "accepted_20y_detail": "research/a_share_top100_environment_v1/batches/hsjday_20y_20261019/interpretation_20261020_01/freeze_02/DERIVE_01/20年逐年明细.csv",
+          "accepted_EX_RESUMED_year": "research/a_share_top100_environment_v1/batches/hsjday_20y_20261019/historical_descriptive_04/FULL_01/EX_RESUMED_INDUSTRY_YEAR.csv",
+          "accepted_MAIN_year": "research/a_share_top100_environment_v1/batches/hsjday_20y_20261019/historical_descriptive_04/FULL_01/MAIN_INDUSTRY_YEAR.csv",
+          "accepted_dictionary": "research/a_share_top100_environment_v1/batches/hsjday_20y_20261019/interpretation_20261020_01/freeze_02/DERIVE_01/中文行业字典.csv",
+          "annual_index_output": "research/a_share_model_selection_v1/batches/history_market_view_20261020/HISTORY_EXPORT_01/ANNUAL_INDEX_PRICE.csv",
+          "annual_industry_display": "research/a_share_model_selection_v1/batches/history_market_view_20261020/HISTORY_EXPORT_01/INDUSTRY_ANNUAL_DISPLAY.csv",
+          "batch_root": "research/a_share_model_selection_v1/batches/history_market_view_20261020",
+          "config": "research/a_share_model_selection_v1/batches/history_market_view_20261020/CONFIG.json",
+          "contract": "research/a_share_model_selection_v1/batches/history_market_view_20261020/CONTRACT.json",
+          "cutoff_index_export": "research/a_share_model_selection_v1/batches/history_market_view_20261020/HISTORY_EXPORT_01/INDEX_PRICE_THROUGH_20261015.csv",
+          "display_payload": "research/a_share_model_selection_v1/batches/history_market_view_20261020/HISTORY_INDUSTRY_DISPLAY_02/DISPLAY_DATA.json",
+          "final_result": "research/a_share_model_selection_v1/batches/history_market_view_20261020/FINAL_RESULT.json",
+          "frozen_identity": "research/a_share_model_selection_v1/batches/history_market_view_20261020/FROZEN_IDENTITY.json",
+          "handoff": "research/a_share_model_selection_v1/batches/history_market_view_20261020/REVIEW_HANDOFF.json",
+          "input_binding": "research/a_share_model_selection_v1/batches/history_market_view_20261020/INPUT_BINDING.json",
+          "monthly_index_output": "research/a_share_model_selection_v1/batches/history_market_view_20261020/HISTORY_EXPORT_01/MONTHLY_INDEX_PRICE.csv",
+          "monthly_industry_display": "research/a_share_model_selection_v1/batches/history_market_view_20261020/HISTORY_INDUSTRY_DISPLAY_02/INDUSTRY_MONTH_DISPLAY.csv",
+          "output_manifest": "research/a_share_model_selection_v1/batches/history_market_view_20261020/OUTPUT_MANIFEST.json",
+          "registry": "contracts/EXPERIMENT_REGISTRY.jsonl"
+        },
+        "fixed_pool_and_label_check": {
+          "reason": "No fixed ranking pool, label bundle, PIT membership history, or evaluation-key universe was read or bound here.",
+          "status": "CANNOT_CONFIRM_NOT_IN_SCOPE"
+        },
+        "identity_hashes": {
+          "code_composite_sha256": "06d98f3dbeafffe59981b93de5364656ac8e8ea1a441d684bbecea6a01d6c29c",
+          "code_files_match_frozen_identity": true,
+          "config_sha256": "39ac57c6802e59083ebf27721f8384dcc1c20672c7f0028fd5b387de98980c81",
+          "contract_config_binding_match_frozen_identity": true,
+          "contract_sha256": "7c67e749b32e26648600fc26cb2061bf7d1b6ca9115dba10e3b92f2c7f80b02c",
+          "final_result_accepted_status": "INDEPENDENT_REVIEW_PENDING",
+          "final_result_machine_status": "DERIVED_VIEW_READY_WITH_SOURCE_LIMITS",
+          "final_result_sha256": "61609b89894d0a7fcd4fc9a51b8c71b996a8b5a72a9a69fb49b95e6880e76f9d",
+          "frozen_identity_sha256": "a53c2aed423b9ed5240962d209face15dfbaf672ca93a292fc89160f51a8b16e",
+          "handoff_sha256": "2c511c2f1e99b046d38d2c3cabb4ebaef354442ed1ea567131cedd99aa9ba681",
+          "input_binding_sha256": "21fa2262b5b2e97beba8ff8c44ca07ddb5b766878dbd38e519fa8d7c02dfe8bf",
+          "output_manifest_sha256": "cd9092bfd09f76c737e3d2d2c75af3b2050f9bd66d59c73f075367be87419217",
+          "registry_readback_sha256": "fb6e578fdd9bd1aecda3ace4ca6385bd631710f241f0ad9bd588987c92758e8c",
+          "review_RUN_STARTED_event_sha256": "a7058794ce1cfeae5fbb7bdb4f27a80ceeebb2a07d30c0df2187ae23d0cc0f38",
+          "review_RUN_STARTED_hash_and_predecessor_link_valid": true
+        },
+        "industry_projection": {
+          "accepted_detail_grid_literal": "month",
+          "all_monthly_industry_keys_resolve_in_namespaced_dictionary": true,
+          "annual_display_sha256": "c5ed331d4d43339b1909b1424e133413f60681ba75bf2f0eb367a045940ffafe",
+          "annual_duplicate_or_unmatched_keys": 0,
+          "annual_keyset_and_actual_expected_valid_stock_days_support_dates_lift_exactly_match_accepted_MAIN_and_EX_RESUMED_year_tables": true,
+          "annual_names_and_mapping_status_match_namespaced_dictionary": true,
+          "annual_rows": 3560,
+          "annual_source_key_count": 3560,
+          "dictionary_namespace_rows": 89,
+          "dictionary_sha256": "799bfa890da641f20d4f8eedae5b4cc0e89cbe5ad32ada6eac57ef8cc2133733",
+          "display_payload_sha256": "740efc4615ef706a7c66d905847b2393c7b4efbd3702f564413e5a48e1ac05dc",
+          "monthly_detail_source_rows": 42720,
+          "monthly_display_sha256": "3e50199c17747b9c0a4676fa9a9ea86ff232e13530ef05c19f3e6473a476bd79",
+          "monthly_duplicate_or_unmatched_keys": 0,
+          "monthly_keyset_and_actual_expected_lift_seasonal_ratio_exactly_match_accepted_detail": true,
+          "monthly_rows": 42720,
+          "payload_fields_match_frozen_schema_and_have_no_new_effect_statistics": true,
+          "payload_includes_predeclared_auxiliary_source_parity": true,
+          "payload_index_and_industry_arrays_reconcile_to_CSV_outputs": true,
+          "source_limit_text_present": "retrospective industry proxy; price return only; official numerical history/calendar CANNOT_CONFIRM",
+          "status": "PASS"
+        },
+        "paired_metric_deltas": {
+          "reason": "No baseline-versus-candidate ranking arms or paired evaluation keys. Recall@K, Hit@K, nDCG/MRR, IC/IR, rolling_predictions, probability calibration, and reranker deltas are absent and were not computed.",
+          "status": "NOT_COMPUTED_CANNOT_CONFIRM"
+        },
+        "period_projection": {
+          "2026_month_scope_note": "All 10 monthly rows in optional 2026 slice carry the contract's partial-through-2026-10-15 scope. Jan-Sep endpoints are complete individual calendar-month observations; October is month-to-date through Oct 15.",
+          "all_endpoint_base_date_close_ratio_record_count_status_direction_and_scope_fields_recomputed": true,
+          "annual_2026_partial": {
+            "base_close": 4629.94,
+            "base_date": "2025-12-31",
+            "endpoint_close": 4166.01,
+            "endpoint_date": "2026-10-15",
+            "price_return": -0.1002021624470294,
+            "record_count": 187,
+            "scope": "PARTIAL_THROUGH_2026_10_15"
+          },
+          "annual_output_sha256": "a68b0e88805eef9a3b6513a466eee1f5b03cea189e338a68bfd6f56440872bf6",
+          "annual_periods": "2006-2026",
+          "annual_rows": 21,
+          "input_dates_unique_sorted": true,
+          "input_first_date": "2005-01-04",
+          "input_last_date": "2026-10-15",
+          "input_rows": 5288,
+          "input_sha256": "f11cd9c4ef869bb9aa6c36fe0fe314a9e88d7bb652300893bc2b0b60d1d71af1",
+          "missing_current_or_adjacent_periods_in_emitted_range": 0,
+          "monthly_2026_10": {
+            "base_close": 4357.62,
+            "base_date": "2026-09-30",
+            "endpoint_close": 4166.01,
+            "endpoint_date": "2026-10-15",
+            "price_return": -0.04397125036143579,
+            "record_count": 6,
+            "scope": "PARTIAL_THROUGH_2026_10_15"
+          },
+          "monthly_output_sha256": "a6aecef10f53b9ae29348ce691de35f155c2b605145b2011cf6a5876b8e7aad5",
+          "monthly_periods": "2006-01 through 2026-10",
+          "monthly_rows": 250,
+          "no_input_rows_after_frozen_cutoff": true,
+          "primary_full_years": "2006-2025",
+          "status": "PASS",
+          "uses_observed_period_endpoints_without_forward_fill": true
+        },
+        "recommended_next_step": "Combine this numeric projection receipt with the separate source-lineage review. After the combined G1 CI plus 20-year dashboard payload is frozen, perform one static presentation increment review; keep UI_VERIFIED false until actual UI readback. Do not infer candidate recall, ranking lift, causality, or model acceptance from this view.",
+        "review_execution_id": "HISTORY_PERIOD_REVIEW_01",
+        "reviewer_helper_diagnostics": [
+          "Initial read-only helpers had reviewer-side errors in annual key indexing, blank numeric handling, prior-month grouping, and the scope expectation for the optional 2026 slice. Corrected checks use same-year previous month (prior-year December for January) and the contract's separate 2026-through-2026-10-15 scope; all 250 monthly rows then matched. These were review-script errors, not product findings; no product/data file changed."
+        ],
+        "runtime_resource_budget": {
+          "reason": "No model inference or authorized daily latency/memory budget was evaluated by this descriptive-view review.",
+          "status": "CANNOT_CONFIRM_FOR_MODEL_EVALUATION"
+        },
+        "schema_version": "FACTOR_RERANKER_REVIEW_RECEIPT_V1",
+        "scope": "Read-only numeric and display projection review for the frozen history_market_view_20261020 batch. No raw stock/member, Futu history, ZIP, model, label, or candidate-pool data read; no project runner, fit, predict, or file writes.",
+        "segment_and_truncation_risk": {
+          "reason": "No Top100/Top200 candidate truncation sensitivity or tail/segment ranking evaluation was in scope. Descriptive Top100 industry aggregates do not establish candidate recall or reranker precision.",
+          "status": "CANNOT_CONFIRM_FOR_RANKING"
+        }
+      },
+      "projection_type": "path-redacted parsed JSON; not original-byte receipt",
+      "stage": "history_period_projection"
+    }
+  ],
+  "schema": "PUBLIC_REVIEW_RECEIPT_PROJECTIONS_V1",
+  "warning": "Historical reviewer receipts are transcriptions/projections, not signatures or a review of this publication package."
+}

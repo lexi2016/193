@@ -1,0 +1,615 @@
+{
+  "accepted_qstar_local_revision": "c1be26aead7b1a210d2f48fac5cdb011699fe63e",
+  "aggregate_original_sources": [
+    {
+      "bytes": 9530,
+      "logical_path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/s1_industry_month_prior_20261020/FINAL_HANDOFF.json",
+      "published_original": false,
+      "sha256": "a95c170a82d5047bc6462a875c730ccb9a1983511633ae7ece7d704a74e4dd65"
+    },
+    {
+      "bytes": 4703,
+      "logical_path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/s1_industry_month_prior_20261020/FINAL_RESULT.json",
+      "published_original": false,
+      "sha256": "8d29a0844045105785b1eea73929b298a96a89552a811d360592c51352872519"
+    },
+    {
+      "bytes": 2658,
+      "logical_path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/s1_industry_month_prior_20261020/CONFIG.json",
+      "published_original": false,
+      "sha256": "0c54479d857ef853983f81367c562420c62e94e22f3bc75b764b25f9f5277511"
+    },
+    {
+      "bytes": 5023,
+      "logical_path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/s1_industry_month_prior_20261020/CONTRACT.json",
+      "published_original": false,
+      "sha256": "a2c5a9fbba05e7720d11dac4c59dd57aeccf53b22600e3af5f4f86abdd0cd33f"
+    },
+    {
+      "bytes": 7813,
+      "logical_path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/s1_industry_month_prior_20261020/INPUT_BINDING.json",
+      "published_original": false,
+      "sha256": "837432f921634999709cc96caa1338d1236365c0fe0e28cd5884055788af407a"
+    },
+    {
+      "bytes": 3449,
+      "logical_path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/s1_industry_month_prior_20261020/FROZEN_IDENTITY.json",
+      "published_original": false,
+      "sha256": "a1bce60cd190da611ac733dcf7ace3ccc9b8ef0dceed96fa039b55f98c9c13ba"
+    },
+    {
+      "bytes": 6891,
+      "logical_path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_prior_diagnostic_20261020/FINAL_HANDOFF.json",
+      "published_original": false,
+      "sha256": "c59466ea06a58b94b19b2e54c57461dee84b868f1b85c2bd5bd47f4d5c4771a4"
+    },
+    {
+      "bytes": 1443,
+      "logical_path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_prior_diagnostic_20261020/FINAL_RESULT.json",
+      "published_original": false,
+      "sha256": "f51d1bc6cb4fd9a32750518c030397cb05c074efcfefb2854486d5d606079410"
+    },
+    {
+      "bytes": 2210,
+      "logical_path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_prior_diagnostic_20261020/CONFIG.json",
+      "published_original": false,
+      "sha256": "128117c78b987bfaa5090c15921012217c4666a6dbb7ace55393eb493988e7c1"
+    },
+    {
+      "bytes": 7737,
+      "logical_path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_prior_diagnostic_20261020/CONTRACT.json",
+      "published_original": false,
+      "sha256": "f649e27eac6cd57913447d5ac92db3ab6d600dc6e77aabb7a56c97434cefc94e"
+    },
+    {
+      "bytes": 7384,
+      "logical_path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_prior_diagnostic_20261020/INPUT_BINDING.json",
+      "published_original": false,
+      "sha256": "7f458b0a234977729d21087e2bf8fe8b742c9d9a91146169e8547affc0ba907a"
+    },
+    {
+      "bytes": 3323,
+      "logical_path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_prior_diagnostic_20261020/FROZEN_IDENTITY.json",
+      "published_original": false,
+      "sha256": "830c80056319cb3d9970ff73fc5f6b70f90b287eaef06560d8de87cfb4f48411"
+    },
+    {
+      "bytes": 4534,
+      "logical_path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_ci_weight_fix_20261020/FINAL_HANDOFF.json",
+      "published_original": false,
+      "sha256": "4f42e0b8b37eb1194d398bf7fc2cb648c48c26228951241f9b29cda46cec186f"
+    },
+    {
+      "bytes": 7087,
+      "logical_path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_ci_weight_fix_20261020/FINAL_RESULT.json",
+      "published_original": false,
+      "sha256": "4d9231867fe6199de3d2bac6aee8693bc623a8b71cf2c0e39fd582ffa6a40928"
+    },
+    {
+      "bytes": 1533,
+      "logical_path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_ci_weight_fix_20261020/CONFIG.json",
+      "published_original": false,
+      "sha256": "4fa7b7320281bceeb9a129568692b583f64a7b85c93a728c4f77ecbb7e637e6e"
+    },
+    {
+      "bytes": 6218,
+      "logical_path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_ci_weight_fix_20261020/CONTRACT.json",
+      "published_original": false,
+      "sha256": "08b640678550d100af8a0df138dfaa5369ad9f3b8e7fffd1f81c2a9b590b6962"
+    },
+    {
+      "bytes": 2948,
+      "logical_path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_ci_weight_fix_20261020/INPUT_BINDING.json",
+      "published_original": false,
+      "sha256": "9f21d754f47e470de3ca869964204c8d3bccb222f2d3a7fb332cb47b139e61ab"
+    },
+    {
+      "bytes": 1910,
+      "logical_path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_ci_weight_fix_20261020/FROZEN_IDENTITY.json",
+      "published_original": false,
+      "sha256": "ca603b81db28615e39850f2709af0b21c676f6b60c30f50e70e0d7e4cbe361e1"
+    },
+    {
+      "bytes": 8963,
+      "logical_path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_hac_all_dates_20261020/FINAL_HANDOFF.json",
+      "published_original": false,
+      "sha256": "23ea2677a2ff3fa84fbafd20ee218f503df5b0e422fe458363a92e772555c2cd"
+    },
+    {
+      "bytes": 2075,
+      "logical_path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_hac_all_dates_20261020/FINAL_RESULT.json",
+      "published_original": false,
+      "sha256": "1f5e8f7db8ab88d8b0b32f87ebe4456d7911bdbbfe5904d497919777e28250fe"
+    },
+    {
+      "bytes": 2441,
+      "logical_path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_hac_all_dates_20261020/CONFIG.json",
+      "published_original": false,
+      "sha256": "c00f2048fbf16c849f677e87aecf7abb4c79f333a7f5ef038063f45e1a83e688"
+    },
+    {
+      "bytes": 8817,
+      "logical_path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_hac_all_dates_20261020/CONTRACT.json",
+      "published_original": false,
+      "sha256": "ad9eef88147764efb1e310922c79a8a2a78d47ce59d6e668e06eb69b95c2b1f3"
+    },
+    {
+      "bytes": 2477,
+      "logical_path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_hac_all_dates_20261020/INPUT_BINDING.json",
+      "published_original": false,
+      "sha256": "434ddba2bb133b4e325c67145f237da8b89a363bb8f3d6e2a62c1e672bcb2a40"
+    },
+    {
+      "bytes": 1747,
+      "logical_path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_hac_all_dates_20261020/FROZEN_IDENTITY.json",
+      "published_original": false,
+      "sha256": "3ccc8b967b04f1786d7126cae30f06e54986c77395b47fb546d2340163bea53a"
+    },
+    {
+      "bytes": 7170,
+      "logical_path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_qstar_20261020/FINAL_HANDOFF.json",
+      "published_original": false,
+      "sha256": "8b821c7b89a6a9ad8a092c52911527ff6709da98c8d6d5a634f4563a134e18e7"
+    },
+    {
+      "bytes": 2192,
+      "logical_path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_qstar_20261020/FINAL_RESULT.json",
+      "published_original": false,
+      "sha256": "ad382df6e458aa4113dc28ef7e726b187e253e36e5031c2033e0f6ff8766f6bb"
+    },
+    {
+      "bytes": 2858,
+      "logical_path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_qstar_20261020/CONFIG.json",
+      "published_original": false,
+      "sha256": "b7efa7a6ef6e7d8c2952dee80ae5fd4f0597f933c861e0570e0deb36610c52e1"
+    },
+    {
+      "bytes": 8763,
+      "logical_path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_qstar_20261020/CONTRACT.json",
+      "published_original": false,
+      "sha256": "53bcd225368b5e9d6e9c8a8723195c125dbb5728d2e0c9558e3b4d548be97188"
+    },
+    {
+      "bytes": 2510,
+      "logical_path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_qstar_20261020/INPUT_BINDING.json",
+      "published_original": false,
+      "sha256": "09e9439b152ed4c77d4233648ac3897040bce3b3efb3f219fa16c09fba4dcd88"
+    },
+    {
+      "bytes": 2249,
+      "logical_path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_qstar_20261020/FROZEN_IDENTITY.json",
+      "published_original": false,
+      "sha256": "60966a6c1e1e00fd2bdf40f53b575b64ab51b5517c8d7525deef9ff066f5bd41"
+    },
+    {
+      "bytes": 6109,
+      "logical_path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/history_market_view_20261020/FINAL_HANDOFF.json",
+      "published_original": false,
+      "sha256": "0e111c987b2e71796f0c6f67def3444e06769a9c2fd8b3587eec57af169dc264"
+    },
+    {
+      "bytes": 1123,
+      "logical_path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/history_market_view_20261020/FINAL_RESULT.json",
+      "published_original": false,
+      "sha256": "61609b89894d0a7fcd4fc9a51b8c71b996a8b5a72a9a69fb49b95e6880e76f9d"
+    },
+    {
+      "bytes": 2054,
+      "logical_path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/history_market_view_20261020/CONFIG.json",
+      "published_original": false,
+      "sha256": "39ac57c6802e59083ebf27721f8384dcc1c20672c7f0028fd5b387de98980c81"
+    },
+    {
+      "bytes": 12119,
+      "logical_path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/history_market_view_20261020/CONTRACT.json",
+      "published_original": false,
+      "sha256": "7c67e749b32e26648600fc26cb2061bf7d1b6ca9115dba10e3b92f2c7f80b02c"
+    },
+    {
+      "bytes": 6725,
+      "logical_path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/history_market_view_20261020/INPUT_BINDING.json",
+      "published_original": false,
+      "sha256": "21fa2262b5b2e97beba8ff8c44ca07ddb5b766878dbd38e519fa8d7c02dfe8bf"
+    },
+    {
+      "bytes": 1878,
+      "logical_path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/history_market_view_20261020/FROZEN_IDENTITY.json",
+      "published_original": false,
+      "sha256": "a53c2aed423b9ed5240962d209face15dfbaf672ca93a292fc89160f51a8b16e"
+    },
+    {
+      "bytes": 6284,
+      "logical_path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/s1_industry_month_prior_20261020/S1_FORMAL_01/METRICS.json",
+      "published_original": false,
+      "sha256": "57cb81c72f50227f6ac2fdb50d9625b95bc8b46ccffeb706da23dc17dfe912b3"
+    },
+    {
+      "bytes": 2947,
+      "logical_path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_prior_diagnostic_20261020/EVALUATION/METRICS.json",
+      "published_original": false,
+      "sha256": "4d80b5622617610bd7c60fa512f2806a77390f37a8345bc30050f4e35b6b8ec2"
+    },
+    {
+      "bytes": 1120,
+      "logical_path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_qstar_20261020/ACCEPTED_RESULT.json",
+      "published_original": false,
+      "sha256": "b39a9e0bf2c8e0ffc0919208c856b60fa2c035976656368ede694e5ca35f783c"
+    },
+    {
+      "bytes": 4497,
+      "logical_path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_qstar_20261020/CALIBRATION_RESULT.json",
+      "published_original": false,
+      "sha256": "664b5a2722c5583940bdf49dec3eea77c6cc53644580ae71f9d6e440f8268b92"
+    },
+    {
+      "bytes": 4949,
+      "logical_path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_qstar_20261020/VALIDATION_RESULT.json",
+      "published_original": false,
+      "sha256": "d2f2499b2233e680f5a47fb166ac694e6facc3bf5a413e51c542e23e0004b228"
+    },
+    {
+      "bytes": 6367,
+      "logical_path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_qstar_20261020/QSTAR_LOCK.json",
+      "published_original": false,
+      "sha256": "4a5bb086d7dda6eafd993f30a215d79d125d5b41d246191a3aff33585c024221"
+    },
+    {
+      "bytes": 832,
+      "logical_path": "local-evidence/factor_factory/research/a_share_top100_environment_v1/batches/hsjday_20y_20261019/interpretation_20261020_01/freeze_02/DERIVE_01/SUMMARY.json",
+      "published_original": false,
+      "sha256": "e064a7df4f9c79c111f426b6c2419f0341ffc245007b2bba852190f77a680378"
+    },
+    {
+      "bytes": 1658,
+      "logical_path": "local-evidence/factor_factory/research/a_share_top100_environment_v1/batches/hsjday_20y_20261019/historical_descriptive_04/FULL_01/RUN_RECEIPT.json",
+      "published_original": false,
+      "sha256": "bfb68ca60c6db58e83f077245a40ee6b549e912180c831bf91888c6d6cf89725"
+    },
+    {
+      "bytes": 448,
+      "logical_path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_ci_weight_fix_20261020/ACCEPTED_RESULT.json",
+      "published_original": false,
+      "sha256": "a534576d620dd9bae1addf5dc24370e469b02ee5ab11eea00446a473c8fedb58"
+    }
+  ],
+  "aggregate_projection_policy": "Existing aggregate result fields copied; CI support per-date uncovered_dates omitted, per-fold support counts retained. Historical pre-review status fields are snapshots; accepted_result and canonical review receipt govern status.",
+  "ancestry_not_published": true,
+  "receipt_original_sources": [
+    {
+      "original_logical_path": "local-evidence/factor_factory/research/a_share_top100_environment_v1/batches/hsjday_20y_20261019/interpretation_20261020_01/freeze_03/REVIEW_DATA_CHECK_01/INDEPENDENT_REVIEW_TRANSCRIPTION.json",
+      "original_sha256": "6efdb4a16c69beb8d4407b13eb37303ab8f95509d5f27ab98d82431d373f845a",
+      "projection_type": "path-redacted parsed JSON; not original-byte receipt",
+      "stage": "seasonality"
+    },
+    {
+      "original_logical_path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/s1_industry_month_prior_20261020/S1_FORMAL_INDEPENDENT_REVIEW_01/INDEPENDENT_REVIEW_STDOUT.json",
+      "original_sha256": "1303579523605a4f20b42b621ee4e8c025c736e309191d7bd5fe228bbe50cb20",
+      "projection_type": "path-redacted parsed JSON; not original-byte receipt",
+      "stage": "S1"
+    },
+    {
+      "original_logical_path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_prior_diagnostic_20261020/INDEPENDENT_REVIEW_STDOUT.json",
+      "original_sha256": "09d5c3a6c37680a6aed8ae2fffce1a6f8a456b6d2efbba81743ada88d778b709",
+      "projection_type": "path-redacted parsed JSON; not original-byte receipt",
+      "stage": "G1_original"
+    },
+    {
+      "original_logical_path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_ci_weight_fix_20261020/INDEPENDENT_REVIEW_STDOUT.json",
+      "original_sha256": "932abf03bddd99c73ba8fae7cd4928ffee9164aceda7afd0bf08f55a0645c078",
+      "projection_type": "path-redacted parsed JSON; not original-byte receipt",
+      "stage": "G1_CI_support_stop"
+    },
+    {
+      "original_logical_path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_hac_all_dates_20261020/INDEPENDENT_REVIEW_FINAL_STDOUT.json",
+      "original_sha256": "1b7a7c8f23039fd5dbcf4a08b0515a2aebb47ee3664c1de95b921414dad89329",
+      "projection_type": "path-redacted parsed JSON; not original-byte receipt",
+      "stage": "G1_HAC"
+    },
+    {
+      "original_logical_path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_qstar_20261020/INDEPENDENT_REVIEW_FINAL_STDOUT.json",
+      "original_sha256": "35098ab68b243876b770b769040592ec1059cfac71990399d4e6b7bdeab05f26",
+      "projection_type": "path-redacted parsed JSON; not original-byte receipt",
+      "stage": "G1_qstar"
+    },
+    {
+      "original_logical_path": "local-evidence/factor_factory/research/a_share_top100_environment_v1/batches/hsjday_20y_20261019/historical_descriptive_04/REVIEW_DATA_CHECK_01/INDEPENDENT_REVIEW_TRANSCRIPTION.json",
+      "original_sha256": "cc893fcf3da72f2619b212892bdb9326d1c28e51a80760609b1a3ddd43caf369",
+      "projection_type": "path-redacted parsed JSON; not original-byte receipt",
+      "stage": "20y_historical_descriptive"
+    },
+    {
+      "original_logical_path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/history_market_view_20261020/SOURCE_REVIEW_STDOUT.json",
+      "original_sha256": "f269774834f84b2df568cd938358c1412e8e6d4b49541064eb8b2637b8f1a07d",
+      "projection_type": "path-redacted parsed JSON; not original-byte receipt",
+      "stage": "history_index_source"
+    },
+    {
+      "original_logical_path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/history_market_view_20261020/PERIOD_REVIEW_STDOUT.json",
+      "original_sha256": "f2274b00b2d297352991f1ba1d2eeb97dbda8d842a0bef5e5f2846bbc4e8c718",
+      "projection_type": "path-redacted parsed JSON; not original-byte receipt",
+      "stage": "history_period_projection"
+    }
+  ],
+  "schema": "PUBLIC_SOURCE_PROVENANCE_V1",
+  "scope": "Sources copied from their original accepted worktrees; original SHA permits private verification. SHA alone is not source/PIT certification.",
+  "source_files": [
+    {
+      "bytes": 9846,
+      "mode": "byte_identical_source",
+      "original_bytes": 9846,
+      "original_sha256": "a54fbec3f5bf597a83e22cd3739d4bc22c1acfc7a1f0086f8445461619fa4ba2",
+      "repo_path": "research/reviews/g1_20261020/src/s1_industry_month_prior.py",
+      "sha256": "a54fbec3f5bf597a83e22cd3739d4bc22c1acfc7a1f0086f8445461619fa4ba2",
+      "source_logical_path": "local-evidence/factor_factory/workspace/.task_worktrees/s1-industry-month-20261020/research/a_share_model_selection_v1/s1_industry_month_prior.py",
+      "transformations": []
+    },
+    {
+      "bytes": 7852,
+      "mode": "byte_identical_source",
+      "original_bytes": 7852,
+      "original_sha256": "c6608e8c3429cf8b611a7afaaa89d7a3b0d69b95c68a9406de56218c24112d8e",
+      "repo_path": "research/reviews/g1_20261020/src/g1_diagnostic.py",
+      "sha256": "c6608e8c3429cf8b611a7afaaa89d7a3b0d69b95c68a9406de56218c24112d8e",
+      "source_logical_path": "local-evidence/factor_factory/workspace/.task_worktrees/g1-prior-diagnostic-20261020/research/a_share_model_selection_v1/g1_diagnostic.py",
+      "transformations": []
+    },
+    {
+      "bytes": 3537,
+      "mode": "byte_identical_source",
+      "original_bytes": 3537,
+      "original_sha256": "dc018da7474d03b143032b5a5812683c1a96bc30cf35e999d0d6ee4b1bc3c968",
+      "repo_path": "research/reviews/g1_20261020/src/g1_ci_weight.py",
+      "sha256": "dc018da7474d03b143032b5a5812683c1a96bc30cf35e999d0d6ee4b1bc3c968",
+      "source_logical_path": "local-evidence/factor_factory/workspace/.task_worktrees/g1-ci-weight-fix-20261020/research/a_share_model_selection_v1/g1_ci_weight.py",
+      "transformations": []
+    },
+    {
+      "bytes": 5835,
+      "mode": "byte_identical_source",
+      "original_bytes": 5835,
+      "original_sha256": "a02ffbdb89bfc4bf2edc11ea3e905861d9152649324e470911bb3184f797eb4d",
+      "repo_path": "research/reviews/g1_20261020/src/g1_hac_core.py",
+      "sha256": "a02ffbdb89bfc4bf2edc11ea3e905861d9152649324e470911bb3184f797eb4d",
+      "source_logical_path": "local-evidence/factor_factory/workspace/.task_worktrees/g1-hac-all-dates-20261020/research/a_share_model_selection_v1/g1_hac_core.py",
+      "transformations": []
+    },
+    {
+      "bytes": 5556,
+      "mode": "path_sanitized_source",
+      "original_bytes": 5664,
+      "original_sha256": "108329ec807a2410651db6c90151778c49264917c794c7011adf5e8f85436585",
+      "repo_path": "research/reviews/g1_20261020/src/g1_qstar_core.py",
+      "sha256": "81bd9ad5de38b0462461d01ce07e54589410c7c5a4ebd6d2d587df23f16b1b61",
+      "source_logical_path": "local-evidence/factor_factory/workspace/.task_worktrees/g1-qstar-20261020/research/a_share_model_selection_v1/g1_qstar_core.py",
+      "transformations": [
+        "HAC_SOURCE path-only adaptation to adjacent byte-identical frozen g1_hac_core.py"
+      ]
+    },
+    {
+      "bytes": 2377,
+      "mode": "byte_identical_source",
+      "original_bytes": 2377,
+      "original_sha256": "359e9da92ba71e1cc71499640b0fbd2f088b3550d5f66408529dfe3bcee87316",
+      "repo_path": "research/reviews/g1_20261020/src/g1_qstar_state.py",
+      "sha256": "359e9da92ba71e1cc71499640b0fbd2f088b3550d5f66408529dfe3bcee87316",
+      "source_logical_path": "local-evidence/factor_factory/workspace/.task_worktrees/g1-qstar-20261020/research/a_share_model_selection_v1/g1_qstar_state.py",
+      "transformations": []
+    },
+    {
+      "bytes": 7981,
+      "mode": "byte_identical_source",
+      "original_bytes": 7981,
+      "original_sha256": "6fb630becd0f80b4da3d6076f2a7aa47647346086ae20c2134e3203abb00c608",
+      "repo_path": "research/reviews/g1_20261020/src/tests/test_s1_industry_month_prior.py",
+      "sha256": "6fb630becd0f80b4da3d6076f2a7aa47647346086ae20c2134e3203abb00c608",
+      "source_logical_path": "local-evidence/factor_factory/workspace/.task_worktrees/s1-industry-month-20261020/research/a_share_model_selection_v1/test_s1_industry_month_prior.py",
+      "transformations": []
+    },
+    {
+      "bytes": 4723,
+      "mode": "byte_identical_source",
+      "original_bytes": 4723,
+      "original_sha256": "ef6ae5a69f487ce68604791c7a1013a60f792bc789082923d966a2f7c344b4c6",
+      "repo_path": "research/reviews/g1_20261020/src/tests/test_g1_diagnostic.py",
+      "sha256": "ef6ae5a69f487ce68604791c7a1013a60f792bc789082923d966a2f7c344b4c6",
+      "source_logical_path": "local-evidence/factor_factory/workspace/.task_worktrees/g1-prior-diagnostic-20261020/research/a_share_model_selection_v1/tests/test_g1_diagnostic.py",
+      "transformations": []
+    },
+    {
+      "bytes": 3644,
+      "mode": "byte_identical_source",
+      "original_bytes": 3644,
+      "original_sha256": "308b1d844aebd6ab26979b91e9ef28fab0fabcd3a792018e7604043dba96c7f0",
+      "repo_path": "research/reviews/g1_20261020/src/tests/test_g1_ci_weight.py",
+      "sha256": "308b1d844aebd6ab26979b91e9ef28fab0fabcd3a792018e7604043dba96c7f0",
+      "source_logical_path": "local-evidence/factor_factory/workspace/.task_worktrees/g1-ci-weight-fix-20261020/research/a_share_model_selection_v1/test_g1_ci_weight.py",
+      "transformations": []
+    },
+    {
+      "bytes": 4055,
+      "mode": "byte_identical_source",
+      "original_bytes": 4055,
+      "original_sha256": "b2abe792e5c157cb1f0aafedf66b7b3d8ed820443420f3e97acb45b530ab1317",
+      "repo_path": "research/reviews/g1_20261020/src/tests/test_g1_hac.py",
+      "sha256": "b2abe792e5c157cb1f0aafedf66b7b3d8ed820443420f3e97acb45b530ab1317",
+      "source_logical_path": "local-evidence/factor_factory/workspace/.task_worktrees/g1-hac-all-dates-20261020/research/a_share_model_selection_v1/test_g1_hac.py",
+      "transformations": []
+    },
+    {
+      "bytes": 3961,
+      "mode": "byte_identical_source",
+      "original_bytes": 3961,
+      "original_sha256": "cbbe0d333707f4f99cd4157966cf223d4cc0a803bc84cdef6bc5c5b69af38618",
+      "repo_path": "research/reviews/g1_20261020/src/tests/test_g1_qstar.py",
+      "sha256": "cbbe0d333707f4f99cd4157966cf223d4cc0a803bc84cdef6bc5c5b69af38618",
+      "source_logical_path": "local-evidence/factor_factory/workspace/.task_worktrees/g1-qstar-20261020/research/a_share_model_selection_v1/test_g1_qstar.py",
+      "transformations": []
+    },
+    {
+      "bytes": 25838,
+      "mode": "path_sanitized_source",
+      "original_bytes": 25825,
+      "original_sha256": "ae7b9829e9cb8eafa002474dc8aeb00111195bfb689c8690871c9ed353e6150a",
+      "repo_path": "research/reviews/g1_20261020/archive/orchestration/s1_runner.py",
+      "sha256": "9ceccc5072beef222d97529ff3dd024bb1b968d713a99fad0e59f20d907cf606",
+      "source_logical_path": "local-evidence/factor_factory/workspace/.task_worktrees/s1-industry-month-20261020/research/a_share_model_selection_v1/s1_runner.py",
+      "transformations": [
+        "Personal absolute path literals replaced by unavailable /LOCAL_ONLY placeholders; no formulas/control flow changed"
+      ]
+    },
+    {
+      "bytes": 6618,
+      "mode": "path_sanitized_source",
+      "original_bytes": 6631,
+      "original_sha256": "90ed7e0ddba714ea5bb8b26c8253b0b29a75a7dd1b98ac51e0878c80c6dac04c",
+      "repo_path": "research/reviews/g1_20261020/archive/orchestration/s1_registry.py",
+      "sha256": "c4087f6bb35f275d712388d8bc5a5744941ad819502ee2e5fbc7c921b9f88e1e",
+      "source_logical_path": "local-evidence/factor_factory/workspace/.task_worktrees/s1-industry-month-20261020/research/a_share_model_selection_v1/s1_registry.py",
+      "transformations": [
+        "Personal absolute path literals replaced by unavailable /LOCAL_ONLY placeholders; no formulas/control flow changed"
+      ]
+    },
+    {
+      "bytes": 11682,
+      "mode": "byte_identical_source",
+      "original_bytes": 11682,
+      "original_sha256": "35a8170e7063a0a8966be0fdcbaea8507c8627570ec8bf2e22960ff3a6f9eea3",
+      "repo_path": "research/reviews/g1_20261020/archive/orchestration/g1_runner.py",
+      "sha256": "35a8170e7063a0a8966be0fdcbaea8507c8627570ec8bf2e22960ff3a6f9eea3",
+      "source_logical_path": "local-evidence/factor_factory/workspace/.task_worktrees/g1-prior-diagnostic-20261020/research/a_share_model_selection_v1/g1_runner.py",
+      "transformations": []
+    },
+    {
+      "bytes": 6672,
+      "mode": "path_sanitized_source",
+      "original_bytes": 6685,
+      "original_sha256": "1ab6a332075caa0d43f1918f6fe5a35a2d4a0db313a7688a0f6f0e323bde8911",
+      "repo_path": "research/reviews/g1_20261020/archive/orchestration/g1_registry.py",
+      "sha256": "fe7344d128b0308ec00e9f778900931fd515d6f3fd3658de045f155992ecf9b6",
+      "source_logical_path": "local-evidence/factor_factory/workspace/.task_worktrees/g1-prior-diagnostic-20261020/research/a_share_model_selection_v1/g1_registry.py",
+      "transformations": [
+        "Personal absolute path literals replaced by unavailable /LOCAL_ONLY placeholders; no formulas/control flow changed"
+      ]
+    },
+    {
+      "bytes": 19029,
+      "mode": "byte_identical_source",
+      "original_bytes": 19029,
+      "original_sha256": "dacdb42425be0b3f303bfd29acced88e7be3ec94bba1938f3efec7262df87cc7",
+      "repo_path": "research/reviews/g1_20261020/archive/orchestration/g1_qstar_runner.py",
+      "sha256": "dacdb42425be0b3f303bfd29acced88e7be3ec94bba1938f3efec7262df87cc7",
+      "source_logical_path": "local-evidence/factor_factory/workspace/.task_worktrees/g1-qstar-20261020/research/a_share_model_selection_v1/g1_qstar_runner.py",
+      "transformations": []
+    },
+    {
+      "bytes": 6572,
+      "mode": "path_sanitized_source",
+      "original_bytes": 6585,
+      "original_sha256": "425e606ffeeefeb33d265928c6d9038656707789c477484872d20031eaef1495",
+      "repo_path": "research/reviews/g1_20261020/archive/orchestration/g1_qstar_registry.py",
+      "sha256": "9caab7e83e1fb0e0f029e7ca660a6d8d66fe5dc7964e06c885a18f70693fdc4a",
+      "source_logical_path": "local-evidence/factor_factory/workspace/.task_worktrees/g1-qstar-20261020/research/a_share_model_selection_v1/g1_qstar_registry.py",
+      "transformations": [
+        "Personal absolute path literals replaced by unavailable /LOCAL_ONLY placeholders; no formulas/control flow changed"
+      ]
+    },
+    {
+      "bytes": 215630,
+      "mode": "byte_identical_source",
+      "original_bytes": 215630,
+      "original_sha256": "0aa1428f2b62447e35ecbebce4843613dd01111cfb4340f38221e022eecbd40c",
+      "repo_path": "research/reviews/g1_20261020/archive/frozen_m0/model_selection.py",
+      "sha256": "0aa1428f2b62447e35ecbebce4843613dd01111cfb4340f38221e022eecbd40c",
+      "source_logical_path": "local-evidence/factor_factory/workspace/.task_worktrees/s1-industry-month-20261020/research/a_share_model_selection_v1/frozen_m0/research/a_share_model_selection_v1/model_selection.py",
+      "transformations": []
+    },
+    {
+      "bytes": 9076,
+      "mode": "byte_identical_source",
+      "original_bytes": 9076,
+      "original_sha256": "862d4835e3e0ee0e47833e7be57c0dfc584b30cddbbc5a43176b3d60b2654f94",
+      "repo_path": "research/reviews/g1_20261020/archive/frozen_m0/formula_adapter.py",
+      "sha256": "862d4835e3e0ee0e47833e7be57c0dfc584b30cddbbc5a43176b3d60b2654f94",
+      "source_logical_path": "local-evidence/factor_factory/workspace/.task_worktrees/s1-industry-month-20261020/research/a_share_model_selection_v1/frozen_m0/research/a_share_model_selection_v1/formula_adapter.py",
+      "transformations": []
+    },
+    {
+      "bytes": 12571,
+      "mode": "byte_identical_source",
+      "original_bytes": 12571,
+      "original_sha256": "d4af457232e14dc54c38d8b5593a3a8ce8783d4805d85976deccd073ba1dea9c",
+      "repo_path": "research/reviews/g1_20261020/archive/frozen_m0/tdx_ast_engine_injected.py",
+      "sha256": "d4af457232e14dc54c38d8b5593a3a8ce8783d4805d85976deccd073ba1dea9c",
+      "source_logical_path": "local-evidence/factor_factory/workspace/.task_worktrees/s1-industry-month-20261020/research/a_share_model_selection_v1/frozen_m0/research/a_share_model_selection_v1/tdx_ast_engine_injected.py",
+      "transformations": []
+    },
+    {
+      "bytes": 48252,
+      "mode": "path_sanitized_source",
+      "original_bytes": 48265,
+      "original_sha256": "2b130fbfba221fb170efa1478959f4defd31c3071bf502ff065089cd7f1ef807",
+      "repo_path": "research/reviews/g1_20261020/archive/seasonality/hsjday_interpretation.py",
+      "sha256": "b0abd57c0948ed6873f54f309f4440b2677e7207ecea00825dbc9433cefe7e7c",
+      "source_logical_path": "local-evidence/factor_factory/workspace/.task_worktrees/a-hsjday-20y-20261019/research/a_share_top100_environment_v1/hsjday_interpretation.py",
+      "transformations": [
+        "Personal absolute path literals replaced by unavailable /LOCAL_ONLY placeholders; no formulas/control flow changed"
+      ]
+    },
+    {
+      "bytes": 41345,
+      "mode": "path_sanitized_source",
+      "original_bytes": 41345,
+      "original_sha256": "e8071ebea55783312d0b1ae5946a9e5f9a5f9c183f19e85710613b9c381ee003",
+      "repo_path": "research/reviews/g1_20261020/archive/seasonality/hsjday_history_stats.py",
+      "sha256": "177a988754d044fdad6733fe94fd12fa2687404b43b22bea1e20a4567f0135bc",
+      "source_logical_path": "local-evidence/factor_factory/workspace/.task_worktrees/a-hsjday-20y-20261019/research/a_share_top100_environment_v1/hsjday_history_stats.py",
+      "transformations": [
+        "Personal absolute path literals replaced by unavailable /LOCAL_ONLY placeholders; no formulas/control flow changed"
+      ]
+    },
+    {
+      "bytes": 57656,
+      "mode": "path_sanitized_source",
+      "original_bytes": 57630,
+      "original_sha256": "98cbbbe0d78d8893c10508daed7b6b1c55f2ad2a04b754a2a4a8efcfed8173f1",
+      "repo_path": "research/reviews/g1_20261020/archive/seasonality/hsjday_industry_coverage.py",
+      "sha256": "e54226f5b65ad7bc02d0c1e66213fe21ead9aade625fd2b3d973b534a7adccde",
+      "source_logical_path": "local-evidence/factor_factory/workspace/.task_worktrees/a-hsjday-20y-20261019/research/a_share_top100_environment_v1/hsjday_industry_coverage.py",
+      "transformations": [
+        "Personal absolute path literals replaced by unavailable /LOCAL_ONLY placeholders; no formulas/control flow changed"
+      ]
+    },
+    {
+      "bytes": 7644,
+      "mode": "byte_identical_source",
+      "original_bytes": 7644,
+      "original_sha256": "3f2b0572998902642b87e70b9fec2a193877e2a088d8638e247f6b59456956d9",
+      "repo_path": "research/reviews/g1_20261020/archive/seasonality/test_hsjday_interpretation.py",
+      "sha256": "3f2b0572998902642b87e70b9fec2a193877e2a088d8638e247f6b59456956d9",
+      "source_logical_path": "local-evidence/factor_factory/workspace/.task_worktrees/a-hsjday-20y-20261019/research/a_share_top100_environment_v1/tests/test_hsjday_interpretation.py",
+      "transformations": []
+    },
+    {
+      "bytes": 2852,
+      "mode": "byte_identical_source",
+      "original_bytes": 2852,
+      "original_sha256": "666a84182749549be39070f3abe676b88f8cc27e85bfa7e4b4165c0ebb0e75f2",
+      "repo_path": "research/reviews/g1_20261020/archive/history_market_view_core.py",
+      "sha256": "666a84182749549be39070f3abe676b88f8cc27e85bfa7e4b4165c0ebb0e75f2",
+      "source_logical_path": "local-evidence/factor_factory/workspace/.task_worktrees/g1-ci-weight-fix-20261020/research/a_share_model_selection_v1/history_market_view_core.py",
+      "transformations": []
+    },
+    {
+      "bytes": 25867,
+      "mode": "path_redacted_report",
+      "original_bytes": 25867,
+      "original_sha256": "dfbd8c4553ce42319813369b3de3523085c38562ed5686a9d4ff3baa5d039b4c",
+      "repo_path": "research/reviews/g1_20261020/evidence/seasonality_report_zh.md",
+      "sha256": "dfbd8c4553ce42319813369b3de3523085c38562ed5686a9d4ff3baa5d039b4c",
+      "source_logical_path": "local-evidence/factor_factory/research/a_share_top100_environment_v1/batches/hsjday_20y_20261019/interpretation_20261020_01/freeze_03/REPORT_ONLY_01/中文季节性与稳健性报告.md",
+      "transformations": [
+        "Personal absolute paths replaced by logical unavailable references"
+      ]
+    }
+  ]
+}

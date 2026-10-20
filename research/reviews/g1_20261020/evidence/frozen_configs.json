@@ -1,0 +1,458 @@
+{
+  "g1_ci_weight_fix_20261020": {
+    "config": {
+      "N": 547,
+      "block_length": 20,
+      "centering": "delta_b=theta_star_b-mean_b(theta_star); CI=fixed original point+quantile_linear(delta,[.025,.975])",
+      "ci_quantiles": [
+        0.025,
+        0.975
+      ],
+      "complete_folds": [
+        "2024H1",
+        "2024H2",
+        "2025H1",
+        "2025H2",
+        "2026H1"
+      ],
+      "each_complete_fold_coverage_min": 0.7,
+      "fit_calls_allowed": 0,
+      "fold_draw": "mu_f + K_f/(ceil(n_f/20)*n_f)*sum_draws(sum_block(z_fd/c_fd))",
+      "fold_weights": "n_f/547 fixed",
+      "information_threshold": 0.0005,
+      "legal_blocks": "20 valid adjacent original observed sessions with consecutive calendar_index; noncircular; no cross-fold or partial",
+      "minimum_is_technical_only": true,
+      "model_loads_allowed": 0,
+      "n_by_fold": {
+        "2024H1": 110,
+        "2024H2": 123,
+        "2025H1": 106,
+        "2025H2": 112,
+        "2026H1": 96
+      },
+      "overall_coverage_min": 0.8,
+      "partial": "separate unchanged diagnostic only",
+      "point_mu_and_coverage": "reuse original_metrics bytes, not recomputed",
+      "positive_complete_folds_required": 4,
+      "predict_calls_allowed": 0,
+      "quantile_method": "linear",
+      "replicates": 2000,
+      "rng_order": "numpy default_rng; replicate outer loop, fixed complete-fold inner order; uniform starts with replacement within each fold",
+      "seed": 19320261020,
+      "support_stop": "Any valid point date c=0 -> CC_BLOCK_COVERAGE; any fold K<2 -> CC_INSUFFICIENT_BLOCKS. Never drop dates, shorten block or replace method.",
+      "within_fold_weight": "inverse legal-block coverage c_fd on centered residual z_fd=x_fd-mu_f"
+    },
+    "original_logical_path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_ci_weight_fix_20261020/CONFIG.json",
+    "original_sha256": "4fa7b7320281bceeb9a129568692b583f64a7b85c93a728c4f77ecbb7e637e6e"
+  },
+  "g1_hac_all_dates_20261020": {
+    "config": {
+      "D": "trace(KM)>0",
+      "DGP": {
+        "iid": "N(0,1)",
+        "ma1": "(e_t+0.5e_t-1)/sqrt(1.25)",
+        "ma5": "sum of6 innovations/sqrt6",
+        "ma5_hetero": "sameMA5 multiplied by foldstd(1,2,1,2,1)"
+      },
+      "M": "I-X inv(X'X) X'",
+      "N": 547,
+      "X": "Five fold dummies",
+      "bandwidth": 20,
+      "calibration_admission": "All4 Wilson95 coverage lower bounds>=0.93; report coverage/hits/Wilson95/mean_width; any failure blocks real x/CI, no tuning",
+      "calibration_failure_action": "Complete four predeclared synthetic cases; then CC_CI_CALIBRATION and no real x access",
+      "canary": "64draws each iid andMA5 on accepted date mask, resource/throughput only; not formal admission",
+      "chunk_bounds": [
+        1,
+        4096
+      ],
+      "chunk_default": 256,
+      "ci": "accepted point +-1.959963984540054*sqrt(V)",
+      "crossfold_covariance": "Included at actual calendar lag; no artificial fold cut",
+      "finite_mask_correction": "c=N/D; not N/(N-5)",
+      "fit_calls": 0,
+      "folds": [
+        "2024H1",
+        "2024H2",
+        "2025H1",
+        "2025H2",
+        "2026H1"
+      ],
+      "information_gate": "point>=0.0005 && CIlo>0 &&positivefolds>=4 &&overall>=.8 &&each>=.7; CIhi<.0005 below else inconclusive",
+      "innovation_generation": "For each draw generate5 prefix + every full global calendar slot from first to last primary valid index; then select547valid dates. Prefix5 avoids truncated MA boundary.",
+      "kernel": "Kij=max(1-abs(global_calendar_i-global_calendar_j)/20,0)",
+      "max_workers_optional": 2,
+      "model_loads": 0,
+      "n": [
+        110,
+        123,
+        106,
+        112,
+        96
+      ],
+      "partial_excluded": true,
+      "point_and_gates": "Copy accepted real point/fold means/coverage/positivefolds; no recompute",
+      "predict_calls": 0,
+      "primary_calendar_rows": 601,
+      "real_ci_max_executions": 1,
+      "residual": "accepted daily x minus accepted fold mean; no re-estimation on real data",
+      "scenario_reps": 10000,
+      "scenarios": [
+        "iid",
+        "ma1",
+        "ma5",
+        "ma5_hetero"
+      ],
+      "seeds": [
+        19320261020,
+        19320261021,
+        19320261022,
+        19320261023
+      ],
+      "synthetic_estimator": "Re-estimate sample fold means and point each draw; truth weighted fixed n/N true foldmeans",
+      "threads": 4,
+      "true_fold_means": [
+        0,
+        1,
+        -1,
+        2,
+        -2
+      ],
+      "variance": "c*z'Kz/N^2",
+      "workers": 1,
+      "workers2": "Not activated without measured throughput gain and healthy resource evidence; this batch uses bounded serial vectorized execution",
+      "z95": 1.959963984540054
+    },
+    "original_logical_path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_hac_all_dates_20261020/CONFIG.json",
+    "original_sha256": "c00f2048fbf16c849f677e87aecf7abb4c79f333a7f5ef038063f45e1a83e688"
+  },
+  "g1_prior_diagnostic_20261020": {
+    "config": {
+      "TopN": 50,
+      "bootstrap": {
+        "block_sessions": 20,
+        "method": "noncircular moving blocks, within fold, original calendar index difference exactly1; resample complete date cross-sections",
+        "minimum_is_technical_only": true,
+        "minimum_legal_start_blocks": 2,
+        "reps": 2000,
+        "seed": 19320261020
+      },
+      "complete_folds": [
+        "2024H1",
+        "2024H2",
+        "2025H1",
+        "2025H2",
+        "2026H1"
+      ],
+      "day_valid": "ALL_FIVE_BANDS_VALID",
+      "decision_priority": [
+        "IDENTITY",
+        "COVERAGE",
+        "BOOTSTRAP_AVAILABLE",
+        "INFORMATION_GATE_PASS_DEVELOPMENT_ONLY",
+        "BELOW_PRACTICAL_INFORMATION_THRESHOLD",
+        "INCONCLUSIVE"
+      ],
+      "denominator": "ORIGINAL_OBSERVED_M0_VALIDATION_CALENDAR_BEFORE_LABELS",
+      "each_complete_fold_coverage_min": 0.7,
+      "fit_calls_allowed": 0,
+      "fullpool_new_prediction_generation": "ONLY_IF_STORED_PAYLOAD_INCOMPLETE; IDENTITY_CONFLICT_STOPS_NOT_SILENTLY_REBUILDS",
+      "high_rule": "prior>=q70",
+      "information_threshold": 0.0005,
+      "information_threshold_bp": 5,
+      "low_rule": "prior<=q30",
+      "max_rss_bytes": 85899345920,
+      "min_group_size": 2,
+      "min_known_prior": 6,
+      "missing_flag_only_for_exclusion": "industry_month_missing",
+      "missing_prior": "EXCLUDE_FROM_BOTH_GROUPS_NEVER_WEAK",
+      "missing_selected_h2": "INVALIDATE_BAND_NO_REFILL",
+      "overall_coverage_min": 0.8,
+      "overlap": "INVALIDATE_BAND",
+      "partial_fold": "2026H2_PARTIAL_TO_2026_10_15",
+      "planned_fullpool_inference_calls": 0,
+      "planned_model_loads": 7,
+      "planned_sample_predict_calls": 6,
+      "positive_complete_folds_required": 4,
+      "primary_estimand": "equal_date_mean(equal_band_mean(high_mean(h2-M0pred)-low_mean(h2-M0pred)))",
+      "prior": "industry_month_log_relative_lift",
+      "quantile_method": "numpy.linear",
+      "quantiles": [
+        0.3,
+        0.7
+      ],
+      "rank_bands": [
+        [
+          1,
+          10
+        ],
+        [
+          11,
+          20
+        ],
+        [
+          21,
+          30
+        ],
+        [
+          31,
+          40
+        ],
+        [
+          41,
+          50
+        ]
+      ],
+      "raw_reconciliation": "residual_spread=raw_h2_spread-M0_score_gap",
+      "safety": {
+        "buy_gate_updated": false,
+        "orders_sent": false,
+        "production_allowed": false,
+        "research_only": true
+      },
+      "threads": 4,
+      "ties": "KEEP_ALL"
+    },
+    "original_logical_path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_prior_diagnostic_20261020/CONFIG.json",
+    "original_sha256": "128117c78b987bfaa5090c15921012217c4666a6dbb7ace55393eb493988e7c1"
+  },
+  "g1_qstar_20261020": {
+    "config": {
+      "AR": "r_t=.9*r_prev+sqrt(1-.9**2)*u_t; zero initialization discard512; same recurrence all AR scenarios",
+      "DGP": {
+        "1": "iid N01",
+        "2": "(u_t+.5u_t-1)/sqrt1.25",
+        "3": "sum six iid normal innovations /sqrt6",
+        "4": "MA5 * foldstd(1,2,1,2,1)",
+        "5": "AR1 phi=.9, Gaussian innovation std1",
+        "6": "AR1 phi=.9, t(df=5)*np.sqrt(3.0/5.0) innovation std1",
+        "7": "MA5 * foldstd(2,1,2,1,2)",
+        "8": "case6 * (1+.75sin(2pi*t/600)), t=0..600 full original calendar"
+      },
+      "MA_prefix": 5,
+      "N": 547,
+      "ONE_VARIABLE": "EIGHT_SCENARIO_QSTAR_CRITICAL_ONLY",
+      "cal_checkpoint_step": 10000,
+      "cal_order": "k=min{k in1..50000:BinomCDF(k-1;50000,.95)>=1-.01/8}; kth smallest absT, no interpolation",
+      "cal_reps_each": 50000,
+      "canonical_math_tile": 32,
+      "chunk_bounds": [
+        32,
+        4096
+      ],
+      "chunk_default": 256,
+      "chunk_multiple": 32,
+      "family_confidence": "99% simultaneous MonteCarlo upper quantile confidence for specified eight DGPs only; NOT real95% coverage certificate",
+      "fit_calls": 0,
+      "folds": [
+        "2024H1",
+        "2024H2",
+        "2025H1",
+        "2025H2",
+        "2026H1"
+      ],
+      "information_gate": "unchanged point>=.0005 && lo>0 &&positivefolds>=4 &&coverageoverall>=.8 &&each>=.7; hi<.0005 below else inconclusive",
+      "kernel": "Kij=max(1-abs(globalcalendar_i-globalcalendar_j)/20,0), including actual crossfold covariance",
+      "locking": "register immutable QSTAR_LOCK sha binding all8cal result/receipt/core/config before any phase1 validation; reject q drift/recal",
+      "max_parent_rss_bytes": 8589934592,
+      "model_loads": 0,
+      "n": [
+        110,
+        123,
+        106,
+        112,
+        96
+      ],
+      "optional_workers2": "not admitted without measured gain/healthy resources; serial default sufficient",
+      "partial_excluded": true,
+      "predict_calls": 0,
+      "primary_calendar": [
+        648,
+        1248
+      ],
+      "primary_calendar_rows": 601,
+      "qstar": "max(1.959963984540054,U1..U8)",
+      "random": "PCG64(SeedSequence(19320261021,spawn_key=(phase,scenario_id))); phase0cal/phase1val",
+      "real_ci": "accepted point +- locked qstar*sqrt(V); at most one formal real CI after all validation PASS",
+      "recovery": "atomic hashed RNG state+all absT/SE arrays; exclusive case owner; exact science identity; successful cases reused; registered short checkpoint capture start/terminal",
+      "synthetic_estimator": "simulate full601 then select547; reestimate foldmeans and equal-day point every sample; truth=sum(n_f/N*true_mu_f)",
+      "threads": 4,
+      "true_fold_means": [
+        0,
+        1,
+        -1,
+        2,
+        -2
+      ],
+      "val_checkpoint_step": 5000,
+      "val_reps_each": 10000,
+      "validation": "all8 phase1 Wilson95lower>=.93 using fixed1.959963984540054 for Wilson; otherwise STOP no realx/CI",
+      "variance": "V=(N/tr(KM))*zKz/N^2; X five fold dummies M=I-X inv(XtX) Xt; real z=accepted daily x-accepted fold mean",
+      "workers": 1,
+      "z95": 1.959963984540054
+    },
+    "original_logical_path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_qstar_20261020/CONFIG.json",
+    "original_sha256": "b7efa7a6ef6e7d8c2952dee80ae5fd4f0597f933c861e0570e0deb36610c52e1"
+  },
+  "s1_industry_month_prior_20261020": {
+    "config": {
+      "baseline_fits_reused": 6,
+      "bootstrap": {
+        "block_sessions": 20,
+        "ci": [
+          0.025,
+          0.975
+        ],
+        "methodology": "moving noncircular 20 consecutive observed-session blocks, never cross fold or missing paired-date gaps; paired arm resampling; draw ceil(N/20) blocks and truncate to N",
+        "replicates": 2000,
+        "seed": 19320261020
+      },
+      "buy_gate_updated": false,
+      "canary_codes": [
+        "000001.SZ",
+        "000002.SZ",
+        "000003.SZ",
+        "000004.SZ",
+        "000005.SZ",
+        "000006.SZ",
+        "000007.SZ",
+        "000008.SZ",
+        "000009.SZ",
+        "000010.SZ",
+        "000011.SZ",
+        "000012.SZ",
+        "000013.SZ",
+        "000014.SZ",
+        "000015.SZ",
+        "000016.SZ",
+        "000017.SZ",
+        "000018.SZ",
+        "000019.SZ",
+        "000020.SZ",
+        "000021.SZ",
+        "000022.SZ",
+        "000023.SZ",
+        "000024.SZ",
+        "000025.SZ",
+        "000026.SZ",
+        "000027.SZ",
+        "000028.SZ",
+        "000029.SZ",
+        "000030.SZ",
+        "000031.SZ",
+        "000032.SZ",
+        "000033.SZ",
+        "000034.SZ",
+        "000035.SZ",
+        "000036.SZ",
+        "000037.SZ",
+        "000038.SZ",
+        "000039.SZ",
+        "000040.SZ"
+      ],
+      "canary_fits": 2,
+      "canary_test_dates": 20,
+      "canary_train_dates": 80,
+      "diagnostic_horizons": [
+        1,
+        5
+      ],
+      "diagnostic_selection": "SAME_H2_TOP10_LISTS",
+      "evaluation_dates": "only dates with all ten h2 selected outcomes finite in BOTH arms; disclose excluded pairs; never change scoring pool",
+      "formal_fits": 6,
+      "gate_folds": [
+        "2024H1",
+        "2024H2",
+        "2025H1",
+        "2025H2",
+        "2026H1"
+      ],
+      "kappa": 100,
+      "max_rss_bytes": 85899345920,
+      "min_available_bytes": 8589934592,
+      "missing_values": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "model_params": {
+        "early_stopping": false,
+        "l2_regularization": 10.0,
+        "learning_rate": 0.05,
+        "loss": "squared_error",
+        "max_depth": 3,
+        "max_iter": 150,
+        "max_leaf_nodes": 7,
+        "min_samples_leaf": 200,
+        "random_state": 193
+      },
+      "month_anchor": "shared calendar_index(D)+1; asof cutoff remains D.year even on December/January boundary",
+      "orders_sent": false,
+      "partial_diagnostic_only": "2026H2_PARTIAL_TO_2026_10_15",
+      "primary_horizon": 2,
+      "prior_columns": [
+        "industry_month_log_relative_lift",
+        "industry_month_support",
+        "industry_month_support_years",
+        "industry_month_missing"
+      ],
+      "prior_window": "2006 <= year < signal_date.year; complete prior calendar years only",
+      "production_allowed": false,
+      "research_only": true,
+      "selection": "daily Top10 stable descending score / ascending canonical code tie break; no refill",
+      "threads": 4,
+      "train_window": "prior_2_calendar_years",
+      "training_weight": "equal_date_normalized_mean_1"
+    },
+    "original_logical_path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/s1_industry_month_prior_20261020/CONFIG.json",
+    "original_sha256": "0c54479d857ef853983f81367c562420c62e94e22f3bc75b764b25f9f5277511"
+  },
+  "seasonality": {
+    "config": {
+      "L": "sum(cell hits)/sum(cell expected)",
+      "absolute_remove3": "H-E descending, year ascending ties; remove3; recompute remaining L and S",
+      "annual_S": "annual cell L / annual industry L; undefined if industry L<=0 or expected<=0",
+      "buy_gate_updated": false,
+      "comparison": "strict >1 and >=1.2; no p-values or significance claims",
+      "eligible": "20 supported cell years and total expected>=100; UNKNOWN/unmapped excluded from conclusions",
+      "few_year_inflated": "eligible and corresponding pooled L/S>=1.2, (positive years<=10 OR median<=1), corresponding remove3 L/S<=1; S needs20 finite years",
+      "half_and_remaining_baselines": "recompute ratios from sums using identical retained years; never average lifts",
+      "half_periods": [
+        [
+          2006,
+          2015
+        ],
+        [
+          2016,
+          2025
+        ]
+      ],
+      "industry_baseline": "sum(industry all-year hits)/sum(industry all-year expected)",
+      "limits": "current-industry retrospective; same-day observed-package Top100; no all-market/PIT/official complete-adjustment or future-return prediction claim",
+      "orders_sent": false,
+      "pooled_S": "pooled cell L / pooled industry L; descriptive ratio affected by annual composition",
+      "positive_excess_share": "sum positive excess of removed years / sum positive excess of all finite years, only if denominator>0",
+      "production_allowed": false,
+      "report_selection": "top12 robust entries by minimum(MAIN S,EX S), then minimum L, then expected descending and key/month/third ascending; absolute-only month and month-third sections rank minimum L first; top20 common industries by MAIN expected; mandatory C40 November and I65 January/February with actual gate results; at most6 inflated/half-period-crossing examples; all rows retained",
+      "research_only": true,
+      "reuse_derived": {
+        "manifest_sha256": "0ca293bc5543f195e04728b7c4a2d7b3cc299579287656bf89cbcc7dba410e77",
+        "path": "local-evidence/factor_factory/research/a_share_top100_environment_v1/batches/hsjday_20y_20261019/interpretation_20261020_01/freeze_02/DERIVE_01",
+        "source_code_sha256": "31a4a735b14f917a25125c0858e0016b6b66f8f5d81cea5c2989728f77d67915",
+        "source_snapshot_path": "local-evidence/factor_factory/research/a_share_top100_environment_v1/batches/hsjday_20y_20261019/interpretation_20261020_01/freeze_02/NUMERICAL_SOURCE_SNAPSHOT.py"
+      },
+      "robust": "corresponding stable criteria pass separately in MAIN and EX_RESUMED",
+      "seasonal_remove3": "H-E*annual industry L descending, year ascending ties; remove3 finite years; undefined if fewer than3 finite",
+      "stable_absolute": "eligible and L>=1.2, >=15/20 annual L>1, median L>1, both half L>1, absolute remove3 L>1",
+      "stable_seasonal": "stable_absolute AND stable_seasonal_only",
+      "stable_seasonal_only": "eligible and all20 S finite, S>=1.2, >=15/20 annual S>1, median S>1, both half S>1, seasonal remove3 S>1",
+      "stage_example": "eligible both populations, not robust seasonal, at least one half-period L or S crosses1; descriptive stage contrast only",
+      "years": [
+        2006,
+        2025
+      ]
+    },
+    "original_logical_path": "local-evidence/factor_factory/research/a_share_top100_environment_v1/batches/hsjday_20y_20261019/interpretation_20261020_01/freeze_03/CONFIG.json",
+    "original_sha256": "d0d93d6e27f360c63e1b8442653c97a51324963eb410e04e6ac2db0f5c31af66"
+  }
+}

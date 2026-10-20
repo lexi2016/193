@@ -1,0 +1,1420 @@
+{
+  "20y_historical_descriptive_run_receipt": {
+    "buy_gate_updated": false,
+    "code_sha256": "e8071ebea55783312d0b1ae5946a9e5f9a5f9c183f19e85710613b9c381ee003",
+    "config_sha256": "b5b4b13e4f9f18b9db0dd6695f53a66d991d7cce5e934361abf569d1838d3e8d",
+    "contract_sha256": "6d36c4ccd61f49c828bab20b9182f196e9af4d7ce7429c9c6b279fbeee04baa9",
+    "execution_id": "A_SHARE_HSJDAY_20Y_DESCRIPTIVE_20261019_HISTORICAL_DESCRIPTIVE_04_FULL_FULL_01",
+    "failure": null,
+    "finished": "2026-10-19T16:02:07.172065+00:00",
+    "industry_roster_sha256": "71ca88584c148b52bab9d4a47a7de929bd92cdc4f5ee13c83f35eac378a0f98a",
+    "input_binding_sha256": "9adc338d436524f9708811a441925dc6ddac55978b2e013468f65a7aa0b52a5e",
+    "metrics": {
+      "actual_hits": 485900,
+      "annual_full_grid_rows_per_population": 92560,
+      "daily_top100_max": 100,
+      "daily_top100_min": 100,
+      "expected_hits": 485900.0,
+      "extreme_gain_rows": 2104,
+      "full_grid_rows_per_population": 4628,
+      "industry_count": 89,
+      "matched_cached_actions": 46675,
+      "panel_rows": 14707393,
+      "processed_codes": 5879,
+      "resumed_rows": 53814,
+      "selection_slots": 485900,
+      "unrankable_rows": 4391,
+      "valid_days": 4859,
+      "year_files": 20,
+      "years_in_top100": [
+        2006,
+        2007,
+        2008,
+        2009,
+        2010,
+        2011,
+        2012,
+        2013,
+        2014,
+        2015,
+        2016,
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025
+      ]
+    },
+    "orders_sent": false,
+    "production_allowed": false,
+    "research_only": true,
+    "stage": "FULL",
+    "started": "2026-10-19T15:59:39.353164+00:00",
+    "status": "COMPLETED",
+    "truth_access": "EXPOSED_HISTORY_DESCRIPTIVE"
+  },
+  "G1_CI_support_stop": {
+    "accepted_result": {
+      "accepted_status": "PASS_WITH_FROZEN_SUPPORT_STOP",
+      "buy_gate_updated": false,
+      "ci95": null,
+      "formal_reps": 0,
+      "information_gate": "CANNOT_CONFIRM_BLOCK_COVERAGE",
+      "orders_sent": false,
+      "original_result_sha256": "4d9231867fe6199de3d2bac6aee8693bc623a8b71cf2c0e39fd582ffa6a40928",
+      "production_allowed": false,
+      "research_only": true,
+      "review_receipt_sha256": "e105145ae5a38ff2217871fb2b70d9a2abb50a937393e746aa069dda9aa42266"
+    },
+    "pre_review_result_aggregate_only": {
+      "S1": "S1_DEVELOPMENT_GATE_FAILED",
+      "S2_started": false,
+      "accepted_status": "INDEPENDENT_REVIEW_PENDING",
+      "buy_gate_updated": false,
+      "ci": {
+        "ci95": null,
+        "replicates_executed": 0,
+        "status": "CANNOT_CONFIRM_BLOCK_COVERAGE"
+      },
+      "coverage": {
+        "coverage": 0.9101497504159733,
+        "denominator_dates": 601,
+        "passed": true,
+        "required": 0.8,
+        "valid_dates": 547
+      },
+      "coverage_by_fold": {
+        "2024H1": {
+          "coverage": 0.9401709401709402,
+          "denominator_dates": 117,
+          "valid_dates": 110
+        },
+        "2024H2": {
+          "coverage": 0.984,
+          "denominator_dates": 125,
+          "valid_dates": 123
+        },
+        "2025H1": {
+          "coverage": 0.905982905982906,
+          "denominator_dates": 117,
+          "valid_dates": 106
+        },
+        "2025H2": {
+          "coverage": 0.8888888888888888,
+          "denominator_dates": 126,
+          "valid_dates": 112
+        },
+        "2026H1": {
+          "coverage": 0.8275862068965517,
+          "denominator_dates": 116,
+          "valid_dates": 96
+        },
+        "2026H2_PARTIAL_TO_2026_10_15": {
+          "coverage": 0.9014084507042254,
+          "denominator_dates": 71,
+          "valid_dates": 64
+        }
+      },
+      "coverage_recomputed": false,
+      "evidence_level": "DIRECTION_ONLY",
+      "fit_calls": 0,
+      "fold_means": {
+        "2024H1": 0.000314390785616479,
+        "2024H2": 0.005439747568456094,
+        "2025H1": 0.007117212737424578,
+        "2025H2": 0.0007757601523499695,
+        "2026H1": 0.0008614419773583798,
+        "2026H2_PARTIAL_TO_2026_10_15": -0.0004754092670063083
+      },
+      "grouping_recomputed": false,
+      "machine_decision": "CANNOT_CONFIRM_BLOCK_COVERAGE",
+      "model_loads": 0,
+      "orders_sent": false,
+      "partial": {
+        "2026H2_PARTIAL_TO_2026_10_15": {
+          "coverage": 0.9014084507042254,
+          "denominator_dates": 71,
+          "residual_spread": -0.0004754092670063083,
+          "valid_dates": 64
+        }
+      },
+      "point": 0.002975649093957072,
+      "point_recomputed": false,
+      "positive_complete_folds": 5,
+      "predict_calls": 0,
+      "production_allowed": false,
+      "research_only": true,
+      "support_by_fold": {
+        "2024H1": {
+          "K": 45,
+          "m": 6,
+          "maximum_coverage": 20,
+          "minimum_coverage": 0,
+          "n": 110,
+          "uncovered_count": 27
+        },
+        "2024H2": {
+          "K": 66,
+          "m": 7,
+          "maximum_coverage": 20,
+          "minimum_coverage": 1,
+          "n": 123,
+          "uncovered_count": 0
+        },
+        "2025H1": {
+          "K": 34,
+          "m": 6,
+          "maximum_coverage": 20,
+          "minimum_coverage": 0,
+          "n": 106,
+          "uncovered_count": 34
+        },
+        "2025H2": {
+          "K": 17,
+          "m": 6,
+          "maximum_coverage": 17,
+          "minimum_coverage": 0,
+          "n": 112,
+          "uncovered_count": 76
+        },
+        "2026H1": {
+          "K": 8,
+          "m": 5,
+          "maximum_coverage": 6,
+          "minimum_coverage": 0,
+          "n": 96,
+          "uncovered_count": 50
+        }
+      }
+    }
+  },
+  "G1_HAC_normal_critical_stop": {
+    "accepted": {
+      "S1": "S1_DEVELOPMENT_GATE_FAILED",
+      "S2_started": false,
+      "accepted_status": "REVIEWED_PASS_CORRECT_CALIBRATION_STOP_AND_STATIC_DISPLAY",
+      "buy_gate_updated": false,
+      "ci95": null,
+      "fit_calls": 0,
+      "information_gate": "CANNOT_CONFIRM_CI_CALIBRATION",
+      "model_loads": 0,
+      "orders_sent": false,
+      "predict_calls": 0,
+      "production_allowed": false,
+      "real_ci_executed": false,
+      "real_x_read": false,
+      "research_only": true,
+      "review_receipt_sha256": "8a747be89bd60e8c6e854af9428f75445880f4113373d31cf5d5a577eb173a08",
+      "review_stdout_sha256": "1b7a7c8f23039fd5dbcf4a08b0515a2aebb47ee3664c1de95b921414dad89329",
+      "source_result_sha256": "1f5e8f7db8ab88d8b0b32f87ebe4456d7911bdbbfe5904d497919777e28250fe",
+      "ui_status": "UI_NOT_VERIFIED"
+    },
+    "calibration": {
+      "calibration_pass": false,
+      "decision": "CANNOT_CONFIRM_CI_CALIBRATION",
+      "fit_calls": 0,
+      "model_loads": 0,
+      "predict_calls": 0,
+      "real_x_read": false,
+      "scenarios": {
+        "iid": {
+          "chunk_size": 256,
+          "coverage": 0.944,
+          "covered": 9440,
+          "mean_width": 0.16668244301028903,
+          "pass_calibration": true,
+          "reps": 10000,
+          "scenario": "iid",
+          "seed": 19320261020,
+          "threshold_wilson_lower": 0.93,
+          "wilson95": [
+            0.9393207622704972,
+            0.9483382471763419
+          ]
+        },
+        "ma1": {
+          "chunk_size": 256,
+          "coverage": 0.9426,
+          "covered": 9426,
+          "mean_width": 0.21726753857677786,
+          "pass_calibration": true,
+          "reps": 10000,
+          "scenario": "ma1",
+          "seed": 19320261021,
+          "threshold_wilson_lower": 0.93,
+          "wilson95": [
+            0.9378687695143805,
+            0.9469913151278965
+          ]
+        },
+        "ma5": {
+          "chunk_size": 256,
+          "coverage": 0.9284,
+          "covered": 9284,
+          "mean_width": 0.37021748447956104,
+          "pass_calibration": false,
+          "reps": 10000,
+          "scenario": "ma5",
+          "seed": 19320261022,
+          "threshold_wilson_lower": 0.93,
+          "wilson95": [
+            0.9231805218521728,
+            0.9332904683438313
+          ]
+        },
+        "ma5_hetero": {
+          "chunk_size": 256,
+          "coverage": 0.9206,
+          "covered": 9206,
+          "mean_width": 0.561641252219938,
+          "pass_calibration": false,
+          "reps": 10000,
+          "scenario": "ma5_hetero",
+          "seed": 19320261023,
+          "threshold_wilson_lower": 0.93,
+          "wilson95": [
+            0.9151380476574077,
+            0.925738932913179
+          ]
+        }
+      }
+    }
+  },
+  "G1_original": {
+    "accepted_qualified_result": {
+      "S1": "S1_DEVELOPMENT_GATE_FAILED",
+      "S2_started": false,
+      "buy_gate_updated": false,
+      "coverage": {
+        "coverage": 0.9101497504159733,
+        "denominator_dates": 601,
+        "passed": true,
+        "required": 0.8,
+        "valid_dates": 547
+      },
+      "description": "Positive descriptive residual spread; incremental information is not independently confirmed.",
+      "evidence_level": "DIRECTION_ONLY",
+      "fit_calls": 0,
+      "git_sync": "NOT_SYNCED_NO_REMOTE",
+      "independent_arithmetic_and_identity": "PASS",
+      "independent_information_gate": "CANNOT_CONFIRM",
+      "independent_statistical_ci": "CANNOT_CONFIRM_BOOTSTRAP_ALLOCATION",
+      "metrics_sha256": "4d80b5622617610bd7c60fa512f2806a77390f37a8345bc30050f4e35b6b8ec2",
+      "new_fullpool_predict_calls": 0,
+      "orders_sent": false,
+      "original_implementation_ci95_not_statistically_accepted": [
+        0.0015383116391024388,
+        0.006403277096514368
+      ],
+      "original_machine_decision_not_accepted": "INFORMATION_GATE_PASS_DEVELOPMENT_ONLY",
+      "positive_complete_folds": 5,
+      "primary_residual_spread": 0.002975649093957072,
+      "production_allowed": false,
+      "research_only": true,
+      "review_stdout_sha256": "09d5c3a6c37680a6aed8ae2fffce1a6f8a456b6d2efbba81743ada88d778b709",
+      "reviewer_sample_predict_replays": 6,
+      "schema": "G1_ACCEPTED_RESULT_SUMMARY_V1",
+      "stored_fullpool_predictions_reused": 3599471,
+      "ui_status": "UI_NOT_VERIFIED",
+      "writer_model_loads": 7,
+      "writer_sample_predict_replays": 6
+    },
+    "descriptive_metrics_historical_CI_rejected": {
+      "M0_score_gap": 3.668434809245033e-05,
+      "S1_status_unchanged": "S1_DEVELOPMENT_GATE_FAILED",
+      "S2_started": false,
+      "band_descriptive_on_complete_day_set": {
+        "1": {
+          "complete_day_residual_spread": 0.008039630843198592
+        },
+        "2": {
+          "complete_day_residual_spread": 0.0009511287619559257
+        },
+        "3": {
+          "complete_day_residual_spread": 0.002255937650662384
+        },
+        "4": {
+          "complete_day_residual_spread": 0.00282634825035258
+        },
+        "5": {
+          "complete_day_residual_spread": 0.0008051999636158809
+        }
+      },
+      "bootstrap": {
+        "blocks_by_fold": {
+          "2024H1": 45,
+          "2024H2": 66,
+          "2025H1": 34,
+          "2025H2": 17,
+          "2026H1": 8
+        },
+        "ci95": [
+          0.0015383116391024388,
+          0.006403277096514368
+        ],
+        "minimum_is_technical_only": true,
+        "status": "COMPLETE",
+        "valid_blocks": 170
+      },
+      "complete_fold_positive_count": 5,
+      "coverage_by_fold": {
+        "2024H1": {
+          "coverage": 0.9401709401709402,
+          "denominator_dates": 117,
+          "valid_dates": 110
+        },
+        "2024H2": {
+          "coverage": 0.984,
+          "denominator_dates": 125,
+          "valid_dates": 123
+        },
+        "2025H1": {
+          "coverage": 0.905982905982906,
+          "denominator_dates": 117,
+          "valid_dates": 106
+        },
+        "2025H2": {
+          "coverage": 0.8888888888888888,
+          "denominator_dates": 126,
+          "valid_dates": 112
+        },
+        "2026H1": {
+          "coverage": 0.8275862068965517,
+          "denominator_dates": 116,
+          "valid_dates": 96
+        },
+        "2026H2_PARTIAL_TO_2026_10_15": {
+          "coverage": 0.9014084507042254,
+          "denominator_dates": 71,
+          "valid_dates": 64
+        }
+      },
+      "decision": "INFORMATION_GATE_PASS_DEVELOPMENT_ONLY",
+      "evidence_level": "DIRECTION_ONLY",
+      "fit_calls": 0,
+      "fold_residual_spreads": {
+        "2024H1": 0.000314390785616479,
+        "2024H2": 0.005439747568456094,
+        "2025H1": 0.007117212737424578,
+        "2025H2": 0.0007757601523499695,
+        "2026H1": 0.0008614419773583798,
+        "2026H2_PARTIAL_TO_2026_10_15": -0.0004754092670063083
+      },
+      "invalid_band_reason_counts": {
+        "HIGH_LOW_OVERLAP": 4,
+        "MISSING_SELECTED_H2": 54,
+        "OK": 2947
+      },
+      "overall_coverage": {
+        "coverage": 0.9101497504159733,
+        "denominator_dates": 601,
+        "passed": true,
+        "required": 0.8,
+        "valid_dates": 547
+      },
+      "partial_fold_diagnostic_only": {
+        "2026H2_PARTIAL_TO_2026_10_15": {
+          "coverage": 0.9014084507042254,
+          "denominator_dates": 71,
+          "residual_spread": -0.0004754092670063083,
+          "valid_dates": 64
+        }
+      },
+      "primary_estimand": "mean_daily(mean_five_rank_bands(mean(h2-M0pred|high)-mean(h2-M0pred|low)))",
+      "primary_point": 0.002975649093957072,
+      "prior_column": "industry_month_log_relative_lift",
+      "raw_h2_spread": 0.003012333442049523,
+      "reconciliation_error": 8.673617379884035e-19,
+      "threshold": 0.0005,
+      "threshold_meaning": "5bp resource-screening information threshold; NOT Top10 strategy return lift"
+    }
+  },
+  "G1_qstar": {
+    "accepted_result": {
+      "S1": "S1_DEVELOPMENT_GATE_FAILED",
+      "S2": "NOT_STARTED",
+      "accepted_status": "REVIEWED_PASS_FROZEN_QSTAR_INFORMATION_GATE_INCONCLUSIVE",
+      "buy_gate_updated": false,
+      "ci95": [
+        -0.0006017494756064786,
+        0.006553047663520623
+      ],
+      "information_gate": "INCONCLUSIVE",
+      "orders_sent": false,
+      "production_allowed": false,
+      "qstar": 2.9877439760955102,
+      "research_only": true,
+      "research_status": "DIRECTION_ONLY",
+      "result_path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_qstar_20261020/FINAL_RESULT.json",
+      "result_sha256": "ad382df6e458aa4113dc28ef7e726b187e253e36e5031c2033e0f6ff8766f6bb",
+      "review_receipt_sha256": "a24218a7675203168fab7b6421f9f67b57aadee9a4fc918bc9b7eafdb8365b7c",
+      "review_scope": "qstar frozen implementation/calibration/lock/validation/realCI/static; no training lift/strategy/sealed acceptance",
+      "review_stdout_sha256": "35098ab68b243876b770b769040592ec1059cfac71990399d4e6b7bdeab05f26",
+      "review_terminal_event_sha256": "92a70e6c2697fda7de208a87c642192d23d1da5809fc06da43513abcfca3914b",
+      "ui_status": "UI_NOT_VERIFIED"
+    },
+    "calibration": {
+      "phase": 0,
+      "real_x_read": false,
+      "reps_each": 50000,
+      "scenarios": {
+        "1": {
+          "U": 2.037244905095378,
+          "order_index": {
+            "cdf_at_k_minus_1": 0.9987834133258218,
+            "cdf_at_k_minus_2": 0.9986964173661687,
+            "family_alpha": 0.01,
+            "k": 47647,
+            "m": 8,
+            "n": 50000,
+            "p": 0.95,
+            "required_cdf": 0.99875
+          },
+          "phase": 0,
+          "real_x_read": false,
+          "reps": 50000,
+          "scenario": "IID",
+          "scenario_id": 1,
+          "stream": {
+            "entropy": 19320261021,
+            "spawn_key": [
+              0,
+              1
+            ]
+          }
+        },
+        "2": {
+          "U": 2.087728457953989,
+          "order_index": {
+            "cdf_at_k_minus_1": 0.9987834133258218,
+            "cdf_at_k_minus_2": 0.9986964173661687,
+            "family_alpha": 0.01,
+            "k": 47647,
+            "m": 8,
+            "n": 50000,
+            "p": 0.95,
+            "required_cdf": 0.99875
+          },
+          "phase": 0,
+          "real_x_read": false,
+          "reps": 50000,
+          "scenario": "MA1",
+          "scenario_id": 2,
+          "stream": {
+            "entropy": 19320261021,
+            "spawn_key": [
+              0,
+              2
+            ]
+          }
+        },
+        "3": {
+          "U": 2.167041778529981,
+          "order_index": {
+            "cdf_at_k_minus_1": 0.9987834133258218,
+            "cdf_at_k_minus_2": 0.9986964173661687,
+            "family_alpha": 0.01,
+            "k": 47647,
+            "m": 8,
+            "n": 50000,
+            "p": 0.95,
+            "required_cdf": 0.99875
+          },
+          "phase": 0,
+          "real_x_read": false,
+          "reps": 50000,
+          "scenario": "MA5",
+          "scenario_id": 3,
+          "stream": {
+            "entropy": 19320261021,
+            "spawn_key": [
+              0,
+              3
+            ]
+          }
+        },
+        "4": {
+          "U": 2.1945800676530776,
+          "order_index": {
+            "cdf_at_k_minus_1": 0.9987834133258218,
+            "cdf_at_k_minus_2": 0.9986964173661687,
+            "family_alpha": 0.01,
+            "k": 47647,
+            "m": 8,
+            "n": 50000,
+            "p": 0.95,
+            "required_cdf": 0.99875
+          },
+          "phase": 0,
+          "real_x_read": false,
+          "reps": 50000,
+          "scenario": "MA5_STD_12121",
+          "scenario_id": 4,
+          "stream": {
+            "entropy": 19320261021,
+            "spawn_key": [
+              0,
+              4
+            ]
+          }
+        },
+        "5": {
+          "U": 2.9126935716281843,
+          "order_index": {
+            "cdf_at_k_minus_1": 0.9987834133258218,
+            "cdf_at_k_minus_2": 0.9986964173661687,
+            "family_alpha": 0.01,
+            "k": 47647,
+            "m": 8,
+            "n": 50000,
+            "p": 0.95,
+            "required_cdf": 0.99875
+          },
+          "phase": 0,
+          "real_x_read": false,
+          "reps": 50000,
+          "scenario": "GAUSSIAN_AR09",
+          "scenario_id": 5,
+          "stream": {
+            "entropy": 19320261021,
+            "spawn_key": [
+              0,
+              5
+            ]
+          }
+        },
+        "6": {
+          "U": 2.907880836727488,
+          "order_index": {
+            "cdf_at_k_minus_1": 0.9987834133258218,
+            "cdf_at_k_minus_2": 0.9986964173661687,
+            "family_alpha": 0.01,
+            "k": 47647,
+            "m": 8,
+            "n": 50000,
+            "p": 0.95,
+            "required_cdf": 0.99875
+          },
+          "phase": 0,
+          "real_x_read": false,
+          "reps": 50000,
+          "scenario": "T5_AR09",
+          "scenario_id": 6,
+          "stream": {
+            "entropy": 19320261021,
+            "spawn_key": [
+              0,
+              6
+            ]
+          }
+        },
+        "7": {
+          "U": 2.2213437426346334,
+          "order_index": {
+            "cdf_at_k_minus_1": 0.9987834133258218,
+            "cdf_at_k_minus_2": 0.9986964173661687,
+            "family_alpha": 0.01,
+            "k": 47647,
+            "m": 8,
+            "n": 50000,
+            "p": 0.95,
+            "required_cdf": 0.99875
+          },
+          "phase": 0,
+          "real_x_read": false,
+          "reps": 50000,
+          "scenario": "MA5_STD_21212",
+          "scenario_id": 7,
+          "stream": {
+            "entropy": 19320261021,
+            "spawn_key": [
+              0,
+              7
+            ]
+          }
+        },
+        "8": {
+          "U": 2.9877439760955102,
+          "order_index": {
+            "cdf_at_k_minus_1": 0.9987834133258218,
+            "cdf_at_k_minus_2": 0.9986964173661687,
+            "family_alpha": 0.01,
+            "k": 47647,
+            "m": 8,
+            "n": 50000,
+            "p": 0.95,
+            "required_cdf": 0.99875
+          },
+          "phase": 0,
+          "real_x_read": false,
+          "reps": 50000,
+          "scenario": "T5_AR09_SINE_SIGMA",
+          "scenario_id": 8,
+          "stream": {
+            "entropy": 19320261021,
+            "spawn_key": [
+              0,
+              8
+            ]
+          }
+        }
+      }
+    },
+    "lock": {
+      "U_by_scenario": {
+        "1": 2.037244905095378,
+        "2": 2.087728457953989,
+        "3": 2.167041778529981,
+        "4": 2.1945800676530776,
+        "5": 2.9126935716281843,
+        "6": 2.907880836727488,
+        "7": 2.2213437426346334,
+        "8": 2.9877439760955102
+      },
+      "calibration_bindings": {
+        "1": {
+          "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_qstar_20261020/CAL_CASE_01/ATTEMPT_01/RUN_RECEIPT.json": "81a2e5b3e3232a45c86a9b184b1adf0efed57acf103eea202d1cb5f684e40514",
+          "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_qstar_20261020/CAL_CASE_01/COMPLETED.json": "fc01357f540046497f4b2f9231371a72ad10d0d13d62711eb1b35bd46ff2cd72",
+          "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_qstar_20261020/CAL_CASE_01/RESULT.json": "c2928663cfc837e25f56f19fffde0e4f3e71b318a7a404ff63c3058ec382066f"
+        },
+        "2": {
+          "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_qstar_20261020/CAL_CASE_02/ATTEMPT_01/RUN_RECEIPT.json": "ff566b7c76929f9e3f80e2a9788e492450b3b51babfdbcf364ebfc06bad83bea",
+          "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_qstar_20261020/CAL_CASE_02/COMPLETED.json": "b13d3605f965dadbb4462f9ee87871c7cf7bec63f5ddce2c61fd5df12a219e85",
+          "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_qstar_20261020/CAL_CASE_02/RESULT.json": "323d82dd243d76d534ffd726448c4e76c7cc5c80d7fab11bf168ee9058ecd90e"
+        },
+        "3": {
+          "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_qstar_20261020/CAL_CASE_03/ATTEMPT_01/RUN_RECEIPT.json": "59ef7a6ae0b409d398f1f831ddc1c1222fa642e859e34ce4068908a06b381502",
+          "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_qstar_20261020/CAL_CASE_03/COMPLETED.json": "cd6b5c585ba361ca62962ca313053e92212b1ef4045a6f7146146c33233d385e",
+          "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_qstar_20261020/CAL_CASE_03/RESULT.json": "36e7c4a24a1d8c9a54a413208872503ee57f53a5873b5f1bec02685691bfe0e4"
+        },
+        "4": {
+          "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_qstar_20261020/CAL_CASE_04/ATTEMPT_01/RUN_RECEIPT.json": "9338385e8a274178ed10e089f9ae4d4d4d10852bb53f355f19c867c04b028490",
+          "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_qstar_20261020/CAL_CASE_04/COMPLETED.json": "1a0db15f22c1e1dd57f73b69bbbd1eba8cc74fab26e46cac81b86c53b9785c86",
+          "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_qstar_20261020/CAL_CASE_04/RESULT.json": "f5cf0a57ac4eedd771b0d5c2f7ba95b81dfcd0f4e4c83f5096c4165720feff04"
+        },
+        "5": {
+          "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_qstar_20261020/CAL_CASE_05/ATTEMPT_01/RUN_RECEIPT.json": "758d72a0fd62dd9cc21891b809bf04b67ca26c8a353b2f1b919198d8fe0cc11e",
+          "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_qstar_20261020/CAL_CASE_05/COMPLETED.json": "3e053ccd46ab427039c2a339a7132230a2df87858726486412735bd0902644a6",
+          "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_qstar_20261020/CAL_CASE_05/RESULT.json": "bddb4b33ba6eb344bcc1f2460fbf6921835a1fef9bbb27a78fd91fd58bf20d3b"
+        },
+        "6": {
+          "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_qstar_20261020/CAL_CASE_06/ATTEMPT_01/RUN_RECEIPT.json": "8d81d8f23ea75145be8f5985f58756efe2842a2cf31a9627497b4890e4a4f5c7",
+          "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_qstar_20261020/CAL_CASE_06/COMPLETED.json": "646c7e27b11236040280aed17b6238cfa9ee3649f71042b87cd715cd5d79fe34",
+          "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_qstar_20261020/CAL_CASE_06/RESULT.json": "cd55c3a71e9d753548b11279cd7ca91994233fb62f1c4ee6e7b1e3cc8e85bbf3"
+        },
+        "7": {
+          "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_qstar_20261020/CAL_CASE_07/ATTEMPT_01/RUN_RECEIPT.json": "e33c2920b1ec389cea5c4f6321aa8dde1e899e1d06f8462e068b4a4f4a1c73b3",
+          "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_qstar_20261020/CAL_CASE_07/COMPLETED.json": "95a9d4fe971ab126055f963ed558e12a45a052b19ac8582f8e972fdb21f30f19",
+          "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_qstar_20261020/CAL_CASE_07/RESULT.json": "8cd9ee8146968cc5eeca8da7b309e4c04c53844ac982512887460954c4ef3942"
+        },
+        "8": {
+          "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_qstar_20261020/CAL_CASE_08/ATTEMPT_01/RUN_RECEIPT.json": "7d6fa335c833d92dab2ea0a49e4591d635522ca8e824ba8a33e2734962dc33ac",
+          "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_qstar_20261020/CAL_CASE_08/COMPLETED.json": "79f2e03699c2ab9860fe0a5cfeb9db0a80cba5b564e70e77a657b679378d506d",
+          "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_qstar_20261020/CAL_CASE_08/RESULT.json": "d9ce7fe03f7bbd8aad5d9cc5313f913b0338b4f02ac4e4f54df39a4483154d1a"
+        }
+      },
+      "calibration_result_sha256": "664b5a2722c5583940bdf49dec3eea77c6cc53644580ae71f9d6e440f8268b92",
+      "config_sha256": "b7efa7a6ef6e7d8c2952dee80ae5fd4f0597f933c861e0570e0deb36610c52e1",
+      "core_sha256": "108329ec807a2410651db6c90151778c49264917c794c7011adf5e8f85436585",
+      "family_confidence_scope": "99% simultaneous MonteCarlo upper bounds on eight specified95%absT quantiles only; not real-data95%coverage certification",
+      "floor": 1.959963984540054,
+      "frozen_hac_sha256": "a02ffbdb89bfc4bf2edc11ea3e905861d9152649324e470911bb3184f797eb4d",
+      "mask_sha256": "bba0b464c841818be596b9b51b3a7480f9a7293e5cba5169b107c28a8e82781a",
+      "order_index": {
+        "cdf_at_k_minus_1": 0.9987834133258218,
+        "cdf_at_k_minus_2": 0.9986964173661687,
+        "family_alpha": 0.01,
+        "k": 47647,
+        "m": 8,
+        "n": 50000,
+        "p": 0.95,
+        "required_cdf": 0.99875
+      },
+      "qstar": 2.9877439760955102,
+      "schema": "G1_QSTAR_LOCK_V1"
+    },
+    "pre_review_result_snapshot_for_numerics_only": {
+      "accepted_status": "INDEPENDENT_REVIEW_PENDING",
+      "buy_gate_updated": false,
+      "ci95": [
+        -0.0006017494756064786,
+        0.006553047663520623
+      ],
+      "coverage": {
+        "coverage": 0.9101497504159733,
+        "denominator_dates": 601,
+        "passed": true,
+        "required": 0.8,
+        "valid_dates": 547
+      },
+      "coverage_by_fold": {
+        "2024H1": {
+          "coverage": 0.9401709401709402,
+          "denominator_dates": 117,
+          "valid_dates": 110
+        },
+        "2024H2": {
+          "coverage": 0.984,
+          "denominator_dates": 125,
+          "valid_dates": 123
+        },
+        "2025H1": {
+          "coverage": 0.905982905982906,
+          "denominator_dates": 117,
+          "valid_dates": 106
+        },
+        "2025H2": {
+          "coverage": 0.8888888888888888,
+          "denominator_dates": 126,
+          "valid_dates": 112
+        },
+        "2026H1": {
+          "coverage": 0.8275862068965517,
+          "denominator_dates": 116,
+          "valid_dates": 96
+        },
+        "2026H2_PARTIAL_TO_2026_10_15": {
+          "coverage": 0.9014084507042254,
+          "denominator_dates": 71,
+          "valid_dates": 64
+        }
+      },
+      "decision": "INCONCLUSIVE",
+      "fold_means": {
+        "2024H1": 0.000314390785616479,
+        "2024H2": 0.005439747568456094,
+        "2025H1": 0.007117212737424578,
+        "2025H2": 0.0007757601523499695,
+        "2026H1": 0.0008614419773583798,
+        "2026H2_PARTIAL_TO_2026_10_15": -0.0004754092670063083
+      },
+      "hac": {
+        "D": 460.30270684044433,
+        "N": 547,
+        "ci95": [
+          -0.0006017494756064786,
+          0.006553047663520623
+        ],
+        "mask_correction": 1.1883484321755418,
+        "method": "FROZEN_HAC20_WITH_EIGHT_SCENARIO_QSTAR",
+        "point": 0.002975649093957072,
+        "qstar": 2.9877439760955102,
+        "se": 0.0011973578051485596,
+        "variance": 1.4336657135501758e-06
+      },
+      "orders_sent": false,
+      "original_point_groups_labels_coverage_recomputed": false,
+      "point": 0.002975649093957072,
+      "positive_complete_folds": 5,
+      "production_allowed": false,
+      "qstar": 2.9877439760955102,
+      "qstar_lock_sha256": "4a5bb086d7dda6eafd993f30a215d79d125d5b41d246191a3aff33585c024221",
+      "real_ci_executed": true,
+      "real_x_read": true,
+      "research_only": true,
+      "validation_result_sha256": "d2f2499b2233e680f5a47fb166ac694e6facc3bf5a413e51c542e23e0004b228"
+    },
+    "validation": {
+      "decision": "VALIDATION_PASS",
+      "qstar": 2.9877439760955102,
+      "qstar_lock_sha256": "4a5bb086d7dda6eafd993f30a215d79d125d5b41d246191a3aff33585c024221",
+      "real_x_read": false,
+      "scenarios": {
+        "1": {
+          "coverage": 0.9951,
+          "covered": 9951,
+          "mean_width": 0.25424131527825955,
+          "pass_validation": true,
+          "phase": 1,
+          "qstar": 2.9877439760955102,
+          "qstar_lock_sha256": "4a5bb086d7dda6eafd993f30a215d79d125d5b41d246191a3aff33585c024221",
+          "real_x_read": false,
+          "reps": 10000,
+          "scenario": "IID",
+          "scenario_id": 1,
+          "stream": {
+            "entropy": 19320261021,
+            "spawn_key": [
+              1,
+              1
+            ]
+          },
+          "wilson95": [
+            0.9935283915761888,
+            0.9962913732371672
+          ]
+        },
+        "2": {
+          "coverage": 0.9942,
+          "covered": 9942,
+          "mean_width": 0.3312457464657152,
+          "pass_validation": true,
+          "phase": 1,
+          "qstar": 2.9877439760955102,
+          "qstar_lock_sha256": "4a5bb086d7dda6eafd993f30a215d79d125d5b41d246191a3aff33585c024221",
+          "real_x_read": false,
+          "reps": 10000,
+          "scenario": "MA1",
+          "scenario_id": 2,
+          "stream": {
+            "entropy": 19320261021,
+            "spawn_key": [
+              1,
+              2
+            ]
+          },
+          "wilson95": [
+            0.9925101325899993,
+            0.9955103234204238
+          ]
+        },
+        "3": {
+          "coverage": 0.9932,
+          "covered": 9932,
+          "mean_width": 0.5636771367266036,
+          "pass_validation": true,
+          "phase": 1,
+          "qstar": 2.9877439760955102,
+          "qstar_lock_sha256": "4a5bb086d7dda6eafd993f30a215d79d125d5b41d246191a3aff33585c024221",
+          "real_x_read": false,
+          "reps": 10000,
+          "scenario": "MA5",
+          "scenario_id": 3,
+          "stream": {
+            "entropy": 19320261021,
+            "spawn_key": [
+              1,
+              3
+            ]
+          },
+          "wilson95": [
+            0.9913891001630063,
+            0.9946321238441581
+          ]
+        },
+        "4": {
+          "coverage": 0.9903,
+          "covered": 9903,
+          "mean_width": 0.8556703865051086,
+          "pass_validation": true,
+          "phase": 1,
+          "qstar": 2.9877439760955102,
+          "qstar_lock_sha256": "4a5bb086d7dda6eafd993f30a215d79d125d5b41d246191a3aff33585c024221",
+          "real_x_read": false,
+          "reps": 10000,
+          "scenario": "MA5_STD_12121",
+          "scenario_id": 4,
+          "stream": {
+            "entropy": 19320261021,
+            "spawn_key": [
+              1,
+              4
+            ]
+          },
+          "wilson95": [
+            0.9881819325946747,
+            0.9920415186030397
+          ]
+        },
+        "5": {
+          "coverage": 0.9567,
+          "covered": 9567,
+          "mean_width": 0.7534076295727223,
+          "pass_validation": true,
+          "phase": 1,
+          "qstar": 2.9877439760955102,
+          "qstar_lock_sha256": "4a5bb086d7dda6eafd993f30a215d79d125d5b41d246191a3aff33585c024221",
+          "real_x_read": false,
+          "reps": 10000,
+          "scenario": "GAUSSIAN_AR09",
+          "scenario_id": 5,
+          "stream": {
+            "entropy": 19320261021,
+            "spawn_key": [
+              1,
+              5
+            ]
+          },
+          "wilson95": [
+            0.9525323942206076,
+            0.9605168616676163
+          ]
+        },
+        "6": {
+          "coverage": 0.96,
+          "covered": 9600,
+          "mean_width": 0.7524996933028472,
+          "pass_validation": true,
+          "phase": 1,
+          "qstar": 2.9877439760955102,
+          "qstar_lock_sha256": "4a5bb086d7dda6eafd993f30a215d79d125d5b41d246191a3aff33585c024221",
+          "real_x_read": false,
+          "reps": 10000,
+          "scenario": "T5_AR09",
+          "scenario_id": 6,
+          "stream": {
+            "entropy": 19320261021,
+            "spawn_key": [
+              1,
+              6
+            ]
+          },
+          "wilson95": [
+            0.955979308348857,
+            0.9636674131501204
+          ]
+        },
+        "7": {
+          "coverage": 0.9908,
+          "covered": 9908,
+          "mean_width": 0.9192718503737207,
+          "pass_validation": true,
+          "phase": 1,
+          "qstar": 2.9877439760955102,
+          "qstar_lock_sha256": "4a5bb086d7dda6eafd993f30a215d79d125d5b41d246191a3aff33585c024221",
+          "real_x_read": false,
+          "reps": 10000,
+          "scenario": "MA5_STD_21212",
+          "scenario_id": 7,
+          "stream": {
+            "entropy": 19320261021,
+            "spawn_key": [
+              1,
+              7
+            ]
+          },
+          "wilson95": [
+            0.9887311605057931,
+            0.9924919066935507
+          ]
+        },
+        "8": {
+          "coverage": 0.9542,
+          "covered": 9542,
+          "mean_width": 0.8857467057339868,
+          "pass_validation": true,
+          "phase": 1,
+          "qstar": 2.9877439760955102,
+          "qstar_lock_sha256": "4a5bb086d7dda6eafd993f30a215d79d125d5b41d246191a3aff33585c024221",
+          "real_x_read": false,
+          "reps": 10000,
+          "scenario": "T5_AR09_SINE_SIGMA",
+          "scenario_id": 8,
+          "stream": {
+            "entropy": 19320261021,
+            "spawn_key": [
+              1,
+              8
+            ]
+          },
+          "wilson95": [
+            0.9499253373865503,
+            0.9581258384935271
+          ]
+        }
+      },
+      "validation_pass": true
+    }
+  },
+  "S1": {
+    "aggregate_metrics": {
+      "block_ci95": {
+        "daily_median_delta": {
+          "lower": -0.006213779407561971,
+          "upper": 0.00044553664635112406
+        },
+        "event_p10_delta": {
+          "lower": -0.005197929193140855,
+          "upper": 0.0046906602644071595
+        },
+        "mean_delta": {
+          "lower": -0.003496726085471142,
+          "upper": -0.0005393522201890812
+        }
+      },
+      "daily_median_delta": -0.0014608709558359585,
+      "decision": "S1_DEVELOPMENT_GATE_FAILED",
+      "diagnostics_by_fold": [
+        {
+          "arm": "M0",
+          "dates": 117,
+          "fold": "2024H1",
+          "mean_amount": 1432961989743.5898,
+          "mean_industry_hhi": 0.15264957264957268,
+          "mean_max_industry_share": 0.23675213675213674,
+          "mean_volatility20": 0.050028367250819585,
+          "missing_h2": 3,
+          "same_h2_selection_h1_mean": 0.03049748897817519,
+          "same_h2_selection_h5_mean": 0.012359221329437254
+        },
+        {
+          "arm": "M0",
+          "dates": 125,
+          "fold": "2024H2",
+          "mean_amount": 2113135210400.0,
+          "mean_industry_hhi": 0.14928000000000005,
+          "mean_max_industry_share": 0.23279999999999998,
+          "mean_volatility20": 0.04887753066045122,
+          "missing_h2": 3,
+          "same_h2_selection_h1_mean": 0.02957349336261983,
+          "same_h2_selection_h5_mean": 0.050609393142989595
+        },
+        {
+          "arm": "M0",
+          "dates": 117,
+          "fold": "2025H1",
+          "mean_amount": 3196696212820.5127,
+          "mean_industry_hhi": 0.14854700854700856,
+          "mean_max_industry_share": 0.22820512820512825,
+          "mean_volatility20": 0.04189538596811705,
+          "missing_h2": 7,
+          "same_h2_selection_h1_mean": 0.020573718099886465,
+          "same_h2_selection_h5_mean": 0.02388576392570353
+        },
+        {
+          "arm": "M0",
+          "dates": 126,
+          "fold": "2025H2",
+          "mean_amount": 5366814327777.777,
+          "mean_industry_hhi": 0.14730158730158738,
+          "mean_max_industry_share": 0.2253968253968254,
+          "mean_volatility20": 0.032184855105996286,
+          "missing_h2": 12,
+          "same_h2_selection_h1_mean": 0.017018275489666706,
+          "same_h2_selection_h5_mean": 0.024031645635522934
+        },
+        {
+          "arm": "M0",
+          "dates": 116,
+          "fold": "2026H1",
+          "mean_amount": 5958020979310.345,
+          "mean_industry_hhi": 0.15931034482758624,
+          "mean_max_industry_share": 0.24827586206896549,
+          "mean_volatility20": 0.044896636235806815,
+          "missing_h2": 8,
+          "same_h2_selection_h1_mean": 0.008962633411735785,
+          "same_h2_selection_h5_mean": 0.00958691181978067
+        },
+        {
+          "arm": "M0",
+          "dates": 71,
+          "fold": "2026H2_PARTIAL_TO_2026_10_15",
+          "mean_amount": 5738650104225.353,
+          "mean_industry_hhi": 0.1692957746478873,
+          "mean_max_industry_share": 0.26338028169014077,
+          "mean_volatility20": 0.039518181050815976,
+          "missing_h2": 20,
+          "same_h2_selection_h1_mean": 0.01005860435756911,
+          "same_h2_selection_h5_mean": -0.006266265319490732
+        },
+        {
+          "arm": "S1",
+          "dates": 117,
+          "fold": "2024H1",
+          "mean_amount": 1411338744444.4443,
+          "mean_industry_hhi": 0.20529914529914536,
+          "mean_max_industry_share": 0.3136752136752136,
+          "mean_volatility20": 0.04871066290098852,
+          "missing_h2": 4,
+          "same_h2_selection_h1_mean": 0.027848897834580118,
+          "same_h2_selection_h5_mean": 0.01305078056367613
+        },
+        {
+          "arm": "S1",
+          "dates": 125,
+          "fold": "2024H2",
+          "mean_amount": 2125145587200.0,
+          "mean_industry_hhi": 0.15104000000000004,
+          "mean_max_industry_share": 0.2344,
+          "mean_volatility20": 0.0485018648475369,
+          "missing_h2": 4,
+          "same_h2_selection_h1_mean": 0.02743082818657951,
+          "same_h2_selection_h5_mean": 0.05271876201354675
+        },
+        {
+          "arm": "S1",
+          "dates": 117,
+          "fold": "2025H1",
+          "mean_amount": 3403256060683.7607,
+          "mean_industry_hhi": 0.15230769230769234,
+          "mean_max_industry_share": 0.23760683760683762,
+          "mean_volatility20": 0.040810611267256075,
+          "missing_h2": 7,
+          "same_h2_selection_h1_mean": 0.01934743972347071,
+          "same_h2_selection_h5_mean": 0.023766696201460408
+        },
+        {
+          "arm": "S1",
+          "dates": 126,
+          "fold": "2025H2",
+          "mean_amount": 5491026559523.81,
+          "mean_industry_hhi": 0.1453968253968255,
+          "mean_max_industry_share": 0.22301587301587306,
+          "mean_volatility20": 0.03312145869371032,
+          "missing_h2": 8,
+          "same_h2_selection_h1_mean": 0.01806819016424293,
+          "same_h2_selection_h5_mean": 0.024650452689900734
+        },
+        {
+          "arm": "S1",
+          "dates": 116,
+          "fold": "2026H1",
+          "mean_amount": 5504108043965.518,
+          "mean_industry_hhi": 0.15931034482758624,
+          "mean_max_industry_share": 0.24913793103448276,
+          "mean_volatility20": 0.04960617964577872,
+          "missing_h2": 13,
+          "same_h2_selection_h1_mean": 0.00887078685542438,
+          "same_h2_selection_h5_mean": 0.008521108973815373
+        },
+        {
+          "arm": "S1",
+          "dates": 71,
+          "fold": "2026H2_PARTIAL_TO_2026_10_15",
+          "mean_amount": 4708355519718.31,
+          "mean_industry_hhi": 0.17915492957746484,
+          "mean_max_industry_share": 0.28169014084507044,
+          "mean_volatility20": 0.04413146069587952,
+          "missing_h2": 24,
+          "same_h2_selection_h1_mean": 0.015422561096115348,
+          "same_h2_selection_h5_mean": -0.0014051833670316737
+        }
+      ],
+      "event_p10_delta": -0.0002838695978460981,
+      "evidence_level": "DIRECTION_ONLY",
+      "fold_mean_deltas": {
+        "2024H1": -0.001580024907511922,
+        "2024H2": -0.002792787976750192,
+        "2025H1": -0.0018805720140234285,
+        "2025H2": 0.0010111539629379534,
+        "2026H1": -0.0012270377694461277
+      },
+      "gate_folds": [
+        "2024H1",
+        "2024H2",
+        "2025H1",
+        "2025H2",
+        "2026H1"
+      ],
+      "gates": {
+        "at_least_four_positive_complete_folds": false,
+        "daily_median_not_worse": false,
+        "event_p10_not_worse": false,
+        "mean_delta_95pct_lcb_positive": false,
+        "mean_delta_at_least_10bp": false
+      },
+      "mean_delta": -0.0013053941994153229,
+      "missing_pair_dates": 37,
+      "paired_dates": 564,
+      "partial_fold_diagnostic_only": {
+        "M0": {
+          "dates": 71,
+          "mean_h2": 0.010502576195405237,
+          "missing_h2": 20
+        },
+        "S1": {
+          "dates": 71,
+          "mean_h2": 0.016377657881629707,
+          "missing_h2": 24
+        }
+      },
+      "primary_horizon": 2
+    },
+    "final_result": {
+      "S2": "NOT_STARTED_PROHIBITED",
+      "buy_gate_updated": false,
+      "cannot_confirm": [
+        "Historical industry PIT, official calendar, full historical universe and survivorship",
+        "Executable net returns and sealed-forward performance",
+        "External/full registry Git persistence",
+        "NOT_SYNCED_NO_REMOTE"
+      ],
+      "contract": {
+        "path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/s1_industry_month_prior_20261020/CONTRACT.json",
+        "sha256": "a2c5a9fbba05e7720d11dac4c59dd57aeccf53b22600e3af5f4f86abdd0cd33f"
+      },
+      "evidence_level": "DIRECTION_ONLY",
+      "formal_manifest": {
+        "path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/s1_industry_month_prior_20261020/S1_FORMAL_01/OUTPUT_MANIFEST.json",
+        "sha256": "c82fb15d0f22db4c0b76a13e99facc836405dbe8cd3c053a0bf42c7705aaa488"
+      },
+      "hypothesis": "Four asof industry-month prior columns appended to exact frozen M0 do not improve the predeclared h2 historical Top10 comparison",
+      "independent_review": {
+        "path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/s1_industry_month_prior_20261020/S1_FORMAL_INDEPENDENT_REVIEW_01/INDEPENDENT_REVIEW_STDOUT.json",
+        "reviewer": "/root/s1_independent_review",
+        "sha256": "1303579523605a4f20b42b621ee4e8c025c736e309191d7bd5fe228bbe50cb20"
+      },
+      "orders_sent": false,
+      "production_allowed": false,
+      "registry_snapshot": {
+        "buy_gate_updated": false,
+        "contract_only": 0,
+        "external_persistence": "CANNOT_CONFIRM",
+        "git_sync": "NOT_SYNCED_NO_REMOTE",
+        "global_contract_only": null,
+        "global_counts": {
+          "corrections": 88,
+          "events": 3031,
+          "executions": 884,
+          "routes": 343
+        },
+        "global_inventory_reason": "NOT_AUDITED_THIS_SCOPE",
+        "global_unregistered_routes": null,
+        "open_executions": [],
+        "orders_sent": false,
+        "path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/s1_industry_month_prior_20261020/REGISTRY_FINAL_SNAPSHOT.json",
+        "production_allowed": false,
+        "registry_path": "local-evidence/factor_factory/contracts/EXPERIMENT_REGISTRY.jsonl",
+        "registry_sha256": "ad9040a2df3f3731599f9e23988d8bd5dd1cde56fdbc328fb89436c1e606f66c",
+        "research_only": true,
+        "scoped_counts": {
+          "corrections": 0,
+          "events": 32,
+          "executions": 16,
+          "routes": 1
+        },
+        "sha256": "fa7c8868e26a2d19176ea85d41f1f90ef020e3136e5ec1ad0069090a0784226d",
+        "unregistered_routes": 0
+      },
+      "research_gate": "S1_DEVELOPMENT_GATE_FAILED",
+      "research_only": true,
+      "result": {
+        "bootstrap": {
+          "method": "noncircular moving blocks of 20 observed sessions, constrained within fold and contiguous calendar intervals",
+          "replicates": 2000,
+          "reproduction_tolerance": 1e-14,
+          "seed": 19320261020,
+          "valid_blocks": 148
+        },
+        "comparison": "S1 minus M0, selected Top10 h2 gross-return metrics",
+        "complete_fold_dates": 601,
+        "complete_paired_dates": 564,
+        "event_p10_delta_95ci": [
+          -0.005197929193140816,
+          0.004690660264407188
+        ],
+        "fold_mean_deltas": {
+          "2024H1": -0.001580024907511924,
+          "2024H2": -0.0027927879767501926,
+          "2025H1": -0.0018805720140234292,
+          "2025H2": 0.0010111539629379534,
+          "2026H1": -0.0012270377694461284
+        },
+        "frozen_gate": "All five gates reproduced false: mean delta threshold, bootstrap lower bound >0, at least 4/5 positive folds, median daily delta nonnegative, and selected-event P10 nonnegative.",
+        "mean_daily_top10_delta": -0.0013053941994153233,
+        "mean_delta_95ci": [
+          -0.003496726085471142,
+          -0.0005393522201890834
+        ],
+        "median_daily_delta": -0.001460870955835962,
+        "median_delta_95ci": [
+          -0.006213779407561968,
+          0.00044553664635109646
+        ],
+        "partial_2026H2_diagnostic_only": {
+          "dates": 71,
+          "excluded_from_primary_gate": true,
+          "m0_mean_h2": 0.01050257619540524,
+          "m0_missing_outcome_rows": 20,
+          "s1_mean_h2": 0.016377657881629707,
+          "s1_missing_outcome_rows": 24
+        },
+        "positive_complete_folds": "1/5",
+        "runtime_and_resources": {
+          "formal_elapsed_seconds": 782.84,
+          "latency_budget_assessment": "CANNOT_CONFIRM",
+          "new_s1_fits": 6,
+          "peak_memory_footprint_bytes": 62939529480,
+          "peak_rss_bytes": 16338780160,
+          "reused_m0_checkpoints": 6,
+          "threads": 4
+        },
+        "selected_event_p10_delta": -0.000283869597846112,
+        "status": "INDEPENDENT_REPRODUCTION_PASS; FROZEN_RESEARCH_GATE_FAIL"
+      },
+      "schema_version": "S1_INDUSTRY_MONTH_PRIOR_FINAL_RESULT_V1",
+      "status": "REVIEWED_RESULT_REPRODUCTION_PASS"
+    }
+  },
+  "history_market_view": {
+    "accepted": {
+      "accepted_status": "SOURCE_AND_PERIOD_PROJECTION_PASS_WITH_LIMITS",
+      "buy_gate_updated": false,
+      "fit_calls": 0,
+      "model_loads": 0,
+      "official_history": "CANNOT_CONFIRM",
+      "orders_sent": false,
+      "original_failed_export": "HISTORY_EXPORT_01 preserved terminal CANNOT_CONFIRM",
+      "original_result_sha256": "61609b89894d0a7fcd4fc9a51b8c71b996a8b5a72a9a69fb49b95e6880e76f9d",
+      "period_review_sha256": "127e2e40ae819a44f983e68b1623de5d1f9ba167989784b3e61a6d32219fd272",
+      "predict_calls": 0,
+      "production_allowed": false,
+      "research_only": true,
+      "source_review_sha256": "d6b896a4e61f61a900f04ca7040f4f50cac776f4fe832954a2b865b7210cf2b6",
+      "successful_continuation": "HISTORY_INDUSTRY_DISPLAY_02 COMPLETED"
+    },
+    "aggregate_counts": {
+      "fit_calls": 0,
+      "formal_bootstrap_replicates": 0,
+      "futu_intersection": 1399,
+      "index_records": 5290,
+      "industry_annual_rows": 3560,
+      "industry_month_rows": 42720,
+      "max_abs_close_difference_index_points": 0.005400000000008731,
+      "model_loads": 0,
+      "parity_outliers": 0,
+      "parity_tolerance": 0.02,
+      "predict_calls": 0,
+      "primary_years": "2006-2025"
+    }
+  },
+  "research_status": "DIRECTION_ONLY",
+  "safety": {
+    "buy_gate_updated": false,
+    "orders_sent": false,
+    "production_allowed": false,
+    "research_only": true
+  },
+  "schema": "PUBLIC_AGGREGATE_RESULTS_V1",
+  "seasonality": {
+    "annual_rows": 185120,
+    "comparison_rows": 4628,
+    "diagnostic_rows": 9256,
+    "few_year_inflated_both_absolute": 22,
+    "few_year_inflated_both_seasonal": 20,
+    "grid_counts": {
+      "industry": {
+        "robust_absolute": 2,
+        "robust_seasonal": 0,
+        "robust_seasonal_only": 0
+      },
+      "month": {
+        "robust_absolute": 10,
+        "robust_seasonal": 1,
+        "robust_seasonal_only": 2
+      },
+      "month_third": {
+        "robust_absolute": 12,
+        "robust_seasonal": 0,
+        "robust_seasonal_only": 0
+      },
+      "third": {
+        "robust_absolute": 6,
+        "robust_seasonal": 0,
+        "robust_seasonal_only": 0
+      }
+    },
+    "industries": 89,
+    "mapping_unknown": 1,
+    "old_execution_repeats": 0,
+    "raw_price_reads": 0,
+    "robust_absolute_cells": 30,
+    "robust_seasonal_cells": 1,
+    "robust_seasonal_only_cells": 2
+  },
+  "status_rule": "Implementation/reproduction review PASS never changes the scientific gate."
+}
