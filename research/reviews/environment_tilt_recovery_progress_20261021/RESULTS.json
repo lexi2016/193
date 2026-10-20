@@ -1,0 +1,215 @@
+{
+  "schema_version": "ENV_TILT_RECOVERY_PUBLIC_RESULTS_V1",
+  "packet_id": "ENV_TILT_RECOVERY_PROGRESS_20261021",
+  "packet_status": "M21_READY",
+  "packet_scope": {
+    "accepted_source_test_stages": [
+      "M11_R1",
+      "M12",
+      "M13_R1",
+      "M14"
+    ],
+    "progress_evidence_stages": [
+      "M15",
+      "M16"
+    ],
+    "excluded_stages": [
+      "M17",
+      "M18",
+      "M19",
+      "M20"
+    ],
+    "scope_note": "This packet reports only the named stages and receipts; it is not a live project or registry snapshot."
+  },
+  "source_test_snapshots": [
+    {
+      "logical_id": "M11_R1.environment_tilt_mac_prefix_canary",
+      "file_id": "environment_tilt_mac_prefix_canary.py",
+      "stage": "M11_R1",
+      "role": "source",
+      "sha256": "c0e5d843287d588a0d7181292ca4af6a552640da7eb1d4221eb21f21d23fc033",
+      "bytes": 27902,
+      "independent_review_receipt_id": "M11_R1_INDEPENDENT_REVIEW_RECEIPT",
+      "independent_review_receipt_sha256": "e37b2258eb6f3353941e031cb8fa574f0fc609779896782beea37787303cbf5d",
+      "review_scope": "Incremental raw-response durability, failure evidence, three targeted fixtures and R1 identity bindings only.",
+      "repository_relative_path": "research/a_share_model_selection_v1/environment_tilt_mac_prefix_canary.py"
+    },
+    {
+      "logical_id": "M11_R1.test_environment_tilt_mac_prefix_canary",
+      "file_id": "test_environment_tilt_mac_prefix_canary.py",
+      "stage": "M11_R1",
+      "role": "test",
+      "sha256": "c942650156d16210bc657ed6aa60bc6e1ab3fb4fa8c91065997a92df9c9c5d3e",
+      "bytes": 15244,
+      "independent_review_receipt_id": "M11_R1_INDEPENDENT_REVIEW_RECEIPT",
+      "independent_review_receipt_sha256": "e37b2258eb6f3353941e031cb8fa574f0fc609779896782beea37787303cbf5d",
+      "review_scope": "Incremental raw-response durability, failure evidence, three targeted fixtures and R1 identity bindings only.",
+      "repository_relative_path": "research/a_share_model_selection_v1/tests/test_environment_tilt_mac_prefix_canary.py"
+    },
+    {
+      "logical_id": "M12.environment_tilt_model",
+      "file_id": "environment_tilt_model.py",
+      "stage": "M12",
+      "role": "source",
+      "sha256": "835f79f65c4224e9a885a3050dff5bfcfa0e51285615532576753a67723bf859",
+      "bytes": 21796,
+      "independent_review_receipt_id": "M12_INDEPENDENT_REVIEW_RECEIPT",
+      "independent_review_receipt_sha256": "24d299124193c45def35cbe061b7601e954793f4b34cb90f7301e35f3be9b5c0",
+      "review_scope": "PURE_SOFTWARE_AND_SYNTHETIC_ONLY",
+      "repository_relative_path": "research/a_share_model_selection_v1/environment_tilt_model.py"
+    },
+    {
+      "logical_id": "M12.test_environment_tilt_model",
+      "file_id": "test_environment_tilt_model.py",
+      "stage": "M12",
+      "role": "test",
+      "sha256": "780ba1d45007972a966bf5cd355a3e3622b76ee93350b4afc96cb84230a6ca04",
+      "bytes": 19847,
+      "independent_review_receipt_id": "M12_INDEPENDENT_REVIEW_RECEIPT",
+      "independent_review_receipt_sha256": "24d299124193c45def35cbe061b7601e954793f4b34cb90f7301e35f3be9b5c0",
+      "review_scope": "PURE_SOFTWARE_AND_SYNTHETIC_ONLY",
+      "repository_relative_path": "research/a_share_model_selection_v1/tests/test_environment_tilt_model.py"
+    },
+    {
+      "logical_id": "M13_R1.environment_tilt_m0_oof",
+      "file_id": "environment_tilt_m0_oof.py",
+      "stage": "M13_R1",
+      "role": "source",
+      "sha256": "ade943161b01892777589af879ff0988ec7faf1741ee6ea01311e2acc97532ef",
+      "bytes": 28742,
+      "independent_review_receipt_id": "M13_R1_INDEPENDENT_REVIEW_RECEIPT",
+      "independent_review_receipt_sha256": "233a4b97b7fead3780b0845b4c147d6b748d2b90c0fd1ba68c45e6b95c0c760a",
+      "review_scope": "Resource-probe repair and direct regressions only; earlier M13 acceptance retained for unchanged behavior",
+      "repository_relative_path": "research/a_share_model_selection_v1/environment_tilt_m0_oof.py"
+    },
+    {
+      "logical_id": "M13_R1.test_environment_tilt_m0_oof",
+      "file_id": "test_environment_tilt_m0_oof.py",
+      "stage": "M13_R1",
+      "role": "test",
+      "sha256": "5fcfe2ba9f7d3fb30c05a033e8c2aba162501761c417e3f5399ef0285497dc4a",
+      "bytes": 20402,
+      "independent_review_receipt_id": "M13_R1_INDEPENDENT_REVIEW_RECEIPT",
+      "independent_review_receipt_sha256": "233a4b97b7fead3780b0845b4c147d6b748d2b90c0fd1ba68c45e6b95c0c760a",
+      "review_scope": "Resource-probe repair and direct regressions only; earlier M13 acceptance retained for unchanged behavior",
+      "repository_relative_path": "research/a_share_model_selection_v1/tests/test_environment_tilt_m0_oof.py"
+    },
+    {
+      "logical_id": "M14.environment_tilt_index_prefix",
+      "file_id": "environment_tilt_index_prefix.py",
+      "stage": "M14",
+      "role": "source",
+      "sha256": "b3456e0de618d5be05099995d8191c3d8463d060bfd1e95f5a66d8cc706645b4",
+      "bytes": 12670,
+      "independent_review_receipt_id": "M14_INDEPENDENT_REVIEW_RECEIPT",
+      "independent_review_receipt_sha256": "7e4d6d59d9d0b361280bfcc7e3632b79d1d644cfa4e3b92e071ba921c5ff3eb0",
+      "review_scope": "Pure index prefix composition component and 11 synthetic behaviors only",
+      "repository_relative_path": "research/a_share_model_selection_v1/environment_tilt_index_prefix.py"
+    },
+    {
+      "logical_id": "M14.test_environment_tilt_index_prefix",
+      "file_id": "test_environment_tilt_index_prefix.py",
+      "stage": "M14",
+      "role": "test",
+      "sha256": "6376b455288addec4acb429404a8e85f650c5835a19a7fa834e27da55730388f",
+      "bytes": 7565,
+      "independent_review_receipt_id": "M14_INDEPENDENT_REVIEW_RECEIPT",
+      "independent_review_receipt_sha256": "7e4d6d59d9d0b361280bfcc7e3632b79d1d644cfa4e3b92e071ba921c5ff3eb0",
+      "review_scope": "Pure index prefix composition component and 11 synthetic behaviors only",
+      "repository_relative_path": "research/a_share_model_selection_v1/tests/test_environment_tilt_index_prefix.py"
+    }
+  ],
+  "independent_reviews": [
+    {
+      "logical_id": "M11_R1",
+      "receipt_id": "M11_R1_INDEPENDENT_REVIEW_RECEIPT",
+      "receipt_sha256": "e37b2258eb6f3353941e031cb8fa574f0fc609779896782beea37787303cbf5d",
+      "verdict": "REVIEWED/PASS"
+    },
+    {
+      "logical_id": "M12",
+      "receipt_id": "M12_INDEPENDENT_REVIEW_RECEIPT",
+      "receipt_sha256": "24d299124193c45def35cbe061b7601e954793f4b34cb90f7301e35f3be9b5c0",
+      "verdict": "REVIEWED/PASS"
+    },
+    {
+      "logical_id": "M13_R1",
+      "receipt_id": "M13_R1_INDEPENDENT_REVIEW_RECEIPT",
+      "receipt_sha256": "233a4b97b7fead3780b0845b4c147d6b748d2b90c0fd1ba68c45e6b95c0c760a",
+      "verdict": "REVIEWED/PASS"
+    },
+    {
+      "logical_id": "M14",
+      "receipt_id": "M14_INDEPENDENT_REVIEW_RECEIPT",
+      "receipt_sha256": "7e4d6d59d9d0b361280bfcc7e3632b79d1d644cfa4e3b92e071ba921c5ff3eb0",
+      "verdict": "REVIEWED/PASS"
+    }
+  ],
+  "independent_test_scopes": {
+    "M11_R1": {
+      "independent_result": "3 targeted tests passed; prior 29 independent tests/math-selection-resource review reused",
+      "behavior_scope": "raw-response preservation for one registered Mac prefix canary code"
+    },
+    "M12": {
+      "independent_result": "44 tests passed; synthetic core only",
+      "behavior_scope": "model core mechanisms and synthetic assertions only"
+    },
+    "M13_R1": {
+      "independent_result": "8 passed, 18 deselected; one native Mac resource-probe smoke included",
+      "behavior_scope": "resource-probe repair and direct regressions; actual preflight was not rerun"
+    },
+    "M14": {
+      "independent_result": "11 tests passed",
+      "behavior_scope": "pure composition component and synthetic fixtures only"
+    }
+  },
+  "progress_evidence": {
+    "M15": {
+      "logical_id": "M15_ONE_SYMBOL_NONUNIT_EVENT_PREFIX",
+      "decision": "ONE_SYMBOL_CANDIDATE_PREFIX_ONLY",
+      "overlap_date_count": 1259,
+      "ohlc_exact_cent_matches": 5036,
+      "ohlc_comparisons": 5036,
+      "ohlc_price_mismatches": 0,
+      "evidence_level": "DIRECTION_ONLY",
+      "training_ready": false,
+      "scope_limit": "One-symbol, one non-unit event candidate only; does not certify all-symbol/action coverage or training readiness.",
+      "evidence_receipts": [
+        {
+          "logical_id": "M15_DIAGNOSTIC_SUMMARY",
+          "sha256": "5c414e70535871da59738a84ee10b27ab0b466081f42eb16a6e57525f66fb579"
+        },
+        {
+          "logical_id": "M15_OPERATIONAL_UNIT_REVIEW_RECEIPT",
+          "sha256": "97114eeca273fa73a30b7e9ae0d9554678d2723689f11cceb4ee995b2cfd35e0"
+        }
+      ]
+    },
+    "M16": {
+      "logical_id": "M16_PREFLIGHT_DEPENDENCY_FAILURE",
+      "status": "FAILED_OR_INTERRUPTED_NO_RETRY",
+      "failure": "Missing psutil was raised before actual cache read/hash; one invocation, no retry/install, zero fit calls.",
+      "actual_cache_reads_or_hashes": 0,
+      "fit_calls": 0,
+      "follow_up": "M13_R1 replaced the dependency with the existing bound Mac resource probe and passed 8 independent direct regression tests; actual preflight was not rerun.",
+      "evidence_receipts": [
+        {
+          "logical_id": "M16_COMMAND_RESULT",
+          "sha256": "4517ed071cbfc3c7298840f279d05d5abede56d1e4b27dd92a3c8420d361e92e"
+        },
+        {
+          "logical_id": "M13_R1_INDEPENDENT_REVIEW_RECEIPT",
+          "sha256": "233a4b97b7fead3780b0845b4c147d6b748d2b90c0fd1ba68c45e6b95c0c760a"
+        }
+      ]
+    }
+  },
+  "research_boundary": {
+    "research_only": true,
+    "production_allowed": false,
+    "buy_gate_updated": false,
+    "orders_sent": false,
+    "real_training_or_oof_fit_established_by_this_packet": false,
+    "conclusion": "Component reviews and a bounded one-symbol diagnostic do not establish research breakthrough, full-market data readiness, official source/calendar parity, model acceptance, or end-to-end completion."
+  }
+}
