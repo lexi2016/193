@@ -1,0 +1,32 @@
+{
+  "acceptance_receipt": "ACCEPTANCE.json",
+  "buy_gate_updated": false,
+  "display_unit_correction": {
+    "previous_export_manifest_sha256": "97c6763cc4aa2dfa6e6b3937ce4d9529db47a219253737020270dfa0d952f06a",
+    "publication_fix_freeze_sha256": "5520f7e0eac80a8ddbd7f41d1da79ff6e70f64766a9e91b46bf0ba5862961d2a"
+  },
+  "files": {
+    "ACCEPTANCE.json": "a97ccab4727e8296abc6e12a5d0e50e0116547e2b7823c67a5d69346b4ab0e10",
+    "BAND_CONTRIBUTIONS.csv": "c2e5023f1023255a23fd51e919d16188553f23cc93d9e84a81480eb42e686c3f",
+    "FOLD_IDENTITY.csv": "28610ca364a818332f8acd2ebbce7174a27e1032484b0844b4d68e62e13db8ae",
+    "INDUSTRY_KEY_CONTRIBUTIONS.csv": "0b26a2e581d8947d22350cc4632ac982dbb7e7390b13145cae49036387bae5c1",
+    "PROVENANCE.json": "f8bf214d6933904d1a6f83431ecf7e009d450b8d46f141cb95235bd0ae8aae31",
+    "README.md": "323d43982f99cc356be88f824b80cc528d950319f89b47ec846b44125ebba454",
+    "REPORT.md": "a1d475cd9b3f032e2c250558d1a733f85add8efd64696d61aa2535b139e0326f",
+    "SUMMARY.json": "5ba1e06b5978ffe5356f3204398682a483a5b14d4973d5270e3e15883ab40102",
+    "VALIDITY_PARTITION.csv": "1e0179be4f8d7a4d5793cc5cb10c0514e2ebdc5bfd816ac76d30b9c92b37e48f",
+    "source/g1_attribution_core.py": "d574071b6c33e71e4648624bc6470d1e9d594c3515d47869964b2fc514fd04df",
+    "source/g1_attribution_registry.py": "ed13f9688bf001f1fb625a08b31fd854029677af3c830ce0e804256a9b1777d7",
+    "source/g1_attribution_runner.py": "19bc0fc9dfb5694d2d0d12f6c0a070902f577be422f7fcf2d9d7b25e6a0a035f",
+    "source/tests/test_g1_attribution.py": "5de4f993e546788fe557ff770d4b97f07bbe66c02244197dbdee7677286f7e72"
+  },
+  "metadata_additions_only": [
+    "ACCEPTANCE.json"
+  ],
+  "orders_sent": false,
+  "production_allowed": false,
+  "research_only": true,
+  "reviewed_payload_manifest_sha256": "03a8741b17a59c88313671ee582b395c60c51bdb01866fd5fdf454d45938f239",
+  "reviewed_payload_unchanged": true,
+  "schema": "G1_ATTRIBUTION_EXPORT_MANIFEST_V1"
+}

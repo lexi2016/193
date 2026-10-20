@@ -1,0 +1,53 @@
+{
+  "S1_status": "FAILED_UNCHANGED",
+  "S2_started": false,
+  "buy_gate_updated": false,
+  "cannot_confirm": [
+    "Candidate recall and paired reranker lift",
+    "Comparable candidate OOF coverage and Top100/Top200 sensitivity",
+    "Probability calibration and causal interpretation",
+    "Historical PIT/calendar/full-universe validity",
+    "Sealed-forward validation and executable net returns",
+    "Reranker daily latency/resource-budget compliance"
+  ],
+  "external_registry_persistence": "CANNOT_CONFIRM",
+  "fit_calls": 0,
+  "formal_output_manifest_sha256": "891a195abe6c7ba507a13d4b366f2f03eb3d1b347d5007cf149d6b6af0c08c02",
+  "forwarded_excerpt_sha256": "e45d7b24f3d7b7e51c2b9749868312466dd85a171cbb044ce474e95225bed205",
+  "model_loads": 0,
+  "new_ci_calls": 0,
+  "orders_sent": false,
+  "predict_calls": 0,
+  "production_allowed": false,
+  "registry_contract_only_scoped": 0,
+  "registry_counts_global": {
+    "corrections": 88,
+    "events": 3317,
+    "executions": 1027,
+    "routes": 349
+  },
+  "registry_counts_scoped": {
+    "corrections": 0,
+    "events": 16,
+    "executions": 8,
+    "routes": 1
+  },
+  "registry_global_unregistered_and_contract_only": "CANNOT_CONFIRM_NOT_AUDITED_THIS_SCOPE",
+  "registry_open_executions_at_snapshot": [],
+  "registry_sha256": "e17ece702c60ce89ac294461d17a79b0f35f2299eed9253e295ec5fcf6cc7b50",
+  "registry_snapshot_as_of": "INDEPENDENT_REVIEW_TERMINAL_BEFORE_METADATA_CLOSEOUT",
+  "registry_unregistered_routes_scoped": 0,
+  "remote_sync": "PENDING_CONTROLLER_SYNC",
+  "research_only": true,
+  "research_status": "DIRECTION_ONLY",
+  "review_transcription_sha256": "e4235082c07cacec85f8b9efb1f970fe21699f04f25a93bcf2dd6dd41338b423",
+  "reviewed_payload_count": 12,
+  "reviewed_payload_manifest_sha256": "03a8741b17a59c88313671ee582b395c60c51bdb01866fd5fdf454d45938f239",
+  "reviewer_agent": "g1_attribution_review",
+  "schema": "G1_ATTRIBUTION_ACCEPTANCE_TRANSCRIBED_PROJECTION_V1",
+  "scientific_frozen_identity_sha256": "dbe18106fd7189cb7ceb40938fde5e5470664381e76aadcd3a530e39d9e50ab6",
+  "scientific_information_gate": "INCONCLUSIVE_UNCHANGED",
+  "scope": "Narrow deterministic attribution reproduction and corrected safe-export presentation",
+  "transcription_source": "Controller-forwarded substantive final Reviewer excerpt; Writer-persisted projection, not a complete original JSON or Reviewer-signed artifact",
+  "verdict": "PASS"
+}

@@ -1,3 +1,9 @@
+## G1 归因诊断补充（2026-10-20）
+
+[归因报告](research/reviews/g1_attribution_20261020/REPORT.md) · [验收范围](research/reviews/g1_attribution_20261020/ACCEPTANCE.json) · [文件哈希](research/reviews/g1_attribution_20261020/EXPORT_MANIFEST.json)。冻结历史结果的描述性拆解及安全导出已独立复核；G1 信息门仍为 INCONCLUSIVE，S1 失败，S2 未启动。未训练、预测、重算区间或改变选股规则。
+
+---
+
 ## 2026-10-20 研究审阅材料
 
 [A股行业季节性 → S1 → G1 → q* 研究审阅包](research/reviews/g1_20261020/README.md)：源码、方法、聚合结果、负结果和独立审阅记录。S1开发门失败；G1最终区间跨零、信息门INCONCLUSIVE；S2未启动，整体DIRECTION_ONLY。未公开原始行情、逐日真值或模型权重，完整真实数据复现限制见包内说明。

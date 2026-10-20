@@ -1,0 +1,76 @@
+{
+  "baseline_commit": "c1be26aead7b1a210d2f48fac5cdb011699fe63e",
+  "buy_gate_updated": false,
+  "code_composite_sha256": "c49e046bdb5512064e725e0158eca2a8410464331929c8c3591f94a4bad1f550",
+  "display_unit_correction": {
+    "corrected_report_sha256": "a1d475cd9b3f032e2c250558d1a733f85add8efd64696d61aa2535b139e0326f",
+    "execution_id": "G1_ATTRIBUTION_PUBLICATION_UNIT_FIX_01",
+    "previous_report_sha256": "95cab902ed73f38b6674982e735547b1127522f5b129b4e8ebf8da75d9a69f27",
+    "scope": "Only bp-scaled Markdown column headers changed from *_decimal to *_bp; numeric cells and all CSV bytes unchanged"
+  },
+  "excluded": "Real stock/date rows, predictions, labels, raw market data, models, local paths, credentials",
+  "frozen_identity_sha256": "dbe18106fd7189cb7ceb40938fde5e5470664381e76aadcd3a530e39d9e50ab6",
+  "inputs": {
+    "BAND_CONTRIBUTIONS": {
+      "file": "BAND_CONTRIBUTIONS.csv",
+      "sha256": "c2e5023f1023255a23fd51e919d16188553f23cc93d9e84a81480eb42e686c3f"
+    },
+    "FOLD_IDENTITY": {
+      "file": "FOLD_IDENTITY.csv",
+      "sha256": "28610ca364a818332f8acd2ebbce7174a27e1032484b0844b4d68e62e13db8ae"
+    },
+    "INDUSTRY_KEY_CONTRIBUTIONS": {
+      "file": "INDUSTRY_KEY_CONTRIBUTIONS.csv",
+      "sha256": "0b26a2e581d8947d22350cc4632ac982dbb7e7390b13145cae49036387bae5c1"
+    },
+    "VALIDITY_PARTITION": {
+      "file": "VALIDITY_PARTITION.csv",
+      "sha256": "1e0179be4f8d7a4d5793cc5cb10c0514e2ebdc5bfd816ac76d30b9c92b37e48f"
+    },
+    "qstar_context": {
+      "file": "FINAL_HANDOFF.json",
+      "sha256": "8b821c7b89a6a9ad8a092c52911527ff6709da98c8d6d5a634f4563a134e18e7"
+    },
+    "summary": {
+      "file": "SUMMARY.json",
+      "sha256": "b7fbe18e88329abd8f18a37fc11968f046392b5ec79b378da4493ac98a34bbc7"
+    }
+  },
+  "orders_sent": false,
+  "original_context": "M0 frozen price-volume baseline, not authenticated original Formula193",
+  "original_formal_output_manifest_sha256": "891a195abe6c7ba507a13d4b366f2f03eb3d1b347d5007cf149d6b6af0c08c02",
+  "original_publication_freeze_sha256": "6603366e4e0f1e532100afa85ddd003b4851053fe869b1666b57d45e8f4d20dd",
+  "previous_publication_source_sha256": "6948d6acccae1f44f6bf4d1325d58065bfdef7aea77b9776c952ae8a15bf72bd",
+  "production_allowed": false,
+  "publication_freeze_sha256": "5520f7e0eac80a8ddbd7f41d1da79ff6e70f64766a9e91b46bf0ba5862961d2a",
+  "publication_source_sha256": "f31bec7fe3cb855c634dafc55b7305122635562e967d01f94c5a3247561ed5a8",
+  "registry_persistence": "CANNOT_CONFIRM_EXTERNAL_REGISTRY_PERSISTENCE",
+  "research_only": true,
+  "schema": "G1_ATTRIBUTION_SAFE_EXPORT_V1",
+  "source_files": [
+    {
+      "adaptation": "BYTE_IDENTICAL",
+      "file": "source/g1_attribution_core.py",
+      "original_sha256": "d574071b6c33e71e4648624bc6470d1e9d594c3515d47869964b2fc514fd04df",
+      "published_sha256": "d574071b6c33e71e4648624bc6470d1e9d594c3515d47869964b2fc514fd04df"
+    },
+    {
+      "adaptation": "ONLY_ROOT_LITERAL_TO_REQUIRED_FACTOR_FACTORY_ROOT_ENV_BINDING_PLUS_OS_IMPORT",
+      "file": "source/g1_attribution_registry.py",
+      "original_sha256": "f60a4ddfae408ee8cdf4ec8f201ff9ed0cb5aebae4162f9a871b658798e96148",
+      "published_sha256": "ed13f9688bf001f1fb625a08b31fd854029677af3c830ce0e804256a9b1777d7"
+    },
+    {
+      "adaptation": "BYTE_IDENTICAL",
+      "file": "source/g1_attribution_runner.py",
+      "original_sha256": "19bc0fc9dfb5694d2d0d12f6c0a070902f577be422f7fcf2d9d7b25e6a0a035f",
+      "published_sha256": "19bc0fc9dfb5694d2d0d12f6c0a070902f577be422f7fcf2d9d7b25e6a0a035f"
+    },
+    {
+      "adaptation": "BYTE_IDENTICAL",
+      "file": "source/tests/test_g1_attribution.py",
+      "original_sha256": "5de4f993e546788fe557ff770d4b97f07bbe66c02244197dbdee7677286f7e72",
+      "published_sha256": "5de4f993e546788fe557ff770d4b97f07bbe66c02244197dbdee7677286f7e72"
+    }
+  ]
+}

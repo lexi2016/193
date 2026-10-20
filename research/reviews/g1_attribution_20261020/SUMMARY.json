@@ -1,0 +1,86 @@
+{
+  "S1_status": "S1_DEVELOPMENT_GATE_FAILED",
+  "S2_started": false,
+  "calendar_selection": "ALL_ORIGINAL_DATES",
+  "canary_not_scientific_estimate": false,
+  "ci_calls": 0,
+  "evidence_level": "DIRECTION_ONLY",
+  "fit_calls": 0,
+  "limits": [
+    "Exposed history only; no causal or conditional predictive conclusion",
+    "Current industry retrospective; historical PIT/calendar/universe not certified",
+    "Gross outcome, not executable net return; no sealed validation",
+    "Repeated codes/cells are not independent observations"
+  ],
+  "mean_errors_are_descriptive_not_calibration_proof": true,
+  "model_loads": 0,
+  "populations": [
+    {
+      "code_concentration": {
+        "absolute_contribution_sum_decimal": 0.06431180948117934,
+        "absolute_share_hhi": 0.0005476001791683042,
+        "largest_absolute_share": 0.0034483340032659296
+      },
+      "concentration_is_not_independent_N": true,
+      "denominator_dates": 601,
+      "distinct_codes": 4614,
+      "industry_concentration": {
+        "absolute_contribution_sum_decimal": 0.010154056267764704,
+        "absolute_share_hhi": 0.0328516918313239,
+        "largest_absolute_share": 0.10337038567945694
+      },
+      "invalid_dates": 54,
+      "point_bp": 29.75649093957072,
+      "point_decimal": 0.002975649093957072,
+      "population": "PRIMARY_COMPLETE_FOLDS",
+      "raw_spread_decimal": 0.003012333442049523,
+      "repeated_code_rows": 13581,
+      "score_gap_decimal": 3.668434809245033e-05,
+      "selected_rows": 18195,
+      "valid_dates": 547
+    },
+    {
+      "code_concentration": {
+        "absolute_contribution_sum_decimal": 0.12105707514868888,
+        "absolute_share_hhi": 0.0013889937322105375,
+        "largest_absolute_share": 0.007209424477063859
+      },
+      "concentration_is_not_independent_N": true,
+      "denominator_dates": 71,
+      "distinct_codes": 1469,
+      "industry_concentration": {
+        "absolute_contribution_sum_decimal": 0.05729800425932328,
+        "absolute_share_hhi": 0.05814419855496795,
+        "largest_absolute_share": 0.13970730964267172
+      },
+      "invalid_dates": 7,
+      "point_bp": -4.754092670063083,
+      "point_decimal": -0.0004754092670063083,
+      "population": "PARTIAL_2026H2_DIAGNOSTIC_ONLY",
+      "raw_spread_decimal": -0.0006713348962758656,
+      "repeated_code_rows": 737,
+      "score_gap_decimal": -0.0001959256292695576,
+      "selected_rows": 2206,
+      "valid_dates": 64
+    }
+  ],
+  "predict_calls": 0,
+  "primary_calendar_dates": 601,
+  "primary_invalid_dates": 54,
+  "primary_valid_dates": 547,
+  "prior_accepted_qstar_context": {
+    "decision": "INCONCLUSIVE",
+    "point": 0.002975649093957072,
+    "qstar": 2.9877439760955102,
+    "real_ci95": [
+      -0.0006017494756064786,
+      0.006553047663520623
+    ]
+  },
+  "prior_all_cells_constant": true,
+  "prior_cell_count": 2214,
+  "rows_read_scope": 33600,
+  "scientific_information_gate": "INCONCLUSIVE_UNCHANGED",
+  "status": "DESCRIPTIVE_DIAGNOSTIC_ONLY_SEE_ACCEPTANCE_RECEIPT",
+  "units": "Decimal gross close-close H2 returns and frozen M0 predicted return; bp=decimal*10000"
+}
