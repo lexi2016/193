@@ -1,0 +1,122 @@
+{
+  "status": "OPENBOOK_INPUT_SEMANTICS_DIAGNOSTIC_ONLY",
+  "scope": "Two registered bounded local source-semantics diagnostics; no strategy evaluation or early-prefix extension.",
+  "fixed_symbols": [
+    "600000.SH",
+    "600004.SH",
+    "000001.SZ",
+    "000002.SZ",
+    "920000.BJ",
+    "920001.BJ"
+  ],
+  "frozen_sample_rule": "A earliest qualifying shared key; B first qualifying key at least20 observed raw stock sessions afterA; H10 immediately preceding qualifying shared keys beforeB, excludingA/B. Same frozen keys in bothdiagnostics.",
+  "scalar_diagnostic": {
+    "decision": "NUMERIC_PARITY_NOT_ESTABLISHED",
+    "symbols_with_numeric_mismatch": 6,
+    "selection": "Same fixed6symbols/B/H; no residual tuning",
+    "historical_result_preserved": true
+  },
+  "affine_diagnostic": {
+    "decision": "SAMPLED_AFFINE_CENT_MATCH_UNCONFIRMED_HYPOTHESIS_ONLY",
+    "exact_cent_matches": 240,
+    "OHLC_denominator": 240,
+    "per_symbol_matches": 40,
+    "per_symbol_denominator": 40,
+    "max_abs_unrounded_error": "0.00",
+    "calibration": "Fixed B raw/QFQlowhigh identifiesu/v; no H oracle values used forcalibration.",
+    "all_calibrated_u": "1",
+    "observed_cache_events": {
+      "000002.SZ": 1,
+      "other_five_symbols": 0
+    },
+    "event_evidence": "Five zero-event windows only test affine-scale/key behavior. One observedcache event doesnotcertify actiontype/completeness.",
+    "serialization": "Decimal(str(source scalar)),precision50,ROUND_HALF_UP finalcent; reference mustalreadybe centrepresentable. UNCONFIRMED_FALSIFIABLE_HYPOTHESIS.",
+    "raw_volume_amount": "Compared separately without normalization; original mismatches retained. Not partofOHLC-cent acceptance.",
+    "wall_sec": 6.15893395897001,
+    "peak_RSS_bytes": 1087242240,
+    "arrow_pools": {
+      "cpu": 4,
+      "io": 4
+    },
+    "actual_data_independent_review": "PENDING_AT_PACKAGE_FREEZE"
+  },
+  "synthetic_review": {
+    "scalar": "Independent33 synthetic fixtures plus1 incremental Arrow pool regression accepted.",
+    "affine": "Independent27 synthetic fixtures plus2 incremental START/TERMINAL baseline parity cases accepted.",
+    "new_tests_run_for_packaging": 0
+  },
+  "source_sha256": {
+    "research/a_share_model_selection_v1/environment_tilt_mac_recovery.py": "f9af1df6282a7f43d6bcf331df7034310a232c1391480a21bf083520ee6a97ae",
+    "research/a_share_model_selection_v1/environment_tilt_mac_registry.py": "4a4407482e55cd2124da55d1469f493025bd3dbaa2c3dd08f43d786d99508d4b",
+    "research/a_share_model_selection_v1/environment_tilt_mac_affine.py": "aecd56bddc55300b188f4046b0f16395935da10ab5e936277efdc1df2825f471",
+    "research/a_share_model_selection_v1/tests/test_environment_tilt_mac_recovery.py": "32e7c2174dbf66b6a01a325a195ef8641f928a49d12b7fe290cb07b03b0ea830",
+    "research/a_share_model_selection_v1/tests/test_environment_tilt_mac_affine.py": "6977734820ebcdab02bb8e7d37113183f1c1354efc16ff8feeccbb6d56b57513"
+  },
+  "frozen_bindings": {
+    "scalar": {
+      "code_composite_sha256": "c6316c06333c1490be2c6cbb55e0149470384f109337ffdf58875351c2c43bf0",
+      "config_sha256": "3bb10042e6132fc1c0fff1fbaef1adc23c27d2aa12bed0732410ceeca5e86e9a",
+      "contract_sha256": "051c2d10157e926e2d4d411f7a5e4c8a34ca2452776989a262756a8eb81c31e1"
+    },
+    "affine": {
+      "code_composite_sha256": "9e56f7e204f67253511126fd4640d5202672162eadbc423c75b01b111b0ea599",
+      "config_sha256": "5bf9390727651c1fa3cf733c06f6b0debc3f2c56e3fa12952b9ef39d6a08e0bf",
+      "contract_sha256": "ce57efb38e919b72a2338bf679b1f209a18183dc1811136bfd82f72583403dcf"
+    }
+  },
+  "local_registry_point_in_time": {
+    "as_of_UTC": "2026-10-20T17:07:51.013088+00:00",
+    "counts": {
+      "routes": 360,
+      "events": 3371,
+      "executions": 1055,
+      "corrections": 88
+    },
+    "affine_scope_counts": {
+      "routes": 1,
+      "events": 2,
+      "executions": 1,
+      "corrections": 0
+    },
+    "affine_unregistered_executions": 0,
+    "affine_contract_only": 0,
+    "global_unregistered_routes": "NOT_AUDITED",
+    "global_contract_only": "NOT_AUDITED",
+    "sha256": "a0e238f8c564917c19809bddf6ee58415ed085c290e87a50f7326e4f1c9f1c00",
+    "remote_registry_persistence": "NOT_VERIFIED"
+  },
+  "dependencies_not_shipped": [
+    {
+      "logical_ref": "local-bound/original-data-layer-producer",
+      "sha256": "901d4802c784decda9d43e757b367496d1171e5e702485a29f4c66fad3c7ae2e",
+      "use": "Original selected pure decoder/action functions"
+    },
+    {
+      "logical_ref": "local-bound/original-history-producer",
+      "sha256": "e8071ebea55783312d0b1ae5946a9e5f9a5f9c183f19e85710613b9c381ee003",
+      "use": "Original selected action helper"
+    },
+    {
+      "logical_ref": "local-bound/official-registry-adapter-and-guards",
+      "use": "Existing locked canonical append validator/fsync infrastructure; exact dependency hashes remain in nonpublic local configuration."
+    },
+    {
+      "logical_ref": "local-bound/execution-configs-and-inputs",
+      "use": "Private runtime paths, activation receipts and authenticated raw/actions/QFQ inputs are excluded; remote package is not a standalone data pipeline."
+    }
+  ],
+  "limitations": [
+    "M7 scalar rejection is retained. The later affine hypothesis is a separately frozen OPENBOOK diagnostic, not a new strategy or sealed result.",
+    "Rounded B prices can underidentify trueu/v. Exact samplematches do not prove nativeTQ adjustment or serialization.",
+    "Action economicunits/fullcategory/completeness,PIT,preA/fulluniverse recovery and trainingreadiness remain CANNOT_CONFIRM.",
+    "No early prefix, allmarket scan, model fit, OOF, lambda training, backtest, production or order execution.",
+    "Windows/SSH/network calls during actualdiagnostics:0."
+  ],
+  "training_ready": false,
+  "native_QFQ_certified": false,
+  "research_only": true,
+  "production_allowed": false,
+  "buy_gate_updated": false,
+  "orders_sent": false,
+  "exact_source_exception": "The reviewed recovery test retains an explicitly forbidden negative-fixture path constant, as authorized; it is not a real input binding or credential. No source sanitation was performed."
+}
