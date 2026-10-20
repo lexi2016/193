@@ -1,3 +1,9 @@
+## 环境×行业×月份训练方案咨询材料（2026-10-20）
+
+[阅读材料与可复制ChatGPT prompt](research/reviews/environment_training_advice_20261020/README.md)。补齐已完成的M0–M4环境实验、S1失败及G1/归因边界，供外部模型设计下一项有限实验；本批没有新训练或科学评价。
+
+---
+
 ## G1 归因诊断补充（2026-10-20）
 
 [归因报告](research/reviews/g1_attribution_20261020/REPORT.md) · [验收范围](research/reviews/g1_attribution_20261020/ACCEPTANCE.json) · [文件哈希](research/reviews/g1_attribution_20261020/EXPORT_MANIFEST.json)。冻结历史结果的描述性拆解及安全导出已独立复核；G1 信息门仍为 INCONCLUSIVE，S1 失败，S2 未启动。未训练、预测、重算区间或改变选股规则。

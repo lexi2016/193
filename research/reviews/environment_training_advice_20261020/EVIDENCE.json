@@ -1,0 +1,2549 @@
+{
+  "G1_qstar": {
+    "accepted_result": {
+      "S1": "S1_DEVELOPMENT_GATE_FAILED",
+      "S2": "NOT_STARTED",
+      "accepted_status": "REVIEWED_PASS_FROZEN_QSTAR_INFORMATION_GATE_INCONCLUSIVE",
+      "buy_gate_updated": false,
+      "ci95": [
+        -0.0006017494756064786,
+        0.006553047663520623
+      ],
+      "information_gate": "INCONCLUSIVE",
+      "orders_sent": false,
+      "production_allowed": false,
+      "qstar": 2.9877439760955102,
+      "research_only": true,
+      "research_status": "DIRECTION_ONLY",
+      "result_path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_qstar_20261020/FINAL_RESULT.json",
+      "result_sha256": "ad382df6e458aa4113dc28ef7e726b187e253e36e5031c2033e0f6ff8766f6bb",
+      "review_receipt_sha256": "a24218a7675203168fab7b6421f9f67b57aadee9a4fc918bc9b7eafdb8365b7c",
+      "review_scope": "qstar frozen implementation/calibration/lock/validation/realCI/static; no training lift/strategy/sealed acceptance",
+      "review_stdout_sha256": "35098ab68b243876b770b769040592ec1059cfac71990399d4e6b7bdeab05f26",
+      "review_terminal_event_sha256": "92a70e6c2697fda7de208a87c642192d23d1da5809fc06da43513abcfca3914b",
+      "ui_status": "UI_NOT_VERIFIED"
+    },
+    "pre_review_numeric_snapshot": {
+      "accepted_status": "INDEPENDENT_REVIEW_PENDING",
+      "buy_gate_updated": false,
+      "ci95": [
+        -0.0006017494756064786,
+        0.006553047663520623
+      ],
+      "coverage": {
+        "coverage": 0.9101497504159733,
+        "denominator_dates": 601,
+        "passed": true,
+        "required": 0.8,
+        "valid_dates": 547
+      },
+      "coverage_by_fold": {
+        "2024H1": {
+          "coverage": 0.9401709401709402,
+          "denominator_dates": 117,
+          "valid_dates": 110
+        },
+        "2024H2": {
+          "coverage": 0.984,
+          "denominator_dates": 125,
+          "valid_dates": 123
+        },
+        "2025H1": {
+          "coverage": 0.905982905982906,
+          "denominator_dates": 117,
+          "valid_dates": 106
+        },
+        "2025H2": {
+          "coverage": 0.8888888888888888,
+          "denominator_dates": 126,
+          "valid_dates": 112
+        },
+        "2026H1": {
+          "coverage": 0.8275862068965517,
+          "denominator_dates": 116,
+          "valid_dates": 96
+        },
+        "2026H2_PARTIAL_TO_2026_10_15": {
+          "coverage": 0.9014084507042254,
+          "denominator_dates": 71,
+          "valid_dates": 64
+        }
+      },
+      "decision": "INCONCLUSIVE",
+      "fold_means": {
+        "2024H1": 0.000314390785616479,
+        "2024H2": 0.005439747568456094,
+        "2025H1": 0.007117212737424578,
+        "2025H2": 0.0007757601523499695,
+        "2026H1": 0.0008614419773583798,
+        "2026H2_PARTIAL_TO_2026_10_15": -0.0004754092670063083
+      },
+      "hac": {
+        "D": 460.30270684044433,
+        "N": 547,
+        "ci95": [
+          -0.0006017494756064786,
+          0.006553047663520623
+        ],
+        "mask_correction": 1.1883484321755418,
+        "method": "FROZEN_HAC20_WITH_EIGHT_SCENARIO_QSTAR",
+        "point": 0.002975649093957072,
+        "qstar": 2.9877439760955102,
+        "se": 0.0011973578051485596,
+        "variance": 1.4336657135501758e-06
+      },
+      "orders_sent": false,
+      "original_point_groups_labels_coverage_recomputed": false,
+      "point": 0.002975649093957072,
+      "positive_complete_folds": 5,
+      "production_allowed": false,
+      "qstar": 2.9877439760955102,
+      "qstar_lock_sha256": "4a5bb086d7dda6eafd993f30a215d79d125d5b41d246191a3aff33585c024221",
+      "real_ci_executed": true,
+      "real_x_read": true,
+      "research_only": true,
+      "validation_result_sha256": "d2f2499b2233e680f5a47fb166ac694e6facc3bf5a413e51c542e23e0004b228"
+    },
+    "snapshot_rule": "ACCEPTED_RESULT and final independent review govern acceptance; FINAL_RESULT retains historical pending field"
+  },
+  "PV": {
+    "contract_historical_freeze": {
+      "baseline_id": "M0_SHARED_V192_V193_CORE_CLOSE_RETURN_TOP10",
+      "canary": {
+        "arm": "Two staged canaries: M0 first (independent of index) and M4 after index binding; each covers horizons [1,2,5] in 2024H1.",
+        "codes": "At training cutoff, eligible codes sorted ascending and fixed to first 200 (or all if fewer); code choice cannot inspect test rows or labels.",
+        "feature_warmup": "Compute with full history before taking the 60-date canary slice.",
+        "fit_count": 6,
+        "fit_parameters": "Exactly the formal HistGradientBoostingRegressor parameters.",
+        "fold": "2024H1",
+        "horizons": [
+          1,
+          2,
+          5
+        ],
+        "purpose": "Both canaries check engineering, labels, shared-calendar shifts, stable Top10, saved-model replay and resources only; their returns do not gate lift.",
+        "test_dates": "First 10 full-market trading dates in 2024H1.",
+        "train_dates": "Latest 60 available training signal dates, each with label_end_date < test_start."
+      },
+      "evidence_level": "DIRECTION_ONLY",
+      "execution_stages": {
+        "INDEXED_FORMAL": {
+          "arms": [
+            "M1",
+            "M2",
+            "M3",
+            "M4"
+          ],
+          "fits": 72,
+          "folds": 6,
+          "requires_index": true,
+          "signal": "DIRECTION_ONLY"
+        },
+        "INDEX_RECOVERY": {
+          "fits": 0,
+          "index": "TDX 000300 daily only; separate no-fit registered route"
+        },
+        "M0_CANARY": {
+          "arms": [
+            "M0"
+          ],
+          "fits": 3,
+          "requires_index": false,
+          "signal": "ENGINEERING_CANARY_ONLY"
+        },
+        "M0_FORMAL": {
+          "arms": [
+            "M0"
+          ],
+          "common_key_intersection": true,
+          "fits": 18,
+          "folds": 6,
+          "input_arms": [
+            "M0",
+            "M1",
+            "M2",
+            "M3",
+            "M4"
+          ],
+          "requires_index": true,
+          "signal": "DIRECTION_ONLY"
+        },
+        "M4_CANARY": {
+          "arms": [
+            "M4"
+          ],
+          "fits": 3,
+          "requires_index": true,
+          "signal": "ENGINEERING_CANARY_ONLY"
+        },
+        "reuse": "Each checkpoint binds its exact training key-set SHA and behavioral input/code/config SHAs. M0_CANARY is diagnostic-only and is not reused as a formal fit. M0_FORMAL starts only after index binding so its training keys share the frozen M0-M4 finite-feature intersection.",
+        "total_canary_fits": 6,
+        "total_formal_fits": 90,
+        "total_max_fit_calls": 96
+      },
+      "experiment_id": "A_SHARE_MODEL_SELECTION_PV_ENVIRONMENT_R1_20261019",
+      "feature_arms": {
+        "M0": "V193 exact-source core features only; V192 XG is retained as a separate diagnostic and never filters candidates or enters model training. M0 canary and 18 formal cells may run after M0-only review activation without the index artifact, while retaining observed-panel and historical-eligibility limitations.",
+        "M1": "M0 plus bound V193 index mapping: index MA5/MA20 positions, index 1/5-session returns, stock RS5, observed-panel advancer share, and amount activity. Missing official index-history input blocks this arm; no alternate index producer.",
+        "M2": "M1 plus month one-hot category and AUDITM 3/4/12 outputs from the existing formula engine.",
+        "M3": "M2 plus bound CAPCO industry category and 5/20-session industry mean return, advancer share, amount activity, and stock relative strength; retrospective classification status must remain explicit.",
+        "M4": "M3 plus 0AMV_PROXY from observed QFQ-panel aggregate amount in CNY: recursive SMA(10, alpha=0.1), its 5-session change, ratio to its 20-session mean minus one, and SMA5/SMA13 minus one. This is an observed-panel proxy, not the official 0AMV algorithm.",
+        "core_deduplicated_same_name": [
+          "DISTW",
+          "DISTB",
+          "C",
+          "YEL0",
+          "LCOUNT",
+          "HIST0",
+          "AMTR",
+          "VOLR",
+          "VMA20R",
+          "VSPHHV",
+          "FCOUNT",
+          "SFCOUNT",
+          "RET20P",
+          "GAIN60",
+          "RANGE60",
+          "RANGE120",
+          "JVAL",
+          "BKRSI",
+          "CPOS",
+          "UPSH",
+          "WASHSCR",
+          "B1PRE",
+          "BKEXIST",
+          "FRESH",
+          "CONT0",
+          "B1SIG",
+          "B2SIG",
+          "B3SIG",
+          "BREAKOUT",
+          "BKRES",
+          "RTETYPE",
+          "RISK0",
+          "HEALTH",
+          "LOWEXT",
+          "KQUAL",
+          "LIQSTD"
+        ],
+        "selector_rule": "V192 and V193 formula triggers are diagnostics only, never candidate hard filters. If a formula trigger yields more than 10 names, sort by max(FRESH,CONT0)-RISK0 then code; if fewer than 10, do not refill. Same-date same-N diagnostics remain separate."
+      },
+      "folds": {
+        "fit_count": 90,
+        "fit_count_formula": "5 arms x 3 horizons x 6 folds",
+        "session_shift": "Use the bound common trading-date index, never per-stock row shifts.",
+        "test_folds": [
+          "2024H1",
+          "2024H2",
+          "2025H1",
+          "2025H2",
+          "2026H1",
+          "2026H2 through 2026-10-15 (partial)"
+        ],
+        "test_label_access": "Isolated evaluation only; selected keys/ranks are frozen before test labels are joined.",
+        "train_window": "Prior two calendar years ending before each test fold, after full-history feature warmup."
+      },
+      "goal": "Compare five nested research-only feature arms for daily A-share Top10 selection using close(T+h)/close(T)-1 for h=1,2,5, with no capital, position sizing, costs, NAV, or BUY integration.",
+      "governance": {
+        "allowed_paths": [
+          "workspace/research/a_share_model_selection_v1/**",
+          "research/a_share_model_selection_v1/batches/pv_environment_r1_20261019/**"
+        ],
+        "forbidden_paths": [
+          "authoritative source data",
+          "formula snapshots",
+          "shared adapters",
+          "V4",
+          "other research source",
+          "historical registry events",
+          "production/BUY/services/schedules/credentials"
+        ],
+        "review_code_sha256_scope": [
+          "model_selection.py",
+          "formula_adapter.py",
+          "tdx_ast_engine_injected.py",
+          "bound fast_builder_c.py"
+        ],
+        "reviewer": "Independent different-identity Luna Max read-only reviewer; inspect actual diff and rerun synthetic tests.",
+        "stop_rule": "Keep real data read and fit gates closed until independent pre-run review; if required index, calendar, eligibility, or field semantics remain unresolved, report exact CANNOT_CONFIRM and do not substitute another source or alter the frozen feature definition.",
+        "writer_identity": "model_selection_writer"
+      },
+      "hypothesis": "Market, month, retrospective industry, and observed aggregate amount-proxy features can improve date-equal Top10 close-return ranking over the shared V192/V193 volume-price core.",
+      "inputs": {
+        "calendar_member": "v192_research_20261016/independent_192_193_cloud/data/calendar.csv",
+        "formula_engine": "local-evidence/factor_factory/workspace/research/a_v193_multiyear_validation_v1/s0_recovery_r7/private/engine_runtime/",
+        "industry_member": "v192_external_v2_20261017/industry_cap_inputs_20261017/industry_current_retrospective.csv",
+        "industry_use": "CURRENT_CLASSIFICATION_RETROSPECTIVE per user decision; not historical PIT",
+        "official_index_history": {
+          "official_exchange_calendar_parity": "CANNOT_CONFIRM",
+          "original_tdx_evidence": "CANNOT_CONFIRM: index_000300_official_history.csv is referenced by a manifest but absent from the available package; calendar rows are date ordinals, not index prices",
+          "original_tdx_identity": "CANNOT_CONFIRM",
+          "replacement_policy": {
+            "binding_path": "INPUT_BINDING_R2.json",
+            "binding_sha256": "fc9502686be0527840f409636c5aa3a42a21c70a52d593a1429375ccf8706e1c",
+            "column_map": {
+              "close": "close",
+              "code": "code",
+              "date": "date"
+            },
+            "index_code": "SH.000300",
+            "receipt_path": "index_recovery_futu/FUTU_000300_HISTORY_FULL_20261019_R1/receipt.json",
+            "receipt_sha256": "b1e58e310d55a95f21817cdb523e13a060cdccac96a8e82e23147f0b6cb76c8a",
+            "source_columns": [
+              "date",
+              "code",
+              "close"
+            ],
+            "source_path": "index_recovery_futu/FUTU_000300_HISTORY_FULL_20261019_R1/index_000300_daily.csv",
+            "source_sha256": "ed55aaab1691999863461e38482fb66cc7bc0c4da85c0fed2556f0925eadaa70",
+            "source_type": "FUTU_RECOVERED_REPLACEMENT"
+          }
+        },
+        "price_panel": {
+          "amount_unit": "CNY",
+          "columns": [
+            "trade_date",
+            "ts_code",
+            "open",
+            "high",
+            "low",
+            "close",
+            "vol",
+            "amount"
+          ],
+          "distinct_codes": 5576,
+          "first_date": "2021-05-06",
+          "last_date": "2026-10-15",
+          "path": "local-evidence/factor_factory/research/a_v192_signal_pool_return_stability_v1/derived_inputs/qfq_market_20261015.parquet",
+          "qfq_adjustment": "front-adjusted per existing source manifest; economic total return is not certified",
+          "rows": 6453109,
+          "sha256": "c30f847cb0929a398ccfe93b4bc29e910a52e0052fff2c29cbf4bf789cd56c07",
+          "sha_basis": "REUSED_EXISTING_ACTUAL_FIELD_PROJECTION_V2_RECEIPT; NOT REHASHED IN THIS PRE-RUN STAGE",
+          "volume_unit": "shares"
+        },
+        "v192_formula": "local-evidence/factor_factory/research/a_v192_signal_pool_return_stability_v1/intake/unpacked/base_bundle/formula/V192ORIG_UTF8.txt",
+        "v193_formula": "local-evidence/factor_factory/research/a_v193_multiyear_validation_v1/batches/materialized_inputs_r2_20261018/inputs/V193_ORIG_SNAPSHOT_UTF8.txt"
+      },
+      "labels": {
+        "calendar_identity": "CANNOT_CONFIRM_OFFICIAL_EXCHANGE_CALENDAR; bind to existing calendar member and retain observed-calendar limitation",
+        "definition": "close(T+h)/close(T)-1",
+        "horizons_in_observed_shared_calendar_sessions": [
+          1,
+          2,
+          5
+        ],
+        "missing_target_close": "NaN/unknown; never zero-filled and never used to remove a candidate or refill a Top10 slot",
+        "purge": "training label_end_date < test_start"
+      },
+      "metrics_and_acceptance": {
+        "bootstrap": "Auxiliary only: 10-consecutive-trading-date moving blocks sampled within each fold; entire date clusters and identical sampled dates for both arms; 1000 replicates, seed 193; never changes the frozen acceptance gates.",
+        "exposed_history_status": "DIRECTION_ONLY; no sealed-forward validation and no promotion.",
+        "median_rule": "Median daily Top10 return for M4 is not below M0 over the paired common complete-label dates.",
+        "missing_label_accounting": "For each arm/horizon/fold, report selected slots, known labels, unknown labels, complete Top10 dates, excluded dates, and excluded slots. Unknown labels do not reorder or refill selections.",
+        "other_arms": "M1-M3 descriptive diagnostics only; no post-hoc winner combination or best-horizon claim.",
+        "overall_date_equal_mean_delta_gt_zero": true,
+        "p10_rule": "P10 is calculated over selected stock-date events (repeated codes on different dates remain separate), on the paired common complete-label dates; M4 P10 is not below M0.",
+        "positive_fold_rule": "At least 4 of 6 fold means of paired daily M4-M0 return delta are > 0.",
+        "primary": "For each horizon independently, M4 minus M0 paired mean Top10 close return over identical common dates where both unfilled Top10 lists have 10 known labels."
+      },
+      "model": {
+        "class": "sklearn.ensemble.HistGradientBoostingRegressor",
+        "feature_nan_policy": "Use only the pre-label common finite-feature key intersection across M0-M4; no imputation.",
+        "fit_weights": "Equal total sample weight per signal date.",
+        "parameter_search": false,
+        "params": {
+          "early_stopping": false,
+          "l2_regularization": 10.0,
+          "learning_rate": 0.05,
+          "loss": "squared_error",
+          "max_depth": 3,
+          "max_iter": 150,
+          "max_leaf_nodes": 7,
+          "min_samples_leaf": 200,
+          "random_state": 193
+        },
+        "thread_limit": 4
+      },
+      "one_variable": "Incremental feature group by arm M0 to M4; same algorithm, labels, common scoring keys, folds, and Top10 tie rule.",
+      "outputs": {
+        "checkpoint_key": [
+          "stage",
+          "fold",
+          "arm",
+          "horizon",
+          "attempt"
+        ],
+        "checkpoint_policy": "Atomic durable output per fold-arm-horizon; reuse only a completed checkpoint matching contract/input/code/config SHAs. A failed/dangling RUN_STARTED is never auto-retried; diagnose before a new attempt id.",
+        "diagnostics": [
+          "per-fold metrics",
+          "monthly/regime/industry metrics and sample counts",
+          "formula-trigger comparator",
+          "same-date same-N comparator",
+          "missing-label counts"
+        ],
+        "prediction_key": [
+          "signal_date",
+          "code",
+          "model_arm",
+          "horizon",
+          "fold",
+          "rank",
+          "prediction"
+        ],
+        "selected_returns": "Three actual close-return label columns per selected stock/date, with unknown values retained as null."
+      },
+      "prediction": "For each horizon independently, M4 minus M0 has positive overall date-equal mean Top10 return delta, positive paired fold delta in at least four of six folds, and no lower median daily Top10 return or selected-event P10.",
+      "registration": {
+        "append_path": "Reuse the existing lock/canonical builder/fsync adapter path; never rewrite or reorder earlier events.",
+        "events_per_actual_fit": [
+          "RUN_STARTED",
+          "TERMINAL"
+        ],
+        "registry": "local-evidence/factor_factory/contracts/EXPERIMENT_REGISTRY.jsonl",
+        "required": true,
+        "status": "No event appended in the pre-run review stage."
+      },
+      "rejection_condition": "For any horizon, any frozen primary acceptance gate fails, or a required source/field/calendar/eligibility binding is unresolved; no post-hoc feature, pool, fold, metric, threshold, or top-N changes.",
+      "resource_estimate": {
+        "fit_shape": "90 formal fits plus 6 staged canary fits; each formal fit uses at most the prior two-year feature-complete rows for one horizon/arm.",
+        "memory_and_duration": "CANNOT_CONFIRM before the approved canary; feature materialization is full-history and may dominate memory. Record actual duration and peak RSS at canary before full fits.",
+        "panel_rows": 6453109
+      },
+      "route_id": "a-share-model-selection-pv-environment-r1-20261019",
+      "schema_version": "A_SHARE_MODEL_SELECTION_PV_ENVIRONMENT_R1_CONTRACT_V1",
+      "security_flags": {
+        "buy_gate_updated": false,
+        "orders_sent": false,
+        "production_allowed": false,
+        "research_only": true
+      },
+      "signal_date_range": {
+        "end": "2026-10-15",
+        "source_status": "EXISTING_RECEIPT_METADATA_ONLY",
+        "start": "2021-05-06"
+      },
+      "status": "FROZEN_AWAITING_PRE_RUN_REVIEW",
+      "target_date_range": {
+        "end": "2026-10-15",
+        "source_status": "CANNOT_CONFIRM_UNTIL_MATURE_LABEL_BINDING",
+        "start": "2021-05-07"
+      },
+      "track_id": "A_SHARE_PANEL_MODEL_SELECTION_RESEARCH",
+      "universe": {
+        "basis": "Existing QFQ panel rows with common finite features across M0-M4; no formula trigger or future label filter",
+        "daily_candidate_pool": "Exact same date/code intersection with finite model features for every arm; Top10 is selected before future labels are joined",
+        "historical_all_a_completeness": "CANNOT_CONFIRM",
+        "historical_st_listing_tradestatus": "CANNOT_CONFIRM; no current-state substitute",
+        "industry_unknown": "Preserve as unknown; no inferred industry fill"
+      }
+    },
+    "exact_M4_acceptance": {
+      "h1": {
+        "breakthrough_verified": false,
+        "gates": {
+          "at_least_4_of_6_fold_mean_deltas_gt_zero": false,
+          "median_daily_top10_return_not_lower": false,
+          "overall_date_equal_mean_delta_gt_zero": false,
+          "selected_event_p10_not_lower": true
+        },
+        "m0_selected_event_p10": -0.06594709638187908,
+        "m4_selected_event_p10": -0.06383950257456522,
+        "median_daily_return_delta": -0.008932494392295364,
+        "overall_mean_daily_delta": -0.01026592189952908,
+        "paired_10_day_block_bootstrap": {
+          "block_days": 10,
+          "block_unit": "consecutive_dates_within_each_fold",
+          "ci_95_percentile": [
+            -0.013087345387809389,
+            -0.007992331215725434
+          ],
+          "folds": [
+            "2024H1",
+            "2024H2",
+            "2025H1",
+            "2025H2",
+            "2026H1",
+            "2026H2_PARTIAL_TO_2026_10_15"
+          ],
+          "replicates": 1000,
+          "seed": 193,
+          "statistic": "mean_paired_daily_top10_return_delta_M4_minus_M0",
+          "status": "AUXILIARY_ONLY",
+          "used_as_acceptance_gate": false
+        },
+        "passed": false,
+        "per_fold": {
+          "2024H1": {
+            "m0_mean": 0.02863010880064119,
+            "m4_mean": 0.018628417849198158,
+            "mean_delta": -0.010001690951443038,
+            "paired_complete_dates": 112,
+            "paired_exclusion_counts": {
+              "candidate_dates": 117,
+              "paired_complete_dates": 112,
+              "paired_excluded_dates": 5,
+              "paired_excluded_slots": 100,
+              "paired_excluded_slots_by_arm": {
+                "M0": 50,
+                "M4": 50
+              }
+            },
+            "partial_fold": false,
+            "per_arm_label_and_exclusion_counts": {
+              "M0": {
+                "complete_date_count": 114,
+                "date_count": 117,
+                "excluded_dates": 3,
+                "excluded_slots": 30,
+                "known_label_slots": 1167,
+                "selected_slots": 1170,
+                "unknown_label_slots": 3
+              },
+              "M4": {
+                "complete_date_count": 115,
+                "date_count": 117,
+                "excluded_dates": 2,
+                "excluded_slots": 20,
+                "known_label_slots": 1168,
+                "selected_slots": 1170,
+                "unknown_label_slots": 2
+              }
+            }
+          },
+          "2024H2": {
+            "m0_mean": 0.03614917673948796,
+            "m4_mean": 0.01735731209921782,
+            "mean_delta": -0.018791864640270134,
+            "paired_complete_dates": 123,
+            "paired_exclusion_counts": {
+              "candidate_dates": 125,
+              "paired_complete_dates": 123,
+              "paired_excluded_dates": 2,
+              "paired_excluded_slots": 40,
+              "paired_excluded_slots_by_arm": {
+                "M0": 20,
+                "M4": 20
+              }
+            },
+            "partial_fold": false,
+            "per_arm_label_and_exclusion_counts": {
+              "M0": {
+                "complete_date_count": 124,
+                "date_count": 125,
+                "excluded_dates": 1,
+                "excluded_slots": 10,
+                "known_label_slots": 1249,
+                "selected_slots": 1250,
+                "unknown_label_slots": 1
+              },
+              "M4": {
+                "complete_date_count": 124,
+                "date_count": 125,
+                "excluded_dates": 1,
+                "excluded_slots": 10,
+                "known_label_slots": 1249,
+                "selected_slots": 1250,
+                "unknown_label_slots": 1
+              }
+            }
+          },
+          "2025H1": {
+            "m0_mean": 0.028642872151992113,
+            "m4_mean": 0.013838289005133262,
+            "mean_delta": -0.01480458314685885,
+            "paired_complete_dates": 110,
+            "paired_exclusion_counts": {
+              "candidate_dates": 117,
+              "paired_complete_dates": 110,
+              "paired_excluded_dates": 7,
+              "paired_excluded_slots": 140,
+              "paired_excluded_slots_by_arm": {
+                "M0": 70,
+                "M4": 70
+              }
+            },
+            "partial_fold": false,
+            "per_arm_label_and_exclusion_counts": {
+              "M0": {
+                "complete_date_count": 112,
+                "date_count": 117,
+                "excluded_dates": 5,
+                "excluded_slots": 50,
+                "known_label_slots": 1165,
+                "selected_slots": 1170,
+                "unknown_label_slots": 5
+              },
+              "M4": {
+                "complete_date_count": 113,
+                "date_count": 117,
+                "excluded_dates": 4,
+                "excluded_slots": 40,
+                "known_label_slots": 1166,
+                "selected_slots": 1170,
+                "unknown_label_slots": 4
+              }
+            }
+          },
+          "2025H2": {
+            "m0_mean": 0.02026941771623143,
+            "m4_mean": 0.014415790916969245,
+            "mean_delta": -0.005853626799262189,
+            "paired_complete_dates": 119,
+            "paired_exclusion_counts": {
+              "candidate_dates": 126,
+              "paired_complete_dates": 119,
+              "paired_excluded_dates": 7,
+              "paired_excluded_slots": 140,
+              "paired_excluded_slots_by_arm": {
+                "M0": 70,
+                "M4": 70
+              }
+            },
+            "partial_fold": false,
+            "per_arm_label_and_exclusion_counts": {
+              "M0": {
+                "complete_date_count": 120,
+                "date_count": 126,
+                "excluded_dates": 6,
+                "excluded_slots": 60,
+                "known_label_slots": 1254,
+                "selected_slots": 1260,
+                "unknown_label_slots": 6
+              },
+              "M4": {
+                "complete_date_count": 124,
+                "date_count": 126,
+                "excluded_dates": 2,
+                "excluded_slots": 20,
+                "known_label_slots": 1258,
+                "selected_slots": 1260,
+                "unknown_label_slots": 2
+              }
+            }
+          },
+          "2026H1": {
+            "m0_mean": 0.01576733168311702,
+            "m4_mean": 0.011495685884043554,
+            "mean_delta": -0.0042716457990734655,
+            "paired_complete_dates": 107,
+            "paired_exclusion_counts": {
+              "candidate_dates": 116,
+              "paired_complete_dates": 107,
+              "paired_excluded_dates": 9,
+              "paired_excluded_slots": 180,
+              "paired_excluded_slots_by_arm": {
+                "M0": 90,
+                "M4": 90
+              }
+            },
+            "partial_fold": false,
+            "per_arm_label_and_exclusion_counts": {
+              "M0": {
+                "complete_date_count": 111,
+                "date_count": 116,
+                "excluded_dates": 5,
+                "excluded_slots": 50,
+                "known_label_slots": 1154,
+                "selected_slots": 1160,
+                "unknown_label_slots": 6
+              },
+              "M4": {
+                "complete_date_count": 109,
+                "date_count": 116,
+                "excluded_dates": 7,
+                "excluded_slots": 70,
+                "known_label_slots": 1151,
+                "selected_slots": 1160,
+                "unknown_label_slots": 9
+              }
+            }
+          },
+          "2026H2_PARTIAL_TO_2026_10_15": {
+            "m0_mean": 0.013923746631664952,
+            "m4_mean": 0.00883281250347818,
+            "mean_delta": -0.0050909341281867694,
+            "paired_complete_dates": 68,
+            "paired_exclusion_counts": {
+              "candidate_dates": 71,
+              "paired_complete_dates": 68,
+              "paired_excluded_dates": 3,
+              "paired_excluded_slots": 60,
+              "paired_excluded_slots_by_arm": {
+                "M0": 30,
+                "M4": 30
+              }
+            },
+            "partial_fold": true,
+            "per_arm_label_and_exclusion_counts": {
+              "M0": {
+                "complete_date_count": 69,
+                "date_count": 71,
+                "excluded_dates": 2,
+                "excluded_slots": 20,
+                "known_label_slots": 699,
+                "selected_slots": 710,
+                "unknown_label_slots": 11
+              },
+              "M4": {
+                "complete_date_count": 68,
+                "date_count": 71,
+                "excluded_dates": 3,
+                "excluded_slots": 30,
+                "known_label_slots": 698,
+                "selected_slots": 710,
+                "unknown_label_slots": 12
+              }
+            }
+          }
+        },
+        "positive_paired_folds": 0,
+        "sealed_forward": false,
+        "status": "DIRECTION_ONLY"
+      },
+      "h2": {
+        "breakthrough_verified": false,
+        "gates": {
+          "at_least_4_of_6_fold_mean_deltas_gt_zero": false,
+          "median_daily_top10_return_not_lower": false,
+          "overall_date_equal_mean_delta_gt_zero": false,
+          "selected_event_p10_not_lower": false
+        },
+        "m0_selected_event_p10": -0.07489977731410226,
+        "m4_selected_event_p10": -0.09112407566972368,
+        "median_daily_return_delta": -0.01158839338912554,
+        "overall_mean_daily_delta": -0.014857113307050281,
+        "paired_10_day_block_bootstrap": {
+          "block_days": 10,
+          "block_unit": "consecutive_dates_within_each_fold",
+          "ci_95_percentile": [
+            -0.01949918399172356,
+            -0.010833189478685815
+          ],
+          "folds": [
+            "2024H1",
+            "2024H2",
+            "2025H1",
+            "2025H2",
+            "2026H1",
+            "2026H2_PARTIAL_TO_2026_10_15"
+          ],
+          "replicates": 1000,
+          "seed": 193,
+          "statistic": "mean_paired_daily_top10_return_delta_M4_minus_M0",
+          "status": "AUXILIARY_ONLY",
+          "used_as_acceptance_gate": false
+        },
+        "passed": false,
+        "per_fold": {
+          "2024H1": {
+            "m0_mean": 0.031037803257140322,
+            "m4_mean": 0.011468015608179085,
+            "mean_delta": -0.019569787648961234,
+            "paired_complete_dates": 112,
+            "paired_exclusion_counts": {
+              "candidate_dates": 117,
+              "paired_complete_dates": 112,
+              "paired_excluded_dates": 5,
+              "paired_excluded_slots": 100,
+              "paired_excluded_slots_by_arm": {
+                "M0": 50,
+                "M4": 50
+              }
+            },
+            "partial_fold": false,
+            "per_arm_label_and_exclusion_counts": {
+              "M0": {
+                "complete_date_count": 114,
+                "date_count": 117,
+                "excluded_dates": 3,
+                "excluded_slots": 30,
+                "known_label_slots": 1167,
+                "selected_slots": 1170,
+                "unknown_label_slots": 3
+              },
+              "M4": {
+                "complete_date_count": 113,
+                "date_count": 117,
+                "excluded_dates": 4,
+                "excluded_slots": 40,
+                "known_label_slots": 1166,
+                "selected_slots": 1170,
+                "unknown_label_slots": 4
+              }
+            }
+          },
+          "2024H2": {
+            "m0_mean": 0.04556694799148829,
+            "m4_mean": 0.022425018189009945,
+            "mean_delta": -0.023141929802478346,
+            "paired_complete_dates": 120,
+            "paired_exclusion_counts": {
+              "candidate_dates": 125,
+              "paired_complete_dates": 120,
+              "paired_excluded_dates": 5,
+              "paired_excluded_slots": 100,
+              "paired_excluded_slots_by_arm": {
+                "M0": 50,
+                "M4": 50
+              }
+            },
+            "partial_fold": false,
+            "per_arm_label_and_exclusion_counts": {
+              "M0": {
+                "complete_date_count": 122,
+                "date_count": 125,
+                "excluded_dates": 3,
+                "excluded_slots": 30,
+                "known_label_slots": 1247,
+                "selected_slots": 1250,
+                "unknown_label_slots": 3
+              },
+              "M4": {
+                "complete_date_count": 122,
+                "date_count": 125,
+                "excluded_dates": 3,
+                "excluded_slots": 30,
+                "known_label_slots": 1247,
+                "selected_slots": 1250,
+                "unknown_label_slots": 3
+              }
+            }
+          },
+          "2025H1": {
+            "m0_mean": 0.027517054406606657,
+            "m4_mean": 0.016995119881651664,
+            "mean_delta": -0.01052193452495499,
+            "paired_complete_dates": 104,
+            "paired_exclusion_counts": {
+              "candidate_dates": 117,
+              "paired_complete_dates": 104,
+              "paired_excluded_dates": 13,
+              "paired_excluded_slots": 260,
+              "paired_excluded_slots_by_arm": {
+                "M0": 130,
+                "M4": 130
+              }
+            },
+            "partial_fold": false,
+            "per_arm_label_and_exclusion_counts": {
+              "M0": {
+                "complete_date_count": 110,
+                "date_count": 117,
+                "excluded_dates": 7,
+                "excluded_slots": 70,
+                "known_label_slots": 1163,
+                "selected_slots": 1170,
+                "unknown_label_slots": 7
+              },
+              "M4": {
+                "complete_date_count": 107,
+                "date_count": 117,
+                "excluded_dates": 10,
+                "excluded_slots": 100,
+                "known_label_slots": 1160,
+                "selected_slots": 1170,
+                "unknown_label_slots": 10
+              }
+            }
+          },
+          "2025H2": {
+            "m0_mean": 0.020904915237047655,
+            "m4_mean": 0.010207717263641166,
+            "mean_delta": -0.01069719797340649,
+            "paired_complete_dates": 112,
+            "paired_exclusion_counts": {
+              "candidate_dates": 126,
+              "paired_complete_dates": 112,
+              "paired_excluded_dates": 14,
+              "paired_excluded_slots": 280,
+              "paired_excluded_slots_by_arm": {
+                "M0": 140,
+                "M4": 140
+              }
+            },
+            "partial_fold": false,
+            "per_arm_label_and_exclusion_counts": {
+              "M0": {
+                "complete_date_count": 115,
+                "date_count": 126,
+                "excluded_dates": 11,
+                "excluded_slots": 110,
+                "known_label_slots": 1248,
+                "selected_slots": 1260,
+                "unknown_label_slots": 12
+              },
+              "M4": {
+                "complete_date_count": 121,
+                "date_count": 126,
+                "excluded_dates": 5,
+                "excluded_slots": 50,
+                "known_label_slots": 1255,
+                "selected_slots": 1260,
+                "unknown_label_slots": 5
+              }
+            }
+          },
+          "2026H1": {
+            "m0_mean": 0.012463861326770126,
+            "m4_mean": -0.0003221056128761665,
+            "mean_delta": -0.012785966939646294,
+            "paired_complete_dates": 103,
+            "paired_exclusion_counts": {
+              "candidate_dates": 116,
+              "paired_complete_dates": 103,
+              "paired_excluded_dates": 13,
+              "paired_excluded_slots": 260,
+              "paired_excluded_slots_by_arm": {
+                "M0": 130,
+                "M4": 130
+              }
+            },
+            "partial_fold": false,
+            "per_arm_label_and_exclusion_counts": {
+              "M0": {
+                "complete_date_count": 108,
+                "date_count": 116,
+                "excluded_dates": 8,
+                "excluded_slots": 80,
+                "known_label_slots": 1152,
+                "selected_slots": 1160,
+                "unknown_label_slots": 8
+              },
+              "M4": {
+                "complete_date_count": 106,
+                "date_count": 116,
+                "excluded_dates": 10,
+                "excluded_slots": 100,
+                "known_label_slots": 1146,
+                "selected_slots": 1160,
+                "unknown_label_slots": 14
+              }
+            }
+          },
+          "2026H2_PARTIAL_TO_2026_10_15": {
+            "m0_mean": 0.008947931154950508,
+            "m4_mean": 0.0002142603353497514,
+            "mean_delta": -0.008733670819600758,
+            "paired_complete_dates": 64,
+            "paired_exclusion_counts": {
+              "candidate_dates": 71,
+              "paired_complete_dates": 64,
+              "paired_excluded_dates": 7,
+              "paired_excluded_slots": 140,
+              "paired_excluded_slots_by_arm": {
+                "M0": 70,
+                "M4": 70
+              }
+            },
+            "partial_fold": true,
+            "per_arm_label_and_exclusion_counts": {
+              "M0": {
+                "complete_date_count": 69,
+                "date_count": 71,
+                "excluded_dates": 2,
+                "excluded_slots": 20,
+                "known_label_slots": 690,
+                "selected_slots": 710,
+                "unknown_label_slots": 20
+              },
+              "M4": {
+                "complete_date_count": 64,
+                "date_count": 71,
+                "excluded_dates": 7,
+                "excluded_slots": 70,
+                "known_label_slots": 685,
+                "selected_slots": 710,
+                "unknown_label_slots": 25
+              }
+            }
+          }
+        },
+        "positive_paired_folds": 0,
+        "sealed_forward": false,
+        "status": "DIRECTION_ONLY"
+      },
+      "h5": {
+        "breakthrough_verified": false,
+        "gates": {
+          "at_least_4_of_6_fold_mean_deltas_gt_zero": false,
+          "median_daily_top10_return_not_lower": false,
+          "overall_date_equal_mean_delta_gt_zero": false,
+          "selected_event_p10_not_lower": true
+        },
+        "m0_selected_event_p10": -0.11643296288694052,
+        "m4_selected_event_p10": -0.10858924479504013,
+        "median_daily_return_delta": -0.006351942505093179,
+        "overall_mean_daily_delta": -0.008581551501522303,
+        "paired_10_day_block_bootstrap": {
+          "block_days": 10,
+          "block_unit": "consecutive_dates_within_each_fold",
+          "ci_95_percentile": [
+            -0.013589259216448447,
+            -0.0025271358389067668
+          ],
+          "folds": [
+            "2024H1",
+            "2024H2",
+            "2025H1",
+            "2025H2",
+            "2026H1",
+            "2026H2_PARTIAL_TO_2026_10_15"
+          ],
+          "replicates": 1000,
+          "seed": 193,
+          "statistic": "mean_paired_daily_top10_return_delta_M4_minus_M0",
+          "status": "AUXILIARY_ONLY",
+          "used_as_acceptance_gate": false
+        },
+        "passed": false,
+        "per_fold": {
+          "2024H1": {
+            "m0_mean": 0.010148150977449887,
+            "m4_mean": -0.0020539208706641583,
+            "mean_delta": -0.01220207184811405,
+            "paired_complete_dates": 115,
+            "paired_exclusion_counts": {
+              "candidate_dates": 117,
+              "paired_complete_dates": 115,
+              "paired_excluded_dates": 2,
+              "paired_excluded_slots": 40,
+              "paired_excluded_slots_by_arm": {
+                "M0": 20,
+                "M4": 20
+              }
+            },
+            "partial_fold": false,
+            "per_arm_label_and_exclusion_counts": {
+              "M0": {
+                "complete_date_count": 116,
+                "date_count": 117,
+                "excluded_dates": 1,
+                "excluded_slots": 10,
+                "known_label_slots": 1167,
+                "selected_slots": 1170,
+                "unknown_label_slots": 3
+              },
+              "M4": {
+                "complete_date_count": 116,
+                "date_count": 117,
+                "excluded_dates": 1,
+                "excluded_slots": 10,
+                "known_label_slots": 1169,
+                "selected_slots": 1170,
+                "unknown_label_slots": 1
+              }
+            }
+          },
+          "2024H2": {
+            "m0_mean": 0.021009881738354358,
+            "m4_mean": 0.015242039503492837,
+            "mean_delta": -0.005767842234861522,
+            "paired_complete_dates": 123,
+            "paired_exclusion_counts": {
+              "candidate_dates": 125,
+              "paired_complete_dates": 123,
+              "paired_excluded_dates": 2,
+              "paired_excluded_slots": 40,
+              "paired_excluded_slots_by_arm": {
+                "M0": 20,
+                "M4": 20
+              }
+            },
+            "partial_fold": false,
+            "per_arm_label_and_exclusion_counts": {
+              "M0": {
+                "complete_date_count": 123,
+                "date_count": 125,
+                "excluded_dates": 2,
+                "excluded_slots": 20,
+                "known_label_slots": 1248,
+                "selected_slots": 1250,
+                "unknown_label_slots": 2
+              },
+              "M4": {
+                "complete_date_count": 125,
+                "date_count": 125,
+                "excluded_dates": 0,
+                "excluded_slots": 0,
+                "known_label_slots": 1250,
+                "selected_slots": 1250,
+                "unknown_label_slots": 0
+              }
+            }
+          },
+          "2025H1": {
+            "m0_mean": 0.015392770005912017,
+            "m4_mean": 0.016174654885553433,
+            "mean_delta": 0.0007818848796414177,
+            "paired_complete_dates": 104,
+            "paired_exclusion_counts": {
+              "candidate_dates": 117,
+              "paired_complete_dates": 104,
+              "paired_excluded_dates": 13,
+              "paired_excluded_slots": 260,
+              "paired_excluded_slots_by_arm": {
+                "M0": 130,
+                "M4": 130
+              }
+            },
+            "partial_fold": false,
+            "per_arm_label_and_exclusion_counts": {
+              "M0": {
+                "complete_date_count": 111,
+                "date_count": 117,
+                "excluded_dates": 6,
+                "excluded_slots": 60,
+                "known_label_slots": 1164,
+                "selected_slots": 1170,
+                "unknown_label_slots": 6
+              },
+              "M4": {
+                "complete_date_count": 104,
+                "date_count": 117,
+                "excluded_dates": 13,
+                "excluded_slots": 130,
+                "known_label_slots": 1156,
+                "selected_slots": 1170,
+                "unknown_label_slots": 14
+              }
+            }
+          },
+          "2025H2": {
+            "m0_mean": 0.019661465562745995,
+            "m4_mean": 0.007771331447306677,
+            "mean_delta": -0.01189013411543932,
+            "paired_complete_dates": 113,
+            "paired_exclusion_counts": {
+              "candidate_dates": 126,
+              "paired_complete_dates": 113,
+              "paired_excluded_dates": 13,
+              "paired_excluded_slots": 260,
+              "paired_excluded_slots_by_arm": {
+                "M0": 130,
+                "M4": 130
+              }
+            },
+            "partial_fold": false,
+            "per_arm_label_and_exclusion_counts": {
+              "M0": {
+                "complete_date_count": 115,
+                "date_count": 126,
+                "excluded_dates": 11,
+                "excluded_slots": 110,
+                "known_label_slots": 1246,
+                "selected_slots": 1260,
+                "unknown_label_slots": 14
+              },
+              "M4": {
+                "complete_date_count": 124,
+                "date_count": 126,
+                "excluded_dates": 2,
+                "excluded_slots": 20,
+                "known_label_slots": 1258,
+                "selected_slots": 1260,
+                "unknown_label_slots": 2
+              }
+            }
+          },
+          "2026H1": {
+            "m0_mean": -0.0012162623068039007,
+            "m4_mean": -0.004381698014396203,
+            "mean_delta": -0.0031654357075922993,
+            "paired_complete_dates": 104,
+            "paired_exclusion_counts": {
+              "candidate_dates": 116,
+              "paired_complete_dates": 104,
+              "paired_excluded_dates": 12,
+              "paired_excluded_slots": 240,
+              "paired_excluded_slots_by_arm": {
+                "M0": 120,
+                "M4": 120
+              }
+            },
+            "partial_fold": false,
+            "per_arm_label_and_exclusion_counts": {
+              "M0": {
+                "complete_date_count": 106,
+                "date_count": 116,
+                "excluded_dates": 10,
+                "excluded_slots": 100,
+                "known_label_slots": 1147,
+                "selected_slots": 1160,
+                "unknown_label_slots": 13
+              },
+              "M4": {
+                "complete_date_count": 110,
+                "date_count": 116,
+                "excluded_dates": 6,
+                "excluded_slots": 60,
+                "known_label_slots": 1149,
+                "selected_slots": 1160,
+                "unknown_label_slots": 11
+              }
+            }
+          },
+          "2026H2_PARTIAL_TO_2026_10_15": {
+            "m0_mean": -0.007697989356030109,
+            "m4_mean": -0.036150995235340586,
+            "mean_delta": -0.02845300587931048,
+            "paired_complete_dates": 55,
+            "paired_exclusion_counts": {
+              "candidate_dates": 71,
+              "paired_complete_dates": 55,
+              "paired_excluded_dates": 16,
+              "paired_excluded_slots": 320,
+              "paired_excluded_slots_by_arm": {
+                "M0": 160,
+                "M4": 160
+              }
+            },
+            "partial_fold": true,
+            "per_arm_label_and_exclusion_counts": {
+              "M0": {
+                "complete_date_count": 56,
+                "date_count": 71,
+                "excluded_dates": 15,
+                "excluded_slots": 150,
+                "known_label_slots": 650,
+                "selected_slots": 710,
+                "unknown_label_slots": 60
+              },
+              "M4": {
+                "complete_date_count": 64,
+                "date_count": 71,
+                "excluded_dates": 7,
+                "excluded_slots": 70,
+                "known_label_slots": 658,
+                "selected_slots": 710,
+                "unknown_label_slots": 52
+              }
+            }
+          }
+        },
+        "positive_paired_folds": 1,
+        "sealed_forward": false,
+        "status": "DIRECTION_ONLY"
+      }
+    },
+    "final_metrics_review": {
+      "artifacts": {
+        "contract_sha256": "00ee5563e5feef7a5012650c7f8a6e57b6ce7a386a902f5d6fe7082179da85d5",
+        "metrics_sha256": "43e12155d97aa141e2ce54b5cb6e6e3f06bca491d7d01008c783fe440bda67b0",
+        "output_manifest_sha256": "0ae28a40448a6a0c11e075581021ecc3a6944b3f9232d6c3336af4dc21a0dce8",
+        "selected_returns_sha256": "57a9c604d5b6bc354c3c2637f3e361daee6a41315b045496d5458350c5b8874c",
+        "selection_summary_sha256": "83a4d0035627b86317bba92b5bed4f5b6bb297e0bfe0ea8d6f7ad4eaadf6b3a0"
+      },
+      "audit": {
+        "artifact_hashes_match": true,
+        "checkpoint_deserialization_repeated": false,
+        "m4_deltas_fold_counts_medians_p10_and_flags_match": true,
+        "method": "Reviewed existing selected_returns.csv against summary and metrics; matching model and outcome horizon, complete ten-known-label dates, paired by fold and date",
+        "numeric_tolerance": 1e-12,
+        "rank_or_count_errors": 0,
+        "refit_performed": false,
+        "summary_counts_and_means_match": true
+      },
+      "evidence_ceiling": "DIRECTION_ONLY",
+      "frozen_acceptance": {
+        "applies_to": "M4 versus M0 only",
+        "h1_passed": false,
+        "h2_passed": false,
+        "h5_passed": false,
+        "m1_m2_m3": "EXPLORATORY_ONLY_NOT_PREFROZEN_ACCEPTANCE",
+        "p10_subgate_passed": {
+          "h1": true,
+          "h2": false,
+          "h5": true
+        }
+      },
+      "full_date_counts": {
+        "M0": [
+          650,
+          638,
+          627
+        ],
+        "M1": [
+          645,
+          621,
+          645
+        ],
+        "M2": [
+          645,
+          617,
+          645
+        ],
+        "M3": [
+          643,
+          633,
+          650
+        ],
+        "M4": [
+          653,
+          633,
+          643
+        ]
+      },
+      "horizon_order": [
+        1,
+        2,
+        5
+      ],
+      "limitations": [
+        "Gross close-to-close adjusted-price outcomes; no costs, position sizing, capital or execution model",
+        "Exposed history, no sealed-forward validation",
+        "Each arm full-date mean uses its own valid dates; causal comparison uses paired complete dates",
+        "Retrospective current-industry classification is not proven historical PIT",
+        "Exact old candidate-pool identity, historical all-A listing/trading eligibility, official CSI300 source identity and exchange-calendar parity are not independently established by these final artifacts",
+        "Formula comparisons are diagnostics, not the M0 acceptance baseline; V193 comparator had zero selected slots"
+      ],
+      "matching_horizon_full_date_means_percent": {
+        "M0": [
+          2.454,
+          2.6207,
+          1.1273
+        ],
+        "M1": [
+          2.2028,
+          1.9709,
+          0.9077
+        ],
+        "M2": [
+          1.9856,
+          1.9905,
+          0.6696
+        ],
+        "M3": [
+          1.8288,
+          1.8176,
+          0.6197
+        ],
+        "M4": [
+          1.4459,
+          1.1069,
+          0.3495
+        ]
+      },
+      "paired_date_counts": {
+        "M1": [
+          635,
+          610,
+          618
+        ],
+        "M2": [
+          636,
+          608,
+          615
+        ],
+        "M3": [
+          632,
+          616,
+          620
+        ],
+        "M4": [
+          639,
+          615,
+          614
+        ]
+      },
+      "paired_mean_deltas_percentage_points": {
+        "M1": [
+          -0.2581,
+          -0.683,
+          -0.2754
+        ],
+        "M2": [
+          -0.4786,
+          -0.6372,
+          -0.5181
+        ],
+        "M3": [
+          -0.6343,
+          -0.7754,
+          -0.5276
+        ],
+        "M4": [
+          -1.0266,
+          -1.4857,
+          -0.8582
+        ]
+      },
+      "positive_paired_folds": {
+        "M1": [
+          2,
+          2,
+          2
+        ],
+        "M2": [
+          3,
+          1,
+          1
+        ],
+        "M3": [
+          2,
+          1,
+          2
+        ],
+        "M4": [
+          0,
+          0,
+          1
+        ]
+      },
+      "recorded_by": "/root",
+      "research_decision": "M4_GATE_FAILED",
+      "reviewer": "/root/pv_final_metrics_review",
+      "safety_flags": {
+        "buy_gate_updated": false,
+        "orders_sent": false,
+        "production_allowed": false,
+        "research_only": true
+      },
+      "schema_version": "PV_FORMAL_METRICS_REVIEW_V1",
+      "signal_date_range": {
+        "end": "2026-10-15",
+        "fold_count": 6,
+        "last_fold_partial": true,
+        "start": "2024-01-02"
+      },
+      "table_rounding": "Return percentages and percentage-point differences rounded to four decimal places; exact M4 metrics remain in the frozen machine artifact",
+      "verdict": "METRICS_CONSISTENT"
+    },
+    "formal_stage_manifest_metadata": {
+      "M0": {
+        "attempt": "attempt_01",
+        "contract_sha256": "00ee5563e5feef7a5012650c7f8a6e57b6ce7a386a902f5d6fe7082179da85d5",
+        "fit_calls": 18,
+        "input_binding_sha256": "fc9502686be0527840f409636c5aa3a42a21c70a52d593a1429375ccf8706e1c",
+        "schema_version": "A_SHARE_MODEL_SELECTION_OUTPUT_MANIFEST_V1",
+        "security_flags": {
+          "buy_gate_updated": false,
+          "orders_sent": false,
+          "production_allowed": false,
+          "research_only": true
+        },
+        "stage": "M0_FORMAL",
+        "status": "DIRECTION_ONLY"
+      },
+      "M1_M4": {
+        "attempt": "attempt_01",
+        "contract_sha256": "00ee5563e5feef7a5012650c7f8a6e57b6ce7a386a902f5d6fe7082179da85d5",
+        "fit_calls": 72,
+        "input_binding_sha256": "fc9502686be0527840f409636c5aa3a42a21c70a52d593a1429375ccf8706e1c",
+        "schema_version": "A_SHARE_MODEL_SELECTION_OUTPUT_MANIFEST_V1",
+        "security_flags": {
+          "buy_gate_updated": false,
+          "orders_sent": false,
+          "production_allowed": false,
+          "research_only": true
+        },
+        "stage": "INDEXED_FORMAL",
+        "status": "DIRECTION_ONLY"
+      }
+    },
+    "input_binding_selected_metadata": {
+      "limitations": [
+        "2021-08-02 observed panel expansion starts inside feature warmup; first formal train begins 2022, but historical all-A coverage is not certified.",
+        "Official exchange-calendar identity/parity is CANNOT_CONFIRM; shared date member is a bound date index only.",
+        "Official 000300 index time series is absent; M1 and dependent nested arms cannot execute without this exact frozen dependency.",
+        "Industry input is current retrospective classification, not historical PIT; keep exposure status explicit.",
+        "The final five close labels at the panel tail are unknown, not zero and not a reason to shorten the frozen signal window."
+      ],
+      "readiness_by_arm": {
+        "M0": {
+          "inputs": [
+            "price_panel",
+            "trading_date_index",
+            "v192_formula",
+            "v193_formula"
+          ],
+          "status": "READY_WITH_SCOPE_LIMITATIONS",
+          "uses_index_series": false,
+          "uses_v193_trigger": false
+        },
+        "M1": {
+          "inputs": [
+            "price_panel",
+            "trading_date_index",
+            "v192_formula",
+            "v193_formula",
+            "index_series"
+          ],
+          "scope_limitations": [
+            "FUTU_RECOVERED_REPLACEMENT; ORIGINAL_TDX_FILE_IDENTITY_CANNOT_CONFIRM",
+            "OFFICIAL_EXCHANGE_CALENDAR_IDENTITY_AND_PARITY_CANNOT_CONFIRM"
+          ],
+          "status": "READY_AFTER_INDEX_BINDING",
+          "uses_index_series": true,
+          "uses_v193_trigger": true
+        },
+        "M2": {
+          "inputs": [
+            "price_panel",
+            "trading_date_index",
+            "v192_formula",
+            "v193_formula",
+            "index_series"
+          ],
+          "scope_limitations": [
+            "FUTU_RECOVERED_REPLACEMENT; ORIGINAL_TDX_FILE_IDENTITY_CANNOT_CONFIRM",
+            "OFFICIAL_EXCHANGE_CALENDAR_IDENTITY_AND_PARITY_CANNOT_CONFIRM"
+          ],
+          "status": "READY_AFTER_INDEX_BINDING",
+          "uses_index_series": true,
+          "uses_v193_trigger": true
+        },
+        "M3": {
+          "inputs": [
+            "price_panel",
+            "trading_date_index",
+            "v192_formula",
+            "v193_formula",
+            "index_series"
+          ],
+          "scope_limitations": [
+            "FUTU_RECOVERED_REPLACEMENT; ORIGINAL_TDX_FILE_IDENTITY_CANNOT_CONFIRM",
+            "OFFICIAL_EXCHANGE_CALENDAR_IDENTITY_AND_PARITY_CANNOT_CONFIRM"
+          ],
+          "status": "READY_AFTER_INDEX_BINDING",
+          "uses_index_series": true,
+          "uses_v193_trigger": true
+        },
+        "M4": {
+          "inputs": [
+            "price_panel",
+            "trading_date_index",
+            "v192_formula",
+            "v193_formula",
+            "index_series"
+          ],
+          "scope_limitations": [
+            "FUTU_RECOVERED_REPLACEMENT; ORIGINAL_TDX_FILE_IDENTITY_CANNOT_CONFIRM",
+            "OFFICIAL_EXCHANGE_CALENDAR_IDENTITY_AND_PARITY_CANNOT_CONFIRM"
+          ],
+          "status": "READY_AFTER_INDEX_BINDING",
+          "uses_index_series": true,
+          "uses_v193_trigger": true
+        }
+      },
+      "schema_version": "A_SHARE_MODEL_SELECTION_INPUT_BINDING_R2",
+      "security_flags": {
+        "buy_gate_updated": false,
+        "orders_sent": false,
+        "production_allowed": false,
+        "research_only": true
+      },
+      "sources": {
+        "eligibility_and_coverage": {
+          "status": "CANNOT_CONFIRM_HISTORICAL_FULL_A_ELIGIBILITY"
+        },
+        "index_series": {
+          "column_map": {
+            "close": "close",
+            "code": "code",
+            "date": "date"
+          },
+          "date_range": [
+            "2021-01-04",
+            "2026-10-15"
+          ],
+          "index_code": "SH.000300",
+          "official_exchange_calendar_parity": "CANNOT_CONFIRM",
+          "path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/pv_environment_r1_20261019/index_recovery_futu/FUTU_000300_HISTORY_FULL_20261019_R1/index_000300_daily.csv",
+          "row_count": 1399,
+          "sha256": "ed55aaab1691999863461e38482fb66cc7bc0c4da85c0fed2556f0925eadaa70",
+          "source_columns": [
+            "date",
+            "code",
+            "close"
+          ],
+          "source_identity_status": "FUTU_RECOVERED_REPLACEMENT; ORIGINAL_TDX_FILE_IDENTITY_CANNOT_CONFIRM",
+          "status": "BOUND"
+        },
+        "industry_classification": {
+          "status": "BOUND_RETROSPECTIVE_ONLY"
+        },
+        "price_panel": {
+          "column_map": {
+            "amount": "amount",
+            "close": "close",
+            "code": "ts_code",
+            "date": "trade_date",
+            "high": "high",
+            "low": "low",
+            "open": "open",
+            "volume": "vol"
+          },
+          "distinct_codes": 5576,
+          "path": "local-evidence/factor_factory/research/a_v192_signal_pool_return_stability_v1/derived_inputs/qfq_market_20261015.parquet",
+          "rows": 6453109,
+          "sha256": "c30f847cb0929a398ccfe93b4bc29e910a52e0052fff2c29cbf4bf789cd56c07",
+          "status": "BOUND"
+        },
+        "trading_date_index": {
+          "date_range": [
+            "2021-05-06",
+            "2026-10-16"
+          ],
+          "rows": 1321,
+          "status": "BOUND_SHARED_CALENDAR_WITH_OFFICIAL_PARITY_CANNOT_CONFIRM"
+        }
+      },
+      "status": "INPUT_BINDING_READY_PARTIAL",
+      "unresolved_by_arm": {
+        "M0": [],
+        "M1": [
+          "original_official_tdx_index_file_identity_cannot_confirm",
+          "official_exchange_calendar_identity_and_parity_cannot_confirm"
+        ],
+        "M2": [
+          "original_official_tdx_index_file_identity_cannot_confirm",
+          "official_exchange_calendar_identity_and_parity_cannot_confirm"
+        ],
+        "M3": [
+          "original_official_tdx_index_file_identity_cannot_confirm",
+          "official_exchange_calendar_identity_and_parity_cannot_confirm"
+        ],
+        "M4": [
+          "original_official_tdx_index_file_identity_cannot_confirm",
+          "official_exchange_calendar_identity_and_parity_cannot_confirm"
+        ]
+      }
+    },
+    "source_constants": {
+      "CORE_FEATURES": [
+        "DISTW",
+        "DISTB",
+        "C",
+        "YEL0",
+        "LCOUNT",
+        "HIST0",
+        "AMTR",
+        "VOLR",
+        "VMA20R",
+        "VSPHHV",
+        "FCOUNT",
+        "SFCOUNT",
+        "RET20P",
+        "GAIN60",
+        "RANGE60",
+        "RANGE120",
+        "JVAL",
+        "BKRSI",
+        "CPOS",
+        "UPSH",
+        "WASHSCR",
+        "B1PRE",
+        "BKEXIST",
+        "FRESH",
+        "CONT0",
+        "B1SIG",
+        "B2SIG",
+        "B3SIG",
+        "BREAKOUT",
+        "BKRES",
+        "RTETYPE",
+        "RISK0",
+        "HEALTH",
+        "LOWEXT",
+        "KQUAL",
+        "LIQSTD"
+      ],
+      "FORMAL_FOLDS": [
+        [
+          "2024H1",
+          "2024-01-01",
+          "2024-06-30",
+          false
+        ],
+        [
+          "2024H2",
+          "2024-07-01",
+          "2024-12-31",
+          false
+        ],
+        [
+          "2025H1",
+          "2025-01-01",
+          "2025-06-30",
+          false
+        ],
+        [
+          "2025H2",
+          "2025-07-01",
+          "2025-12-31",
+          false
+        ],
+        [
+          "2026H1",
+          "2026-01-01",
+          "2026-06-30",
+          false
+        ],
+        [
+          "2026H2_PARTIAL_TO_2026_10_15",
+          "2026-07-01",
+          "2026-10-15",
+          true
+        ]
+      ],
+      "MODEL_PARAMS": {
+        "early_stopping": false,
+        "l2_regularization": 10.0,
+        "learning_rate": 0.05,
+        "loss": "squared_error",
+        "max_depth": 3,
+        "max_iter": 150,
+        "max_leaf_nodes": 7,
+        "min_samples_leaf": 200,
+        "random_state": 193
+      }
+    },
+    "source_reading_scope": "Constants extracted as literals; feature/split descriptions read from already-public frozen M0 Python copy. It is not a new proof of original fit-time code/data provenance."
+  },
+  "S1": {
+    "config_omission": "canary lexical code list omitted; original CONFIG SHA in provenance",
+    "config_selected": {
+      "baseline_fits_reused": 6,
+      "bootstrap": {
+        "block_sessions": 20,
+        "ci": [
+          0.025,
+          0.975
+        ],
+        "methodology": "moving noncircular 20 consecutive observed-session blocks, never cross fold or missing paired-date gaps; paired arm resampling; draw ceil(N/20) blocks and truncate to N",
+        "replicates": 2000,
+        "seed": 19320261020
+      },
+      "buy_gate_updated": false,
+      "canary_fits": 2,
+      "canary_test_dates": 20,
+      "canary_train_dates": 80,
+      "diagnostic_horizons": [
+        1,
+        5
+      ],
+      "diagnostic_selection": "SAME_H2_TOP10_LISTS",
+      "evaluation_dates": "only dates with all ten h2 selected outcomes finite in BOTH arms; disclose excluded pairs; never change scoring pool",
+      "formal_fits": 6,
+      "gate_folds": [
+        "2024H1",
+        "2024H2",
+        "2025H1",
+        "2025H2",
+        "2026H1"
+      ],
+      "kappa": 100,
+      "max_rss_bytes": 85899345920,
+      "min_available_bytes": 8589934592,
+      "missing_values": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "model_params": {
+        "early_stopping": false,
+        "l2_regularization": 10.0,
+        "learning_rate": 0.05,
+        "loss": "squared_error",
+        "max_depth": 3,
+        "max_iter": 150,
+        "max_leaf_nodes": 7,
+        "min_samples_leaf": 200,
+        "random_state": 193
+      },
+      "month_anchor": "shared calendar_index(D)+1; asof cutoff remains D.year even on December/January boundary",
+      "orders_sent": false,
+      "partial_diagnostic_only": "2026H2_PARTIAL_TO_2026_10_15",
+      "primary_horizon": 2,
+      "prior_columns": [
+        "industry_month_log_relative_lift",
+        "industry_month_support",
+        "industry_month_support_years",
+        "industry_month_missing"
+      ],
+      "prior_window": "2006 <= year < signal_date.year; complete prior calendar years only",
+      "production_allowed": false,
+      "research_only": true,
+      "selection": "daily Top10 stable descending score / ascending canonical code tie break; no refill",
+      "threads": 4,
+      "train_window": "prior_2_calendar_years",
+      "training_weight": "equal_date_normalized_mean_1"
+    },
+    "contract_historical_freeze": {
+      "ALLOWED_PATHS": [
+        "local-evidence/factor_factory/workspace/.task_worktrees/s1-industry-month-20261020/research/a_share_model_selection_v1",
+        "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/s1_industry_month_prior_20261020",
+        "root registry locked append + local summary/index S1 metadata"
+      ],
+      "BASELINE_ID": "PV_ENVIRONMENT_R1_M0_FORMAL_EXACT_4THREAD",
+      "CODE_SHA": "a77659e75670e49fadace4787fc006808adf5ec9d0f9eb965d894c40a21541ed",
+      "CONFIG_SHA": "0c54479d857ef853983f81367c562420c62e94e22f3bc75b764b25f9f5277511",
+      "FORBIDDEN_PATHS": [
+        "old M0/M4 code/output",
+        "20y original stats/panels/source data",
+        "S2",
+        "other routes",
+        "legacy V3",
+        "V4/services/schedules",
+        "production/BUY/orders"
+      ],
+      "GOAL": "S1 only: test whether four asof industry-month prior columns improve frozen M0 daily Top10 on historical development folds",
+      "HYPOTHESIS": "Prior industry-month relative lift may add information beyond M0 price-volume core",
+      "INPUT_PATHS": [
+        "local-evidence/factor_factory/research/a_share_top100_environment_v1/batches/hsjday_20y_20261019/historical_descriptive_04/FULL_01/MAIN_INDUSTRY_YEAR.csv",
+        "local-evidence/factor_factory/research/a_share_top100_environment_v1/batches/hsjday_20y_20261019/historical_descriptive_04/FULL_01/MAIN_MONTH_YEAR.csv",
+        "local-evidence/factor_factory/research/a_share_top100_environment_v1/batches/hsjday_20y_20261019/industry_finalize_02/outputs/INDUSTRY_ROSTER.csv",
+        "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/pv_environment_r1_20261019/INPUT_BINDING_R2.json"
+      ],
+      "INPUT_SHA256": "837432f921634999709cc96caa1338d1236365c0fe0e28cd5884055788af407a",
+      "METRICS": [
+        "primary h2 equal-date mean daily Top10 gross close(T+2)/close(T)-1",
+        "median of daily Top10 h2 means",
+        "selected event h2 return P10",
+        "same paired dates block-bootstrap differences",
+        "diagnostic h1/h5 same h2 lists, partial fold, volatility/amount/industry HHI/swaps"
+      ],
+      "ONE_VARIABLE": "Append exactly [log(L_im/L_i),E_im/(E_im+100),count(prior years E_im>0),missing_flag] to M0; no other input/label/pool/model change",
+      "PASS_THRESHOLD": {
+        "daily_median_delta_min": 0,
+        "event_p10_delta_min": 0,
+        "gate_folds": [
+          "2024H1",
+          "2024H2",
+          "2025H1",
+          "2025H2",
+          "2026H1"
+        ],
+        "mean_delta_block95_lower_strictly_above": 0,
+        "mean_delta_min": 0.001,
+        "partial_fold_votes": false,
+        "positive_complete_folds_min": 4
+      },
+      "PREDICTION": "h2 paired mean delta >=0.001 and 95pct block-bootstrap LCB >0 plus frozen robustness gates",
+      "PRIOR": {
+        "L_i": "(sum(H_i)+100)/(sum(E_i)+100)",
+        "L_im": "(sum(H_im)+100*L_i)/(sum(E_im)+100)",
+        "cutoff": "for each row D, use complete years 2006 <= year < year(D)",
+        "industry_join": "exact code -> roster industry_key; CAPCO/TDX/CSRC2012/UNKNOWN namespaces kept separate",
+        "kappa": 100,
+        "missing": "UNKNOWN/unmapped/zero cell support => [0,0,0,1]; retain every old candidate key",
+        "month": "D+1 shared observed calendar month"
+      },
+      "REJECTION_CONDITION": "Any composite gate false => S1_DEVELOPMENT_GATE_FAILED; do not retune kappa/direction/model/windows/thresholds",
+      "REVIEWER": "/root/s1_independent_review",
+      "SEALED_DATA": "NONE; exposed history DIRECTION_ONLY, even a development PASS is not BREAKTHROUGH_VERIFIED",
+      "SIGNAL_DATE_RANGE": {
+        "end": "2026-10-15",
+        "start": "2021-05-06"
+      },
+      "STOP_RULE": "identity/key/parity/namespace/asof conflict => evidence and stop; any resource over budget => report; no formal until independent CANARY_IMPLEMENTATION_PASS; no S2",
+      "TARGET_DATE_RANGE": {
+        "end": "2026-10-15",
+        "start": "2021-05-07",
+        "tail": "unknown target outcomes retained null; no scoring-key truncation"
+      },
+      "WRITER": "/root/s1_prior_writer",
+      "buy_gate_updated": false,
+      "canary_scope": "40 predetermined lexical SZ code identifiers, available observed rows/full histories, 80 past training sessions/20 prediction sessions, one fold H2 M0+S1; cannot certify full-pool parity",
+      "formal_precondition": "Exact all-six-fold old M0 data_identity parity before ANY formal S1 fit. Reuse original M0 joblibs only; 6 S1 h2 fits.",
+      "implementation_revision": 4,
+      "orders_sent": false,
+      "pass_signal": "independent Reviewer verifies frozen implementation/canary, then actual formal S1-vs-M0 metrics and one-variable/asof boundaries",
+      "production_allowed": false,
+      "registration": "contract only until RUN_STARTED; all tests/preparation/canary/fits/evaluation/review registered",
+      "research_only": true,
+      "revision_reason": "Before formal review: constrain total fits to 2 canary + 6 formal and formal execution S1_FORMAL_01, verify old metadata SHA, recover only registered successful checkpoints; no mechanism/input/threshold change. CANARY_03 implementation still valid for unchanged data transforms and fit behavior.",
+      "status": "FROZEN"
+    },
+    "final_handoff_selected": {
+      "cannot_confirm": [
+        "Historical industry PIT / official calendar / historical full-market and source adjustment completeness",
+        "Executable net returns and sealed-forward lift",
+        "Candidate-recall/ranking/calibration/latency/segment objectives outside frozen scope",
+        "Global unregistered and contract-only inventory counts",
+        "Full registry external/Git persistence",
+        "Remote source synchronization: NOT_SYNCED_NO_REMOTE"
+      ],
+      "evidence_level": "DIRECTION_ONLY",
+      "execution_summary": {
+        "M0_formal_checkpoints_reused": 6,
+        "formal_S1_fits": 6,
+        "formal_seconds": 782.84,
+        "independent_synthetic_tests": 16,
+        "max_rss_bytes": 16338780160,
+        "peak_memory_footprint_bytes": 62939529480,
+        "small_canary_fits": 2,
+        "synthetic_tests": 16,
+        "threads": 4
+      },
+      "final_review": {
+        "path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/s1_industry_month_prior_20261020/S1_FORMAL_INDEPENDENT_REVIEW_01/INDEPENDENT_REVIEW_STDOUT.json",
+        "sha256": "1303579523605a4f20b42b621ee4e8c025c736e309191d7bd5fe228bbe50cb20",
+        "terminal_event_sha256": "29be3c12ff1ae8b8fbcdd08579632bb9efe28b4e7aa62f8e27c1bc3f9dd82bce",
+        "verdict": "REVIEWED_RESULT_REPRODUCTION_PASS"
+      },
+      "local_revision": "0e8ca077020fe7cf2e5c87908cd4fd7c77e9bebf",
+      "metrics": {
+        "event_p10_delta": -0.000283869597846112,
+        "excluded_incomplete_pair_dates": 37,
+        "mean_delta_ci95": [
+          -0.003496726085471142,
+          -0.0005393522201890834
+        ],
+        "mean_h2_delta": -0.0013053941994153233,
+        "median_daily_delta": -0.001460870955835962,
+        "paired_complete_dates": 564,
+        "path": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/s1_industry_month_prior_20261020/S1_FORMAL_01/METRICS.json",
+        "positive_complete_folds": "1/5",
+        "sha256": "57cb81c72f50227f6ac2fdb50d9625b95bc8b46ccffeb706da23dc17dfe912b3"
+      },
+      "research_gate": "S1_DEVELOPMENT_GATE_FAILED"
+    },
+    "independent_review": {
+      "boundary_status": {
+        "buy_gate_updated": false,
+        "formal_review": "REVIEWED_RESULT_REPRODUCTION_PASS",
+        "orders_sent": false,
+        "production_allowed": false,
+        "research_gate": "S1_DEVELOPMENT_GATE_FAILED",
+        "research_only": true,
+        "research_status": "DIRECTION_ONLY",
+        "s2": "PROHIBITED"
+      },
+      "candidate_recall_check": {
+        "fixed_common_feature_pool_codes": 5576,
+        "future_winner_recall_at_k": "NOT_COMPUTED",
+        "interpretation": "This route scores the frozen common feature pool directly to Top10; it does not establish D-1 candidate-pool recall. A future winner outside the fixed candidate pool cannot be recovered by a reranker.",
+        "status": "CANNOT_CONFIRM",
+        "top100_top200_candidate_truncation": "NOT_TESTED"
+      },
+      "cannot_confirm": [
+        "Future-winner recall and recovery under a fixed D-1 candidate pool.",
+        "Full-universe OOF score coverage and ranking metrics beyond the saved selected Top10 lists.",
+        "Historical industry classification point-in-time validity; source is a retrospective proxy.",
+        "Official historical calendar, full-market coverage and survivorship completeness.",
+        "Executable net returns after transaction costs and sealed-forward performance.",
+        "Probability calibration, IC/IR, rolling_predictions, Recall@K, nDCG/MRR, and Top100/Top200 truncation behavior.",
+        "Paired segment/tail lift or regression; only the predeclared descriptive diagnostics were reproduced.",
+        "Daily inference latency against an authorized budget; no per-day latency measurement or budget was supplied."
+      ],
+      "evidence_paths": [
+        {
+          "path": "research/a_share_model_selection_v1/batches/s1_industry_month_prior_20261020/FINAL_REVIEW_HANDOFF.json",
+          "sha256": "61859f87517ab680d18732ff6c73883b0ba4639390caadb3ac819ef9ff206ac2"
+        },
+        {
+          "path": "research/a_share_model_selection_v1/batches/s1_industry_month_prior_20261020/S1_FORMAL_01/OUTPUT_MANIFEST.json",
+          "sha256": "c82fb15d0f22db4c0b76a13e99facc836405dbe8cd3c053a0bf42c7705aaa488",
+          "verification": "All 26 manifest-listed output file SHA256 values independently matched."
+        },
+        {
+          "path": "research/a_share_model_selection_v1/batches/s1_industry_month_prior_20261020/S1_FORMAL_01/METRICS.json",
+          "sha256": "57cb81c72f50227f6ac2fdb50d9625b95bc8b46ccffeb706da23dc17dfe912b3"
+        },
+        {
+          "path": "research/a_share_model_selection_v1/batches/s1_industry_month_prior_20261020/S1_FORMAL_01/PREPARATION_RECEIPT.json",
+          "sha256": "2a53f8eccc1370e7947630808342673927b7693028eed6ee3249fdaefa32e980"
+        },
+        {
+          "path": "research/a_share_model_selection_v1/batches/s1_industry_month_prior_20261020/S1_FORMAL_01/SELECTION_KEYS_BEFORE_LABELS.csv",
+          "verification": "Manifest SHA verified; independently compared with post-label selected-return keys."
+        },
+        {
+          "path": "research/a_share_model_selection_v1/batches/s1_industry_month_prior_20261020/S1_FORMAL_01/SELECTED_RETURNS_DIAGNOSTICS.csv",
+          "verification": "Manifest SHA verified; used only for frozen h2 and predeclared diagnostics reproduction."
+        },
+        {
+          "path": "research/a_share_model_selection_v1/batches/s1_industry_month_prior_20261020/S1_FORMAL_01/calendar.parquet",
+          "verification": "Manifest SHA verified; used for the frozen contiguous-session block construction."
+        },
+        {
+          "path": "contracts/EXPERIMENT_REGISTRY.jsonl",
+          "review_execution": "S1_FORMAL_INDEPENDENT_REVIEW_01",
+          "review_run_started_event_sha256": "93afad4aebe7c62dd3182f9a817ed142d67a501bfe049762d86d9ad0562dc47b",
+          "sha256_at_readback": "bf5730fd0d217373eebb8dc5c59312f1185f0319a0928b91cdc3a098a5eb02b4",
+          "verification": "Relevant event hashes recomputed; the review RUN_STARTED event was the sole open review execution at readback."
+        }
+      ],
+      "fixed_pool_and_label_check": {
+        "asof_leakage_sentinel": {
+          "observed_max_years": "2021->2020 through 2026->2025",
+          "point_in_time_source_classification": "CANNOT_CONFIRM; retrospective proxy",
+          "rule": "Only complete calendar years strictly earlier than the signal year are used.",
+          "status": "PASS_FOR_NUMERICAL_YEAR_CUTOFF"
+        },
+        "candidate_universe": {
+          "all_six_old_m0_data_identity_parities_exact": true,
+          "codes": 5576,
+          "common_m0_s1_keys": 6313420,
+          "preparation_signal_dates": 1294,
+          "prior_missing_rows_retained": 1193
+        },
+        "label_and_selection_order": {
+          "label_gaps": "Five complete gate folds span 601 dates; 564 dates have complete paired h2 outcomes and 37 are excluded for incomplete paired outcomes, without refill. The separate partial 2026H2 diagnostic spans 71 dates.",
+          "primary_label": "h2 close(T+2)/close(T)-1",
+          "saved_selected_rows": 13440,
+          "selection_days_per_arm": 672,
+          "selection_rule": "score descending, canonical code ascending for ties",
+          "top10_order_violations": 0,
+          "training_maturity": "Source split enforces label_end_date < fold.start; old M0 data_identity parity was exact for all six folds.",
+          "truth_access_order": "Top10 keys frozen before outcome join; independent key-to-outcome comparison matched exactly."
+        },
+        "status": "PASS_FOR_FROZEN_COMPARISON"
+      },
+      "paired_metric_deltas": {
+        "bootstrap": {
+          "method": "noncircular moving blocks of 20 observed sessions, constrained within fold and contiguous calendar intervals",
+          "replicates": 2000,
+          "reproduction_tolerance": 1e-14,
+          "seed": 19320261020,
+          "valid_blocks": 148
+        },
+        "comparison": "S1 minus M0, selected Top10 h2 gross-return metrics",
+        "complete_fold_dates": 601,
+        "complete_paired_dates": 564,
+        "event_p10_delta_95ci": [
+          -0.005197929193140816,
+          0.004690660264407188
+        ],
+        "fold_mean_deltas": {
+          "2024H1": -0.001580024907511924,
+          "2024H2": -0.0027927879767501926,
+          "2025H1": -0.0018805720140234292,
+          "2025H2": 0.0010111539629379534,
+          "2026H1": -0.0012270377694461284
+        },
+        "frozen_gate": "All five gates reproduced false: mean delta threshold, bootstrap lower bound >0, at least 4/5 positive folds, median daily delta nonnegative, and selected-event P10 nonnegative.",
+        "mean_daily_top10_delta": -0.0013053941994153233,
+        "mean_delta_95ci": [
+          -0.003496726085471142,
+          -0.0005393522201890834
+        ],
+        "median_daily_delta": -0.001460870955835962,
+        "median_delta_95ci": [
+          -0.006213779407561968,
+          0.00044553664635109646
+        ],
+        "partial_2026H2_diagnostic_only": {
+          "dates": 71,
+          "excluded_from_primary_gate": true,
+          "m0_mean_h2": 0.01050257619540524,
+          "m0_missing_outcome_rows": 20,
+          "s1_mean_h2": 0.016377657881629707,
+          "s1_missing_outcome_rows": 24
+        },
+        "positive_complete_folds": "1/5",
+        "runtime_and_resources": {
+          "formal_elapsed_seconds": 782.84,
+          "latency_budget_assessment": "CANNOT_CONFIRM",
+          "new_s1_fits": 6,
+          "peak_memory_footprint_bytes": 62939529480,
+          "peak_rss_bytes": 16338780160,
+          "reused_m0_checkpoints": 6,
+          "threads": 4
+        },
+        "selected_event_p10_delta": -0.000283869597846112,
+        "status": "INDEPENDENT_REPRODUCTION_PASS; FROZEN_RESEARCH_GATE_FAIL"
+      },
+      "recommended_next_step": "Writer should append this exact receipt and SHA as the registered terminal for S1_FORMAL_INDEPENDENT_REVIEW_01. Preserve S1_DEVELOPMENT_GATE_FAILED and DIRECTION_ONLY; do not start S2 or retune this frozen route. Any later candidate-recall, PIT-source, ranking-metric, or segment study requires its own predeclared contract.",
+      "review_scope": {
+        "evidence": "Hashes, six-fold fixed-pool parity, model/checkpoint identities, Top10 key/order, and frozen h2 metrics/bootstrap independently checked; no training was launched.",
+        "no_full_preparation_rerun": true,
+        "no_new_metrics_or_posthoc_segments": true,
+        "no_refit": true,
+        "read_only": true
+      },
+      "segment_and_truncation_risk": {
+        "outcome_scope": "Gross selected-return comparison, not net executable return.",
+        "ranking_quality_metrics": "No Recall@K, nDCG/MRR, IC/IR, rolling_predictions, full-universe OOF score artifact, or probability calibration result is present.",
+        "segment_tail_paired_lift": "Not computed; predeclared fold, partial-fold, concentration descriptors, and swap diagnostics were reproduced, but they do not establish segment/tail lift.",
+        "status": "CANNOT_CONFIRM",
+        "top100_top200_sensitivity": "Not measured; current evaluation selects Top10 directly from the 5576-code common pool."
+      }
+    }
+  },
+  "accepted_public_base": "fcda5cb15c2235f954e68105f4ff95a15b456dbe",
+  "attribution": {
+    "acceptance_projection": {
+      "S1_status": "FAILED_UNCHANGED",
+      "S2_started": false,
+      "buy_gate_updated": false,
+      "cannot_confirm": [
+        "Candidate recall and paired reranker lift",
+        "Comparable candidate OOF coverage and Top100/Top200 sensitivity",
+        "Probability calibration and causal interpretation",
+        "Historical PIT/calendar/full-universe validity",
+        "Sealed-forward validation and executable net returns",
+        "Reranker daily latency/resource-budget compliance"
+      ],
+      "external_registry_persistence": "CANNOT_CONFIRM",
+      "fit_calls": 0,
+      "formal_output_manifest_sha256": "891a195abe6c7ba507a13d4b366f2f03eb3d1b347d5007cf149d6b6af0c08c02",
+      "forwarded_excerpt_sha256": "e45d7b24f3d7b7e51c2b9749868312466dd85a171cbb044ce474e95225bed205",
+      "model_loads": 0,
+      "new_ci_calls": 0,
+      "orders_sent": false,
+      "predict_calls": 0,
+      "production_allowed": false,
+      "registry_contract_only_scoped": 0,
+      "registry_counts_global": {
+        "corrections": 88,
+        "events": 3317,
+        "executions": 1027,
+        "routes": 349
+      },
+      "registry_counts_scoped": {
+        "corrections": 0,
+        "events": 16,
+        "executions": 8,
+        "routes": 1
+      },
+      "registry_global_unregistered_and_contract_only": "CANNOT_CONFIRM_NOT_AUDITED_THIS_SCOPE",
+      "registry_open_executions_at_snapshot": [],
+      "registry_sha256": "e17ece702c60ce89ac294461d17a79b0f35f2299eed9253e295ec5fcf6cc7b50",
+      "registry_snapshot_as_of": "INDEPENDENT_REVIEW_TERMINAL_BEFORE_METADATA_CLOSEOUT",
+      "registry_unregistered_routes_scoped": 0,
+      "remote_sync": "PENDING_CONTROLLER_SYNC",
+      "research_only": true,
+      "research_status": "DIRECTION_ONLY",
+      "review_transcription_sha256": "e4235082c07cacec85f8b9efb1f970fe21699f04f25a93bcf2dd6dd41338b423",
+      "reviewed_payload_count": 12,
+      "reviewed_payload_manifest_sha256": "03a8741b17a59c88313671ee582b395c60c51bdb01866fd5fdf454d45938f239",
+      "reviewer_agent": "g1_attribution_review",
+      "schema": "G1_ATTRIBUTION_ACCEPTANCE_TRANSCRIBED_PROJECTION_V1",
+      "scientific_frozen_identity_sha256": "dbe18106fd7189cb7ceb40938fde5e5470664381e76aadcd3a530e39d9e50ab6",
+      "scientific_information_gate": "INCONCLUSIVE_UNCHANGED",
+      "scope": "Narrow deterministic attribution reproduction and corrected safe-export presentation",
+      "transcription_source": "Controller-forwarded substantive final Reviewer excerpt; Writer-persisted projection, not a complete original JSON or Reviewer-signed artifact",
+      "verdict": "PASS"
+    },
+    "band_aggregate_string_fields": [
+      {
+        "M0_score_contribution_decimal": "1.7682832788255017e-05",
+        "band": "1",
+        "closure_error_decimal": "-2.1684043449710089e-19",
+        "composition_mass_gap": "0",
+        "distinct_codes": "1833",
+        "distinct_dates": "547",
+        "high_M0_score_mean_decimal": "0.044914579951521011",
+        "high_raw_outcome_mean_decimal": "0.033571014779839314",
+        "high_residual_mean_decimal": "-0.011343565171681691",
+        "high_rows": "1811",
+        "high_weighted_mass": "0.19999999999999996",
+        "low_M0_score_mean_decimal": "0.044826165787579732",
+        "low_raw_outcome_mean_decimal": "0.025442969772699449",
+        "low_residual_mean_decimal": "-0.019383196014880283",
+        "low_rows": "1807",
+        "low_weighted_mass": "0.19999999999999996",
+        "population": "PRIMARY_COMPLETE_FOLDS",
+        "raw_outcome_contribution_decimal": "0.0016256090014279731",
+        "residual_contribution_decimal": "0.0016079261686397178",
+        "selected_rows": "3618",
+        "side_identifiability": "BOTH_SIDES_OBSERVED_DESCRIPTIVE"
+      },
+      {
+        "M0_score_contribution_decimal": "1.532369945795288e-05",
+        "band": "2",
+        "closure_error_decimal": "5.4210108624275222e-20",
+        "composition_mass_gap": "0",
+        "distinct_codes": "2176",
+        "distinct_dates": "547",
+        "high_M0_score_mean_decimal": "0.026770653976923409",
+        "high_raw_outcome_mean_decimal": "0.017954187926179147",
+        "high_residual_mean_decimal": "-0.0088164660507442597",
+        "high_rows": "1843",
+        "high_weighted_mass": "0.19999999999999996",
+        "low_M0_score_mean_decimal": "0.026694035479633643",
+        "low_raw_outcome_mean_decimal": "0.016926440666933461",
+        "low_residual_mean_decimal": "-0.0097675948127001842",
+        "low_rows": "1825",
+        "low_weighted_mass": "0.19999999999999996",
+        "population": "PRIMARY_COMPLETE_FOLDS",
+        "raw_outcome_contribution_decimal": "0.00020554945184913815",
+        "residual_contribution_decimal": "0.00019022575239118533",
+        "selected_rows": "3668",
+        "side_identifiability": "BOTH_SIDES_OBSERVED_DESCRIPTIVE"
+      },
+      {
+        "M0_score_contribution_decimal": "2.5778423548867734e-06",
+        "band": "3",
+        "closure_error_decimal": "0",
+        "composition_mass_gap": "0",
+        "distinct_codes": "2243",
+        "distinct_dates": "547",
+        "high_M0_score_mean_decimal": "0.020936909528106472",
+        "high_raw_outcome_mean_decimal": "0.01324619793203422",
+        "high_residual_mean_decimal": "-0.0076907115960722517",
+        "high_rows": "1810",
+        "high_weighted_mass": "0.19999999999999996",
+        "low_M0_score_mean_decimal": "0.020924020316332035",
+        "low_raw_outcome_mean_decimal": "0.010977371069597402",
+        "low_residual_mean_decimal": "-0.0099466492467346363",
+        "low_rows": "1820",
+        "low_weighted_mass": "0.19999999999999996",
+        "population": "PRIMARY_COMPLETE_FOLDS",
+        "raw_outcome_contribution_decimal": "0.0004537653724873634",
+        "residual_contribution_decimal": "0.00045118753013247663",
+        "selected_rows": "3630",
+        "side_identifiability": "BOTH_SIDES_OBSERVED_DESCRIPTIVE"
+      },
+      {
+        "M0_score_contribution_decimal": "-4.6550144064904434e-06",
+        "band": "4",
+        "closure_error_decimal": "0",
+        "composition_mass_gap": "0",
+        "distinct_codes": "2345",
+        "distinct_dates": "547",
+        "high_M0_score_mean_decimal": "0.017921723917474212",
+        "high_raw_outcome_mean_decimal": "0.013602046177970785",
+        "high_residual_mean_decimal": "-0.0043196777395034273",
+        "high_rows": "1815",
+        "high_weighted_mass": "0.19999999999999996",
+        "low_M0_score_mean_decimal": "0.017944998989506664",
+        "low_raw_outcome_mean_decimal": "0.010798972999650656",
+        "low_residual_mean_decimal": "-0.0071460259898560091",
+        "low_rows": "1812",
+        "low_weighted_mass": "0.19999999999999996",
+        "population": "PRIMARY_COMPLETE_FOLDS",
+        "raw_outcome_contribution_decimal": "0.00056061463566402562",
+        "residual_contribution_decimal": "0.00056526965007051605",
+        "selected_rows": "3627",
+        "side_identifiability": "BOTH_SIDES_OBSERVED_DESCRIPTIVE"
+      },
+      {
+        "M0_score_contribution_decimal": "5.7549878978462583e-06",
+        "band": "5",
+        "closure_error_decimal": "-2.9815559743351372e-19",
+        "composition_mass_gap": "-2.7755575615628914e-17",
+        "distinct_codes": "2372",
+        "distinct_dates": "547",
+        "high_M0_score_mean_decimal": "0.015973308577362486",
+        "high_raw_outcome_mean_decimal": "0.011108032698082686",
+        "high_residual_mean_decimal": "-0.0048652758792797996",
+        "high_rows": "1808",
+        "high_weighted_mass": "0.19999999999999993",
+        "low_M0_score_mean_decimal": "0.015944533637873255",
+        "low_raw_outcome_mean_decimal": "0.010274057794977575",
+        "low_residual_mean_decimal": "-0.0056704758428956798",
+        "low_rows": "1844",
+        "low_weighted_mass": "0.19999999999999996",
+        "population": "PRIMARY_COMPLETE_FOLDS",
+        "raw_outcome_contribution_decimal": "0.00016679498062102243",
+        "residual_contribution_decimal": "0.00016103999272317588",
+        "selected_rows": "3652",
+        "side_identifiability": "BOTH_SIDES_OBSERVED_DESCRIPTIVE"
+      },
+      {
+        "M0_score_contribution_decimal": "-0.00022776938016981312",
+        "band": "1",
+        "closure_error_decimal": "8.6736173798840355e-19",
+        "composition_mass_gap": "0",
+        "distinct_codes": "382",
+        "distinct_dates": "64",
+        "high_M0_score_mean_decimal": "0.056270162665555894",
+        "high_raw_outcome_mean_decimal": "0.0026564691667301586",
+        "high_residual_mean_decimal": "-0.053613693498825735",
+        "high_rows": "225",
+        "high_weighted_mass": "0.20000000000000001",
+        "low_M0_score_mean_decimal": "0.057409009566404962",
+        "low_raw_outcome_mean_decimal": "0.015937664633539569",
+        "low_residual_mean_decimal": "-0.041471344932865382",
+        "low_rows": "211",
+        "low_weighted_mass": "0.20000000000000001",
+        "population": "PARTIAL_2026H2_DIAGNOSTIC_ONLY",
+        "raw_outcome_contribution_decimal": "-0.0026562390933618824",
+        "residual_contribution_decimal": "-0.0024284697131920683",
+        "selected_rows": "436",
+        "side_identifiability": "BOTH_SIDES_OBSERVED_DESCRIPTIVE"
+      },
+      {
+        "M0_score_contribution_decimal": "-7.1684975400769526e-05",
+        "band": "2",
+        "closure_error_decimal": "8.6736173798840355e-19",
+        "composition_mass_gap": "0",
+        "distinct_codes": "377",
+        "distinct_dates": "64",
+        "high_M0_score_mean_decimal": "0.041428543525496554",
+        "high_raw_outcome_mean_decimal": "0.0050289336316391743",
+        "high_residual_mean_decimal": "-0.036399609893857383",
+        "high_rows": "213",
+        "high_weighted_mass": "0.19999999999999998",
+        "low_M0_score_mean_decimal": "0.041786968402500409",
+        "low_raw_outcome_mean_decimal": "-0.0054176642812585061",
+        "low_residual_mean_decimal": "-0.047204632683758907",
+        "low_rows": "217",
+        "low_weighted_mass": "0.19999999999999998",
+        "population": "PARTIAL_2026H2_DIAGNOSTIC_ONLY",
+        "raw_outcome_contribution_decimal": "0.002089319582579535",
+        "residual_contribution_decimal": "0.0021610045579803054",
+        "selected_rows": "430",
+        "side_identifiability": "BOTH_SIDES_OBSERVED_DESCRIPTIVE"
+      },
+      {
+        "M0_score_contribution_decimal": "7.9873371828934991e-05",
+        "band": "3",
+        "closure_error_decimal": "-1.0842021724855044e-19",
+        "composition_mass_gap": "-2.7755575615628914e-17",
+        "distinct_codes": "395",
+        "distinct_dates": "64",
+        "high_M0_score_mean_decimal": "0.035926579991452344",
+        "high_raw_outcome_mean_decimal": "-0.0072918713189169667",
+        "high_residual_mean_decimal": "-0.043218451310369312",
+        "high_rows": "216",
+        "high_weighted_mass": "0.19999999999999998",
+        "low_M0_score_mean_decimal": "0.035527213132307667",
+        "low_raw_outcome_mean_decimal": "-0.011240399493345075",
+        "low_residual_mean_decimal": "-0.046767612625652745",
+        "low_rows": "224",
+        "low_weighted_mass": "0.20000000000000001",
+        "population": "PARTIAL_2026H2_DIAGNOSTIC_ONLY",
+        "raw_outcome_contribution_decimal": "0.00078970563488562186",
+        "residual_contribution_decimal": "0.00070983226305668676",
+        "selected_rows": "440",
+        "side_identifiability": "BOTH_SIDES_OBSERVED_DESCRIPTIVE"
+      },
+      {
+        "M0_score_contribution_decimal": "2.0401790061920803e-05",
+        "band": "4",
+        "closure_error_decimal": "0",
+        "composition_mass_gap": "-2.7755575615628914e-17",
+        "distinct_codes": "415",
+        "distinct_dates": "64",
+        "high_M0_score_mean_decimal": "0.032279748815632607",
+        "high_raw_outcome_mean_decimal": "-0.0048397970369372699",
+        "high_residual_mean_decimal": "-0.03711954585256988",
+        "high_rows": "229",
+        "high_weighted_mass": "0.19999999999999998",
+        "low_M0_score_mean_decimal": "0.032177739865322998",
+        "low_raw_outcome_mean_decimal": "-0.0074413642816211914",
+        "low_residual_mean_decimal": "-0.039619104146944188",
+        "low_rows": "226",
+        "low_weighted_mass": "0.20000000000000001",
+        "population": "PARTIAL_2026H2_DIAGNOSTIC_ONLY",
+        "raw_outcome_contribution_decimal": "0.00052031344893678478",
+        "residual_contribution_decimal": "0.00049991165887486397",
+        "selected_rows": "455",
+        "side_identifiability": "BOTH_SIDES_OBSERVED_DESCRIPTIVE"
+      },
+      {
+        "M0_score_contribution_decimal": "3.2535644101698504e-06",
+        "band": "5",
+        "closure_error_decimal": "-6.5052130349130266e-19",
+        "composition_mass_gap": "0",
+        "distinct_codes": "392",
+        "distinct_dates": "64",
+        "high_M0_score_mean_decimal": "0.030076023991983412",
+        "high_raw_outcome_mean_decimal": "-0.016587354917739477",
+        "high_residual_mean_decimal": "-0.046663378909722879",
+        "high_rows": "218",
+        "high_weighted_mass": "0.19999999999999998",
+        "low_M0_score_mean_decimal": "0.030059756169932558",
+        "low_raw_outcome_mean_decimal": "-0.0095151825711598508",
+        "low_residual_mean_decimal": "-0.039574938741092414",
+        "low_rows": "227",
+        "low_weighted_mass": "0.19999999999999998",
+        "population": "PARTIAL_2026H2_DIAGNOSTIC_ONLY",
+        "raw_outcome_contribution_decimal": "-0.0014144344693159247",
+        "residual_contribution_decimal": "-0.0014176880337260951",
+        "selected_rows": "445",
+        "side_identifiability": "BOTH_SIDES_OBSERVED_DESCRIPTIVE"
+      }
+    ],
+    "controller_supplied_rounded_descriptive_context": {
+      "basis": "Controller-provided rounded arithmetic descriptions of existing FOLD_IDENTITY/BAND_CONTRIBUTIONS, not recomputed here; denominators are original signed global point, not share of variance or causal explanatory power.",
+      "rank1_10_band_signed_point_contribution_share_percent": 54.04,
+      "two_folds": "2024H2 and 2025H1",
+      "twofold_signed_point_contribution_share_percent": 87.46
+    },
+    "fold_aggregate_string_fields": [
+      {
+        "M0_score_global_contribution_decimal": "1.2330391590228208e-05",
+        "M0_score_own_mean_decimal": "6.1315674544134814e-05",
+        "denominator_dates": "117",
+        "fold": "2024H1",
+        "global_valid_date_weight": "0.20109689213893966",
+        "invalid_dates": "7",
+        "raw_outcome_global_contribution_decimal": "7.555340149482194e-05",
+        "raw_outcome_own_mean_decimal": "0.00037570646016061459",
+        "residual_global_contribution_decimal": "6.3223009904593585e-05",
+        "residual_own_mean_decimal": "0.00031439078561647899",
+        "valid_dates": "110"
+      },
+      {
+        "M0_score_global_contribution_decimal": "-5.4425425709136909e-05",
+        "M0_score_own_mean_decimal": "-0.00024203827530811293",
+        "denominator_dates": "125",
+        "fold": "2024H2",
+        "global_valid_date_weight": "0.22486288848263253",
+        "invalid_dates": "2",
+        "raw_outcome_global_contribution_decimal": "0.0011687719251502772",
+        "raw_outcome_own_mean_decimal": "0.0051977092931479807",
+        "residual_global_contribution_decimal": "0.0012231973508594141",
+        "residual_own_mean_decimal": "0.0054397475684560938",
+        "valid_dates": "123"
+      },
+      {
+        "M0_score_global_contribution_decimal": "7.7954643466174027e-05",
+        "M0_score_own_mean_decimal": "0.00040227537713204901",
+        "denominator_dates": "117",
+        "fold": "2025H1",
+        "global_valid_date_weight": "0.19378427787934185",
+        "invalid_dates": "11",
+        "raw_outcome_global_contribution_decimal": "0.0014571585743016501",
+        "raw_outcome_own_mean_decimal": "0.0075194881145566285",
+        "residual_global_contribution_decimal": "0.0013792039308354758",
+        "residual_own_mean_decimal": "0.0071172127374245784",
+        "valid_dates": "106"
+      },
+      {
+        "M0_score_global_contribution_decimal": "-1.0116314854141061e-05",
+        "M0_score_own_mean_decimal": "-4.9407359153706792e-05",
+        "denominator_dates": "126",
+        "fold": "2025H2",
+        "global_valid_date_weight": "0.20475319926873858",
+        "invalid_dates": "14",
+        "raw_outcome_global_contribution_decimal": "0.00014872305820471947",
+        "raw_outcome_own_mean_decimal": "0.00072635279319626376",
+        "residual_global_contribution_decimal": "0.00015883937305886031",
+        "residual_own_mean_decimal": "0.00077576015234996946",
+        "valid_dates": "112"
+      },
+      {
+        "M0_score_global_contribution_decimal": "1.0941053599326079e-05",
+        "M0_score_own_mean_decimal": "6.2341211654493389e-05",
+        "denominator_dates": "116",
+        "fold": "2026H1",
+        "global_valid_date_weight": "0.17550274223034734",
+        "invalid_dates": "20",
+        "raw_outcome_global_contribution_decimal": "0.00016212648289805429",
+        "raw_outcome_own_mean_decimal": "0.00092378318901287194",
+        "residual_global_contribution_decimal": "0.00015118542929872843",
+        "residual_own_mean_decimal": "0.00086144197735837978",
+        "valid_dates": "96"
+      },
+      {
+        "M0_score_global_contribution_decimal": "-0.00019592562926955761",
+        "M0_score_own_mean_decimal": "-0.00019592562926955761",
+        "denominator_dates": "71",
+        "fold": "2026H2_PARTIAL_TO_2026_10_15",
+        "global_valid_date_weight": "1",
+        "invalid_dates": "7",
+        "raw_outcome_global_contribution_decimal": "-0.00067133489627586558",
+        "raw_outcome_own_mean_decimal": "-0.00067133489627586558",
+        "residual_global_contribution_decimal": "-0.00047540926700630833",
+        "residual_own_mean_decimal": "-0.00047540926700630833",
+        "valid_dates": "64"
+      }
+    ],
+    "summary": {
+      "S1_status": "S1_DEVELOPMENT_GATE_FAILED",
+      "S2_started": false,
+      "calendar_selection": "ALL_ORIGINAL_DATES",
+      "canary_not_scientific_estimate": false,
+      "ci_calls": 0,
+      "evidence_level": "DIRECTION_ONLY",
+      "fit_calls": 0,
+      "limits": [
+        "Exposed history only; no causal or conditional predictive conclusion",
+        "Current industry retrospective; historical PIT/calendar/universe not certified",
+        "Gross outcome, not executable net return; no sealed validation",
+        "Repeated codes/cells are not independent observations"
+      ],
+      "mean_errors_are_descriptive_not_calibration_proof": true,
+      "model_loads": 0,
+      "populations": [
+        {
+          "code_concentration": {
+            "absolute_contribution_sum_decimal": 0.06431180948117934,
+            "absolute_share_hhi": 0.0005476001791683042,
+            "largest_absolute_share": 0.0034483340032659296
+          },
+          "concentration_is_not_independent_N": true,
+          "denominator_dates": 601,
+          "distinct_codes": 4614,
+          "industry_concentration": {
+            "absolute_contribution_sum_decimal": 0.010154056267764704,
+            "absolute_share_hhi": 0.0328516918313239,
+            "largest_absolute_share": 0.10337038567945694
+          },
+          "invalid_dates": 54,
+          "point_bp": 29.75649093957072,
+          "point_decimal": 0.002975649093957072,
+          "population": "PRIMARY_COMPLETE_FOLDS",
+          "raw_spread_decimal": 0.003012333442049523,
+          "repeated_code_rows": 13581,
+          "score_gap_decimal": 3.668434809245033e-05,
+          "selected_rows": 18195,
+          "valid_dates": 547
+        },
+        {
+          "code_concentration": {
+            "absolute_contribution_sum_decimal": 0.12105707514868888,
+            "absolute_share_hhi": 0.0013889937322105375,
+            "largest_absolute_share": 0.007209424477063859
+          },
+          "concentration_is_not_independent_N": true,
+          "denominator_dates": 71,
+          "distinct_codes": 1469,
+          "industry_concentration": {
+            "absolute_contribution_sum_decimal": 0.05729800425932328,
+            "absolute_share_hhi": 0.05814419855496795,
+            "largest_absolute_share": 0.13970730964267172
+          },
+          "invalid_dates": 7,
+          "point_bp": -4.754092670063083,
+          "point_decimal": -0.0004754092670063083,
+          "population": "PARTIAL_2026H2_DIAGNOSTIC_ONLY",
+          "raw_spread_decimal": -0.0006713348962758656,
+          "repeated_code_rows": 737,
+          "score_gap_decimal": -0.0001959256292695576,
+          "selected_rows": 2206,
+          "valid_dates": 64
+        }
+      ],
+      "predict_calls": 0,
+      "primary_calendar_dates": 601,
+      "primary_invalid_dates": 54,
+      "primary_valid_dates": 547,
+      "prior_accepted_qstar_context": {
+        "decision": "INCONCLUSIVE",
+        "point": 0.002975649093957072,
+        "qstar": 2.9877439760955102,
+        "real_ci95": [
+          -0.0006017494756064786,
+          0.006553047663520623
+        ]
+      },
+      "prior_all_cells_constant": true,
+      "prior_cell_count": 2214,
+      "rows_read_scope": 33600,
+      "scientific_information_gate": "INCONCLUSIVE_UNCHANGED",
+      "status": "DESCRIPTIVE_DIAGNOSTIC_ONLY_SEE_ACCEPTANCE_RECEIPT",
+      "units": "Decimal gross close-close H2 returns and frozen M0 predicted return; bp=decimal*10000"
+    }
+  },
+  "interpretation_guards": [
+    "M1-M4 environment feature research already occurred; do not claim no market-environment work",
+    "PV six-fold voting includes partial2026H2; S1/G1 five complete-fold primary excludes partial",
+    "Own-arm full-date means have differing dates; compare paired complete dates",
+    "G1 raw_h2_spread minus M0_score_gap equals residual_spread; not strategy lift",
+    "Same-date common market addend cancels in high-minus-low difference; heterogeneous beta, industry exposures and state interactions are not thereby excluded",
+    "Prior constant within industry x D+1month x signalyear cells does not identify within-cell effect",
+    "Concentration and exposure counts are descriptive, not causal evidence or independent sample N",
+    "Existing tests/reviews are historical; current package does not rerun science"
+  ],
+  "purpose": "Existing evidence for external design advice only; not a new experiment or execution authorization",
+  "safety": {
+    "buy_gate_updated": false,
+    "orders_sent": false,
+    "production_allowed": false,
+    "research_only": true
+  },
+  "schema": "ENVIRONMENT_TRAINING_ADVICE_EVIDENCE_V1",
+  "units": {
+    "PV_review": "horizons order [1,2,5]; percentage-point deltas rounded four decimals",
+    "S1_G1": "primary horizon2; original decimal values retained",
+    "returns": "decimal unless key explicitly percent, percentage_points or bp"
+  }
+}

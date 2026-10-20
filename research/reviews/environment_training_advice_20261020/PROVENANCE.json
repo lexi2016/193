@@ -1,0 +1,140 @@
+{
+  "accepted_public_base": "fcda5cb15c2235f954e68105f4ff95a15b456dbe",
+  "copied_business_code": false,
+  "existing_public_sources": {
+    "attribution": "https://github.com/lexi2016/193/tree/fcda5cb15c2235f954e68105f4ff95a15b456dbe/research/reviews/g1_attribution_20261020",
+    "g1": "https://github.com/lexi2016/193/tree/fcda5cb15c2235f954e68105f4ff95a15b456dbe/research/reviews/g1_20261020"
+  },
+  "new_scientific_runs": 0,
+  "projection_policy": [
+    "Only existing documents/configurations/aggregate results read; original files unchanged",
+    "Personal absolute paths replaced by neutral local-evidence logical references; not downloadable source paths",
+    "S1 canary code list omitted; no raw prices, daily labels/predictions, weights, exact mask or credentials copied",
+    "PV stage manifests projected to stage metadata only; exact aggregate M4 acceptance retained",
+    "CSV values preserved as source strings; no arithmetic or statistical recalculation",
+    "Source constants parsed as literals only; no project code imported or executed",
+    "Historical receipt projections are not signed artifacts and do not certify this package"
+  ],
+  "schema": "ENVIRONMENT_TRAINING_ADVICE_PROVENANCE_V1",
+  "sources": [
+    {
+      "bytes": 15240,
+      "logical_source": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/pv_environment_r1_20261019/CONTRACT_R2.json",
+      "projection_pointer": "/PV/contract_historical_freeze",
+      "read_scope": "original document/aggregate only; no raw rows or model loads",
+      "sha256": "00ee5563e5feef7a5012650c7f8a6e57b6ce7a386a902f5d6fe7082179da85d5"
+    },
+    {
+      "bytes": 4064,
+      "logical_source": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/pv_environment_r1_20261019/FORMAL_METRICS_INDEPENDENT_REVIEW_R1.json",
+      "projection_pointer": "/PV/final_metrics_review",
+      "read_scope": "original document/aggregate only; no raw rows or model loads",
+      "sha256": "160b55f005a63f7b42510f02bb5fa983bfb783a451ff13692e194051ee0cc66c"
+    },
+    {
+      "bytes": 14792,
+      "logical_source": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/pv_environment_r1_20261019/INPUT_BINDING_R2.json",
+      "projection_pointer": "/PV/input_binding_selected_metadata",
+      "read_scope": "original document/aggregate only; no raw rows or model loads",
+      "sha256": "fc9502686be0527840f409636c5aa3a42a21c70a52d593a1429375ccf8706e1c"
+    },
+    {
+      "bytes": 2903,
+      "logical_source": "local-evidence/factor_factory/workspace/research/a_share_model_selection_v1/runs/pv_environment_r1_20261019_formal_r01/stage_outputs/M0_FORMAL_attempt_01/output_manifest.json",
+      "projection_pointer": "/PV/formal_stage_manifest_metadata/M0",
+      "read_scope": "original document/aggregate only; no raw rows or model loads",
+      "sha256": "c88abd5b63c7399a9179464b18331cfb82fec3020bebbb2b017037289a51387a"
+    },
+    {
+      "bytes": 2947,
+      "logical_source": "local-evidence/factor_factory/workspace/research/a_share_model_selection_v1/runs/pv_environment_r1_20261019_formal_r01/stage_outputs/INDEXED_FORMAL_attempt_01/output_manifest.json",
+      "projection_pointer": "/PV/formal_stage_manifest_metadata/M1_M4",
+      "read_scope": "original document/aggregate only; no raw rows or model loads",
+      "sha256": "0ae28a40448a6a0c11e075581021ecc3a6944b3f9232d6c3336af4dc21a0dce8"
+    },
+    {
+      "bytes": 141321,
+      "logical_source": "local-evidence/factor_factory/workspace/research/a_share_model_selection_v1/runs/pv_environment_r1_20261019_formal_r01/stage_outputs/INDEXED_FORMAL_attempt_01/metrics.json",
+      "projection_pointer": "/PV/exact_M4_acceptance",
+      "read_scope": "original document/aggregate only; no raw rows or model loads",
+      "sha256": "43e12155d97aa141e2ce54b5cb6e6e3f06bca491d7d01008c783fe440bda67b0"
+    },
+    {
+      "bytes": 215630,
+      "logical_source": "local-evidence/factor_factory/workspace/.task_worktrees/s1-industry-month-20261020/research/a_share_model_selection_v1/frozen_m0/research/a_share_model_selection_v1/model_selection.py",
+      "projection_pointer": "/PV/source_constants",
+      "read_scope": "original document/aggregate only; no raw rows or model loads",
+      "sha256": "0aa1428f2b62447e35ecbebce4843613dd01111cfb4340f38221e022eecbd40c"
+    },
+    {
+      "bytes": 5023,
+      "logical_source": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/s1_industry_month_prior_20261020/CONTRACT.json",
+      "projection_pointer": "/S1/contract_historical_freeze",
+      "read_scope": "original document/aggregate only; no raw rows or model loads",
+      "sha256": "a2c5a9fbba05e7720d11dac4c59dd57aeccf53b22600e3af5f4f86abdd0cd33f"
+    },
+    {
+      "bytes": 2658,
+      "logical_source": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/s1_industry_month_prior_20261020/CONFIG.json",
+      "projection_pointer": "/S1/config_selected",
+      "read_scope": "original document/aggregate only; no raw rows or model loads",
+      "sha256": "0c54479d857ef853983f81367c562420c62e94e22f3bc75b764b25f9f5277511"
+    },
+    {
+      "bytes": 9530,
+      "logical_source": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/s1_industry_month_prior_20261020/FINAL_HANDOFF.json",
+      "projection_pointer": "/S1/final_handoff_selected",
+      "read_scope": "original document/aggregate only; no raw rows or model loads",
+      "sha256": "a95c170a82d5047bc6462a875c730ccb9a1983511633ae7ece7d704a74e4dd65"
+    },
+    {
+      "bytes": 7532,
+      "logical_source": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/s1_industry_month_prior_20261020/S1_FORMAL_INDEPENDENT_REVIEW_01/INDEPENDENT_REVIEW_STDOUT.json",
+      "projection_pointer": "/S1/independent_review",
+      "read_scope": "original document/aggregate only; no raw rows or model loads",
+      "sha256": "1303579523605a4f20b42b621ee4e8c025c736e309191d7bd5fe228bbe50cb20"
+    },
+    {
+      "bytes": 1120,
+      "logical_source": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_qstar_20261020/ACCEPTED_RESULT.json",
+      "projection_pointer": "/G1_qstar/accepted_result",
+      "read_scope": "original document/aggregate only; no raw rows or model loads",
+      "sha256": "b39a9e0bf2c8e0ffc0919208c856b60fa2c035976656368ede694e5ca35f783c"
+    },
+    {
+      "bytes": 2192,
+      "logical_source": "local-evidence/factor_factory/research/a_share_model_selection_v1/batches/g1_qstar_20261020/FINAL_RESULT.json",
+      "projection_pointer": "/G1_qstar/pre_review_numeric_snapshot",
+      "read_scope": "original document/aggregate only; no raw rows or model loads",
+      "sha256": "ad382df6e458aa4113dc28ef7e726b187e253e36e5031c2033e0f6ff8766f6bb"
+    },
+    {
+      "bytes": 3107,
+      "logical_source": "local-evidence/factor_factory/research/a_share_model_selection_v1/public_exports/g1_research_review_20261020/additions/g1_attribution_audit_20261020/SUMMARY.json",
+      "projection_pointer": "/attribution/summary",
+      "read_scope": "original document/aggregate only; no raw rows or model loads",
+      "sha256": "5ba1e06b5978ffe5356f3204398682a483a5b14d4973d5270e3e15883ab40102"
+    },
+    {
+      "bytes": 2398,
+      "logical_source": "local-evidence/factor_factory/research/a_share_model_selection_v1/public_exports/g1_research_review_20261020/additions/g1_attribution_audit_20261020/ACCEPTANCE.json",
+      "projection_pointer": "/attribution/acceptance_projection",
+      "read_scope": "original document/aggregate only; no raw rows or model loads",
+      "sha256": "a97ccab4727e8296abc6e12a5d0e50e0116547e2b7823c67a5d69346b4ab0e10"
+    },
+    {
+      "bytes": 1324,
+      "logical_source": "local-evidence/factor_factory/research/a_share_model_selection_v1/public_exports/g1_research_review_20261020/additions/g1_attribution_audit_20261020/FOLD_IDENTITY.csv",
+      "projection_pointer": "/attribution/fold_aggregate_string_fields",
+      "read_scope": "original document/aggregate only; no raw rows or model loads",
+      "sha256": "28610ca364a818332f8acd2ebbce7174a27e1032484b0844b4d68e62e13db8ae"
+    },
+    {
+      "bytes": 3906,
+      "logical_source": "local-evidence/factor_factory/research/a_share_model_selection_v1/public_exports/g1_research_review_20261020/additions/g1_attribution_audit_20261020/BAND_CONTRIBUTIONS.csv",
+      "projection_pointer": "/attribution/band_aggregate_string_fields",
+      "read_scope": "original document/aggregate only; no raw rows or model loads",
+      "sha256": "c2e5023f1023255a23fd51e919d16188553f23cc93d9e84a81480eb42e686c3f"
+    }
+  ]
+}
