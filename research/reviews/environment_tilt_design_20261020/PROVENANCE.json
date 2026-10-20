@@ -1,0 +1,128 @@
+{
+  "schema": "ENV_TILT_DESIGN_SAFE_PROVENANCE_V1",
+  "status": "DRAFT_NOT_EXECUTED_NOT_INDEPENDENTLY_REVIEWED",
+  "prior_public_baseline": "63947f715467b2c0bd4b5dc39ab15312fb01163d",
+  "target_prefix": "research/reviews/environment_tilt_design_20261020/",
+  "source_refs": [
+    {
+      "source_id": "PV_CONTRACT",
+      "sha256": "00ee5563e5feef7a5012650c7f8a6e57b6ce7a386a902f5d6fe7082179da85d5",
+      "bytes": 15240,
+      "scope": "DOCUMENT_OR_SOURCE_TEXT_OR_SMALL_METADATA_ONLY; no scientific payload hash"
+    },
+    {
+      "source_id": "S1_CONTRACT",
+      "sha256": "a2c5a9fbba05e7720d11dac4c59dd57aeccf53b22600e3af5f4f86abdd0cd33f",
+      "bytes": 5023,
+      "scope": "DOCUMENT_OR_SOURCE_TEXT_OR_SMALL_METADATA_ONLY; no scientific payload hash"
+    },
+    {
+      "source_id": "S1_CONFIG",
+      "sha256": "0c54479d857ef853983f81367c562420c62e94e22f3bc75b764b25f9f5277511",
+      "bytes": 2658,
+      "scope": "DOCUMENT_OR_SOURCE_TEXT_OR_SMALL_METADATA_ONLY; no scientific payload hash"
+    },
+    {
+      "source_id": "S1_PREP",
+      "sha256": "2a53f8eccc1370e7947630808342673927b7693028eed6ee3249fdaefa32e980",
+      "bytes": 37066,
+      "scope": "DOCUMENT_OR_SOURCE_TEXT_OR_SMALL_METADATA_ONLY; no scientific payload hash"
+    },
+    {
+      "source_id": "S1_PRODUCER",
+      "sha256": "ae7b9829e9cb8eafa002474dc8aeb00111195bfb689c8690871c9ed353e6150a",
+      "bytes": 25825,
+      "scope": "DOCUMENT_OR_SOURCE_TEXT_OR_SMALL_METADATA_ONLY; no scientific payload hash"
+    },
+    {
+      "source_id": "PRIOR_PRODUCER",
+      "sha256": "a54fbec3f5bf597a83e22cd3739d4bc22c1acfc7a1f0086f8445461619fa4ba2",
+      "bytes": 9846,
+      "scope": "DOCUMENT_OR_SOURCE_TEXT_OR_SMALL_METADATA_ONLY; no scientific payload hash"
+    },
+    {
+      "source_id": "M0_PRODUCER",
+      "sha256": "0aa1428f2b62447e35ecbebce4843613dd01111cfb4340f38221e022eecbd40c",
+      "bytes": 215630,
+      "scope": "DOCUMENT_OR_SOURCE_TEXT_OR_SMALL_METADATA_ONLY; no scientific payload hash"
+    },
+    {
+      "source_id": "M0_OUTPUT_MANIFEST",
+      "sha256": "c88abd5b63c7399a9179464b18331cfb82fec3020bebbb2b017037289a51387a",
+      "bytes": 2903,
+      "scope": "DOCUMENT_OR_SOURCE_TEXT_OR_SMALL_METADATA_ONLY; no scientific payload hash"
+    },
+    {
+      "source_id": "RESOURCE_INDEX",
+      "sha256": "954e8f6aaf126fcdae848d9f47bc5771c5f1696c5ddd9f9e5e9dd05eb3ee0761",
+      "bytes": 71083,
+      "scope": "DOCUMENT_OR_SOURCE_TEXT_OR_SMALL_METADATA_ONLY; no scientific payload hash"
+    },
+    {
+      "source_id": "ADVICE_DESIGN",
+      "sha256": "8aaec3d18ee8c6c088f97a76c81c687ed663ddfd78575447ce210aafe880002c",
+      "bytes": 10941,
+      "scope": "DOCUMENT_OR_SOURCE_TEXT_OR_SMALL_METADATA_ONLY; no scientific payload hash"
+    },
+    {
+      "source_id": "ADVICE_EVIDENCE",
+      "sha256": "058cd15f3a18386d2bdb4e39e3bbb7dc053072825ae14cdb148ba00572980573",
+      "bytes": 103943,
+      "scope": "DOCUMENT_OR_SOURCE_TEXT_OR_SMALL_METADATA_ONLY; no scientific payload hash"
+    },
+    {
+      "source_id": "ADVICE_PROVENANCE",
+      "sha256": "c09048476f82817fb81928259bbd30382f8fd0d4d037d14f66c8c88912f86c45",
+      "bytes": 8685,
+      "scope": "DOCUMENT_OR_SOURCE_TEXT_OR_SMALL_METADATA_ONLY; no scientific payload hash"
+    },
+    {
+      "source_id": "M0_META_2024H1",
+      "sha256": "ec4d20e3fce0a2af7268d30a2353994f5178c7e9803c8449b7b3350d9fe9fc58",
+      "bytes": 6684,
+      "scope": "DOCUMENT_OR_SOURCE_TEXT_OR_SMALL_METADATA_ONLY; no scientific payload hash"
+    },
+    {
+      "source_id": "M0_META_2024H2",
+      "sha256": "723870ed7b0ba72d630a7b3103794426a26b13472a6a93920c3cc8c7653c6600",
+      "bytes": 6684,
+      "scope": "DOCUMENT_OR_SOURCE_TEXT_OR_SMALL_METADATA_ONLY; no scientific payload hash"
+    },
+    {
+      "source_id": "M0_META_2025H1",
+      "sha256": "432447070f5e3a81e2c5efefc61558e1b24b03bf4e3ba05118c10e0f6c12fe13",
+      "bytes": 6684,
+      "scope": "DOCUMENT_OR_SOURCE_TEXT_OR_SMALL_METADATA_ONLY; no scientific payload hash"
+    },
+    {
+      "source_id": "M0_META_2025H2",
+      "sha256": "bc33f0c7f1e0dd73937ef906385e3fc4586506f0749ead122614e8858c6e1872",
+      "bytes": 6684,
+      "scope": "DOCUMENT_OR_SOURCE_TEXT_OR_SMALL_METADATA_ONLY; no scientific payload hash"
+    },
+    {
+      "source_id": "M0_META_2026H1",
+      "sha256": "da6f2b0ec8ed96139cc48a00a7b8da02599ddf8133c614ea7c17f5517f81b22d",
+      "bytes": 6684,
+      "scope": "DOCUMENT_OR_SOURCE_TEXT_OR_SMALL_METADATA_ONLY; no scientific payload hash"
+    },
+    {
+      "source_id": "M0_META_2026H2_PARTIAL_TO_2026_10_15",
+      "sha256": "c01f87825aea324e6c8e3fd3ca9bcd5fb0feac02cbf258d549d66d39dcf75344",
+      "bytes": 6705,
+      "scope": "DOCUMENT_OR_SOURCE_TEXT_OR_SMALL_METADATA_ONLY; no scientific payload hash"
+    }
+  ],
+  "original_scientific_payloads_read": false,
+  "large_payloads_rehashed": false,
+  "new_scientific_runs": 0,
+  "source_code_executed": false,
+  "notes": [
+    "Document authorship and JSON/hash checks only",
+    "Recorded checkpoint/cache hashes are metadata, payload identity not reverified",
+    "Source references are logical identities, not downloadable paths",
+    "No user attachment content or attachment metadata exported",
+    "No fit/runtime/input-execution hashes finalized",
+    "No registry or central-state writes; CONTRACT_ONLY_NOT_COUNTED"
+  ]
+}

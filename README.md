@@ -1,3 +1,6 @@
+## 环境调制行业月份加分设计（未执行）
+
+新增[设计草案](research/reviews/environment_tilt_design_20261020/README.md)：冻结M0后以单一观察市场广度调制原行业月份正先验，有界加分并学习一个历时λ。仅CONTRACT_DRAFT_NOT_EXECUTION_READY；全部五完整fold所需早期OOF元数据和原两年基础训练历史仍有缺口，未训练/预测/回测。原S1失败和G1 INCONCLUSIVE保留。
 ## 环境×行业×月份训练方案咨询材料（2026-10-20）
 
 [阅读材料与可复制ChatGPT prompt](research/reviews/environment_training_advice_20261020/README.md)。补齐已完成的M0–M4环境实验、S1失败及G1/归因边界，供外部模型设计下一项有限实验；本批没有新训练或科学评价。

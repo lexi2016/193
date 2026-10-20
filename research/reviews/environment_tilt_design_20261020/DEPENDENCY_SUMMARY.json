@@ -1,0 +1,286 @@
+{
+  "schema": "ENV_TILT_METADATA_DEPENDENCY_DRAFT_V1",
+  "status": "BLOCKED_OOF_METADATA_AND_EARLY_INPUT_SPAN",
+  "payload_access": false,
+  "metadata_checks_only": true,
+  "dependencies": [
+    {
+      "id": "outer_m0_h2",
+      "status": "PRESENT_METADATA_BOUND",
+      "evidence": [
+        "PV_CONTRACT",
+        "M0_OUTPUT_MANIFEST",
+        "M0_META_2024H1",
+        "M0_META_2024H2",
+        "M0_META_2025H1",
+        "M0_META_2025H2",
+        "M0_META_2026H1",
+        "M0_META_2026H2_PARTIAL_TO_2026_10_15"
+      ],
+      "limit": "six sidecars located, recorded artifact SHA only; no model or prediction payload read"
+    },
+    {
+      "id": "s1_feature_prior_calendar_caches",
+      "status": "PRESENT_METADATA_BOUND",
+      "evidence": [
+        "S1_PREP",
+        "S1_PRODUCER",
+        "PRIOR_PRODUCER"
+      ],
+      "limit": "four feature/panel/calendar caches recorded; no score cache among these; contents not reopened or rehashed"
+    },
+    {
+      "id": "past_only_market_breadth_definition",
+      "status": "PRESENT_METADATA_BOUND",
+      "evidence": [
+        "M0_PRODUCER"
+      ],
+      "limit": "source definition found; standalone persistent breadth cache NOT_LOCATED"
+    },
+    {
+      "id": "two_year_oot_scores_2022H1_2026H1",
+      "status": "NOT_LOCATED",
+      "blocking": true,
+      "evidence": [
+        "M0_PRODUCER",
+        "S1_PREP",
+        "RESOURCE_INDEX"
+      ],
+      "limit": "scoped metadata navigation only; not a proof of nonexistence or of prediction never generated"
+    },
+    {
+      "id": "early_base_input_history_2020_start",
+      "status": "BOUND_INPUT_SPAN_SHORTFALL",
+      "blocking": true,
+      "evidence": [
+        "PV_CONTRACT",
+        "S1_PREP"
+      ],
+      "limit": "2022H1/H2 and 2023H1 OOF base nominal rolling2y starts precede bound panel start 2021-05-06/common finite 2021-06-04; any earlier original-source artifact NOT_LOCATED"
+    },
+    {
+      "id": "new_use_passport_fast_bind",
+      "status": "NOT_LOCATED",
+      "blocking": true,
+      "evidence": [
+        "RESOURCE_INDEX"
+      ],
+      "limit": "no certification for chronological second-stage scores located; not authorization for full recertification"
+    },
+    {
+      "id": "model_train_label_end_per_score",
+      "status": "CANNOT_CONFIRM",
+      "blocking": true,
+      "evidence": [
+        "M0_PRODUCER"
+      ],
+      "limit": "source purge invariant located, actual row-level score model identity/time binding pending"
+    },
+    {
+      "id": "historical_pit_and_execution",
+      "status": "CANNOT_CONFIRM",
+      "blocking_for": "deployment_or_confirmatory_claim",
+      "evidence": [
+        "PV_CONTRACT",
+        "S1_CONTRACT"
+      ],
+      "limit": "current retrospective classification allowed for DIRECTION_ONLY; no 5-percent reclassification audit introduced"
+    },
+    {
+      "id": "execution_hashes_resource_budget",
+      "status": "CANNOT_CONFIRM",
+      "blocking": true,
+      "evidence": [],
+      "limit": "draft only; no execution code/input/config freeze, resource or OOF recovery budget"
+    }
+  ],
+  "outer_metadata": [
+    {
+      "fold": "2024H1",
+      "metadata_status": "COMPLETED",
+      "training_signal_span": [
+        "2022-01-04",
+        "2023-12-27"
+      ],
+      "test_score_key_span": [
+        "2024-01-02",
+        "2024-06-28"
+      ],
+      "test_key_count": 613473,
+      "checkpoint_sha_recorded_not_rehashed": "ff54c442a45409e2f9de5220a3e9df3194e557483a246de0aa035eee30e728f8",
+      "source_id": "M0_META_2024H1",
+      "interpretation": "OUTER_TEST_KEYS_METADATA_ONLY; payload and max training label-end not inspected"
+    },
+    {
+      "fold": "2024H2",
+      "metadata_status": "COMPLETED",
+      "training_signal_span": [
+        "2022-07-01",
+        "2024-06-26"
+      ],
+      "test_score_key_span": [
+        "2024-07-01",
+        "2024-12-31"
+      ],
+      "test_key_count": 660031,
+      "checkpoint_sha_recorded_not_rehashed": "2e5dd30304cc767fb477f8b2c3f8350b2f784832e7a55f3258d6df2c254229dd",
+      "source_id": "M0_META_2024H2",
+      "interpretation": "OUTER_TEST_KEYS_METADATA_ONLY; payload and max training label-end not inspected"
+    },
+    {
+      "fold": "2025H1",
+      "metadata_status": "COMPLETED",
+      "training_signal_span": [
+        "2023-01-03",
+        "2024-12-27"
+      ],
+      "test_score_key_span": [
+        "2025-01-02",
+        "2025-06-30"
+      ],
+      "test_key_count": 623704,
+      "checkpoint_sha_recorded_not_rehashed": "27ccfe6c4ecad6fee34ce4cdedd6e1b14817ebcd8ee813dda37d4c5201441c39",
+      "source_id": "M0_META_2025H1",
+      "interpretation": "OUTER_TEST_KEYS_METADATA_ONLY; payload and max training label-end not inspected"
+    },
+    {
+      "fold": "2025H2",
+      "metadata_status": "COMPLETED",
+      "training_signal_span": [
+        "2023-07-03",
+        "2025-06-26"
+      ],
+      "test_score_key_span": [
+        "2025-07-01",
+        "2025-12-31"
+      ],
+      "test_key_count": 678198,
+      "checkpoint_sha_recorded_not_rehashed": "fa7c9e2c5814b5e48b177fb2c2a8c27fd260adeb994fe4b797782a24606eb007",
+      "source_id": "M0_META_2025H2",
+      "interpretation": "OUTER_TEST_KEYS_METADATA_ONLY; payload and max training label-end not inspected"
+    },
+    {
+      "fold": "2026H1",
+      "metadata_status": "COMPLETED",
+      "training_signal_span": [
+        "2024-01-02",
+        "2025-12-29"
+      ],
+      "test_score_key_span": [
+        "2026-01-05",
+        "2026-06-30"
+      ],
+      "test_key_count": 632372,
+      "checkpoint_sha_recorded_not_rehashed": "c7f06d08411d546804ef48619e372d74cb46c96752d4ddbbca16532dbafa4e2e",
+      "source_id": "M0_META_2026H1",
+      "interpretation": "OUTER_TEST_KEYS_METADATA_ONLY; payload and max training label-end not inspected"
+    },
+    {
+      "fold": "2026H2_PARTIAL_TO_2026_10_15",
+      "metadata_status": "COMPLETED",
+      "training_signal_span": [
+        "2024-07-01",
+        "2026-06-26"
+      ],
+      "test_score_key_span": [
+        "2026-07-01",
+        "2026-10-15"
+      ],
+      "test_key_count": 391693,
+      "checkpoint_sha_recorded_not_rehashed": "75cbe19344bab81ce54f3b9bec2e865ae737c40b4f565802025585905a8ec3e2",
+      "source_id": "M0_META_2026H2_PARTIAL_TO_2026_10_15",
+      "interpretation": "OUTER_TEST_KEYS_METADATA_ONLY; payload and max training label-end not inspected"
+    }
+  ],
+  "lambda_windows": [
+    {
+      "fold": "2024H1",
+      "start_inclusive": "2022-01-01",
+      "end_exclusive": "2024-01-01",
+      "existing_outer_test_segments_metadata": [],
+      "not_located_score_segments": [
+        "2022H1",
+        "2022H2",
+        "2023H1",
+        "2023H2"
+      ]
+    },
+    {
+      "fold": "2024H2",
+      "start_inclusive": "2022-07-01",
+      "end_exclusive": "2024-07-01",
+      "existing_outer_test_segments_metadata": [
+        "2024H1"
+      ],
+      "not_located_score_segments": [
+        "2022H2",
+        "2023H1",
+        "2023H2"
+      ]
+    },
+    {
+      "fold": "2025H1",
+      "start_inclusive": "2023-01-01",
+      "end_exclusive": "2025-01-01",
+      "existing_outer_test_segments_metadata": [
+        "2024H1",
+        "2024H2"
+      ],
+      "not_located_score_segments": [
+        "2023H1",
+        "2023H2"
+      ]
+    },
+    {
+      "fold": "2025H2",
+      "start_inclusive": "2023-07-01",
+      "end_exclusive": "2025-07-01",
+      "existing_outer_test_segments_metadata": [
+        "2024H1",
+        "2024H2",
+        "2025H1"
+      ],
+      "not_located_score_segments": [
+        "2023H2"
+      ]
+    },
+    {
+      "fold": "2026H1",
+      "start_inclusive": "2024-01-01",
+      "end_exclusive": "2026-01-01",
+      "existing_outer_test_segments_metadata": [
+        "2024H1",
+        "2024H2",
+        "2025H1",
+        "2025H2"
+      ],
+      "not_located_score_segments": []
+    },
+    {
+      "fold": "2026H2_PARTIAL_TO_2026_10_15",
+      "start_inclusive": "2024-07-01",
+      "end_exclusive": "2026-07-01",
+      "existing_outer_test_segments_metadata": [
+        "2024H2",
+        "2025H1",
+        "2025H2",
+        "2026H1"
+      ],
+      "not_located_score_segments": []
+    }
+  ],
+  "source_ref_file": "PROVENANCE.json",
+  "cache_sha_basis": "RECORDED_IN_S1_PREPARATION_RECEIPT_NOT_REHASHED",
+  "search_scope": [
+    "known A-share model research directory filenames",
+    "original M0 formal run small metadata",
+    "S1 original worktree source text",
+    "known RESOURCE_INDEX metadata"
+  ],
+  "safety": {
+    "research_only": true,
+    "production_allowed": false,
+    "buy_gate_updated": false,
+    "orders_sent": false
+  }
+}

@@ -1,0 +1,117 @@
+{
+  "schema": "ENVIRONMENT_TILT_DESIGN_DRAFT_V1",
+  "status": "CONTRACT_DRAFT_NOT_EXECUTION_READY",
+  "registration": "CONTRACT_ONLY_NOT_COUNTED",
+  "execution": "NOT_EXECUTED",
+  "GOAL": "Frozen M0 Top50 environment-modulated positive relative industry-month prior tilt for paired gross h2 Top10 comparison",
+  "BASELINE_ID": "PV_ENVIRONMENT_R1_M0_FORMAL_EXACT_4THREAD_H2",
+  "ONE_VARIABLE": "bounded lambda * capped M0 score scale * breadth gate * positive bounded original industry-month relative prior",
+  "HYPOTHESIS": "A low-dimensional ex-ante environment modulation may improve selected h2 gross returns without retraining M0; mechanism cause and performance unconfirmed",
+  "PREDICTION": "Proposed historical screen: paired mean delta >=8bp, at least4/5 positive complete folds, candidate paired-date daily Top10 CVaR5 >= M0",
+  "REJECTION_CONDITION": "Any frozen screen false closes this exact route; missing dependencies or statistical confirmation remain CANNOT_CONFIRM, not family rejection",
+  "mechanism": {
+    "candidate_policy": "Top min(50,N) in original full common finite M0 pool, stable score desc/code asc",
+    "selection": "Top min(10,K), no refill",
+    "prior": "original S1 log(L_im/L_i), kappa100, complete years 2006<=year<T.year, T+1 observed-calendar month",
+    "z": "tanh(max(prior,0)); original UNKNOWN/unmapped/zero-support neutral",
+    "environment": "original all-observed-panel market_advancer_share at T close",
+    "g": "max(0,2*b-1)",
+    "score_scale": "min(population_std(M0 scores on C_T),0.01)",
+    "score": "p + lambda_k * score_scale * g * z",
+    "absolute_score_addition_max": 0.0025,
+    "lambda_bounds": [
+      0,
+      0.25
+    ],
+    "lambda_zero": "return exact original M0 Top10 without auxiliary arithmetic"
+  },
+  "lambda_training": {
+    "policy": "LEARNED_CHRONOLOGICAL_MAIN_RECOMMENDATION",
+    "fixed_lambda_fallback": false,
+    "window": "[outer_start-DateOffset(years=2),outer_start), label_end<outer_start",
+    "base_score_time": "max(model_train_label_end)<each scored date; no same-model training-set prediction",
+    "cadence_proposal": "same original half-year rolling2y M0 schedule; early input span blocking",
+    "training_support": "label-independent TopK selection then all K labels finite; separate train mask, no refill; incomplete two-year score coverage STOP",
+    "objective": "date-equal mean_t mean_i (r_it-lambda*a_it)^2 + rho*lambda^2; r and a centered within original TopK and divided by0.01",
+    "rho_proposal": 1,
+    "closed_form": "clip(mean_t mean_i(a*r)/(mean_t mean_i(a*a)+rho),0,0.25)",
+    "inner_hyperparameter_search": false,
+    "base_fit_budget": null,
+    "base_fit_budget_reason": "OOF metadata and early original-source history missing; no recovery authorized",
+    "scalar_fit_budget": null,
+    "scalar_fit_budget_reason": "one closed-form per outer fold only after full dependency binding; no total-work guarantee"
+  },
+  "STATISTICS": {
+    "estimand": "equal-date paired mean complete equalweight10 gross h2 delta",
+    "horizon": "close(T+2)/close(T)-1 on original common observed session calendar",
+    "complete_folds": [
+      "2024H1",
+      "2024H2",
+      "2025H1",
+      "2025H2",
+      "2026H1"
+    ],
+    "partial": "2026H2 through2026-10-15 diagnostic only",
+    "valid_dates": "new candidate selected keys first; exclude entire paired date if either selected10 has any missing h2; never inherit564/547",
+    "uncertainty": "calendar-aware Bartlett20 HAC working SE on new paired-date delta, retain missing calendar gaps and cross-fold lag pairs; formula in PROPOSAL section6",
+    "interval": "optional mu +/-1.96SE uncalibrated normal reference; no universal95 coverage or CI gate",
+    "old_qstar_transfer": false,
+    "confirmation_gate": null,
+    "sealed_status": "NOT_LOCATED_NOT_FROZEN",
+    "sample_size_or_power_guarantee": null
+  },
+  "PASS_THRESHOLD": {
+    "state": "PROPOSED_NOT_FINAL_FREEZE",
+    "historical_screen_only": {
+      "mean_delta_bp_min": 8,
+      "positive_complete_folds_min": 4,
+      "daily_top10_CVaR5_candidate_minus_M0_min": 0
+    },
+    "confirmatory": null,
+    "reason": "policy proposals for materiality/stability/tail preservation, not optimized or justified by new results"
+  },
+  "risk": {
+    "industry_rotation_allowed": true,
+    "beta_industry_attribution_separate": true,
+    "industry_neutrality_required": false,
+    "same_industry_negative_kills_family": false,
+    "new_hard_risk_filters": false,
+    "CVaR": "fractional mass lower5percent tail mean, not quantile",
+    "NAV_or_maxdrawdown": "UNDEFINED_WITHOUT_EXECUTION_CONTRACT",
+    "net_returns": "CANNOT_CONFIRM"
+  },
+  "INPUT_PATHS": "logical source IDs in DEPENDENCY_SUMMARY.json and PROVENANCE.json; execution input binding absent",
+  "INPUT_SHA256": null,
+  "CODE_SHA": null,
+  "CONFIG_SHA": null,
+  "execution_hash_null_reason": "No execution implementation or complete input binding frozen; documentation SHA is not an execution hash",
+  "SIGNAL_DATE_RANGE": "outer history2024-01-01 through2026-10-15; lambda score dependencies2022-01-01 through2026-06-30",
+  "TARGET_DATE_RANGE": "original common-calendar h2 mapping; actual mature complete pairs unknown",
+  "SEALED_DATA": "NONE_BOUND; exposed historical results at most DIRECTION_ONLY",
+  "WRITER": "environment_tilt_design_writer",
+  "REVIEWER": "environment_proposals_review",
+  "ALLOWED_PATHS": [
+    "this public design-document prefix only"
+  ],
+  "FORBIDDEN_PATHS": [
+    "source",
+    "registry",
+    "central state",
+    "original artifacts",
+    "services",
+    "schedules",
+    "legacy V3",
+    "production",
+    "BUY",
+    "orders"
+  ],
+  "STOP_RULE": "Metadata/history/time/keys conflict stays blocked, no scientific execution; final design review does not authorize training",
+  "safety": {
+    "research_only": true,
+    "production_allowed": false,
+    "buy_gate_updated": false,
+    "orders_sent": false
+  },
+  "blocking_scope": "Learn lambda for all five full outer folds with original rolling two-year base-model train windows; does not prohibit every transparent fixed policy",
+  "recovery_decision": "If qualified early scores/original inputs remain unbound, extending same authority/producer to earlier history requires a new bounded input/version scope; not authorized here"
+}
