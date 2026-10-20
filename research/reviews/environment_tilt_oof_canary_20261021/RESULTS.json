@@ -1,0 +1,110 @@
+{
+  "code_test_reviews": [
+    {
+      "independent_test_result": {
+        "deselected": 37,
+        "passed": 14
+      },
+      "receipt_sha256": "9fe3d393d1082fe1251ddd196e245b5e95f842fb46bace33b65035fd7890fc55",
+      "source_sha256": "30bbf69ef320a62d64177d318a210c7abdc3012e91ca2324c3ce75b580a83976",
+      "stage": "M12_R1",
+      "test_sha256": "11b601af042969c1feb296700b2c931e937933ba85ba28bcc07c5386e9aa6331",
+      "verdict": "REVIEWED/PASS"
+    },
+    {
+      "independent_test_result": {
+        "deselected": 15,
+        "passed": 31
+      },
+      "receipt_sha256": "90578118213470c25d7181d17ad166e706837dec11196f00e1d75cc88d3f7421",
+      "source_sha256": "8cd4932157920706e651f7121bcee0c3fe8775814170f6dfee868ea17150ab9e",
+      "stage": "M13_R2",
+      "test_sha256": "6d063a4b0abf99ea060ebb35e5aed40efd6b466d343fcbc752b469914f95f724",
+      "verdict": "REVIEWED/PASS"
+    },
+    {
+      "independent_test_result": {
+        "deselected": 36,
+        "passed": 7
+      },
+      "receipt_sha256": "3b09d741d2addce4a497696da19cccc9fb6c5b83237fca3da00fa5cf0a42ac2a",
+      "source_sha256": "007e7f4e5388f12442bcbfc60ee0d48487ac55d55c9f52e5948a9c7fddfacbbb",
+      "stage": "M17_R1",
+      "test_sha256": "09e9ee4a09f7e4ce2085cb7d750cdf8ee03f8f1fa33075e9212682311d8a10bc",
+      "verdict": "REVIEWED/PASS"
+    },
+    {
+      "independent_test_result": {
+        "deselected": 29,
+        "passed": 16
+      },
+      "receipt_sha256": "fd070c946e08711375062ba8f995186464e5e5e9e27d900b953c3a935d870127",
+      "source_sha256": "d2e0f8f5da5c6f76e076a34f8eed56df9530f3cd66aaae219203c935248fa512",
+      "stage": "M19_R1",
+      "test_sha256": "14bd7a1522351069163afd730d5f533a1a85f898219ca983f04afc0a80fc10af",
+      "verdict": "REVIEWED_PASS_FOR_BOUNDED_M19_MAC_CANARY_CODE"
+    }
+  ],
+  "excluded_outputs": [
+    "M24 score payload",
+    "M24 checkpoint/model payload",
+    "labels",
+    "registry snapshots",
+    "raw network/market payloads"
+  ],
+  "m23": {
+    "command_result_sha256": "1a8e82165caf192604b08ca894e7c8d665b422a09d74e2a0786c0f1b99b626fb",
+    "first_score_date": "2023-07-03",
+    "first_source_pit": "CANNOT_CONFIRM",
+    "independent_time_use_review_sha256": "24e31ddb708935da59776600e414336e7288dff92f5441a715f5d20fa515e547",
+    "max_label_end": "2023-06-30",
+    "nominal_dates": 485,
+    "nonempty_dates": 480,
+    "official_calendar": "CANNOT_CONFIRM",
+    "previously_proven_empty_dates": 5,
+    "score_dates": 124,
+    "score_rows": 637523,
+    "training_dates": 478,
+    "training_rows": 2057675,
+    "verdict": "PASS_NARROW_NEW_TIME_USE"
+  },
+  "m24": {
+    "command_result_sha256": "12138088823a7a4e17c04a21ed4633065d268dcddf8310d691b547aeeea6aedb",
+    "elapsed_seconds": 33.238782958942465,
+    "first_source_pit": "CANNOT_CONFIRM",
+    "fit_calls": 1,
+    "full_oof_alpha": "CANNOT_CONFIRM",
+    "independent_model_review_sha256": "49c19b98cbd326971d0b023ad493dd45bd91939f4f5aabb6246dab4d1f7c1011",
+    "official_calendar": "CANNOT_CONFIRM",
+    "peak_rss_bytes": 9304473600,
+    "performance_evaluation": "NOT_PERFORMED",
+    "roundtrip_exact": true,
+    "score_rows": 637523,
+    "verdict": "PASS_SINGLE_CELL_FIT_RECEIPT_AND_SCORE_IDENTITY"
+  },
+  "m25": {
+    "OS_OOM_observed": false,
+    "command_result_sha256": "0a482e966acf4e8e5cd8aa5736587242f80b7de54fec2ab948b9aa64e186cfc4",
+    "error": "OWNER_RSS_LIMIT",
+    "failure_evidence_sha256": "a4c2cc4be485c6a2a71f640ef0548df2b7ce8d1f99c6c235143e8febcbc234c8",
+    "fit_calls": 0,
+    "operational_timing_sha256": "95ad46e235595ce15be9434e6ae53ca562005e66ad1b06026202950a55ea4917",
+    "parent_cap_bytes": 2147483648,
+    "parent_peak_null_reason": "Exact peak was not recorded; no estimate substituted.",
+    "parent_peak_rss_bytes": null,
+    "prefix_or_comparison_emissions": 0,
+    "query_calls": 0,
+    "retry_count": 0,
+    "status": "FAILED_CONTROLLED_RESOURCE_GUARD",
+    "workers_dispatched": 0
+  },
+  "research_state": "DIRECTION_ONLY",
+  "safety": {
+    "RESEARCH_ONLY": true,
+    "buy_gate_updated": false,
+    "orders_sent": false,
+    "production_allowed": false
+  },
+  "schema": "ENVIRONMENT_TILT_OOF_CANARY_RESULTS_V1",
+  "status": "PROVENANCE_ONLY_DRAFT"
+}

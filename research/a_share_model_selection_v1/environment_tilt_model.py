@@ -78,7 +78,7 @@ class ScoreRow:
 class ScoreDay:
     signal_date: date
     next_session: date
-    h2_session: date
+    h2_session: date | None  # Unobserved final target: selection only, never training.
     rows: tuple[ScoreRow, ...]
     breadth: float | None = None  # None alone is an explicitly bound missing value.
 
@@ -95,7 +95,7 @@ class RankedRow:
 @dataclass(frozen=True)
 class Selection:
     signal_date: date
-    h2_session: date
+    h2_session: date | None
     lambda_value: float
     top_k: tuple[RankedRow, ...]  # Original M0 order, independent of labels.
     selected: tuple[RankedRow, ...]  # Candidate score desc/code asc.
@@ -112,8 +112,9 @@ class Selection:
 
 def _top_k(day: ScoreDay) -> tuple[ScoreRow, ...]:
     _date(day.signal_date, "signal_date")
-    if not (day.signal_date < _date(day.next_session, "next_session")
-            < _date(day.h2_session, "h2_session")):
+    if (not day.signal_date < _date(day.next_session, "next_session")
+            or (day.h2_session is not None
+                and not day.next_session < _date(day.h2_session, "h2_session"))):
         raise ContractError("missing or invalid T+1/T+2 calendar anchor")
     seen = set()
     for row in day.rows:
@@ -268,16 +269,17 @@ def fit_lambda(outer_start: date, coverage: CalendarBinding,
     for t in coverage.sessions:
         day = by_date[t].scores
         rows = _top_k(day)  # ALWAYS before labels; never remove/refill bad labels.
+        _date(day.h2_session, "training h2_session")
         _, gate, _, units = _unit_additions(day, rows)
         activated += int(gate is not None and gate > 0)
         nonzero += int(any(u != 0 for u in units))
         selected_labels = [labels.get((t, row.code)) for row in rows]
+        for label in selected_labels:
+            if _known(label) and _date(label.label_end, "label_end") != day.h2_session:
+                raise ContractError("label_end differs from bound h2 session")
         if not rows or not all(_known(label) for label in selected_labels):
             mask.append((t, False, "incomplete_TopK_labels"))
             continue
-        for label in selected_labels:
-            if _date(label.label_end, "label_end") != day.h2_session:
-                raise ContractError("label_end differs from bound h2 session")
         if day.h2_session >= outer_start:
             mask.append((t, False, "label_not_mature_before_outer_start"))
             continue
@@ -307,7 +309,8 @@ class FrozenPair:
 def _validate_selection(selection: Selection) -> None:
     """Check read-back list structure before an isolated outcome join."""
     _date(selection.signal_date, "selection date")
-    if not selection.signal_date < _date(selection.h2_session, "selection h2 session"):
+    if (selection.h2_session is not None
+            and not selection.signal_date < _date(selection.h2_session, "selection h2 session")):
         raise ContractError("invalid frozen selection horizon")
     lam = _finite(selection.lambda_value, "frozen lambda")
     if not 0 <= lam <= .25 or len(selection.top_k) > 50:
@@ -475,14 +478,16 @@ def evaluate(full_calendar: CalendarBinding, pairs: Sequence[FrozenPair],
             for label in arm:
                 if _known(label) and _date(label.label_end, "label_end") != base.h2_session:
                     raise ContractError("evaluation label_end differs from bound h2 session")
-        complete = len(base.selected) == len(cand.selected) == known[0] == known[1] == 10
+        complete = (base.h2_session is not None
+                    and len(base.selected) == len(cand.selected) == known[0] == known[1] == 10)
         br, cr = (_mean([label.value for label in arm]) for arm in arms) if complete else (None, None)
         bkeys, ckeys = {r.code for r in base.selected}, {r.code for r in cand.selected}
         entrants, exits = tuple(sorted(ckeys - bkeys)), tuple(sorted(bkeys - ckeys))
         delta = _finite(cr - br, "paired delta") if complete else None
         dates.append(PairedDate(t, fold_id(t), complete, len(base.selected), len(cand.selected),
                                 *known, len(base.selected) - known[0], len(cand.selected) - known[1],
-                                "complete" if complete else "incomplete_selected_Top10_labels_or_slots",
+                                "complete" if complete else ("h2_calendar_anchor_unavailable" if base.h2_session is None
+                                                            else "incomplete_selected_Top10_labels_or_slots"),
                                 br, cr, delta, entrants, exits))
         if complete and fold_id(t) in COMPLETE_FOLDS:
             base_events.extend(label.value for label in arms[0])

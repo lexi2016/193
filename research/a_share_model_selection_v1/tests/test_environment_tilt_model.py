@@ -390,3 +390,60 @@ def test_calendar_binding_identity_order_and_bounds_fail_closed():
                    replace(c, sessions=(date(2024, 1, 1),)), replace(c, sessions=())):
         with pytest.raises(m.ContractError):
             broken.validate(date(2022, 1, 1), date(2024, 1, 1))
+
+
+def test_partial_unobserved_h2_retains_exact_lists_and_invalid_pair_without_changing_full_screen():
+    full,_,pairs,labels=evaluation_fixture()
+    observed=day(date(2026,10,15))
+    unobserved=replace(observed,h2_session=None)
+    p=m.freeze_pair(unobserved,.25)
+    original=m.freeze_pair(observed,.25)
+    assert p.baseline.selected==original.baseline.selected
+    assert p.candidate.selected==original.candidate.selected
+    assert p.baseline.h2_session is p.candidate.h2_session is None
+    assert p.baseline.sha256==m.select(unobserved,0).sha256
+    # The identity path still skips invalid auxiliary arithmetic.
+    untouched=replace(unobserved,breadth=float('nan'),rows=tuple(replace(r,prior=float('inf'),prior_status='bad') for r in unobserved.rows))
+    assert m.select(untouched,0).selected==p.baseline.selected
+    unknown=tuple(m.Outcome(unobserved.signal_date,r.code,None,None) for r in unobserved.rows)
+    partial=binding(date(2026,7,1),date(2026,10,16),[unobserved.signal_date])
+    before=m.evaluate(full,pairs,labels)
+    after=m.evaluate(full,(*pairs,p),(*labels,*unknown),partial)
+    last=after.dates[-1]
+    assert last.signal_date==date(2026,10,15) and not last.paired_complete
+    assert last.base_selected==last.candidate_selected==10
+    assert last.base_known==last.candidate_known==0 and last.base_unknown==last.candidate_unknown==10
+    assert last.reason=='h2_calendar_anchor_unavailable'
+    assert last.delta is last.baseline_return is last.candidate_return is after.partial_fold_mean is None
+    for name in ('mean_delta','median_delta','cvar5_base','cvar5_candidate','positive_full_folds',
+                 'historical_screen','decision','hac','selected_event_p10_base','selected_event_p10_candidate'):
+        assert getattr(after,name)==getattr(before,name)
+
+
+@pytest.mark.parametrize('labels',['none','unknown','known'])
+def test_unobserved_h2_is_never_admitted_to_lambda_training(labels):
+    d=replace(day(),h2_session=None)
+    supplied=() if labels=='none' else outcomes(d,[None]*len(d.rows) if labels=='unknown' else None)
+    with pytest.raises(m.ContractError,match='training h2_session'):
+        fit([d],supplied)
+
+
+@pytest.mark.parametrize('end',[None,date(2026,10,19)])
+def test_unobserved_h2_with_any_known_selected_outcome_is_a_conflict(end):
+    full,_,pairs,labels=evaluation_fixture()
+    d=replace(day(date(2026,10,15)),h2_session=None)
+    pair=m.freeze_pair(d,.25)
+    partial=binding(date(2026,7,1),date(2026,10,16),[d.signal_date])
+    known=m.Outcome(d.signal_date,pair.baseline.selected[0].code,.01,end)
+    with pytest.raises(m.ContractError,match='label_end'):
+        m.evaluate(full,(*pairs,pair),(*labels,known),partial)
+
+
+def test_missing_h2_does_not_relax_required_next_session_or_known_training_label_consistency():
+    d=replace(day(),h2_session=None,next_session=None)
+    with pytest.raises(m.ContractError,match='next_session'):
+        m.select(d,0)
+    d=day();mixed=list(outcomes(d));mixed[0]=replace(mixed[0],value=None)
+    mixed[1]=replace(mixed[1],label_end=None)
+    with pytest.raises(m.ContractError,match='label_end'):
+        fit([d],tuple(mixed))

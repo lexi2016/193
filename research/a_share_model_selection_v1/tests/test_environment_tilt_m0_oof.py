@@ -49,6 +49,8 @@ def config(tmp_path, monkeypatch):
         state='FROZEN_READY_FOR_ACTIVATION', execution_ids=dict(preflight='SYNTHETIC_PREFLIGHT', fit='SYNTHETIC_FIT'),
         recipe_sources={'model_selection': dict(path=str(ORIGINAL), sha256=m.sha(ORIGINAL))},
         preparation_receipt={}, original_binding={}, new_use_passport=None,
+        original_empty_pool_proof={k:dict(path=str(tmp_path/(k+'.json')),sha256='a'*64)
+                                  for k in ('ruling','diagnostic','s1_runner')},
         runtime_versions={'python':'SYNTHETIC'},
         resource_probe_source=dict(path=str(probe),sha256=m.sha(probe)), **m.FLAGS)
 
@@ -295,6 +297,7 @@ def test_two_phase_synthetic_orchestration_registers_before_reads_and_terminal_a
     monkeypatch.setattr(m,'make_guard',guard_factory);monkeypatch.setattr(m,'read_bound_caches',read)
     monkeypatch.setattr(m,'load_recipe',lambda c:proxy)
     monkeypatch.setattr(m,'resource_snapshot',lambda c:{'synthetic':True})
+    monkeypatch.setattr(m,'load_original_empty_pool_proof',lambda c:None)
     def activation(phase):
         cp.write_text(json.dumps(c))
         a=dict(phase=phase,decision='INDEPENDENT_REVIEW_PASS_ACTIVATE',config_sha256=m.sha(cp),
@@ -361,3 +364,131 @@ def test_resource_snapshot_exact_thresholds_and_probe_identity_fail_closed(tmp_p
         m.resource_snapshot(bad)
     with pytest.raises(m.Blocked,match='BINDING'):
         m.resource_snapshot({**c,'resource_probe_source':None})
+
+
+@pytest.fixture
+def bound_empty_frames(frames):
+    f, p, _ = frames
+    train = list(pd.bdate_range('2021-07-01', '2023-06-30'))
+    # Synthetic observed calendar with the exact nominal counts; never real data.
+    protected = {pd.Timestamp(d) for d in m.ORIGINAL_ZERO_POOL_DATES} | {train[0], train[-1]}
+    remove = [d for d in train if d not in protected][:len(train)-485]
+    train = [d for d in train if d not in remove]
+    score = list(pd.bdate_range('2023-07-03', '2023-12-29'))
+    score = score[:1] + score[len(score)-123:]
+    observed = [pd.Timestamp('2021-06-30'), *train, *score, pd.Timestamp('2024-01-02'), pd.Timestamp('2024-01-03')]
+    cal = pd.DataFrame(dict(date=observed,calendar_index=np.arange(len(observed))))
+    f = f.loc[f.date.isin(train+score) & ~f.date.isin(pd.to_datetime(m.ORIGINAL_ZERO_POOL_DATES))].reset_index(drop=True)
+    p = p.loc[p.date.isin(train)].reset_index(drop=True)
+    evidence = dict(original_zero_pool_dates=list(m.ORIGINAL_ZERO_POOL_DATES),
+        nominal_train_calendar_days=485,nonempty_train_pool_days=480,
+        score_calendar_days=124,nonempty_score_pool_days=124,evidence_refs={'synthetic_only':True})
+    return f,p,cal,evidence
+
+
+def test_original_bound_empty_pool_preserves_calendar_keys_split_and_equal_day_weights(recipe,bound_empty_frames):
+    f,p,cal,evidence=bound_empty_frames
+    prepared,proof=m.prepare_single_cell(recipe,f,p,cal,original_empty_pool_proof=evidence)
+    labels=recipe.build_close_return_labels(p,horizons=(2,),calendar=cal,
+        signal_start=pd.Timestamp('2021-07-01'),signal_end_exclusive=pd.Timestamp('2023-07-01'))[2]
+    train,test=recipe.split_fold(f,labels,recipe.Fold('2023H2',pd.Timestamp('2023-07-01'),pd.Timestamp('2023-12-31'),False))
+    pd.testing.assert_frame_equal(prepared['train'],train)
+    pd.testing.assert_frame_equal(prepared['test'],test)
+    np.testing.assert_array_equal(prepared['weights'],recipe.equal_day_weights(train.date))
+    coverage=proof['calendar_pool_coverage']
+    assert (coverage['nominal_train_calendar_days'],coverage['nonempty_train_pool_days'],coverage['empty_train_pool_days'])==(485,480,5)
+    assert coverage['original_zero_pool_dates']==list(m.ORIGINAL_ZERO_POOL_DATES)
+    assert coverage['score_calendar_days']==coverage['nonempty_score_pool_days']==124
+    assert coverage['empty_score_pool_dates']==[] and coverage['complete_nominal_partition']
+    assert coverage['calendar_dates_removed']==coverage['synthetic_rows_added']==0
+    assert proof['expected_train_feature_dates']==480
+    assert set(pd.to_datetime(m.ORIGINAL_ZERO_POOL_DATES)).issubset(set(cal.date))
+    assert not set(train.date) & set(pd.to_datetime(m.ORIGINAL_ZERO_POOL_DATES))
+
+
+@pytest.mark.parametrize('kind',['no_evidence','unknown_missing','known_empty_has_rows','score_missing','calendar_missing','proof_dates','proof_counts'])
+def test_bound_empty_pool_rejects_any_unaccounted_coverage_change(kind,recipe,bound_empty_frames):
+    f,p,cal,evidence=bound_empty_frames
+    if kind=='no_evidence': evidence=None
+    elif kind=='unknown_missing': f=f.loc[f.date!=pd.Timestamp('2022-06-01')]
+    elif kind=='known_empty_has_rows':
+        f=pd.concat([f,f.iloc[:2].assign(date=pd.Timestamp(m.ORIGINAL_ZERO_POOL_DATES[0]))],ignore_index=True)
+    elif kind=='score_missing': f=f.loc[f.date!=pd.Timestamp('2023-08-01')]
+    elif kind=='calendar_missing':
+        cal=cal.loc[cal.date!=pd.Timestamp(m.ORIGINAL_ZERO_POOL_DATES[0])].reset_index(drop=True)
+        cal['calendar_index']=np.arange(len(cal))
+    elif kind=='proof_dates': evidence={**evidence,'original_zero_pool_dates':list(m.ORIGINAL_ZERO_POOL_DATES[:-1])}
+    elif kind=='proof_counts': evidence={**evidence,'nominal_train_calendar_days':484}
+    with pytest.raises(m.Blocked):
+        m.prepare_single_cell(recipe,f,p,cal,original_empty_pool_proof=evidence)
+
+
+def synthetic_empty_metadata(c,tmp_path):
+    source=tmp_path/'synthetic_s1.py';source.write_text('# synthetic producer identity only\n')
+    diagnostic=tmp_path/'diagnostic.json';ruling=tmp_path/'ruling.json'
+    refs=dict(s1_runner=dict(path=str(source),sha256=m.sha(source)))
+    dates=list(m.ORIGINAL_ZERO_POOL_DATES)
+    diag=dict(status='DATE_DIAGNOSTIC_COMPLETE_NO_REPAIR',fit_calls=0,phases={},
+        authenticated_inputs=[dict(name=k,path=c['cache_files'][k]['path'],
+            actual_sha256=c['cache_files'][k]['sha256'],expected_sha256=c['cache_files'][k]['sha256']) for k in ('m0','calendar')])
+    for phase,start,end,inclusive,nominal,nonempty,missing in (
+        ('train','2021-07-01','2023-07-01','left',485,480,dates),
+        ('score','2023-07-01','2023-12-31','both',124,124,[])):
+        diag['phases'][phase]=dict(start=start,end=end,inclusive=inclusive,
+            expected=dict(count=nominal),actual=dict(unique_date_count=nonempty),
+            missing_dates=missing,missing_dates_empty_in_whole_m0_cache=missing,extra_dates=[])
+    diagnostic.write_text(json.dumps(diag));refs['diagnostic']=dict(path=str(diagnostic),sha256=m.sha(diagnostic))
+    c['preparation_receipt']=dict(path=str(tmp_path/'synthetic_prep.json'),sha256='b'*64)
+    decision=dict(schema='ENV_TILT_M22_ORIGINAL_EMPTY_COMMON_POOL_RULING_V1',
+        verdict='ORIGINAL_FIVE_ARM_COMMON_POOL_ZERO_KEY_DATES_PROVEN',
+        train_start='2021-07-01',train_end_exclusive='2023-07-01',nominal_train_calendar_days=485,
+        nonempty_train_pool_days=480,score_calendar_days=124,nonempty_score_pool_days=124,
+        original_zero_pool_dates=dates,preparation_sha256=c['preparation_receipt']['sha256'],
+        m0_sha256=c['cache_files']['m0']['sha256'],diagnostic_receipt_path=str(diagnostic),
+        diagnostic_receipt_sha256=refs['diagnostic']['sha256'],
+        producer_source_sha256=dict(model_selection=c['recipe_sources']['model_selection']['sha256'],s1_runner=refs['s1_runner']['sha256']))
+    ruling.write_text(json.dumps(decision));refs['ruling']=dict(path=str(ruling),sha256=m.sha(ruling))
+    c['original_empty_pool_proof']=refs
+    return diag,decision
+
+
+def test_original_empty_pool_proof_authenticates_metadata_only_and_changes_input_identity(tmp_path,monkeypatch):
+    c=config(tmp_path,monkeypatch);before=m.input_binding_identity(c)
+    synthetic_empty_metadata(c,tmp_path)
+    result=m.load_original_empty_pool_proof(c)
+    assert result['original_zero_pool_dates']==list(m.ORIGINAL_ZERO_POOL_DATES)
+    assert result['evidence_refs']==c['original_empty_pool_proof']
+    assert before!=m.input_binding_identity(c)
+    # No cache/preparation payload needs to exist to authenticate this metadata.
+    assert not Path(c['cache_files']['m0']['path']).exists()
+    assert not Path(c['preparation_receipt']['path']).exists()
+
+
+@pytest.mark.parametrize('kind',['metadata_sha','cache_sha','prep_sha','recipe_sha','producer_sha','ruling_dates','diagnostic_missing','diagnostic_extra','score_missing','diagnostic_cache'])
+def test_original_empty_pool_proof_binding_conflicts_stop(kind,tmp_path,monkeypatch):
+    c=config(tmp_path,monkeypatch);diag,ruling=synthetic_empty_metadata(c,tmp_path)
+    refs=c['original_empty_pool_proof']
+    if kind=='metadata_sha': refs['ruling']['sha256']='0'*64
+    elif kind=='cache_sha': c['cache_files']['m0']['sha256']='0'*64
+    elif kind=='prep_sha': c['preparation_receipt']['sha256']='0'*64
+    elif kind=='recipe_sha': c['recipe_sources']['model_selection']['sha256']='0'*64
+    elif kind=='producer_sha': Path(refs['s1_runner']['path']).write_text('# drift\n')
+    elif kind=='ruling_dates': ruling['original_zero_pool_dates']=ruling['original_zero_pool_dates'][:-1]
+    elif kind=='diagnostic_missing': diag['phases']['train']['missing_dates']=[]
+    elif kind=='diagnostic_extra': diag['phases']['train']['extra_dates']=['2022-01-01']
+    elif kind=='score_missing': diag['phases']['score']['missing_dates']=['2023-08-01']
+    elif kind=='diagnostic_cache': diag['authenticated_inputs'][0]['actual_sha256']='0'*64
+    if kind in ('diagnostic_missing','diagnostic_extra','score_missing','diagnostic_cache'):
+        Path(refs['diagnostic']['path']).write_text(json.dumps(diag))
+        refs['diagnostic']['sha256']=m.sha(refs['diagnostic']['path'])
+        ruling['diagnostic_receipt_sha256']=refs['diagnostic']['sha256']
+    if kind in ('ruling_dates','diagnostic_missing','diagnostic_extra','score_missing','diagnostic_cache'):
+        Path(refs['ruling']['path']).write_text(json.dumps(ruling));refs['ruling']['sha256']=m.sha(refs['ruling']['path'])
+    with pytest.raises(m.Blocked): m.load_original_empty_pool_proof(c)
+
+
+def test_config_requires_exact_empty_pool_proof_references(tmp_path,monkeypatch):
+    c=config(tmp_path,monkeypatch)
+    for bad in (None,{},dict(allow_missing=True),{**c['original_empty_pool_proof'],'extra':{}}):
+        with pytest.raises(m.Blocked,match='EMPTY_POOL_PROOF'):
+            m.validate_config({**c,'original_empty_pool_proof':bad})
