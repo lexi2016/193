@@ -1,0 +1,46 @@
+{
+  "scope": "Exact three corporate-action exclusions and accepted original amount-scale bridge; original category1 affine and model recipe unchanged",
+  "files": [
+    {
+      "path": "research/a_share_model_selection_v1/environment_tilt_full_prefix.py",
+      "sha256": "b7237ac9c8b9aa6e7dce6ed4365d0a6568278aeaeaef69d4a9dda7698a014640",
+      "before_sha256": "d2e0f8f5da5c6f76e076a34f8eed56df9530f3cd66aaae219203c935248fa512"
+    },
+    {
+      "path": "tests/test_environment_tilt_full_prefix.py",
+      "sha256": "a844fda98ce36a3589f5abf6a98ea729815543a8dd74d51f29de55ca9238c133",
+      "before_sha256": "14bd7a1522351069163afd730d5f533a1a85f898219ca983f04afc0a80fc10af"
+    },
+    {
+      "path": "research/a_share_model_selection_v1/environment_tilt_early_inputs.py",
+      "sha256": "8a485732e47ce4070c06fbeecc597a36d057079e59a68e4bf919d9c74d2d5337",
+      "before_sha256": "cc7054a2153bc16eac71f80ff51186d40fe6a9add6d50b59e15bfef0f1b44d65"
+    },
+    {
+      "path": "research/a_share_model_selection_v1/tests/test_environment_tilt_early_inputs.py",
+      "sha256": "3efabc1f7aacd4f673a13e378207ad29ac8dba7180c2dacc44c8ddfbcabb60e0",
+      "before_sha256": "d0ffb3925c8e4109574a9bab06e7dc2f75c2c9683823a8c1f26e6a2650a3de4e"
+    },
+    {
+      "path": "research/reviews/environment_tilt_input_bridge_20261021/SHAHE_STANDARD_ACTION_CHECK_11/run.py",
+      "sha256": "bac775c0cd50e01004e30bc429d5c88577ab3def05b6f1360de3463a79bdfbc9"
+    },
+    {
+      "path": "research/reviews/environment_tilt_input_bridge_20261021/SHAHE_STANDARD_ACTION_CHECK_11/README.md",
+      "sha256": "0b7f0292e8a4cb127ef7d9d902be6ba243f9e44eb1d873c347c95e2e9c57abd6"
+    }
+  ],
+  "independent_source_review_sha256": "0db87e458e5033f984e60e0f729ba90eee77ba0501fe69b0e5d5ec254f906a71",
+  "independent_tests": [
+    "M19: 9 passed, 43 deselected",
+    "M26: 5 passed, 32 deselected"
+  ],
+  "two_key_actual_review_sha256": "05ee17fd903a0c10600bd466269610cbb004d4c67af1dae973a6390dca4efce5",
+  "two_key_actual_scope": "Unique standard cash action row bound to issuer terms; one raw/prefix OHLC row exactly reproduced by original affine chain. No full-history certification.",
+  "status": "SOURCE_AND_TARGETED_SYNTHETIC_PASS",
+  "pending": "Old-checkpoint semantic compatibility mapping and new execution config must pass before three-case rerun. No new M19/M26 actual or model acceptance.",
+  "research_only": true,
+  "production_allowed": false,
+  "buy_gate_updated": false,
+  "orders_sent": false
+}

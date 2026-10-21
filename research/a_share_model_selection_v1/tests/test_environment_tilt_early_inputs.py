@@ -311,3 +311,27 @@ def test_bound_executor_loader_source_drift_stops_before_any_open(tmp_path):
     with pytest.raises(m.Blocked,match='LOADER_SOURCE_DRIFT'):
         m.prepare_registered(c,activation(c),Session(),Loader())
     assert calls==[]
+
+
+def test_m40_ratio1_bridge_preserves_old_numeric_and_same_original_recipe(recipe,prices):
+    p,o,proof,_=copy.deepcopy(prices)
+    # Existing old numeric is CNY at the original collector scale, left unchanged.
+    o['amount']*=10000.
+    proof.update(old_amount_unit='ORIGINAL_NUMERIC_CNY_UNCHANGED',amount_bridge=copy.deepcopy(m.M40_AMOUNT_BRIDGE))
+    beforep,beforeo=p.copy(deep=True),o.copy(deep=True)
+    full,old,r=m.compose_history(recipe,p,o,prefix_map=MAP,old_map=MAP,history_proof=proof,max_rows=10000)
+    assert full.amount.eq(200000.*10000.).all()
+    assert r['prefix_amount_multiplier']==r['old_amount_multiplier']==10000.
+    assert r['normalized_amount_semantics']=='ORIGINAL_MODEL_NUMERIC_SCALE_NOT_CANONICAL_CNY'
+    pd.testing.assert_frame_equal(p,beforep,check_exact=True)
+    pd.testing.assert_frame_equal(o,beforeo,check_exact=True)
+    pd.testing.assert_series_equal(old.amount,beforeo.amount*10000.,check_exact=True)
+
+
+@pytest.mark.parametrize('field,value',[('raw_CNY_to_old_numeric',.0001),('old_values_preserved',False),('controller_ruling_sha256','0'*64)])
+def test_m40_bridge_rejects_unbound_scale_or_rewrite(field,value,recipe,prices):
+    p,o,proof,_=copy.deepcopy(prices)
+    proof.update(old_amount_unit='ORIGINAL_NUMERIC_CNY_UNCHANGED',amount_bridge=copy.deepcopy(m.M40_AMOUNT_BRIDGE))
+    proof['amount_bridge'][field]=value
+    with pytest.raises(m.Blocked,match='EXACT_M40_AMOUNT_BRIDGE_REQUIRED'):
+        m.compose_history(recipe,p,o,prefix_map=MAP,old_map=MAP,history_proof=proof,max_rows=10000)

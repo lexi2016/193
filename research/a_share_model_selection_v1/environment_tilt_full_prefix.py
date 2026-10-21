@@ -127,7 +127,44 @@ def coverage_gate(code, dates, old_first, unit_binding):
                 historical_source_completeness='CANNOT_CONFIRM', ipo_date='CANNOT_CONFIRM')
 
 
-def analyze_full(raw, reference, events, code, reuse=None):
+PRICE_EVENT_RULE_SHA = 'cd28ad91793e6b1f0d23eff52248757fc7f5d820078b34e3a979f2794bbcc8eb'
+PRICE_EVENT_REVIEW_SHA = '6abffc488591b8dbf3f10d017d8b9ab71eff575052a831b68070c926dbdf161e'
+
+
+def checked_price_event_rules(binding):
+    """Bind reviewed metadata only; no raw action read or generic category rule."""
+    if binding is None: return False
+    if (set(binding) != {'rules','review'} or binding['rules'].get('sha256') != PRICE_EVENT_RULE_SHA
+            or binding['review'].get('sha256') != PRICE_EVENT_REVIEW_SHA):
+        raise Stop('EXACT_THREE_PRICE_EVENT_RULE_BINDING_REQUIRED')
+    for ref in binding.values(): check_artifact(ref)
+    review = base.read_json(binding['review']['path'])
+    if (review.get('verdict') != 'REVIEWED/PASS_WITH_LIMITS'
+            or review.get('input_binding',{}).get('draft_sha256') != PRICE_EVENT_RULE_SHA):
+        raise Stop('PRICE_EVENT_REVIEW_SCOPE_DRIFT')
+    return True
+
+
+def exact_nonprice_record(code,event):
+    """Only the reviewed exact record, including source fields; unknown stays blocked."""
+    key=(code,event['_date_int'],event['category']);r=event.get('original_record',{})
+    if key in (('000002.SZ',20051201,14),('600004.SH',20051219,14)):
+        strike,count=(3.7300000190734863,8.) if code=='000002.SZ' else (7.,6.)
+        return (r.get('xingquanjia')==strike and r.get('fenshu')==count
+                and all(r.get(k) is None for k in ('fenhong','peigujia','songzhuangu','peigu')))
+    if key==('000014.SZ',20070630,4):
+        return (all(r.get(k)==0. for k in ('panqianliutong','panhouliutong','qianzongguben','houzongguben'))
+                and all(r.get(k) is None for k in ('fenhong','peigujia','songzhuangu','peigu')))
+    return False
+
+
+def shahe_cash_row_bound(events):
+    rows=[e for e in events if e['_date_int']==20070711 and e['category']==1]
+    expected=dict(zip(base.ACTION_FIELDS,(0.05999999865889549,0.,0.,0.)))
+    return len(rows)==1 and all(rows[0].get(k)==v for k,v in expected.items())
+
+
+def analyze_full(raw, reference, events, code, reuse=None, *, price_event_rules_verified=False):
     """Frozen M11 operator and exact oracle, over the entire available history."""
     raw, reference = base.normalize(raw, code), base.normalize(reference, code)
     raw = raw.loc[raw.trade_date.le(POLICY['cutoff'])].reset_index(drop=True)
@@ -156,12 +193,18 @@ def analyze_full(raw, reference, events, code, reuse=None):
         # Keep anchor only to satisfy the unchanged M11 operator; do not rerun old overlap.
         rebuilt = m11.reconstruct(source.loc[source.trade_date.lt(old_first) | source.trade_date.eq(anchor)], events, anchor)
         comparison, mismatches = dict(reused_receipt=reuse['receipt']), 0
-    unsupported = [e for e in events if earliest < e['_date_int'] <= anchor
-                   and e['category'] not in POLICY['categories']]
+    participating_unsupported = [e for e in events if earliest < e['_date_int'] <= anchor
+                                 and e['category'] not in POLICY['categories']]
+    excluded = [e for e in participating_unsupported
+                if price_event_rules_verified and exact_nonprice_record(code,e)]
+    unsupported = [e for e in participating_unsupported if e not in excluded]
     reasons = []
     if not identity: reasons.append('LATEST_COMMON_ANCHOR_NOT_IDENTITY')
     if mismatches: reasons.append('WHOLE_OVERLAP_CENT_MISMATCH')
     if unsupported: reasons.append('UNSUPPORTED_PARTICIPATING_ACTION')
+    if (price_event_rules_verified and code=='000014.SZ' and earliest<20070711<=anchor
+            and not shahe_cash_row_bound(events)):
+        reasons.append('SHAHE_20070711_UNIQUE_STANDARD_CASH_ROW_NOT_BOUND')
     candidate = [r for r in rebuilt if r['trade_date'] < old_first]
     if not candidate: reasons.append('NO_PREFIX_ROWS')
     return dict(symbol=code, anchor=anchor, anchor_identity=identity,
@@ -169,7 +212,10 @@ def analyze_full(raw, reference, events, code, reuse=None):
                 overlap_rows=len(reference), OHLC_denominator=4*len(reference),
                 overlap_cent_mismatches=mismatches, overlap_comparison=comparison,
                 allcategory_counts=dict(Counter(str(e['category']) for e in events)),
-                unsupported_actions=unsupported, block_reasons=reasons,
+                unsupported_actions=unsupported, exact_nonprice_exceptions=excluded,
+                price_event_rule_sha256=PRICE_EVENT_RULE_SHA if price_event_rules_verified else None,
+                price_event_review_sha256=PRICE_EVENT_REVIEW_SHA if price_event_rules_verified else None,
+                block_reasons=reasons,
                 prefix_rows=len(candidate), history_scope=POLICY['history'], **FLAGS), candidate
 
 
@@ -464,7 +510,8 @@ def symbol_job(task):
                     result['category1_cache_parity'] = verify_cached_actions(task.get('cached_events',[]),events,dates[0],int(reference.trade_date.max()))
                     if code.endswith('.BJ') and result['category1_cache_parity']['participating_cached_events_checked'] == 0:
                         raise Stop('BJ_CAPABILITY_CANNOT_CONFIRM_NO_PARTICIPATING_CATEGORY1_BINDING')
-                    detail, candidate = analyze_full(raw, reference, events, code, accepted_overlap(config, code, member))
+                    detail, candidate = analyze_full(raw, reference, events, code, accepted_overlap(config, code, member),
+                        price_event_rules_verified=checked_price_event_rules(config.get('price_event_exceptions')))
                     comparison = content_once(root/'COMPARISON.json', detail)
                     result['artifacts'].append(comparison)
                     result.update(query=query, block_reasons=detail['block_reasons'],
@@ -519,8 +566,10 @@ class FullLifecycle(Lifecycle):
 
 
 def semantic_identity(config):
-    return digest({key:config[key] for key in ('policy','code_by_file','qfq','actions','archive','inventory',
-        'pure_sources','query_sources','allcategory_bindings','unit_binding','accepted_overlap','bj_capability_probe')})
+    keys=('policy','code_by_file','qfq','actions','archive','inventory','pure_sources','query_sources',
+          'allcategory_bindings','unit_binding','accepted_overlap','bj_capability_probe')
+    if 'price_event_exceptions' in config: keys+=('price_event_exceptions',)
+    return digest({key:config[key] for key in keys})
 
 
 def validate_config(config, *, activated=False):
@@ -554,6 +603,7 @@ def load_config(path):
     for name, value in expected.items():
         if sha(Path(__file__).parent/name) != value: raise Stop('CODE_IDENTITY_DRIFT:' + name)
     config['code_composite_sha256'] = digest(expected)
+    checked_price_event_rules(config.get('price_event_exceptions'))
     for item in [*config['pure_sources'].values(),*config['query_sources'].values()]:
         check_artifact(item)
     if config['unit_binding'].get('decoder_sha256') != config['pure_sources']['data_layer']['sha256']:

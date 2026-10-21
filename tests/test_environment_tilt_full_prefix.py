@@ -514,3 +514,50 @@ def test_r1_crash_after_prefix_recovers_identical_csv_without_overwrite_or_reque
     assert result['status']=='HISTORICAL_PREFIX_ONLY' and calls==[task['code']]
     assert prefix.read_bytes()==before and (prefix.stat().st_ino,prefix.stat().st_mtime_ns)==identity
     bind_checkpoint(task);assert full.symbol_job(task)['resumed']
+
+
+def exact_exception(code,date,category):
+    if category==14:
+        r=dict(xingquanjia=3.7300000190734863 if code=='000002.SZ' else 7.,fenshu=8. if code=='000002.SZ' else 6.,fenhong=None,peigujia=None,songzhuangu=None,peigu=None)
+    else:r=dict(panqianliutong=0.,panhouliutong=0.,qianzongguben=0.,houzongguben=0.,fenhong=None,peigujia=None,songzhuangu=None,peigu=None)
+    return dict(_date_int=date,category=category,original_record=r)
+
+
+@pytest.mark.parametrize('code,date,category',[('000002.SZ',20051201,14),('600004.SH',20051219,14),('000014.SZ',20070630,4)])
+def test_exact_price_rule_excludes_only_bound_record_no_operator_change(code,date,category):
+    raw=frame(code);event=exact_exception(code,date,category);events=[event]
+    if code=='000014.SZ':events.append(dict(_date_int=20070711,category=1,**dict(zip(full.base.ACTION_FIELDS,(0.05999999865889549,0.,0.,0.)))))
+    legacy,_=full.analyze_full(raw,raw.iloc[-2:].reset_index(drop=True),events,code)
+    r,p=full.analyze_full(raw,raw.iloc[-2:].reset_index(drop=True),events,code,price_event_rules_verified=True)
+    assert 'UNSUPPORTED_PARTICIPATING_ACTION' in legacy['block_reasons']
+    assert not r['block_reasons'] and r['exact_nonprice_exceptions']==[event]
+    expected=full.m11.reconstruct(raw,events,20261015)
+    assert p==[v for v in expected if v['trade_date']<20210506]
+    changed=dict(event,_date_int=date+1)
+    q,_=full.analyze_full(raw,raw.iloc[-2:].reset_index(drop=True),[changed],code,price_event_rules_verified=True)
+    assert 'UNSUPPORTED_PARTICIPATING_ACTION' in q['block_reasons']
+
+
+def test_exact_price_rule_unknown_fields_and_other_categories_still_block():
+    e=exact_exception('000002.SZ',20051201,14);e['original_record']['fenshu']=7.
+    raw=frame('000002.SZ')
+    r,_=full.analyze_full(raw,raw.iloc[-2:].reset_index(drop=True),[e], '000002.SZ',price_event_rules_verified=True)
+    assert 'UNSUPPORTED_PARTICIPATING_ACTION' in r['block_reasons']
+    assert not full.exact_nonprice_record('600004.SH',dict(e,category=11))
+
+
+@pytest.mark.parametrize('duplicate',[False,True])
+def test_exact_shahe_exclusion_never_invents_missing_or_ambiguous_cash_factor(duplicate):
+    raw=frame();events=[exact_exception('000014.SZ',20070630,4)]
+    if duplicate:
+        cash=dict(_date_int=20070711,category=1,**dict(zip(full.base.ACTION_FIELDS,(0.05999999865889549,0.,0.,0.))))
+        assert not full.shahe_cash_row_bound([cash,cash])
+        return
+    r,_=full.analyze_full(raw,raw.iloc[-2:].reset_index(drop=True),events,'000014.SZ',price_event_rules_verified=True)
+    assert r['block_reasons']==['SHAHE_20070711_UNIQUE_STANDARD_CASH_ROW_NOT_BOUND']
+
+
+def test_price_rule_metadata_binding_is_exact(tmp_path):
+    assert full.checked_price_event_rules(None) is False
+    with pytest.raises(full.Stop,match='EXACT_THREE_PRICE_EVENT_RULE_BINDING_REQUIRED'):
+        full.checked_price_event_rules({'rules':{'sha256':'0'*64},'review':{'sha256':'0'*64}})

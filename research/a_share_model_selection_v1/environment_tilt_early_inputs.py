@@ -27,6 +27,13 @@ POLICY = dict(output_start='2020-01-01',output_end='2023-12-31',
     model_protection='ALL_CONFIGURED_ACCEPTED_TRAIN_TEST_DATA_IDENTITIES',
     on_parity_failure='INPUT_VERSION_PARITY_FAILED_NO_MIX_OR_REFIT',**FLAGS)
 POLICY_SHA256 = support.digest(POLICY)
+# Explicit new input-version bridge; the old branch is preserved for sealed configs.
+M40_AMOUNT_BRIDGE = dict(
+    status='M40_REUSE_OLD_NUMERIC_RATIO1', raw_CNY_to_old_numeric=1.0,
+    old_values_preserved=True, original_recipe_amount_multiplier=10000.0,
+    source_receipt_sha256='ca421b51979cbb232301d329536532ed338283b70e09264d92b0add007f32020',
+    independent_review_sha256='6c1de79e4a15b891aad4cdd3f9222e49297a555198ced8354ddd42e093d50e9b',
+    controller_ruling_sha256='599a4f78f9cad4074781cf7ab543206e4c4926fcdac1fa3fa58d36ac41656a97')
 
 
 class Blocked(ValueError):pass
@@ -52,15 +59,19 @@ def _date_strings(values):return [v.date().isoformat() for v in values]
 
 
 def compose_history(recipe,prefix_raw,old_raw,*,prefix_map,old_map,history_proof,max_rows):
-    """Separate units, keep every old row, require certified full pre-old history."""
+    """Keep old values; admit a changed prefix bridge only with exact bound ruling."""
     import pandas as pd
     if len(prefix_raw)+len(old_raw)>max_rows:raise Blocked('INPUT_ROW_RESOURCE_BOUND')
+    bridge=history_proof.get('amount_bridge')
+    if bridge is not None and bridge!=M40_AMOUNT_BRIDGE:
+        raise Blocked('EXACT_M40_AMOUNT_BRIDGE_REQUIRED')
+    prefix_multiplier=10000. if bridge is not None else 1.
     old=recipe.normalize_price_panel(old_raw,old_map,amount_multiplier=10000.)
-    prefix=recipe.normalize_price_panel(prefix_raw,prefix_map,amount_multiplier=1.)
+    prefix=recipe.normalize_price_panel(prefix_raw,prefix_map,amount_multiplier=prefix_multiplier)
     if tuple(old.columns)!=tuple(prefix.columns) or old.empty:raise Blocked('NORMALIZED_PRICE_SCHEMA_REQUIRED')
     if history_proof.get('status')!='CERTIFIED_FULL_AVAILABLE_PRE_OLD_HISTORY':
         raise Blocked('FULL_AVAILABLE_WARMUP_HISTORY_NOT_PROVEN')
-    if history_proof.get('prefix_amount_unit')!='CNY' or history_proof.get('old_amount_unit')!='10000_CNY' or history_proof.get('volume_unit')!='SHARES':
+    if history_proof.get('prefix_amount_unit')!='CNY' or history_proof.get('old_amount_unit')!=('ORIGINAL_NUMERIC_CNY_UNCHANGED' if bridge is not None else '10000_CNY') or history_proof.get('volume_unit')!='SHARES':
         raise Blocked('EXPLICIT_ORIGINAL_UNIT_BRIDGE_REQUIRED')
     first=old.groupby('code').date.min()
     if set(prefix.code)-set(first.index):raise Blocked('PREFIX_ADDS_UNBOUND_OLD_UNIVERSE_CODE')
@@ -84,7 +95,12 @@ def compose_history(recipe,prefix_raw,old_raw,*,prefix_map,old_map,history_proof
     pd.testing.assert_frame_equal(retained.reset_index(drop=True),old,check_exact=True)
     return combined,old,dict(prefix_rows=len(prefix),old_rows=len(old),composed_rows=len(combined),
         old_rows_retained_exactly=True,old_raw_mutated=False,
-        currency_bridge='ORIGINAL_NORMALIZE_PREFIX_X1_OLD_X10000_TO_CNY',
+        currency_bridge=('M40_RAW_CNY_RATIO1_THEN_ORIGINAL_RECIPE_PREFIX_AND_OLD_X10000'
+                         if bridge is not None else 'ORIGINAL_NORMALIZE_PREFIX_X1_OLD_X10000_TO_CNY'),
+        prefix_amount_multiplier=prefix_multiplier,old_amount_multiplier=10000.,
+        normalized_amount_semantics=('ORIGINAL_MODEL_NUMERIC_SCALE_NOT_CANONICAL_CNY'
+                                    if bridge is not None else 'LEGACY_DECLARED_CNY'),
+        amount_bridge=bridge,
         volume='SHARES_UNCHANGED',history_proof_sha256=support.digest(history_proof))
 
 
