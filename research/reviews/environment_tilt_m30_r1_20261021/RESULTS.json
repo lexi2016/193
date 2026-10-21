@@ -1,0 +1,170 @@
+{
+  "A_cache_reproduction": {
+    "computed": false,
+    "reason": "Unit gate blocked before A"
+  },
+  "B_warmup_comparison": {
+    "computed": false,
+    "reason": "Unit gate blocked before B"
+  },
+  "actual_receipt_identity": {
+    "logical_path": "research/a_share_model_selection_v1/batches/environment_tilt_execution_20261020/M30_R1_FIXED600000_WARMUP_01/CANARY_RECEIPT.json",
+    "sha256": "8ddaf927a364a643eb9fe1a9f19c1769aef601d7f5388ab3c27414c99d4f4bbe"
+  },
+  "actual_review": {
+    "cause": "SOURCE_GENERATION_SERIALIZATION_AND_ORIGINAL_PARQUET_DTYPE_CANNOT_CONFIRM",
+    "review": {
+      "logical_path": "research/a_share_model_selection_v1/batches/environment_tilt_execution_20261020/M30_R1_ACTUAL_LINEAGE_REVIEW.json",
+      "sha256": "d305a5ee08a11a3f77e6b7d8819a9e41e12b8fa1420caa9d8be29d4472ce00ba"
+    },
+    "scope": "Confirms the frozen STOP and uncomputed A/B from existing generated metadata/receipt only. Does not establish different units, corruption or a quantization cause.",
+    "status": "PASS_NARROW_FROZEN_STOP"
+  },
+  "authentication": {
+    "accepted_caches_rehashed": false,
+    "historical_M23_FAST_BIND_count": 2,
+    "no_fallback_retry": true,
+    "post_start_full_SHA_stream_count": 3,
+    "status": "AUTHENTICATED_BEFORE_NUMERIC_READ",
+    "total_stream_bytes": 136285944
+  },
+  "authentication_receipt_identity": {
+    "logical_path": "research/a_share_model_selection_v1/batches/environment_tilt_execution_20261020/M30_R1_FIXED600000_WARMUP_01/AUTHENTICATION_RECEIPT.json",
+    "sha256": "2b3355411d32c1fcfe36601fbed441656f8c1518435fb05ae4ba8942386d7232"
+  },
+  "buy_gate_updated": false,
+  "classification": "ENGINEERING_CANARY_ONLY_DIRECTION_ONLY",
+  "config_sha256": "0112fe1fb2507b949e11afc9cd97e5c0a94c89f1f458a89ce95529df3df3ad0c",
+  "contract_sha256": "471e1b54a6b4b0660689d7bebc472784125e85390f74b6410e2436b774479f54",
+  "execution_id": "M30_FIXED600000_WARMUP_CANARY_20261021_01",
+  "fits": 0,
+  "model_score_label_access": false,
+  "no_tests_or_scientific_runs_repeated_for_publication": true,
+  "orders_sent": false,
+  "policy_sha256": "8ffc6bd9506db83ef041ecb309622df5b4e4016ecf2f40ea4472362fced596c6",
+  "production_allowed": false,
+  "publication_test_review": {
+    "affected_passed": 2,
+    "assertions_and_normalized_AST_unchanged": true,
+    "instructions": "RUN_INSTRUCTIONS.md",
+    "no_actual_rerun": true,
+    "no_default_or_source_fallback": true,
+    "remaining_reused": 74,
+    "required_environment": [
+      "FACTOR_FACTORY_ROOT",
+      "FACTOR_FACTORY_RAW_READER"
+    ],
+    "review": {
+      "logical_path": "research/a_share_model_selection_v1/batches/environment_tilt_execution_20261020/M30_TEST_PUBLICATION_INDEPENDENT_REVIEW.json",
+      "sha256": "240ad709a90711f5589d532ff070189403c8725d620eb4fca91dff931e6b0589"
+    },
+    "status": "REVIEWED_PASS_PATH_BINDING_ONLY"
+  },
+  "queries": 0,
+  "registered_actual_invocations": 1,
+  "registered_terminal_closed": true,
+  "registry_point_in_time": {
+    "global_route_event_execution_correction": [
+      372,
+      3428,
+      1084,
+      88
+    ],
+    "scope_contract_only_count": 0,
+    "scope_route_event_execution_correction": [
+      1,
+      2,
+      1,
+      0
+    ],
+    "scope_unregistered_route_count": 0
+  },
+  "research_only": true,
+  "runtime": {
+    "elapsed_seconds": 9.6717545830179,
+    "getrusage_peak_rss_bytes": 405946368,
+    "output_bytes": 14204,
+    "resource_failure": false,
+    "threads": 4,
+    "workers": 1
+  },
+  "schema": "ENVIRONMENT_TILT_M30_R1_PUBLIC_RESULTS_V2",
+  "scope_limit": "One bound600000 operational diagnostic only. No all5576/full-prefix/formula parity/model result/native-unit/PIT certification.",
+  "software_review": {
+    "affected_passed": 44,
+    "final_binding_review": {
+      "logical_path": "research/a_share_model_selection_v1/batches/environment_tilt_execution_20261020/M30_R1_FINAL_BINDING_REVIEW.json",
+      "sha256": "2542442f7f9be899e905d410625588999bc663e31c936ae380ad2c5a043d1e1c"
+    },
+    "no_tests_rerun_for_publication": true,
+    "review": {
+      "logical_path": "research/a_share_model_selection_v1/batches/environment_tilt_execution_20261020/M30_R1_INDEPENDENT_REVIEW.json",
+      "sha256": "a959d8b004171f0d78c1e15cd55607182b809d826cc15bff05abe1283108134a"
+    },
+    "status": "INDEPENDENT_R1_SOURCE_SYNTHETIC_PASS",
+    "unchanged_reused": 32
+  },
+  "source_sha256": {
+    "research/a_share_model_selection_v1/environment_tilt_warmup_canary.py": "51cd257493332850012befe369b98803ca5bd3b4b951d69a4b5e884e33007ac7",
+    "research/a_share_model_selection_v1/tests/test_environment_tilt_warmup_canary.py": "02f40ad1e28e0ecc9c0b1b01550d43fbd8e3616f7bdc78e9cdf72395bd275f1c"
+  },
+  "source_version_boundary": {
+    "actual_contract_or_result_changed": false,
+    "actual_execution_test_sha256": "15be232a9e810578b094fccbe9bd760537679eec128704f826fd1b0666d90fcc",
+    "change": "Published test requires two explicit environment path bindings; runtime and numerical assertions unchanged. Actual frozen config/contract/receipts remain bound to the archived prior test version.",
+    "old_blocked_packet_preserved": true,
+    "published_test_sha256": "02f40ad1e28e0ecc9c0b1b01550d43fbd8e3616f7bdc78e9cdf72395bd275f1c",
+    "runtime_sha256": "51cd257493332850012befe369b98803ca5bd3b4b951d69a4b5e884e33007ac7"
+  },
+  "standalone_pipeline": false,
+  "status": "BLOCKED_NO_RETRY_UNIT_ADMISSION",
+  "training_ready": false,
+  "unit_admission": {
+    "accepted_ratio": null,
+    "candidate_ratios": [
+      1,
+      0.0001
+    ],
+    "interpretation": "Failure of this exact frozen quantization predicate does not establish different economic/physical units or source corruption; precision/source-version explanations remain unconfirmed.",
+    "predicates": [
+      {
+        "candidate_matches": {
+          "0.0001": false,
+          "1": false
+        },
+        "date": "2021-08-02"
+      },
+      {
+        "candidate_matches": {
+          "0.0001": false,
+          "1": false
+        },
+        "date": "2022-01-04"
+      },
+      {
+        "candidate_matches": {
+          "0.0001": false,
+          "1": false
+        },
+        "date": "2023-01-03"
+      },
+      {
+        "candidate_matches": {
+          "0.0001": false,
+          "1": true
+        },
+        "date": "2024-01-02"
+      },
+      {
+        "candidate_matches": {
+          "0.0001": false,
+          "1": false
+        },
+        "date": "2026-10-15"
+      }
+    ],
+    "raw_amount_pairs_published": false,
+    "reason": "NO_UNIQUE_FIXED_RATIO_ALL_FIVE"
+  },
+  "unshipped_dependencies": "Original local producer, C runtime, registry helper and input/config bindings are required; no data pipeline or local runtime is bundled."
+}
