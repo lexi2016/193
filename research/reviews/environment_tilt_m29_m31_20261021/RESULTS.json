@@ -1,0 +1,138 @@
+{
+  "M29": {
+    "actual_execution_ready": false,
+    "limits": [
+      "Full-history prefix and unit-bridge dependencies unresolved",
+      "No actual input preparation or numerical parity claimed",
+      "No model reuse, fit or performance acceptance from metadata/synthetic PASS"
+    ],
+    "protected_cell_metadata": {
+      "additional": "M0:H2:2023H2",
+      "model_payloads_opened": 0,
+      "original": 18,
+      "total": 19
+    },
+    "review": {
+      "logical_path": "research/a_share_model_selection_v1/batches/environment_tilt_execution_20261020/M29_INDEPENDENT_SOURCE_REVIEW.json",
+      "sha256": "1ac474ad6447fc7338aebac852b3aff500bd9a33f3744ca7445b761b405b2447"
+    },
+    "status": "REVIEWED_PASS_SOURCE_METADATA_AND_SYNTHETIC_ONLY",
+    "synthetic_tests": {
+      "independent_passed": 18,
+      "logical_command": "python -B -m pytest -q -p no:cacheprovider research/a_share_model_selection_v1/tests/test_environment_tilt_early_inputs_runtime.py",
+      "seconds": 0.31
+    }
+  },
+  "M31": {
+    "actual_lineage_review": {
+      "logical_path": "research/a_share_model_selection_v1/batches/environment_tilt_execution_20261020/M31_ACTUAL_LINEAGE_REVIEW.json",
+      "sha256": "2b454f1dac9c8f9f16ddc6467eb7587993329767bc3c4b3337eb95a3f448d910"
+    },
+    "actual_receipt": {
+      "logical_path": "research/a_share_model_selection_v1/batches/environment_tilt_execution_20261020/M31_DATE_LOOKUP_01/RECEIPT.json",
+      "sha256": "f35a675ff9d72e13072579ab3cdc005c434a267fca83c1ba5165c490bf7ba8ed"
+    },
+    "authenticated_existing_inputs": 3,
+    "authenticated_input_bytes": 81740,
+    "elapsed_seconds": 4.126165958936326,
+    "execution_id": "M31_ACTION_CACHE_LOOKUP_20261021_01",
+    "final_binding_review": {
+      "logical_path": "research/a_share_model_selection_v1/batches/environment_tilt_execution_20261020/M31_FINAL_BINDING_INDEPENDENT_REVIEW.json",
+      "sha256": "18d45ed64a6ff2c657e3744622b1b887c3038a67d12679627e644418428d31ff"
+    },
+    "fits": 0,
+    "limits": [
+      "Same-date category1 is absent only in the three bound parser responses, not proved absent from all native vendor records",
+      "Category4/14 price semantics and native producer-factor mapping CANNOT_CONFIRM",
+      "The600004 share consideration is not encoded by a same-date category1 record in this bound response",
+      "M27 canary remains false; full-prefix and training readiness CANNOT_CONFIRM"
+    ],
+    "prices_or_labels_read": false,
+    "queries": 0,
+    "registry_point_in_time": {
+      "closed": true,
+      "global_contract_only": null,
+      "global_route_event_execution_correction": [
+        370,
+        3422,
+        1081,
+        88
+      ],
+      "global_unregistered_routes": null,
+      "scope_contract_only": 0,
+      "scope_route_event_execution_correction": [
+        1,
+        2,
+        1,
+        0
+      ],
+      "scope_unregistered_routes": 0,
+      "sha256": "b6d8c63c1d7075fa6c46921160a6bb201dfbe350f45261f4a48d4cd5f3162eb1"
+    },
+    "sampled_peak_rss_bytes": 489390080,
+    "source_review": {
+      "logical_path": "research/a_share_model_selection_v1/batches/environment_tilt_execution_20261020/M31_INDEPENDENT_SOURCE_REVIEW.json",
+      "sha256": "0d7f8c81d375ca68b870b5711f939da9bb2e345ba2c941252d31401bdaa1e143"
+    },
+    "status": "COMPLETED_FIXED_THREE_DATE_LOOKUP",
+    "synthetic_tests": {
+      "independent_passed": 9,
+      "logical_command": "python -B -m pytest -q -p no:cacheprovider research/a_share_model_selection_v1/batches/environment_tilt_execution_20261020/M31_TEST.py",
+      "seconds": 0.04
+    },
+    "targets": [
+      {
+        "categories": [
+          14
+        ],
+        "category1_count": 0,
+        "date": 20051201,
+        "match_count": 1,
+        "symbol": "000002.SZ"
+      },
+      {
+        "categories": [
+          14
+        ],
+        "category1_count": 0,
+        "date": 20051219,
+        "match_count": 1,
+        "symbol": "600004.SH"
+      },
+      {
+        "categories": [
+          4
+        ],
+        "category1_count": 0,
+        "date": 20070630,
+        "match_count": 1,
+        "symbol": "000014.SZ"
+      }
+    ]
+  },
+  "buy_gate_updated": false,
+  "distribution": {
+    "dependencies": "Exact reviewed code depends on original local producer modules, official registry adapters and identity-bound local configs/data not distributed here. M31 test retains the same adjacent M31_CONFIG_DRAFT.json lookup; that private local fixture configuration is deliberately excluded.",
+    "excluded": [
+      "Configs and activation files",
+      "Raw responses and market/action payloads",
+      "Registry files and runtime outputs",
+      "Absolute-path input/artifact manifests",
+      "M30 and abandoned Windows implementation"
+    ],
+    "standalone_pipeline": false
+  },
+  "orders_sent": false,
+  "production_allowed": false,
+  "research_classification": "DIRECTION_ONLY_OPENBOOK_SOURCE_SEMANTICS_NO_BREAKTHROUGH_CLAIM",
+  "research_only": true,
+  "schema": "ENVIRONMENT_TILT_M29_M31_PUBLIC_RESULTS_V1",
+  "source_files": {
+    "research/a_share_model_selection_v1/batches/environment_tilt_execution_20261020/M31_RUN.py": "b75566d241e890dab96b9d7c7d4e17ff0d180eb2abd6dfef549f71f1b97db9ec",
+    "research/a_share_model_selection_v1/batches/environment_tilt_execution_20261020/M31_TEST.py": "36dfdb218a00463d686fbd46216b855ab9a5f0b32bfcfba039d613ecefc8ed5f",
+    "research/a_share_model_selection_v1/environment_tilt_early_inputs_runtime.py": "5e2f958db5cbe5b91123a35296b0e364ee48a416f7216abcb4758c271157f20e",
+    "research/a_share_model_selection_v1/tests/test_environment_tilt_early_inputs_runtime.py": "c9200d67bfa310359718ab3f095db85efccc06856d19682de99e69321da9caa2"
+  },
+  "status": "REVIEWED_SOURCE_AND_NARROW_REGISTERED_LOOKUP_ONLY",
+  "training_ready": false
+}
