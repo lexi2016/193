@@ -235,12 +235,16 @@ def test_durable_json_writer_does_not_create_a_second_ledger(tmp_path):
     assert sorted(x.name for x in tmp_path.iterdir())==['receipt.json']
 
 
-def test_cache_authentication_once_fit_fast_bind_and_past_only_projection(tmp_path,monkeypatch,frames):
+@pytest.mark.parametrize('fold',list(m.CELLS))
+def test_cache_authentication_once_fit_fast_bind_and_past_only_projection(tmp_path,monkeypatch,frames,fold):
     c=config(tmp_path,monkeypatch)
+    c['policy']=m.policy_for_cell(fold,'SYNTHETIC_V2');c['policy_sha256']=m.digest(c['policy'])
+    frames=cell_frames(fold)
     for name,ref in c['cache_files'].items():
         p=Path(ref['path']);p.write_bytes(('synthetic_'+name).encode());ref['sha256']=m.sha(p)
     prep=tmp_path/'prep.json';prep.write_text(json.dumps(dict(status='COMPLETED',
-        feature_columns={'M0':list(m.FEATURES)},cache_files={r['path']:r['sha256'] for r in c['cache_files'].values()})))
+        feature_columns={'M0':list(m.FEATURES)},input_version='SYNTHETIC_V2',
+        cache_files={r['path']:r['sha256'] for r in c['cache_files'].values()})))
     old=tmp_path/'old.json';old.write_text(json.dumps({'schema_version':'SYNTHETIC'}))
     c['preparation_receipt']=dict(path=str(prep),sha256=m.sha(prep));c['original_binding']=dict(path=str(old),sha256=m.sha(old))
     calls=[];f,p,cal=frames
@@ -259,15 +263,22 @@ def test_cache_authentication_once_fit_fast_bind_and_past_only_projection(tmp_pa
     assert len(calls)==6
     panel_args=dict(calls)['panel']
     assert panel_args['columns']==['date','code','close']
-    assert panel_args['filters'][-1]==('date','<',pd.Timestamp('2023-07-01'))
+    assert panel_args['filters']==[('date','>=',pd.Timestamp(m.CELLS[fold]['train_start'])),
+                                   ('date','<',pd.Timestamp(m.CELLS[fold]['score_start']))]
+    assert dict(calls)['m0']['filters']==[('date','>=',pd.Timestamp(m.CELLS[fold]['train_start'])),
+                                         ('date','<=',pd.Timestamp(m.CELLS[fold]['score_end']))]
     Path(c['cache_files']['m0']['path']).write_bytes(b'drift')
     with pytest.raises(m.Blocked,match='STAT_DRIFT'):
         m.read_bound_caches(c,accepted_stats=stats)
 
 
+@pytest.mark.parametrize('fold', list(m.CELLS))
 def test_two_phase_synthetic_orchestration_registers_before_reads_and_terminal_after_artifacts(
-        tmp_path,monkeypatch,recipe,frames):
+        tmp_path,monkeypatch,recipe,frames,fold):
     c=config(tmp_path,monkeypatch);c['python']=sys.executable
+    c['policy']=m.policy_for_cell(fold,'SYNTHETIC_VERSION_V2')
+    c['policy_sha256']=m.digest(c['policy'])
+    frames=cell_frames(fold)
     versions={n:importlib.metadata.version(n) for n in ('numpy','pandas','scikit-learn','joblib','pyarrow','threadpoolctl')}
     versions['python']=m.platform.python_version();c['runtime_versions']=versions
     c['resource_caps']=dict(preflight_wall_seconds=30,fit_wall_seconds=30)
@@ -301,7 +312,7 @@ def test_two_phase_synthetic_orchestration_registers_before_reads_and_terminal_a
     def activation(phase):
         cp.write_text(json.dumps(c))
         a=dict(phase=phase,decision='INDEPENDENT_REVIEW_PASS_ACTIVATE',config_sha256=m.sha(cp),
-            policy_sha256=m.POLICY_SHA256,wrapper_sha256=m.sha(m.__file__),contract_sha256=m.sha(contract),
+            policy_sha256=c['policy_sha256'],wrapper_sha256=m.sha(m.__file__),contract_sha256=m.sha(contract),
             execution_id=c['execution_ids'][phase],reviewer='SYNTHETIC_INDEPENDENT',review_receipt_sha256='a'*64)
         if phase=='fit':a['preflight_sha256']=c['accepted_preflight']['sha256']
         return a
@@ -315,6 +326,11 @@ def test_two_phase_synthetic_orchestration_registers_before_reads_and_terminal_a
     assert len(guards[1].claims)==len(guards[1].terminals)==1
     assert trace.index('model_terminal')<trace.index('end_SYNTHETIC_FIT')
     assert result['proof']==json.loads(pre.read_text())['proof']
+    assert result['proof']['cell']==m.CELLS[fold]
+    assert Path(result['checkpoint_ref']['path']).name=='M0_H2_'+fold+'.joblib'
+    scores=pd.read_csv(result['scores']['path'])
+    assert scores.fold.eq(fold).all() and scores.input_version.eq('SYNTHETIC_VERSION_V2').all()
+    assert guards[1].claims[0]['arm']=='M0:H2:'+fold
     with pytest.raises(m.Blocked,match='NO_AUTOMATIC_REENTRY'):
         m.run_phase(c,cp,activation('fit'),'fit')
 
@@ -492,3 +508,127 @@ def test_config_requires_exact_empty_pool_proof_references(tmp_path,monkeypatch)
     for bad in (None,{},dict(allow_missing=True),{**c['original_empty_pool_proof'],'extra':{}}):
         with pytest.raises(m.Blocked,match='EMPTY_POOL_PROOF'):
             m.validate_config({**c,'original_empty_pool_proof':bad})
+
+
+def cell_frames(fold):
+    cell=m.cell_for_fold(fold)
+    dates=pd.bdate_range('2019-12-31','2024-01-03')
+    cal=pd.DataFrame(dict(date=dates,calendar_index=np.arange(len(dates))))
+    keys=pd.MultiIndex.from_product([dates,['000001.SZ','600000.SH']],names=['date','code']).to_frame(index=False)
+    # Unequal row counts across dates make day-weight parity meaningful.
+    keys=keys.loc[~((keys.index%7==0)&keys.code.eq('600000.SH'))].reset_index(drop=True)
+    f=keys.copy()
+    for i,name in enumerate(m.FEATURES):f[name]=np.arange(len(f))*.001+i
+    f=f.loc[f.date.between(cell['train_start'],cell['score_end'])].reset_index(drop=True)
+    p=keys.loc[keys.date.between(cell['train_start'],cell['score_start'],inclusive='left')].copy()
+    p['close']=10+np.arange(len(p))*.001
+    return f,p,cal
+
+
+@pytest.mark.parametrize('fold',list(m.CELLS))
+def test_four_cells_preserve_original_two_year_split_params_weights_and_factory(fold,recipe,tmp_path):
+    cell=m.cell_for_fold(fold);f,p,cal=cell_frames(fold)
+    prepared,proof=m.prepare_single_cell(recipe,f,p,cal,cell=cell)
+    original_fold=recipe.Fold(fold,pd.Timestamp(cell['score_start']),pd.Timestamp(cell['score_end']),False)
+    labels=recipe.build_close_return_labels(p,horizons=(2,),calendar=cal,
+        signal_start=pd.Timestamp(cell['train_start']),signal_end_exclusive=pd.Timestamp(cell['score_start']))[2]
+    train,test=recipe.split_fold(f,labels,original_fold)
+    pd.testing.assert_frame_equal(prepared['train'],train)
+    pd.testing.assert_frame_equal(prepared['test'],test)
+    np.testing.assert_array_equal(prepared['weights'],recipe.equal_day_weights(train.date))
+    assert tuple(recipe.CORE_FEATURES)==m.FEATURES and recipe.MODEL_PARAMS==m.PARAMS
+    assert (pd.Timestamp(cell['score_start'])-pd.DateOffset(years=2)).date().isoformat()==cell['train_start']
+    assert proof['max_model_train_label_end']<cell['score_start']<=proof['earliest_score_date']
+    assert not {'label_return','label_end_date','target_date'}&set(test.columns)
+    calls=[]
+    def factory():calls.append(1);return FakeEstimator()
+    proxy=SimpleNamespace(model_for_arm=factory,predict_with_roundtrip=recipe.predict_with_roundtrip)
+    guard=FakeGuard();tx=m.DeferredFitTerminal(guard)
+    m.fit_single_cell(proxy,prepared,tx,tmp_path/'fake.joblib','SYNTHETIC','a'*64,'b'*64,cell=cell)
+    assert calls==[1] and guard.claims[0]['arm']=='M0:H2:'+fold
+    with pytest.raises(m.Blocked,match='ONE_FIT'):
+        tx.execute_once(fit_callable=lambda:None,execution_id='SYNTHETIC')
+
+
+@pytest.mark.parametrize('fold',['2021H2','2024H1','2026H2',None])
+def test_cell_allowlist_no_implicit_fallback(fold):
+    with pytest.raises(m.Blocked,match='UNAUTHORIZED_CELL'):m.cell_for_fold(fold)
+
+
+def test_legacy_policy_and_binding_identity_are_preserved(tmp_path,monkeypatch):
+    c=config(tmp_path,monkeypatch)
+    assert m.policy_for_cell('2023H2',m.POLICY['input_version'])==m.POLICY
+    with pytest.raises(m.Blocked,match='DRAFT_IS_NOT_EXECUTABLE'):
+        m.validate_config(dict(state='DRAFT',cache_files=None))
+    keys=('policy','recipe_sources','cache_files','preparation_receipt','original_binding',
+          'new_use_passport','runtime_versions','resource_probe_source','original_empty_pool_proof')
+    assert m.input_binding_identity(c)==m.digest({k:c[k] for k in keys})
+    for fold in ('2022H1','2022H2','2023H1'):
+        with pytest.raises(m.Blocked,match='LEGACY_INPUT_VERSION'):
+            m.policy_for_cell(fold,m.POLICY['input_version'])
+    c['policy']=m.policy_for_cell('2022H1','SYNTHETIC_V2');c['policy_sha256']=m.digest(c['policy'])
+    m.validate_config(c)
+    for bad in ({**c['policy'],'params':{**m.PARAMS,'random_state':194}},
+                {**c['policy'],'cell':{**c['policy']['cell'],'train_start':'2020-02-01'}},
+                {**c['policy'],'features':list(reversed(m.FEATURES))}):
+        with pytest.raises(m.Blocked):m.validate_config({**c,'policy':bad,'policy_sha256':m.digest(bad)})
+
+
+def versioned_evidence(c,tmp_path,fold,frames):
+    cell=m.cell_for_fold(fold);f,p,cal=frames
+    c['policy']=m.policy_for_cell(fold,'SYNTHETIC_V2');c['policy_sha256']=m.digest(c['policy'])
+    producer=tmp_path/'producer.py';producer.write_text('# synthetic unchanged original producer\n')
+    diag=dict(status='ORIGINAL_COMMON_POOL_PARTITION_COMPLETE_NO_REPAIR',cell=cell,
+              cache_files=c['cache_files'],preparation_receipt=c['preparation_receipt'],fit_calls=0,phases={})
+    for phase,start,end,inclusive in (('train',cell['train_start'],cell['score_start'],'left'),
+                                    ('score',cell['score_start'],cell['score_end'],'both')):
+        expected=cal.loc[cal.date.between(start,end,inclusive=inclusive),'date']
+        actual=set(f.loc[f.date.between(start,end,inclusive=inclusive),'date'])
+        missing=[d.date().isoformat() for d in expected if d not in actual]
+        diag['phases'][phase]=dict(start=start,end=end,inclusive=inclusive,nominal_days=len(expected),
+            nonempty_days=len(actual),missing_dates=missing,missing_dates_empty_in_whole_m0_cache=missing,extra_dates=[])
+    dp=tmp_path/'partition.json';dp.write_text(json.dumps(diag))
+    refs=dict(s1_runner=dict(path=str(producer),sha256=m.sha(producer)),
+              diagnostic=dict(path=str(dp),sha256=m.sha(dp)))
+    ruling=dict(schema='ENV_TILT_VERSIONED_CELL_POOL_ACCEPTANCE_V1',
+        verdict='INDEPENDENT_PASS_EXACT_ORIGINAL_COMMON_POOL_PARTITION',policy_sha256=c['policy_sha256'],
+        preparation_receipt=c['preparation_receipt'],cache_files=c['cache_files'],recipe_sources=c['recipe_sources'],
+        diagnostic=refs['diagnostic'],producer_source=refs['s1_runner'],reviewer='SYNTHETIC_INDEPENDENT',review_receipt_sha256='a'*64)
+    rp=tmp_path/'acceptance.json';rp.write_text(json.dumps(ruling));refs['ruling']=dict(path=str(rp),sha256=m.sha(rp))
+    c['original_empty_pool_proof']=refs
+    return diag,ruling
+
+
+def test_versioned_empty_pool_is_cell_specific_source_bound_and_exact(recipe,tmp_path,monkeypatch):
+    c=config(tmp_path,monkeypatch);f,p,cal=cell_frames('2022H1')
+    f=f.loc[f.date!=pd.Timestamp('2020-05-04')]
+    versioned_evidence(c,tmp_path,'2022H1',(f,p,cal))
+    proof=m.load_original_empty_pool_proof(c)
+    prepared,result=m.prepare_single_cell(recipe,f,p,cal,cell=m.CELLS['2022H1'],original_empty_pool_proof=proof)
+    assert result['calendar_pool_coverage']['original_zero_pool_dates']==['2020-05-04']
+    assert not prepared['train'].date.eq('2020-05-04').any()
+    with pytest.raises(m.Blocked):
+        m.prepare_single_cell(recipe,f.loc[f.date!='2020-05-05'],p,cal,cell=m.CELLS['2022H1'],original_empty_pool_proof=proof)
+    # Existing legacy M22 dates are never borrowed for another version/cell.
+    with pytest.raises(m.Blocked):
+        m.prepare_single_cell(recipe,f,p,cal,cell=m.CELLS['2022H1'],original_empty_pool_proof=dict(
+            original_zero_pool_dates=list(m.ORIGINAL_ZERO_POOL_DATES)))
+
+
+@pytest.mark.parametrize('drift',['policy','cache','prep','producer','score_missing','review'])
+def test_versioned_pool_proof_drift_or_missing_score_stops(drift,tmp_path,monkeypatch):
+    c=config(tmp_path,monkeypatch);frames=cell_frames('2022H2')
+    diag,ruling=versioned_evidence(c,tmp_path,'2022H2',frames)
+    refs=c['original_empty_pool_proof']
+    if drift=='policy':c['policy']=m.policy_for_cell('2023H1','SYNTHETIC_V2');c['policy_sha256']=m.digest(c['policy'])
+    elif drift=='cache':c['cache_files']={**c['cache_files'],'m0':{**c['cache_files']['m0'],'sha256':'0'*64}}
+    elif drift=='prep':c['preparation_receipt']={'path':'unbound','sha256':'0'*64}
+    elif drift=='producer':Path(refs['s1_runner']['path']).write_text('# drift\n')
+    elif drift=='review':ruling['reviewer']=''
+    elif drift=='score_missing':
+        row=diag['phases']['score'];row['missing_dates']=['2022-08-01'];row['missing_dates_empty_in_whole_m0_cache']=['2022-08-01'];row['nonempty_days']-=1
+        Path(refs['diagnostic']['path']).write_text(json.dumps(diag));refs['diagnostic']['sha256']=m.sha(refs['diagnostic']['path'])
+        ruling['diagnostic']=refs['diagnostic']
+    if drift in ('review','score_missing'):
+        Path(refs['ruling']['path']).write_text(json.dumps(ruling));refs['ruling']['sha256']=m.sha(refs['ruling']['path'])
+    with pytest.raises(m.Blocked):m.load_original_empty_pool_proof(c)

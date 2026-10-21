@@ -1,0 +1,25 @@
+{
+  "buy_gate_updated": false,
+  "decision": "PASS_SOURCE_ADAPTER_SCOPE_ONLY",
+  "files": [
+    {
+      "after_sha256": "5f0ffcbc0f2bd4ab91f22868abc990d1e12703e5ae33050de591db95e8bbd058",
+      "before_sha256": "8cd4932157920706e651f7121bcee0c3fe8775814170f6dfee868ea17150ab9e",
+      "path": "research/a_share_model_selection_v1/environment_tilt_m0_oof.py"
+    },
+    {
+      "after_sha256": "14bfaecae031b3b7fac6269579ee1239908b9a67e70952fa965b114af7c066e1",
+      "before_sha256": "6d063a4b0abf99ea060ebb35e5aed40efd6b466d343fcbc752b469914f95f724",
+      "path": "research/a_share_model_selection_v1/tests/test_environment_tilt_m0_oof.py"
+    }
+  ],
+  "independent_qa_sha256": "d98344633c75587f4f3151e8b9bf18e18fa0f94fdae02751c0f9ca554291a9d2",
+  "orders_sent": false,
+  "production_allowed": false,
+  "real_fit_calls": 0,
+  "real_input_acceptance": "CANNOT_CONFIRM_PENDING_BINDINGS",
+  "research_only": true,
+  "scope": "M38 original four-cell runner source adapter only",
+  "test_command": "python -B -m pytest -q -p no:cacheprovider research/a_share_model_selection_v1/tests/test_environment_tilt_m0_oof.py -k \"four_cells or cell_allowlist or legacy_policy or versioned or two_phase or activation or policy_caps or cache_authentication or original_empty_pool or bound_empty_pool or custom_fold or fit_calls_original or score_annotation or narrow_proof or config_requires_exact\"",
+  "test_result": "50 passed, 18 deselected; mixed preparation input_version and DRAFT passport rejected"
+}

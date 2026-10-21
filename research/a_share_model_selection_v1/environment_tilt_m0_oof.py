@@ -1,4 +1,4 @@
-"""Isolated M0/h2/2023H2 wrapper over the unchanged original recipe.
+"""Isolated four-cell M0/h2 wrapper over the unchanged original recipe.
 
 No import-time IO/model/registry calls. Only the explicit CLI can admit real
 inputs, after a phase-specific, identity-bound independent activation. Synthetic
@@ -64,6 +64,44 @@ def digest(value):
 POLICY_SHA256 = digest(POLICY)
 
 
+# CELL/POLICY remain the accepted legacy 2023H2 identities for old consumers.
+CELLS = {name: dict(arm='M0', horizon=2, fold=name, train_start=train,
+                    score_start=start, score_end=end, partial=False)
+         for name, train, start, end in (
+             ('2022H1', '2020-01-01', '2022-01-01', '2022-06-30'),
+             ('2022H2', '2020-07-01', '2022-07-01', '2022-12-31'),
+             ('2023H1', '2021-01-01', '2023-01-01', '2023-06-30'),
+             ('2023H2', '2021-07-01', '2023-07-01', '2023-12-31'))}
+
+
+def cell_for_fold(fold):
+    if fold not in CELLS:
+        raise Blocked('UNAUTHORIZED_CELL')
+    return dict(CELLS[fold])
+
+
+def policy_for_cell(fold, input_version):
+    cell = cell_for_fold(fold)
+    if not isinstance(input_version, str) or not input_version.strip() or input_version != input_version.strip():
+        raise Blocked('EXPLICIT_INPUT_VERSION_REQUIRED')
+    if cell == CELL and input_version == POLICY['input_version']:
+        return json.loads(canonical(POLICY))
+    if input_version == POLICY['input_version']:
+        raise Blocked('LEGACY_INPUT_VERSION_ONLY_COVERS_2023H2')
+    return {**json.loads(canonical(POLICY)), 'cell': cell, 'pool': 'EXACT_VERSIONED_ORIGINAL_FIVE_ARM_COMMON_FINITE_CACHE',
+            'input_version': input_version,
+            'truth_scope': 'TRAINING_SIGNALS_ONLY_LABEL_END_BEFORE_' + cell['score_start']}
+
+
+def selected_policy(config):
+    policy = config.get('policy', {})
+    cell = policy.get('cell', {})
+    wanted = policy_for_cell(cell.get('fold'), policy.get('input_version'))
+    if policy != wanted or config.get('policy_sha256') != digest(wanted):
+        raise Blocked('EXACT_SINGLE_CELL_POLICY_REQUIRED')
+    return wanted
+
+
 def sha(path):
     h = hashlib.sha256()
     with Path(path).open('rb') as handle:
@@ -118,8 +156,9 @@ def load_recipe(config):
 
 
 def validate_config(config):
-    if config.get('policy') != POLICY or config.get('policy_sha256') != POLICY_SHA256:
-        raise Blocked('EXACT_SINGLE_CELL_POLICY_REQUIRED')
+    if config.get('state') != 'FROZEN_READY_FOR_ACTIVATION':
+        raise Blocked('DRAFT_IS_NOT_EXECUTABLE')
+    selected_policy(config)
     evidence = config.get('original_empty_pool_proof')
     if (not isinstance(evidence, dict) or set(evidence) != {'ruling', 'diagnostic', 's1_runner'}
             or any(not isinstance(ref, dict) or not ref.get('path') or not ref.get('sha256')
@@ -140,14 +179,12 @@ def validate_config(config):
         raise Blocked('ONLY_BOUND_EXISTING_M0_CALENDAR_PANEL_CACHES')
     if config['execution_ids'].keys() != {'preflight', 'fit'} or len(set(config['execution_ids'].values())) != 2:
         raise Blocked('TWO_DISTINCT_PHASE_EXECUTION_IDS_REQUIRED')
-    if config.get('state') != 'FROZEN_READY_FOR_ACTIVATION':
-        raise Blocked('DRAFT_IS_NOT_EXECUTABLE')
 
 
 def require_activation(config, config_path, activation, phase):
     validate_config(config)
     wanted = dict(phase=phase, decision='INDEPENDENT_REVIEW_PASS_ACTIVATE',
-                  config_sha256=sha(config_path), policy_sha256=POLICY_SHA256,
+                  config_sha256=sha(config_path), policy_sha256=config['policy_sha256'],
                   wrapper_sha256=sha(__file__), contract_sha256=config['contract']['sha256'],
                   execution_id=config['execution_ids'][phase])
     if any(activation.get(k) != v for k, v in wanted.items()):
@@ -161,7 +198,7 @@ def require_activation(config, config_path, activation, phase):
             raise Blocked('REVIEWED_PREFLIGHT_BINDING_REQUIRED')
         receipt = checked_json(pre)
         if (receipt.get('status') != 'PREFLIGHT_READY_FOR_INDEPENDENT_TIME_USE_REVIEW'
-                or receipt.get('policy_sha256') != POLICY_SHA256
+                or receipt.get('policy_sha256') != config['policy_sha256']
                 or receipt.get('contract_sha256') != config['contract']['sha256']
                 or receipt.get('wrapper_sha256') != sha(__file__)
                 or receipt.get('input_binding_identity') != input_binding_identity(config)):
@@ -181,6 +218,8 @@ def load_original_empty_pool_proof(config):
     Cache bytes are admitted separately by read_bound_caches (or accepted stat
     FAST_BIND). This evidence applies solely to this existing 2023H2 cell.
     """
+    if selected_policy(config) != POLICY:
+        return load_versioned_pool_proof(config)
     refs = config['original_empty_pool_proof']
     ruling, diagnostic = checked_json(refs['ruling']), checked_json(refs['diagnostic'])
     dates = list(ORIGINAL_ZERO_POOL_DATES)
@@ -225,14 +264,67 @@ def load_original_empty_pool_proof(config):
                 nonempty_score_pool_days=124, evidence_refs=refs)
 
 
+def load_versioned_pool_proof(config):
+    """Only an independently accepted per-version/cell producer partition.
+
+    This is an adapter receipt, not a missing-date allowance or a new producer.
+    The upstream preparation must authenticate exact empty dates in the whole
+    five-arm common cache. Score dates remain complete for these four cells.
+    """
+    refs = config['original_empty_pool_proof']
+    ruling, diagnostic = checked_json(refs['ruling']), checked_json(refs['diagnostic'])
+    policy = selected_policy(config); cell = policy['cell']
+    wanted = dict(schema='ENV_TILT_VERSIONED_CELL_POOL_ACCEPTANCE_V1',
+                  verdict='INDEPENDENT_PASS_EXACT_ORIGINAL_COMMON_POOL_PARTITION',
+                  policy_sha256=config['policy_sha256'],
+                  preparation_receipt=config['preparation_receipt'],
+                  cache_files=config['cache_files'], recipe_sources=config['recipe_sources'],
+                  diagnostic=refs['diagnostic'], producer_source=refs['s1_runner'])
+    if (any(ruling.get(k) != v for k, v in wanted.items())
+            or not ruling.get('reviewer') or not ruling.get('review_receipt_sha256')):
+        raise Blocked('VERSIONED_POOL_ACCEPTANCE_BINDING_CONFLICT')
+    if sha(refs['s1_runner']['path']) != refs['s1_runner']['sha256']:
+        raise Blocked('ORIGINAL_EMPTY_POOL_PRODUCER_SOURCE_DRIFT')
+    if (diagnostic.get('status') != 'ORIGINAL_COMMON_POOL_PARTITION_COMPLETE_NO_REPAIR'
+            or diagnostic.get('cell') != cell
+            or diagnostic.get('cache_files') != config['cache_files']
+            or diagnostic.get('preparation_receipt') != config['preparation_receipt']
+            or diagnostic.get('fit_calls') != 0):
+        raise Blocked('VERSIONED_POOL_DIAGNOSTIC_BINDING_CONFLICT')
+    result = dict(schema='VERSIONED_CELL_POOL_PARTITION_V1', cell=cell, evidence_refs=refs)
+    for phase, start, end, inclusive in (
+            ('train', cell['train_start'], cell['score_start'], 'left'),
+            ('score', cell['score_start'], cell['score_end'], 'both')):
+        row = diagnostic.get('phases', {}).get(phase, {})
+        missing = row.get('missing_dates')
+        nominal, nonempty = row.get('nominal_days'), row.get('nonempty_days')
+        if (any(row.get(k) != v for k, v in dict(start=start, end=end, inclusive=inclusive,
+                extra_dates=[], missing_dates_empty_in_whole_m0_cache=missing).items())
+                or not isinstance(missing, list) or missing != sorted(set(missing))
+                or any(not isinstance(d, str) or len(d) != 10 or not start <= d <= end for d in missing)
+                or (phase == 'train' and end in missing)
+                or any(type(n) is not int or n < 1 for n in (nominal, nonempty))
+                or nominal != nonempty + len(missing) or (phase == 'score' and missing)):
+            raise Blocked('VERSIONED_POOL_DIAGNOSTIC_PARTITION_CONFLICT')
+        if phase == 'train':
+            result.update(original_zero_pool_dates=missing, nominal_train_calendar_days=nominal,
+                          nonempty_train_pool_days=nonempty)
+        else:
+            result.update(score_calendar_days=nominal, nonempty_score_pool_days=nonempty)
+    return result
+
+
 def _frame_keys(frame):
     return frame[['date', 'code']].sort_values(['date', 'code'], kind='mergesort').reset_index(drop=True)
 
 
-def prepare_single_cell(recipe, features, panel, calendar, *, original_empty_pool_proof=None):
+def prepare_single_cell(recipe, features, panel, calendar, *, original_empty_pool_proof=None, cell=None):
     """Original split/matrices/labels; fail before finite filtering can change pool."""
     import numpy as np
     import pandas as pd
+    cell = dict(CELL) if cell is None else dict(cell)
+    if cell != cell_for_fold(cell.get('fold')):
+        raise Blocked('UNAUTHORIZED_CELL_BOUNDARIES')
     if tuple(features.columns) != ('date', 'code', *FEATURES):
         raise Blocked('EXACT_36_FEATURE_SCHEMA_REQUIRED')
     for name, frame in [('features', features), ('panel', panel)]:
@@ -255,7 +347,7 @@ def prepare_single_cell(recipe, features, panel, calendar, *, original_empty_poo
         raise Blocked('ORIGINAL_COMPLETE_OBSERVED_CALENDAR_REQUIRED')
     if not set(features.date).issubset(set(cal.date)) or not set(panel.date).issubset(set(cal.date)):
         raise Blocked('CACHE_DATES_OUTSIDE_ORIGINAL_CALENDAR')
-    train_start, score_start, score_end = (pd.Timestamp(CELL[k]) for k in ('train_start', 'score_start', 'score_end'))
+    train_start, score_start, score_end = (pd.Timestamp(cell[k]) for k in ('train_start', 'score_start', 'score_end'))
     if cal.date.min() > train_start or cal.date.max() < score_end:
         # The last score boundary may be a non-session: require calendar past it.
         raise Blocked('NOMINAL_TWO_YEAR_OR_SCORE_CALENDAR_SPAN_INCOMPLETE')
@@ -272,14 +364,20 @@ def prepare_single_cell(recipe, features, panel, calendar, *, original_empty_poo
     if original_empty_pool_proof is None:
         if missing_train:
             raise Blocked('MISSING_OBSERVED_SCORE_OR_TRAIN_FEATURE_DATES_NO_SHORT_WINDOW')
-    elif (original_empty_pool_proof.get('original_zero_pool_dates') != list(ORIGINAL_ZERO_POOL_DATES)
+    elif original_empty_pool_proof.get('schema') == 'VERSIONED_CELL_POOL_PARTITION_V1':
+        expected = dict(cell=cell, original_zero_pool_dates=list(missing_train),
+            nominal_train_calendar_days=len(expected_train), nonempty_train_pool_days=len(actual_train),
+            score_calendar_days=len(expected_test), nonempty_score_pool_days=len(actual_test))
+        if any(original_empty_pool_proof.get(k) != v for k, v in expected.items()):
+            raise Blocked('BOUND_VERSIONED_POOL_PARTITION_MISMATCH')
+    elif (cell != CELL or original_empty_pool_proof.get('original_zero_pool_dates') != list(ORIGINAL_ZERO_POOL_DATES)
             or missing_train != ORIGINAL_ZERO_POOL_DATES
             or (len(expected_train), len(actual_train), len(expected_test), len(actual_test)) != (485, 480, 124, 124)
             or any(original_empty_pool_proof.get(k) != v for k, v in dict(
                 nominal_train_calendar_days=485, nonempty_train_pool_days=480,
                 score_calendar_days=124, nonempty_score_pool_days=124).items())):
         raise Blocked('BOUND_ORIGINAL_EMPTY_POOL_PARTITION_MISMATCH')
-    fold = recipe.Fold(CELL['fold'], score_start, score_end, False)
+    fold = recipe.Fold(cell['fold'], score_start, score_end, False)
     labels = recipe.build_close_return_labels(panel, horizons=(2,), calendar=cal,
         signal_start=train_start, signal_end_exclusive=score_start)[2]
     if not labels.date.between(train_start, score_start, inclusive='left').all():
@@ -294,7 +392,7 @@ def prepare_single_cell(recipe, features, panel, calendar, *, original_empty_poo
         raise Blocked('SAME_MODEL_OOT_OR_PURGE_VIOLATION')
     if {'label_return', 'target_date', 'label_end_date'} & set(test.columns):
         raise Blocked('UNLABELED_TEST_FEATURES_REQUIRED')
-    proof = dict(cell=CELL, feature_columns=list(FEATURES), params=PARAMS,
+    proof = dict(cell=cell, feature_columns=list(FEATURES), params=PARAMS,
                  data_identity=prepared['identity'], calendar_identity=recipe.key_frame_identity(
                      cal.assign(code='__OBSERVED_SESSION__')),
                  expected_train_feature_dates=len(actual_train), expected_score_dates=len(expected_test),
@@ -320,7 +418,7 @@ def new_time_use_status(config, proof):
                     first_source_pit_certification='CANNOT_CONFIRM', full_data_reaudit=False)
     passport = checked_json(ref)
     if (passport.get('status') != 'CERTIFIED_FOR_THIS_TIME_USE'
-            or passport.get('policy_sha256') != POLICY_SHA256
+            or passport.get('policy_sha256') != config['policy_sha256']
             or passport.get('recipe_sources') != config['recipe_sources']
             or passport.get('cache_files') != config['cache_files']
             or passport.get('data_identity') != proof['data_identity']):
@@ -352,29 +450,35 @@ class DeferredFitTerminal:
                 fit_call_entered=self.entered, real_fit_returned_count=int(self.returned), error_type=error)
 
 
-def fit_single_cell(recipe, prepared, guard, model_path, execution_id, contract_sha, binding_sha):
+def fit_single_cell(recipe, prepared, guard, model_path, execution_id, contract_sha, binding_sha, *, cell=None):
     """Delegate every fit parameter/weight/fit/predict/roundtrip to frozen code."""
     from threadpoolctl import threadpool_limits
+    cell = dict(CELL) if cell is None else dict(cell)
+    if cell != cell_for_fold(cell.get('fold')):
+        raise Blocked('UNAUTHORIZED_CELL_BOUNDARIES')
     with threadpool_limits(limits=4):
         return recipe.predict_with_roundtrip(recipe.model_for_arm(), prepared['train'], prepared['test'],
-            FEATURES, Path(model_path), guard=guard, execution_id=execution_id, arm='M0:H2:2023H2',
+            FEATURES, Path(model_path), guard=guard, execution_id=execution_id, arm='M0:H2:' + cell['fold'],
             contract_sha256=contract_sha, input_binding_sha256=binding_sha)
 
 
-def annotate_scores(predictions, prepared, model_sha, proof, config_sha):
+def annotate_scores(predictions, prepared, model_sha, proof, config_sha, *, policy=None):
     import numpy as np
     if (tuple(predictions.columns) != ('date', 'code', 'prediction')
             or predictions.duplicated(['date', 'code']).any()
             or not _frame_keys(predictions).equals(_frame_keys(prepared['test']))
             or not np.isfinite(predictions.prediction.to_numpy(dtype=float)).all()):
         raise Blocked('SCORE_KEYS_OR_FINITE_SCHEMA_MISMATCH')
+    policy = POLICY if policy is None else policy
+    if proof['cell'] != policy['cell']:
+        raise Blocked('SCORE_CELL_POLICY_MISMATCH')
     result = predictions.copy()
     result['model_sha256'] = model_sha
     result['model_train_label_end'] = proof['max_model_train_label_end']
-    result['fold'] = '2023H2'; result['horizon'] = 2
+    result['fold'] = policy['cell']['fold']; result['horizon'] = 2
     result['feature_schema_sha256'] = digest(list(FEATURES))
     result['config_sha256'] = config_sha
-    result['input_version'] = POLICY['input_version']
+    result['input_version'] = policy['input_version']
     result['schema'] = 'M13_ORIGINAL_M0_OOT_SCORES_V1'
     return result
 
@@ -388,6 +492,7 @@ def registry_truth_access(event_type, execution_id, report):
 
 
 def make_guard(config, config_path, phase, receipt_path):
+    policy = selected_policy(config); cell = policy['cell']
     deps = config['registry_dependencies']
     for ref in deps.values():
         if sha(ref['path']) != ref['sha256']:
@@ -404,27 +509,27 @@ def make_guard(config, config_path, phase, receipt_path):
             spec.update(truth_access=registry_truth_access(event_type, str(event['execution_id']), report),
                 sealed_status='EXPOSED_HISTORY_NO_CONFIRMATION', input_sha256=input_binding_identity(config),
                 code_sha256=sha(__file__), config_sha256=sha(config_path),
-                signal_date_range=dict(start=CELL['train_start'], end=CELL['score_end']),
-                target_date_range=dict(train_label_end_exclusive=CELL['score_start']),
+                signal_date_range=dict(start=cell['train_start'], end=cell['score_end']),
+                target_date_range=dict(train_label_end_exclusive=cell['score_start']),
                 runtime=dict(python=sys.executable, version=platform.python_version(), threads=4))
             if receipt_path.is_file():
                 spec['deterministic_metrics'].update(report.get('metrics', {}))
                 spec['input_identity']['phase_receipt_sha256'] = sha(receipt_path)
                 spec['checkpoint_ref'] = report.get('checkpoint_ref')
             return spec
-    profile = dict(track_id='A_SHARE_PANEL_MODEL_SELECTION_RESEARCH', route_id=ROUTE,
+    profile = dict(track_id='A_SHARE_PANEL_MODEL_SELECTION_RESEARCH', route_id=ROUTE if policy == POLICY else 'a-share-environment-tilt-oof-' + cell['fold'].lower() + '-versioned',
         registration_mode='LIVE_EXECUTION', start_stage='M13_' + phase.upper() + '_RUN_STARTED',
         terminal_stage='M13_' + phase.upper() + '_TERMINAL', occurred_at_reason='LIVE_EXECUTION_UTC',
         baseline_id='PV_ENVIRONMENT_R1_M0_FORMAL_EXACT_4THREAD_H2',
-        one_variable='MISSING_CHRONOLOGICAL_2023H2_SCORE_PERIOD_ORIGINAL_RECIPE_AND_CACHE',
-        signal_scope='SINGLE_2023H2_M0_H2_EXISTING_FIVE_ARM_COMMON_CACHE',
+        one_variable='MISSING_CHRONOLOGICAL_' + cell['fold'] + '_SCORE_PERIOD_ORIGINAL_RECIPE_AND_CACHE',
+        signal_scope='SINGLE_' + cell['fold'] + '_M0_H2_EXACT_FIVE_ARM_COMMON_CACHE',
         target_scope='PAST_TRAIN_H2_ONLY_NO_TEST_OUTCOMES', device='CPU_RESEARCH_ONLY',
         evidence_level='ENGINEERING_CANARY_ONLY')
     adapter = ContextAdapter(registry_path=Path(config['registry_path']),
         contract_path=Path(config['contract']['path']), input_binding_path=Path(config_path),
         artifact_paths=(receipt_path,), builder_path=Path(deps['builder']['path']),
         validator_path=Path(deps['validator']['path']), event_profile=profile)
-    return core.ExecutionGuard(adapter, experiment_id=EXPERIMENT, max_real_fit_debits=1)
+    return core.ExecutionGuard(adapter, experiment_id=EXPERIMENT if policy == POLICY else 'A_SHARE_ENV_TILT_OOF_' + cell['fold'] + '_VERSIONED', max_real_fit_debits=1)
 
 
 def read_bound_caches(config, *, accepted_stats=None):
@@ -432,10 +537,13 @@ def read_bound_caches(config, *, accepted_stats=None):
     import pandas as pd
     import pyarrow as pa
     pa.set_cpu_count(4); pa.set_io_thread_count(4)
+    policy = selected_policy(config); cell = policy['cell']
     prep = checked_json(config['preparation_receipt'])
     original_binding = checked_json(config['original_binding'])
     if prep.get('status') != 'COMPLETED' or prep.get('feature_columns', {}).get('M0') != list(FEATURES):
         raise Blocked('ORIGINAL_PREPARATION_OR_SCHEMA_NOT_ACCEPTED')
+    if policy != POLICY and prep.get('input_version') != policy['input_version']:
+        raise Blocked('PREPARATION_INPUT_VERSION_CONFLICT')
     stats = {}
     frames = {}
     for name in ('m0', 'calendar', 'panel'):
@@ -450,12 +558,12 @@ def read_bound_caches(config, *, accepted_stats=None):
             raise Blocked('FAST_BIND_STAT_DRIFT_REQUIRES_NEW_PREFLIGHT')
         filters = None
         if name == 'm0':
-            filters = [('date','>=',pd.Timestamp(CELL['train_start'])),
-                       ('date','<=',pd.Timestamp(CELL['score_end']))]
+            filters = [('date','>=',pd.Timestamp(cell['train_start'])),
+                       ('date','<=',pd.Timestamp(cell['score_end']))]
         elif name == 'panel':
             # No score-period prices/outcomes are needed for this cell's fit.
-            filters = [('date','>=',pd.Timestamp(CELL['train_start'])),
-                       ('date','<',pd.Timestamp(CELL['score_start']))]
+            filters = [('date','>=',pd.Timestamp(cell['train_start'])),
+                       ('date','<',pd.Timestamp(cell['score_start']))]
         frames[name] = pd.read_parquet(path, columns=['date','code','close'] if name == 'panel' else None,
                                       filters=filters)
         if before != stat_identity(path):
@@ -503,6 +611,7 @@ def deadline(seconds):
 
 def run_phase(config, config_path, activation, phase):
     require_activation(config, config_path, activation, phase)
+    policy = selected_policy(config); cell = policy['cell']
     if platform.system() != 'Darwin' or sys.executable != config['python']:
         raise Blocked('FROZEN_MAC_PYTHON_ONLY')
     versions = {name: importlib.metadata.version(name) for name in
@@ -516,7 +625,7 @@ def run_phase(config, config_path, activation, phase):
         receipt_path = out / (phase.upper() + '_RECEIPT.json')
         if receipt_path.exists():
             raise Blocked('EXISTING_PHASE_RECEIPT_NO_AUTOMATIC_REENTRY')
-        report = dict(status='INTENT_BEFORE_REGISTERED_START', phase=phase, policy_sha256=POLICY_SHA256,
+        report = dict(status='INTENT_BEFORE_REGISTERED_START', phase=phase, policy_sha256=config['policy_sha256'],
             contract_sha256=config['contract']['sha256'], input_binding_identity=input_binding_identity(config),
             wrapper_sha256=sha(__file__), runtime_versions=versions,
             metrics=dict(truth_positive_denominator=None, selection_slots=None), **FLAGS)
@@ -536,7 +645,7 @@ def run_phase(config, config_path, activation, phase):
                 frames, stats = read_bound_caches(config, accepted_stats=accepted['cache_stats'] if accepted else None)
                 recipe = load_recipe(config)
                 prepared, proof = prepare_single_cell(recipe, frames['m0'], frames['panel'], frames['calendar'],
-                                                       original_empty_pool_proof=empty_pool_proof)
+                                                       original_empty_pool_proof=empty_pool_proof, cell=cell)
                 report.update(proof=proof, cache_stats=stats, new_time_use=new_time_use_status(config, proof))
                 if accepted and proof != accepted['proof']:
                     raise Blocked('ACCEPTED_PREFLIGHT_PREPARED_IDENTITY_DRIFT')
@@ -544,13 +653,13 @@ def run_phase(config, config_path, activation, phase):
                     report['status'] = 'PREFLIGHT_READY_FOR_INDEPENDENT_TIME_USE_REVIEW'
                 else:
                     report['resource_pre_fit'] = resource_snapshot(config)
-                    model_path = out / 'M0_H2_2023H2.joblib'
+                    model_path = out / ('M0_H2_' + cell['fold'] + '.joblib')
                     if model_path.exists() or (out / 'SCORES.csv').exists():
                         raise Blocked('EXISTING_CHECKPOINT_OR_SCORES_NO_OVERWRITE')
                     predictions = fit_single_cell(recipe, prepared, transaction, model_path, execution_id + '_MODEL',
-                        config['contract']['sha256'], sha(config_path))
+                        config['contract']['sha256'], sha(config_path), cell=cell)
                     model_sha = sha(model_path)
-                    scores = annotate_scores(predictions, prepared, model_sha, proof, sha(config_path))
+                    scores = annotate_scores(predictions, prepared, model_sha, proof, sha(config_path), policy=policy)
                     with (out / 'SCORES.csv').open('x') as handle:
                         scores.to_csv(handle, index=False); handle.flush(); os.fsync(handle.fileno())
                     # Persist actual estimator bytes before declaring the fit complete.
