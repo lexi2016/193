@@ -1,0 +1,43 @@
+{
+  "scope": "M26 original-producer early-input adapter; source and synthetic acceptance only",
+  "status": "REVIEWED_PASS_SOURCE_AND_SYNTHETIC_ONLY",
+  "files": [
+    {
+      "path": "research/a_share_model_selection_v1/environment_tilt_early_inputs.py",
+      "sha256": "cc7054a2153bc16eac71f80ff51186d40fe6a9add6d50b59e15bfef0f1b44d65",
+      "before_sha256": null
+    },
+    {
+      "path": "research/a_share_model_selection_v1/tests/test_environment_tilt_early_inputs.py",
+      "sha256": "d0ffb3925c8e4109574a9bab06e7dc2f75c2c9683823a8c1f26e6a2650a3de4e",
+      "before_sha256": null
+    }
+  ],
+  "independent_tests": {
+    "passed": 33,
+    "elapsed_sec": 2.99,
+    "reviewer": "tilt_mac_code_review"
+  },
+  "source_policy": [
+    "Preserve original five-arm common-finite pool and36-feature order",
+    "Retain full stock warmup and taint before projection",
+    "Check calendar, index lookback and currency bridge",
+    "Require separate old-cache and per-model train/test input identities",
+    "Bound whole-stock concurrency; DRAFT blocks actual input execution"
+  ],
+  "unexecuted": [
+    "Actual full-history input admission",
+    "Frozen C-engine numerical/runtime canary",
+    "Actual old-cache/model-input parity",
+    "OOF continuation, lambda fitting and performance evaluation"
+  ],
+  "remaining_dependencies": [
+    "Accepted full-history input receipt",
+    "Original loader/session/output bindings and final budgets",
+    "Historical action-category semantics unresolved in M27"
+  ],
+  "research_only": true,
+  "production_allowed": false,
+  "buy_gate_updated": false,
+  "orders_sent": false
+}
