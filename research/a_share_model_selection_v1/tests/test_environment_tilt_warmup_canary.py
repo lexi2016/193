@@ -355,9 +355,10 @@ def test_original_raw_reader_on_synthetic_day_bytes_no_second_parser(tmp_path):
     assert result.date.iloc[0]==dates[0] and result.date.iloc[-1]==dates[-1]
 
 
-@pytest.mark.parametrize('kind',['valid','new_use_source_drift','units','prefix_checkpoint','terminal','payload_stat'])
-def test_original_passport_fast_bind_and_M27_admission(tmp_path,kind):
-    c=config_for(tmp_path);c['fast_bind_origins']={'original_passport':c['contract']}
+@pytest.mark.parametrize('kind',['valid','precision_valid','precision_review_drift','new_use_source_drift','units','prefix_checkpoint','terminal','payload_stat'])
+def test_original_passport_fast_bind_and_M27_admission(tmp_path,kind,monkeypatch):
+    c=precision_fixture(tmp_path,monkeypatch)[0] if kind.startswith('precision_') else config_for(tmp_path)
+    c['fast_bind_origins']={'original_passport':c['contract']}
     files={k:c['inputs'][k] for k in ('prefix','old_qfq','old_m0','old_calendar','raw_day')}
     origins=m23_metadata_fixture(tmp_path,c,files)
     c['fast_bind_origins'].update(origins)
@@ -377,21 +378,23 @@ def test_original_passport_fast_bind_and_M27_admission(tmp_path,kind):
     elif kind=='prefix_checkpoint':checkpoint['prefix_rows']=5146
     elif kind=='terminal':terminal['closed']=False
     elif kind=='payload_stat':proof['bound_files']['old_m0']['stat']['bytes']+=1
+    elif kind=='precision_review_drift':Path(c['precision_admission']['independent_review']['path']).write_text('{}')
     stages=[];archives=[]
     adapter=m.BoundInputs(c,Active(),stages.append)
     adapter.archive=lambda receipt:archives.append(copy.deepcopy(receipt))
     metadata=dict(fast_bind=proof,unit_ruling=ruling,m27_checkpoint=checkpoint,m27_terminal=terminal)
     adapter.metadata=lambda name:metadata[name]
-    if kind=='valid':
+    if kind in ('valid','precision_valid'):
         adapter.admit();assert set(adapter.accepted)==set(files)
+        assert (adapter.precision_evidence is not None)==(kind=='precision_valid')
         assert archives[-1]['status']=='AUTHENTICATED_BEFORE_NUMERIC_READ'
         assert {k:v['mode'] for k,v in adapter.accepted.items()}==m.AUTHENTICATION_MODES
         assert not adapter.accepted['old_m0']['rehashed'] and not adapter.accepted['old_calendar']['rehashed']
         assert not any('hash_chunk_old_m0'==stage or 'hash_chunk_old_calendar'==stage for stage in stages)
         assert adapter.hash_bytes==sum(c['authentication'][k]['expected_bytes'] for k in ('prefix','old_qfq','raw_day'))
     else:
-        with pytest.raises(m.Blocked):adapter.admit()
-        if kind=='payload_stat':
+        with pytest.raises((m.Blocked,m.support.Blocked)):adapter.admit()
+        if kind in ('payload_stat','precision_review_drift'):
             assert adapter.accepted is None
             assert not any(stage.startswith('before_hash_') for stage in stages)
 
@@ -523,3 +526,139 @@ def test_hash_stream_never_reads_beyond_frozen_bytes_if_file_grows(tmp_path):
     adapter.check=grow
     with pytest.raises(m.Blocked,match='STAT_CHANGED'):adapter.hash_bind('prefix')
     assert adapter.hash_bytes==original_bytes
+
+
+
+def precision_fixture(tmp_path, monkeypatch):
+    """Synthetic independent receipt chain; no historical amount values read."""
+    import json
+    c=config_for(tmp_path)
+    raw=np.asarray([123456789.,234567891.,345678913.,456789121.,567891231.],dtype='<f4').astype(float)
+    old=np.asarray([float(format(float(np.float32(v/10000)),'.7g'))*10000 for v in raw])
+    a=pd.DataFrame(dict(date=pd.to_datetime(m.UNIT_DATES),code=m.SYMBOL,amount=old))
+    b=pd.DataFrame(dict(date=pd.to_datetime(m.UNIT_DATES),code=m.SYMBOL,amount=raw))
+    pairs=[dict(date=date,code=m.SYMBOL,old_numeric=float(x),raw_CNY=float(y))
+           for date,x,y in zip(m.UNIT_DATES,old,raw)]
+    def save(name,value):
+        path=tmp_path/(name+'.json');path.write_text(json.dumps(value))
+        return dict(path=str(path),sha256=m.support.sha(path))
+    old_ref=save('prior_canary',dict(status='BLOCKED_NO_RETRY',input_refs=c['inputs'],
+        unit_admission=dict(reason='NO_UNIQUE_FIXED_RATIO_ALL_FIVE',pairs=pairs)))
+    source=dict(schema='M40_AMOUNT_PRECISION_SOURCE_REVIEW_V1',
+        source_rule_gap_blocks_original_data_reuse=False,
+        candidate_rounding=dict(all_five_match=True,universal_tolerance_admitted=False),
+        evidence=dict(m30_receipt=old_ref),**m.FLAGS)
+    source_ref=save('precision_source',source)
+    review_ref=save('precision_review',dict(status='PASS_WITH_LIMITS',**m.FLAGS))
+    ruling=dict(schema='M40_CONTROLLER_REUSE_RULING_V1',decision='REUSE_ACCEPTED_ORIGINAL_AMOUNT_VALUES',
+        review_ref=review_ref,writer_ref=source_ref,raw_CNY_to_existing_input_numeric_ratio=1,
+        old_values_unchanged=True,old_m30_failure_unchanged=True,
+        feature_matrix_changes_from_real_history_repairs_not_waived=True,
+        original_model_and_evaluation_unchanged=True,**m.FLAGS)
+    ruling_ref=save('precision_ruling',ruling)
+    refs=dict(source_receipt=source_ref,independent_review=review_ref,controller_ruling=ruling_ref)
+    monkeypatch.setattr(m,'M40_SOURCE_RECEIPT_SHA256',source_ref['sha256'])
+    monkeypatch.setattr(m,'M40_REVIEW_SHA256',review_ref['sha256'])
+    monkeypatch.setattr(m,'M40_CONTROLLER_SHA256',ruling_ref['sha256'])
+    units={**m.PRECISION_UNIT_POLICY,'precision_source_receipt_sha256':source_ref['sha256']}
+    policy={**m.POLICY,'unit_admission':units}
+    monkeypatch.setattr(m,'PRECISION_UNIT_POLICY',units);monkeypatch.setattr(m,'PRECISION_POLICY',policy)
+    c.update(policy=copy.deepcopy(policy),units=copy.deepcopy(units),precision_admission=refs)
+    return c,a,b
+
+
+def test_precision_receipt_accepts_fixed_reviewed_rounding_without_changing_original_values(tmp_path,monkeypatch):
+    c,a,b=precision_fixture(tmp_path,monkeypatch)
+    m.validate_config(c)
+    before_a,before_b=a.copy(deep=True),b.copy(deep=True)
+    assert not m.unit_admission(a,b)['B_allowed']  # Legacy predicate is unchanged.
+    evidence=m.m40_precision_evidence(c)
+    result=m.unit_admission(a,b,precision_evidence=evidence)
+    assert result['B_allowed'] and result['accepted_old_numeric_over_raw_CNY']==1
+    assert result['prefix_amount_multiplier']==10000 and result['old_numeric_values_preserved']
+    assert result['tolerance']=='NONE_FIXED_REVIEWED_PAIR_REUSE_ONLY'
+    assert not result['physical_or_economic_unit_certification']
+    pd.testing.assert_frame_equal(a,before_a,check_exact=True)
+    pd.testing.assert_frame_equal(b,before_b,check_exact=True)
+    assert m.scientific_identity(c)!=m.scientific_identity({k:v for k,v in c.items() if k!='precision_admission'})
+
+
+@pytest.mark.parametrize('kind',['no_source','no_review','no_ruling','wrong_review_sha','wrong_ruling_sha',
+    'wrong_units','legacy_policy','source_drift','review_drift','ruling_drift','different_payload'])
+def test_precision_receipt_missing_identity_units_or_provenance_stops(kind,tmp_path,monkeypatch):
+    c,a,b=precision_fixture(tmp_path,monkeypatch)
+    if kind.startswith('no_'):del c['precision_admission'][{'no_source':'source_receipt','no_review':'independent_review','no_ruling':'controller_ruling'}[kind]]
+    elif kind=='wrong_review_sha':c['precision_admission']['independent_review']['sha256']='b'*64
+    elif kind=='wrong_ruling_sha':c['precision_admission']['controller_ruling']['sha256']='b'*64
+    elif kind=='wrong_units':c['units']['candidate_old_numeric_over_raw_CNY']=[.0001]
+    elif kind=='legacy_policy':c['policy']=m.POLICY
+    elif kind.endswith('_drift'):
+        key={'source_drift':'source_receipt','review_drift':'independent_review','ruling_drift':'controller_ruling'}[kind]
+        Path(c['precision_admission'][key]['path']).write_text('{}')
+    elif kind=='different_payload':c['inputs']['old_qfq']={**c['inputs']['old_qfq'],'sha256':'b'*64}
+    with pytest.raises((m.Blocked,m.support.Blocked)):
+        m.validate_config(c);m.m40_precision_evidence(c)
+
+
+@pytest.mark.parametrize('kind',['date','code','duplicate','missing','unit_scale','changed_old','changed_raw','nan'])
+def test_precision_receipt_never_substitutes_dates_units_or_changes_fixed_values(kind,tmp_path,monkeypatch):
+    c,a,b=precision_fixture(tmp_path,monkeypatch);evidence=m.m40_precision_evidence(c)
+    if kind=='date':a.loc[0,'date']+=pd.Timedelta(days=1)
+    elif kind=='code':a.loc[0,'code']='000001.SZ'
+    elif kind=='duplicate':a=pd.concat([a,a.iloc[:1]])
+    elif kind=='missing':b=b.iloc[1:]
+    elif kind=='unit_scale':a['amount']*=.0001
+    elif kind=='changed_old':a.loc[0,'amount']+=.01  # No generic tolerance, however small.
+    elif kind=='changed_raw':b.loc[0,'amount']+=.01
+    elif kind=='nan':a.loc[0,'amount']=np.nan
+    with pytest.raises(m.Blocked):m.unit_admission(a,b,precision_evidence=evidence)
+
+
+def test_precision_ratio1_composition_preserves_old_numeric_recipe(original,history):
+    recipe,_,_=original;full,old,_=history;prefix=full.iloc[:100].copy()
+    before=old.copy(deep=True)
+    a,b=m.compose(recipe,prefix,old,dict(prefix=MAP,old_qfq=MAP),
+        dict(old_amount_multiplier=10000.,accepted_old_numeric_over_raw_CNY=1.),expected_prefix_rows=100)
+    pd.testing.assert_frame_equal(old,before,check_exact=True)
+    pd.testing.assert_frame_equal(a,recipe.normalize_price_panel(before,MAP,amount_multiplier=10000.),check_exact=True)
+    pd.testing.assert_frame_equal(b.iloc[100:].reset_index(drop=True),a,check_exact=True)
+    pd.testing.assert_frame_equal(b.iloc[:100].reset_index(drop=True),
+        recipe.normalize_price_panel(prefix,MAP,amount_multiplier=10000.),check_exact=True)
+
+
+def test_precision_registered_path_reaches_formula_and_preserves_material_difference_result(tmp_path,monkeypatch,original):
+    c,a,b=precision_fixture(tmp_path,monkeypatch);monkeypatch.setattr(m,'BATCH',tmp_path)
+    c['output_root']=str(tmp_path/'M30_SYNTHETIC_PRECISION_RUN')
+    c['registry_path']=str(m.BATCH.parents[3]/'contracts/EXPERIMENT_REGISTRY.jsonl')
+    c['sources']['guard_adapter']=dict(path=__file__,sha256=m.support.sha(__file__))
+    old=a.assign(open=10.,high=11.,low=9.,close=10.,volume=100.)
+    prefix=pd.DataFrame(dict(date=pd.bdate_range('2020-01-01',periods=100),code=m.SYMBOL,
+        open=10.,high=11.,low=9.,close=10.,volume=100.,amount=1000.))
+    monkeypatch.setattr(m.platform,'system',lambda:'Darwin')
+    monkeypatch.setattr(m,'original_modules',lambda config:original)
+    monkeypatch.setattr(m.support,'resource_snapshot',lambda config:{'synthetic_resource':True})
+    class Adapter:
+        def __init__(self,config,session,check):self.session=session;self.config=config;self.accepted={'synthetic':True}
+        def admit(self):
+            self.session.require_active();self.precision_evidence=m.m40_precision_evidence(self.config)
+        def frame(self,name,*args,**kwargs):
+            self.session.require_active()
+            if name=='prefix':return prefix.copy()
+            if name=='old_qfq':return old.copy()
+            if name=='old_m0':return feature_frame()
+            return pd.DataFrame(dict(date=a.date,calendar_index=np.arange(len(a))))
+        def raw_amounts(self):return b.copy()
+    original_compose=m.compose
+    def compose(*args,**kwargs):return original_compose(*args,expected_prefix_rows=100,**kwargs)
+    def run_frames(recipe,formula,old_normalized,full,*args,**kwargs):
+        pd.testing.assert_frame_equal(old_normalized,recipe.normalize_price_panel(old,MAP,amount_multiplier=10000.),check_exact=True)
+        assert len(full)==105
+        return dict(decision='SINGLE_SYMBOL_DIFFERENT',B_computed=True,
+                    A_cache={'exact':True},B_cache={'exact':False},universe_parity='CANNOT_CONFIRM')
+    monkeypatch.setattr(m,'BoundInputs',Adapter);monkeypatch.setattr(m,'compose',compose);monkeypatch.setattr(m,'run_frames',run_frames)
+    guard=Guard();result=m.run_registered(c,activation_for(c),guard)
+    assert result['unit_admission']['B_allowed'] and result['result']['decision']=='SINGLE_SYMBOL_DIFFERENT'
+    assert result['result']['B_cache']['exact'] is False and guard.events[-1][1]['succeeded']
+    assert result['policy_sha256']==m.support.digest(c['policy'])
+    with pytest.raises(FileExistsError):m.run_registered(c,activation_for(c),guard)
+    assert len(guard.events)==2

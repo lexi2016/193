@@ -1,0 +1,18 @@
+{
+  "scope": "M40 exact receipt-bound precision admission in original single-symbol warmup runner",
+  "decision": "PASS_SOURCE_ADAPTER_ONLY",
+  "independent_review_sha256": "a788289777187e55f4aae161ba8602fad9f39814d69cd3e50b3963dc4d68b528",
+  "independent_test_results": [
+    "47 passed, 53 deselected",
+    "8 passed, 92 deselected",
+    "wrong source SHA and wrong fixed date fail closed"
+  ],
+  "accepted_ratio": 1,
+  "generic_tolerance_added": false,
+  "original_values_formula_and_matrix_checks_unchanged": true,
+  "actual_canary": "PENDING",
+  "research_only": true,
+  "production_allowed": false,
+  "buy_gate_updated": false,
+  "orders_sent": false
+}

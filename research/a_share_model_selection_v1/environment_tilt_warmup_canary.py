@@ -41,6 +41,16 @@ POLICY = dict(symbol=SYMBOL, prefix_rows=5147,
     scope='SINGLE_SYMBOL_FORMULA_ONLY_NOT_UNIVERSE_OR_CELL_PARITY', **FLAGS)
 POLICY['unit_admission'] = UNIT_POLICY
 POLICY_SHA256 = support.digest(POLICY)
+# New explicit admission only; POLICY remains the historical strict identity.
+M40_SOURCE_RECEIPT_SHA256 = 'ca421b51979cbb232301d329536532ed338283b70e09264d92b0add007f32020'
+M40_REVIEW_SHA256 = '6c1de79e4a15b891aad4cdd3f9222e49297a555198ced8354ddd42e093d50e9b'
+M40_CONTROLLER_SHA256 = '599a4f78f9cad4074781cf7ab543206e4c4926fcdac1fa3fa58d36ac41656a97'
+PRECISION_UNIT_POLICY = {**UNIT_POLICY, 'status': 'M40_REVIEWED_FIXED_PAIR_RATIO1',
+    'candidate_old_numeric_over_raw_CNY': [1.0],
+    'predicate': 'M40_INDEPENDENT_PRECISION_RECEIPT_AND_UNCHANGED_FIXED_INPUT_PAIRS',
+    'precision_source_receipt_sha256': M40_SOURCE_RECEIPT_SHA256}
+PRECISION_POLICY = {**POLICY, 'unit_admission': PRECISION_UNIT_POLICY}
+
 CAPS = dict(workers=1, threads=4, max_rows=10000, batch_rows=512,
     parent_rss_bytes=2**31, worker_rss_bytes=2**31, rss_bytes=2**31,
     min_available_bytes=8*2**30, min_disk_bytes=4*2**30,
@@ -70,14 +80,19 @@ def reference(ref):
 
 
 def scientific_identity(config):
-    return support.digest({k: config[k] for k in ('policy', 'caps', 'sources', 'inputs', 'columns',
-        'units', 'fast_bind_origins', 'prefix_terminal_event_sha256', 'python', 'executor_owner', 'authentication')})
+    keys = ('policy', 'caps', 'sources', 'inputs', 'columns', 'units', 'fast_bind_origins',
+            'prefix_terminal_event_sha256', 'python', 'executor_owner', 'authentication')
+    if 'precision_admission' in config:
+        keys += ('precision_admission',)
+    return support.digest({k: config[k] for k in keys})
 
 
 def validate_config(config):
     if config.get('state') != 'FROZEN_READY_FOR_ACTIVATION':
         raise Blocked('DRAFT_NOT_EXECUTABLE')
-    if config.get('policy') != POLICY or config.get('caps') != CAPS:
+    precision = 'precision_admission' in config
+    policy = PRECISION_POLICY if precision else POLICY
+    if config.get('policy') != policy or config.get('caps') != CAPS:
         raise Blocked('EXACT_SINGLE_SYMBOL_POLICY_AND_CAPS_REQUIRED')
     if any(config.get(k) != v for k, v in FLAGS.items()):
         raise Blocked('RESEARCH_BOUNDARY_REQUIRED')
@@ -111,7 +126,17 @@ def validate_config(config):
         raise Blocked('ORIGINAL_PASSPORT_AND_M27_TERMINAL_REQUIRED')
     if config['inputs']['unit_ruling']['sha256'] != UNIT_RULING_SHA256:
         raise Blocked('FROZEN_CONTROLLER_UNIT_RULING_REQUIRED')
-    if config.get('units') != UNIT_POLICY:
+    if precision:
+        refs = config['precision_admission']
+        if (not isinstance(refs, dict) or set(refs) != {'source_receipt', 'independent_review', 'controller_ruling'}
+                or M40_REVIEW_SHA256 is None):
+            raise Blocked('EXACT_INDEPENDENT_M40_RECEIPTS_REQUIRED')
+        for ref in refs.values(): reference(ref)
+        if (refs['source_receipt']['sha256'] != M40_SOURCE_RECEIPT_SHA256
+                or refs['independent_review']['sha256'] != M40_REVIEW_SHA256
+                or refs['controller_ruling']['sha256'] != M40_CONTROLLER_SHA256):
+            raise Blocked('FROZEN_M40_RECEIPT_IDENTITY_REQUIRED')
+    if config.get('units') != (PRECISION_UNIT_POLICY if precision else UNIT_POLICY):
         raise Blocked('EXACT_OPERATIONAL_UNIT_ADMISSION_NO_INFERRED_MULTIPLIER_REQUIRED')
     if set(config.get('columns', {})) != {'prefix', 'old_qfq'}:
         raise Blocked('EXACT_RAW_COLUMN_MAPS_REQUIRED')
@@ -181,12 +206,14 @@ def compose(recipe, prefix_raw, old_raw, maps, units, *, expected_prefix_rows=51
     return old, full
 
 
-def unit_admission(old_numeric, raw_CNY):
+def unit_admission(old_numeric, raw_CNY, *, precision_evidence=None):
     """Frozen operational relation, based on original raw float32 storage.
 
     This is not an economic-unit/source-chain certification. No relative-error
     fitting, alternative dates, dropped zeros or replacement samples allowed.
     """
+    if precision_evidence is not None:
+        return receipt_unit_admission(old_numeric, raw_CNY, precision_evidence)
     import numpy as np
     import pandas as pd
     old_numeric = symbol_frame(old_numeric)
@@ -216,6 +243,90 @@ def unit_admission(old_numeric, raw_CNY):
         accepted_old_numeric_over_raw_CNY=accepted[0], prefix_amount_multiplier=10000.0*accepted[0],
         B_allowed=True, physical_or_economic_unit_certification=False,
         rule=UNIT_POLICY['predicate'], tolerance='ORIGINAL_RAW_IEEE754_FLOAT32_QUANTIZATION_ONLY')
+
+
+def m40_precision_evidence(config):
+    """Authenticate the fixed independent ruling, not infer a new tolerance.
+
+    Called after durable START, before market bytes. Receipt SHA binds the
+    independent PASS_WITH_LIMITS; internal native formatter attribution remains
+    unverified and is not a reuse blocker. Only the same five bound input files
+    and the exact same recorded pairs may consume this one-symbol ruling.
+    """
+    refs = config['precision_admission']
+    for name, wanted in (('source_receipt', M40_SOURCE_RECEIPT_SHA256),
+                         ('independent_review', M40_REVIEW_SHA256),
+                         ('controller_ruling', M40_CONTROLLER_SHA256)):
+        ref = refs[name]; reference(ref)
+        if wanted is None or ref['sha256'] != wanted:
+            raise Blocked('FROZEN_M40_RECEIPT_IDENTITY_REQUIRED')
+        if Path(ref['path']).stat().st_size > CAPS['metadata_bytes']:
+            raise Blocked('M40_METADATA_BYTE_BOUND')
+    source = support.checked_json(refs['source_receipt'])
+    review = support.checked_json(refs['independent_review'])
+    ruling = support.checked_json(refs['controller_ruling'])
+    if (review.get('status') != 'PASS_WITH_LIMITS'
+            or ruling.get('schema') != 'M40_CONTROLLER_REUSE_RULING_V1'
+            or ruling.get('decision') != 'REUSE_ACCEPTED_ORIGINAL_AMOUNT_VALUES'
+            or ruling.get('review_ref') != refs['independent_review']
+            or ruling.get('writer_ref') != refs['source_receipt']
+            or ruling.get('raw_CNY_to_existing_input_numeric_ratio') != 1
+            or any(ruling.get(k) is not True for k in ('old_values_unchanged',
+                'old_m30_failure_unchanged', 'feature_matrix_changes_from_real_history_repairs_not_waived',
+                'original_model_and_evaluation_unchanged'))
+            or any(document.get(k) != v for document in (source, review, ruling) for k, v in FLAGS.items())):
+        raise Blocked('M40_INDEPENDENT_PASS_AND_CONTROLLER_RATIO1_REQUIRED')
+    if (source.get('schema') != 'M40_AMOUNT_PRECISION_SOURCE_REVIEW_V1'
+            or source.get('source_rule_gap_blocks_original_data_reuse') is not False
+            or source.get('candidate_rounding', {}).get('all_five_match') is not True
+            or source.get('candidate_rounding', {}).get('universal_tolerance_admitted') is not False):
+        raise Blocked('M40_FIXED_PRECISION_SCOPE_REQUIRED')
+    old_ref = source['evidence']['m30_receipt']; reference(old_ref)
+    if Path(old_ref['path']).stat().st_size > CAPS['metadata_bytes']:
+        raise Blocked('M40_METADATA_BYTE_BOUND')
+    old = support.checked_json(old_ref)
+    if (old.get('status') != 'BLOCKED_NO_RETRY'
+            or old.get('unit_admission', {}).get('reason') != 'NO_UNIQUE_FIXED_RATIO_ALL_FIVE'
+            or any(old.get('input_refs', {}).get(k) != config['inputs'][k]
+                   for k in AUTHENTICATION_MODES)):
+        raise Blocked('M40_ORIGINAL_FIXED_INPUT_IDENTITIES_REQUIRED')
+    pairs = old['unit_admission']['pairs']
+    if (not isinstance(pairs, list) or len(pairs) != len(UNIT_DATES)
+            or any(row.get('date') != date or row.get('code') != SYMBOL
+                   or any(type(row.get(k)) not in (int, float) or not math.isfinite(row[k]) or row[k] <= 0
+                          for k in ('old_numeric', 'raw_CNY'))
+                   for date, row in zip(UNIT_DATES, pairs))):
+        raise Blocked('M40_EXACT_FIVE_RECORDED_PAIRS_REQUIRED')
+    return dict(schema='M40_AUTHENTICATED_FIXED_PAIR_RATIO1', accepted_old_numeric_over_raw_CNY=1.0,
+                pairs=pairs, receipt_refs=refs, original_m30_receipt=old_ref)
+
+
+def receipt_unit_admission(old_numeric, raw_CNY, evidence):
+    """Reuse a reviewed fixed receipt; no arithmetic tolerance or scale search."""
+    import pandas as pd
+    if (evidence.get('schema') != 'M40_AUTHENTICATED_FIXED_PAIR_RATIO1'
+            or evidence.get('accepted_old_numeric_over_raw_CNY') != 1.0
+            or len(evidence.get('pairs', [])) != len(UNIT_DATES)):
+        raise Blocked('M40_AUTHENTICATED_FIXED_RATIO1_REQUIRED')
+    old_numeric, raw_CNY = symbol_frame(old_numeric), symbol_frame(raw_CNY)
+    pairs = []
+    for date, bound in zip(UNIT_DATES, evidence['pairs']):
+        day = pd.Timestamp(date)
+        a = old_numeric.loc[old_numeric.date.eq(day), 'amount']
+        b = raw_CNY.loc[raw_CNY.date.eq(day), 'amount']
+        if (bound.get('date') != date or bound.get('code') != SYMBOL or len(a) != 1 or len(b) != 1):
+            raise Blocked('M40_FIXED_CODE_DATE_PAIR_REQUIRED')
+        x, y = float(a.iloc[0]), float(b.iloc[0])
+        if (not math.isfinite(x) or not math.isfinite(y) or x <= 0 or y <= 0
+                or x != bound['old_numeric'] or y != bound['raw_CNY']):
+            raise Blocked('M40_FIXED_PAIR_VALUES_CHANGED_NO_TOLERANCE')
+        pairs.append(dict(date=date, code=SYMBOL, old_numeric=x, raw_CNY=y))
+    return dict(decision='M40_REVIEWED_OPERATIONAL_RATIO1_ACCEPTED_SINGLE_SYMBOL',
+                accepted_old_numeric_over_raw_CNY=1.0, prefix_amount_multiplier=10000.0,
+                B_allowed=True, pairs=pairs, receipt_refs=evidence['receipt_refs'],
+                original_m30_receipt=evidence['original_m30_receipt'],
+                rule=PRECISION_UNIT_POLICY['predicate'], tolerance='NONE_FIXED_REVIEWED_PAIR_REUSE_ONLY',
+                old_numeric_values_preserved=True, physical_or_economic_unit_certification=False)
 
 
 def compare(left, right):
@@ -356,6 +467,7 @@ class BoundInputs:
         self.accepted = None
         self.hash_bytes = 0
         self.authentication_receipt = None
+        self.precision_evidence = None
         self.archive = lambda receipt: None
 
     def metadata(self, name):
@@ -383,6 +495,8 @@ class BoundInputs:
                 or ruling.get('unit_check', {}).get('candidate_old_numeric_per_raw_CNY') != [1, .0001]
                 or any(ruling.get(k) != v for k, v in FLAGS.items())):
             raise Blocked('UNRESOLVED_OR_CHANGED_UNIT_RULING')
+        if 'precision_admission' in self.config:
+            self.precision_evidence = m40_precision_evidence(self.config)
         checkpoint = self.metadata('m27_checkpoint')
         prefix = self.config['inputs']['prefix']
         refs = [r for r in checkpoint.get('artifacts', []) if r.get('path') == prefix['path'] and r.get('sha256') == prefix['sha256']]
@@ -609,7 +723,7 @@ def run_registered(config, activation, guard):
         path = out / 'CANARY_RECEIPT.json'; started = time.monotonic()
         report = dict(status='INTENT_BEFORE_DURABLE_START', actual_execution_id=config['execution_id'],
             config_sha256=support.digest(config), wrapper_sha256=support.sha(__file__),
-            contract_ref=config['contract'], policy_sha256=POLICY_SHA256,
+            contract_ref=config['contract'], policy_sha256=support.digest(config['policy']),
             source_refs=config['sources'], input_refs=config['inputs'],
             activation_review_receipt_sha256=activation['review_receipt_sha256'],
             scientific_identity=scientific_identity(config), planned_executor_owner=config['executor_owner'],
@@ -639,7 +753,8 @@ def run_registered(config, activation, guard):
                 maps = config['columns']
                 frames = {name: adapter.frame(name, list(mapping.values()), code_column=mapping['code']) for name, mapping in maps.items()}
                 old_numeric = recipe.normalize_price_panel(frames['old_qfq'], maps['old_qfq'], amount_multiplier=1.0)
-                report['unit_admission'] = unit_admission(old_numeric, adapter.raw_amounts())
+                precision = dict(precision_evidence=adapter.precision_evidence) if 'precision_admission' in config else {}
+                report['unit_admission'] = unit_admission(old_numeric, adapter.raw_amounts(), **precision)
                 if report['unit_admission']['B_allowed']:
                     multipliers = dict(old_amount_multiplier=10000.0,
                         accepted_old_numeric_over_raw_CNY=report['unit_admission']['accepted_old_numeric_over_raw_CNY'])

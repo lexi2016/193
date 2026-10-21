@@ -1,0 +1,46 @@
+{
+  "scope": "Frozen source snapshots for two bounded original TDX source diagnostics",
+  "source_reviews": [
+    {
+      "name": "official GBBQ exact-event lookup",
+      "sha256": "9d6a2723287fa467b1ed4270201fec68fe8bbc4d71bfe5ce26126a2dbf23118a",
+      "tests": "2 passed; no live queries in review"
+    },
+    {
+      "name": "tdxpy setup/header comparison",
+      "sha256": "865a7e0ed3f55ef9c5ecb11b67b74d6dea721c150fac2b3416f51218c1a7c5a9",
+      "tests": "2 passed; no live queries in review"
+    }
+  ],
+  "files": [
+    {
+      "path": "research/reviews/environment_tilt_tdx_repair_20261021/GBBQ_OFFICIAL_08/run.py",
+      "sha256": "d0b2aff1f14fbc0232aa643df8f9cdb0c3cd89c49aaa3801fe929ea3df05f9fa",
+      "source_archive": "GBBQ_OFFICIAL_08/R1/run.py"
+    },
+    {
+      "path": "research/reviews/environment_tilt_tdx_repair_20261021/GBBQ_OFFICIAL_08/test_capture.py",
+      "sha256": "a654ad62aabef6f30abdf3c0dc59b8335173dd3e24b172d28f346571abf87736",
+      "source_archive": "GBBQ_OFFICIAL_08/R1/test_capture.py"
+    },
+    {
+      "path": "research/reviews/environment_tilt_tdx_repair_20261021/TDXPY_PROTOCOL_09/run.py",
+      "sha256": "f8e4cece875584df79d381b8f3dcc6a4bcc6aee714e7cc5eedcee4f572d31077",
+      "source_archive": "TDXPY_PROTOCOL_09/R1/run.py"
+    },
+    {
+      "path": "research/reviews/environment_tilt_tdx_repair_20261021/TDXPY_PROTOCOL_09/test_protocol.py",
+      "sha256": "78bd71f470b64c71313c69c1f2580e5a2f846d321e0f8ebc35ffcc50da311a0f",
+      "source_archive": "TDXPY_PROTOCOL_09/R1/test_protocol.py"
+    }
+  ],
+  "as_run_m33_source_sha256": "86a697a626686b09bfbc8b076ff704833f24a1150ef04d609d2186d69152283a",
+  "as_run_m33_revision": "7f14e366e6c54e0c6dcdaeaac5a9924ecf6c9583",
+  "dependency": "tdxpy 0.2.7 published sdist; e2462cf61f5cef845e70ac9be071ba6386b226bec4075de4af9807b60b7ae70d",
+  "actual_output_review": "PENDING_SEPARATE_INDEPENDENT_RECEIPTS",
+  "raw_responses_or_market_data_published": false,
+  "research_only": true,
+  "production_allowed": false,
+  "buy_gate_updated": false,
+  "orders_sent": false
+}
