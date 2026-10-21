@@ -1,0 +1,215 @@
+{
+  "actual_review": {
+    "verdict": "READBACK_AND_REGISTRY_CHAIN_PASS_WITH_LIMITATIONS; BUSINESS_ACCEPTANCE_CANNOT_CONFIRM",
+    "logical_path": "RUNTIME_FIX_02/INDEPENDENT_ACTUAL_REVIEW.json",
+    "sha256": "3d0b0d5f1bf80469acb79b10f47ba55dd1cf6245be2e071f8066f5ded7f06dea",
+    "scope": "Independent recomputation from persisted common-valid daily returns and registry chain readback; no raw payload rehash or model rerun"
+  },
+  "arm_table": [
+    {
+      "arm": "A_ORIGINAL",
+      "cash_dates": 0,
+      "common_valid_date_CVaR5_bp": -633.378546075599,
+      "common_valid_date_lift_bp": 0,
+      "common_valid_date_mean_bp": 131.24700289097316,
+      "quarter_lifts_bp": {
+        "2026Q1": 0,
+        "2026Q2": 0
+      },
+      "stock_slots": 1160,
+      "worst_h2_bp": -856.5714012491259
+    },
+    {
+      "arm": "B_WEAK_GATE",
+      "cash_dates": 44,
+      "common_valid_date_CVaR5_bp": -497.7410885765086,
+      "common_valid_date_lift_bp": -39.47766369452332,
+      "common_valid_date_mean_bp": 91.76933919644982,
+      "quarter_lifts_bp": {
+        "2026Q1": -97.66324794348597,
+        "2026Q2": 10.682322726996201
+      },
+      "stock_slots": 720,
+      "worst_h2_bp": -634.9168008304772
+    },
+    {
+      "arm": "C_MONTH_BONUS",
+      "cash_dates": 0,
+      "common_valid_date_CVaR5_bp": -591.3779040158564,
+      "common_valid_date_lift_bp": 3.51094262143688,
+      "common_valid_date_mean_bp": 134.75794551241003,
+      "quarter_lifts_bp": {
+        "2026Q1": -8.103334044276606,
+        "2026Q2": 13.52325009187954
+      },
+      "stock_slots": 1160,
+      "worst_h2_bp": -701.8108438430978
+    },
+    {
+      "arm": "D_COMBINED",
+      "cash_dates": 44,
+      "common_valid_date_CVaR5_bp": -494.6702913943378,
+      "common_valid_date_lift_bp": -38.60067107874769,
+      "common_valid_date_mean_bp": 92.64633181222545,
+      "quarter_lifts_bp": {
+        "2026Q1": -102.12400018917066,
+        "2026Q2": 16.16081953368591
+      },
+      "stock_slots": 720,
+      "worst_h2_bp": -634.9168008304772
+    }
+  ],
+  "canary_all_executions_scope": {
+    "contract_only_count": 0,
+    "correction_count": 0,
+    "event_count": 6,
+    "execution_count": 3,
+    "route_count": 1,
+    "unregistered_count": 0
+  },
+  "config_sha256": "d65ef58897b8b1969e4655f470b496f60fa87bcd173cafb00a67b7f4f6f0e2fb",
+  "contract_sha256": "4735dd8896a9ea1e76ba5f7f072451b4884f11fdc879f0814732478b63bd20de",
+  "coverage": {
+    "common_valid_dates": 108,
+    "finite_selected_label_keys": 1215,
+    "invalid_date_reasons": [
+      {
+        "date": "2026-01-09",
+        "missing_selected_keys": 1,
+        "reason": "MISSING_SELECTED_H2_LABEL_ENTIRE_DATE_EXCLUDED"
+      },
+      {
+        "date": "2026-01-12",
+        "missing_selected_keys": 1,
+        "reason": "MISSING_SELECTED_H2_LABEL_ENTIRE_DATE_EXCLUDED"
+      },
+      {
+        "date": "2026-01-13",
+        "missing_selected_keys": 1,
+        "reason": "MISSING_SELECTED_H2_LABEL_ENTIRE_DATE_EXCLUDED"
+      },
+      {
+        "date": "2026-02-25",
+        "missing_selected_keys": 1,
+        "reason": "MISSING_SELECTED_H2_LABEL_ENTIRE_DATE_EXCLUDED"
+      },
+      {
+        "date": "2026-03-11",
+        "missing_selected_keys": 1,
+        "reason": "MISSING_SELECTED_H2_LABEL_ENTIRE_DATE_EXCLUDED"
+      },
+      {
+        "date": "2026-03-12",
+        "missing_selected_keys": 1,
+        "reason": "MISSING_SELECTED_H2_LABEL_ENTIRE_DATE_EXCLUDED"
+      },
+      {
+        "date": "2026-04-27",
+        "missing_selected_keys": 1,
+        "reason": "MISSING_SELECTED_H2_LABEL_ENTIRE_DATE_EXCLUDED"
+      },
+      {
+        "date": "2026-04-28",
+        "missing_selected_keys": 1,
+        "reason": "MISSING_SELECTED_H2_LABEL_ENTIRE_DATE_EXCLUDED"
+      }
+    ],
+    "invalid_dates": 8,
+    "missing_or_invalid_selected_label_keys": 8,
+    "nominal_dates": 116,
+    "requested_unique_selected_label_keys": 1223,
+    "selection_identical_to_execution02": true
+  },
+  "execution_counts": {
+    "actual_executions": 3,
+    "completed_evaluations": 1,
+    "earlier_wrapper_stops": 2,
+    "fit_count": 0,
+    "network_calls": 0,
+    "predict_count": 0
+  },
+  "handoff_ref": {
+    "logical_path": "RUNTIME_FIX_02/ACTUAL_HANDOFF.json",
+    "sha256": "b1208776c1b1ee9c16a28adddc62e4bdde2be06d144a12e5ab9e4e3e4b90f332"
+  },
+  "limitations": [
+    "Fullcalendar gate cannotpass because8selectedlabel dates are missing; commonmaskmeans are descriptive only.",
+    "D underperformedA oncommonmask andQ1; nooutcome-driven rulechange/winner selection/expandedbacktest/learning.",
+    "NoNAV/netreturns/portfolio drawdown/holdings replay/executableclose-entry claim.",
+    "Jointmonthindustryprior usesoriginalretrospective industryclassification; existingindexsource is Futu recoveredreplacement, not originalTDX identity.",
+    "Onehistorical halfyear, nosealed significance/breakthrough.",
+    "RUN_STARTED references a pre-outcome receipt version whose bytes were not retained; terminal receipt hash and event chain match. No reconstruction claimed."
+  ],
+  "readiness": "NOT_STANDALONE_DATA_PIPELINE;localbounddata/config/registryadapter notpublished; no rawrows/marketpayload included",
+  "receipt_ref": {
+    "logical_path": "REGISTERED_03/RECEIPT.json",
+    "sha256": "4b7fe3f070990129f193ac45adc90e3117f31c6895dd0186e06c335237bca8eb"
+  },
+  "registry_counts": {
+    "correction_count": 89,
+    "event_count": 3753,
+    "execution_count": 1204,
+    "route_count": 403,
+    "scope": {
+      "contract_only_count": 0,
+      "correction_count": 0,
+      "event_count": 2,
+      "execution_count": 1,
+      "route_count": 1,
+      "unregistered_count": 0
+    },
+    "scope_label": "Execution03_only",
+    "global_contract_only_count": null,
+    "global_unregistered_count": null,
+    "global_inventory_reason": "No global independent inventory performed"
+  },
+  "resources": {
+    "elapsed_seconds": 9.84417579206638,
+    "sampled_peak_rss_bytes": 1488371712,
+    "threads": 4
+  },
+  "scope": "2026H1 fixed single setting; gross overlappingh2 newbasket opportunity only, historicalDIRECTION_ONLY",
+  "screen": {
+    "CVaR5_not_worse": true,
+    "Q1_lift_bp": -102.12400018917066,
+    "Q2_lift_bp": 16.16081953368591,
+    "both_mechanisms_exercised": true,
+    "both_quarters_positive": false,
+    "common_mask_CVaR5_difference_bp": 138.70825468126125,
+    "common_mask_only_lift_bp": -38.60067107874769,
+    "full_calendar_coverage": false,
+    "full_calendar_lift_bp": null,
+    "full_calendar_minimum_lift_bp": 8,
+    "month_rank_change_dates": 114,
+    "weak_dates": 44
+  },
+  "screen_passed": false,
+  "source_refs": {
+    "runner": {
+      "path": "research/a_share_model_selection_v1/environment_tilt_simple_rule_canary.py",
+      "sha256": "fe3c2db99e3dc43396ee7c936932b16f81815bc5babc854331e7f8136b78c62f"
+    },
+    "test": {
+      "path": "tests/test_environment_tilt_simple_rule_canary.py",
+      "sha256": "afa4df03b154cd8055ca0614547d46acdb298b558ab267b104d9d8829bed292b"
+    }
+  },
+  "status": "CANNOT_CONFIRM_SCREEN",
+  "rules": {
+    "A": "Original M0/h2 Top10 from fixed Top50",
+    "B": "A with no new basket when CSI300 signal-date close is below MA20; cash contribution zero",
+    "C": "Within fixed Top50, add 5 rank points to positive original joint industry-month prior; then Top10",
+    "D": "C with B market gate",
+    "unchanged_model": true
+  },
+  "research_only": true,
+  "production_allowed": false,
+  "buy_gate_updated": false,
+  "orders_sent": false,
+  "validation": {
+    "initial_independent_fixtures": "20 passed in 0.24s",
+    "runtime_fix01_affected_fixtures": "2 passed; unaffected prior PASS reused",
+    "runtime_fix02_affected_fixtures": "4 passed in 0.22s; unaffected prior PASS reused",
+    "actual_readback": "Independent arm means, paired quarterly deltas, CVaR5, common mask and event closure matched"
+  }
+}
