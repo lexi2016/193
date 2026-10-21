@@ -1,0 +1,23 @@
+{
+  "scope": "old_m0 reader projection/streaming; same original rows/order/36 feature values and same2GiB cap",
+  "files": [
+    {
+      "path": "research/a_share_model_selection_v1/environment_tilt_warmup_canary.py",
+      "sha256": "59786de2dc1d07a0914f49cf630489480fafc470e2d1129a20b5a6112c106574",
+      "before_sha256": "cb3b1fcab6bffa7fdb46337765299417f6077e38604297b77011eabd660a415a"
+    },
+    {
+      "path": "research/a_share_model_selection_v1/tests/test_environment_tilt_warmup_canary.py",
+      "sha256": "c341ade6219412675764da8f0267bc82fce82e3adf4576afc1d3dd69fc8e755a",
+      "before_sha256": "93f37efff40274b8f039d10db80ec791e8485ec09b1c12305ee2a334e68abd98"
+    }
+  ],
+  "independent_review_sha256": "bf655a5bcdf5f83bb0facd506ab48d70a203a69c8c415dc6c94752278ac84d82",
+  "independent_result": "13 passed, 94 deselected",
+  "status": "PASS_SYNTHETIC_READER_SCOPE_ONLY",
+  "actual_boundary": "Previous wide read stopped by unchanged 2GiB guard; post-fix actual RSS and matrix parity not yet measured.",
+  "research_only": true,
+  "production_allowed": false,
+  "buy_gate_updated": false,
+  "orders_sent": false
+}

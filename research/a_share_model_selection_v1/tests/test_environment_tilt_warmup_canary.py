@@ -662,3 +662,92 @@ def test_precision_registered_path_reaches_formula_and_preserves_material_differ
     assert result['policy_sha256']==m.support.digest(c['policy'])
     with pytest.raises(FileExistsError):m.run_registered(c,activation_for(c),guard)
     assert len(guard.events)==2
+
+
+
+def m0_stream_fixture(tmp_path, rows=3000, symbol_every=17):
+    import pyarrow.parquet as pq
+    i=np.arange(rows)
+    frame=pd.DataFrame(dict(date=pd.bdate_range('1990-01-01',periods=rows),
+        code=np.where(i%symbol_every==0,m.SYMBOL,'000001.SZ')))
+    for j,name in enumerate(m.FEATURES):frame[name]=i*.0001+j
+    frame.loc[0,m.FEATURES[0]]=-0.
+    if rows>2*symbol_every:
+        frame.loc[symbol_every,m.FEATURES[1]]=np.nan
+        frame.loc[2*symbol_every,m.FEATURES[2]]=np.inf
+    frame=frame.sample(frac=1,random_state=193).reset_index(drop=True)
+    path=tmp_path/'old_m0.parquet'
+    frame.to_parquet(path,index=False,row_group_size=733)
+    # Whole-frame reference is deliberately small and SYNTHETIC only.
+    with pq.ParquetFile(path) as reader:reference=reader.read().to_pandas()
+    reference=reference.loc[reference.code.eq(m.SYMBOL)].reset_index(drop=True)
+    config=dict(inputs={'old_m0':dict(path=str(path),sha256=m.support.sha(path))})
+    adapter=m.BoundInputs(config,Active(),lambda stage:None)
+    adapter.accepted={'old_m0':dict(stat=m.support.stat_identity(path))}
+    return adapter,path,reference
+
+
+def track_m0_parquet(monkeypatch):
+    import pyarrow.parquet as pq
+    original=pq.ParquetFile;calls=[]
+    class Tracked:
+        def __init__(self,path,**kwargs):
+            assert kwargs==dict(pre_buffer=False,buffer_size=64*1024)
+            self.reader=original(path,**kwargs)
+        def __enter__(self):return self
+        def __exit__(self,*args):self.reader.close()
+        @property
+        def metadata(self):return self.reader.metadata
+        def iter_batches(self,**kwargs):
+            cols=kwargs['columns'];calls.append(tuple(cols))
+            assert len(cols)==1 or cols==['date','code']
+            assert kwargs['batch_size']==512 and kwargs['use_threads'] is False
+            for batch in self.reader.iter_batches(**kwargs):
+                assert len(batch)<=512
+                yield batch
+    monkeypatch.setattr(pq,'ParquetFile',Tracked)
+    return calls
+
+
+def test_m0_column_stream_uses_keys_then_single_columns_preserving_order_and_float_bytes(tmp_path,monkeypatch):
+    import pyarrow.dataset as ds
+    adapter,path,expected=m0_stream_fixture(tmp_path)
+    calls=track_m0_parquet(monkeypatch);stages=[];adapter.check=stages.append
+    def no_wide_dataset(*args,**kwargs):raise AssertionError('old_m0 must not use a wide filtered dataset scan')
+    monkeypatch.setattr(ds,'dataset',no_wide_dataset)
+    result=adapter.frame('old_m0',['date','code',*m.FEATURES],code_column='code')
+    pd.testing.assert_frame_equal(result,expected,check_exact=True)
+    for column in m.FEATURES:
+        np.testing.assert_array_equal(result[column].to_numpy(dtype='<f8').view('<u8'),
+                                      expected[column].to_numpy(dtype='<f8').view('<u8'))
+    assert calls==[('date','code'),*((name,) for name in m.FEATURES)]
+    assert len(result)<3000 and result.code.eq(m.SYMBOL).all()
+    assert stages[0]=='before_old_m0_keys' and stages[-1]=='read_old_m0'
+    for name in m.FEATURES:
+        assert 'before_old_m0_column_'+name in stages and 'after_old_m0_column_'+name in stages
+    assert m.CAPS['rss_bytes']==m.CAPS['parent_rss_bytes']==m.CAPS['worker_rss_bytes']==2**31
+
+
+@pytest.mark.parametrize('kind',['oversize','empty','wrong_schema','missing_code_filter','resource_stop','stat_drift'])
+def test_m0_column_stream_bounds_and_admission_stops(kind,tmp_path,monkeypatch):
+    adapter,path,expected=m0_stream_fixture(tmp_path,rows=10001 if kind=='oversize' else 40,
+                                           symbol_every=1 if kind=='oversize' else 17)
+    if kind=='empty':
+        frame=pd.read_parquet(path);frame['code']='000001.SZ';frame.to_parquet(path,index=False)
+        adapter.accepted['old_m0']['stat']=m.support.stat_identity(path)
+    calls=track_m0_parquet(monkeypatch)
+    columns=['date','code',*m.FEATURES];code='code'
+    if kind=='wrong_schema':columns=columns[:-1]
+    elif kind=='missing_code_filter':code=None
+    elif kind=='resource_stop':
+        def stop(stage):
+            if stage=='after_old_m0_keys':raise m.Blocked('SYNTHETIC_RESOURCE_STOP')
+        adapter.check=stop
+    elif kind=='stat_drift':
+        def drift(stage):
+            if stage=='after_old_m0_column_'+m.FEATURES[0]:
+                stat=path.stat();os.utime(path,ns=(stat.st_atime_ns,stat.st_mtime_ns+1))
+        adapter.check=drift
+    with pytest.raises(m.Blocked):adapter.frame('old_m0',columns,code_column=code)
+    if kind in ('oversize','empty','resource_stop'):assert calls==[('date','code')]
+    if kind in ('wrong_schema','missing_code_filter'):assert calls==[]

@@ -617,6 +617,62 @@ class BoundInputs:
         raw['date'] = pd.to_datetime(raw.trade_date.astype(str), format='%Y%m%d', errors='raise')
         return symbol_frame(raw[['date', 'code', 'amount']])
 
+    def m0_symbol_frame(self, path, columns, code_column):
+        """Read the bound cache by physical row positions, one value column.
+
+        A filtered wide scanner can buffer global column chunks before emitting
+        the few symbol rows. Keep keys only in the first pass; every later pass
+        projects one original value column and takes exactly those positions.
+        No sorting, conversion, pool filtering, refill or feature arithmetic.
+        """
+        import numpy as np
+        import pandas as pd
+        import pyarrow as pa
+        import pyarrow.compute as pc
+        import pyarrow.parquet as pq
+        if tuple(columns) != ('date', 'code', *FEATURES) or code_column != 'code':
+            raise Blocked('EXACT_M0_SINGLE_SYMBOL_PROJECTION_REQUIRED')
+        with pq.ParquetFile(path, pre_buffer=False, buffer_size=64 * 1024) as parquet:
+            self.check('before_old_m0_keys')
+            keys, positions, scanned = [], [], 0
+            for batch in parquet.iter_batches(batch_size=CAPS['batch_rows'], columns=['date', 'code'],
+                                              use_threads=False):
+                self.session.require_active()
+                selected = pc.indices_nonzero(pc.equal(batch.column('code'), SYMBOL))
+                if len(selected):
+                    if len(positions) + len(selected) > CAPS['max_rows']:
+                        raise Blocked('SYMBOL_OR_STREAM_ROW_BOUND_NO_TRUNCATION')
+                    positions.extend((selected.to_numpy() + scanned).tolist())
+                    keys.append(batch.take(selected).to_pandas()[['date', 'code']])
+                scanned += len(batch)
+            if scanned != parquet.metadata.num_rows:
+                raise Blocked('M0_PROJECTED_ROW_PARTITION_CHANGED')
+            self.check('after_old_m0_keys')
+            if not positions:
+                raise Blocked('EMPTY_BOUND_INPUT')
+            result = pd.concat(keys, ignore_index=True)
+            indices = np.asarray(positions, dtype=np.int64)
+            for column in FEATURES:
+                self.check('before_old_m0_column_' + column)
+                pieces, offset, matched = [], 0, 0
+                for batch in parquet.iter_batches(batch_size=CAPS['batch_rows'], columns=[column],
+                                                  use_threads=False):
+                    self.session.require_active()
+                    end = offset + len(batch)
+                    left, right = np.searchsorted(indices, [offset, end])
+                    if right > left:
+                        local = pa.array(indices[left:right] - offset, type=pa.int64())
+                        pieces.append(batch.take(local).to_pandas()[column])
+                        matched += right - left
+                    offset = end
+                if offset != scanned or matched != len(indices):
+                    raise Blocked('M0_PROJECTED_ROW_PARTITION_CHANGED')
+                result[column] = pd.concat(pieces, ignore_index=True)
+                # The unchanged wall alarm also covers the bounded batch loops;
+                # resource guards surround every single-column projection.
+                self.check('after_old_m0_column_' + column)
+            return result[list(columns)]
+
     def frame(self, name, columns, *, code_column=None):
         import pandas as pd
         self.session.require_active()
@@ -631,10 +687,13 @@ class BoundInputs:
             import pyarrow as pa
             import pyarrow.dataset as ds
             pa.set_cpu_count(4); pa.set_io_thread_count(4)
-            predicate = ds.field(code_column) == SYMBOL if code_column else None
-            scanner = ds.dataset(path, format='parquet').scanner(columns=columns, filter=predicate,
-                batch_size=CAPS['batch_rows'], batch_readahead=1, fragment_readahead=1, use_threads=False)
-            batches = (batch.to_pandas() for batch in scanner.to_batches())
+            if name == 'old_m0':
+                batches = (self.m0_symbol_frame(path, columns, code_column),)
+            else:
+                predicate = ds.field(code_column) == SYMBOL if code_column else None
+                scanner = ds.dataset(path, format='parquet').scanner(columns=columns, filter=predicate,
+                    batch_size=CAPS['batch_rows'], batch_readahead=1, fragment_readahead=1, use_threads=False)
+                batches = (batch.to_pandas() for batch in scanner.to_batches())
         elif path.suffix == '.csv' and name == 'prefix':
             batches = pd.read_csv(path, usecols=columns, dtype={code_column: str}, float_precision='round_trip',
                 chunksize=CAPS['batch_rows'])
