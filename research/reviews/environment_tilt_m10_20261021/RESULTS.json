@@ -1,0 +1,13 @@
+{
+  "scope": "Original task opt-in tdxpy single MConnect session; original request/parser/cutoff preserved",
+  "source_sha256": "e2b5a354cf2df15fa4f53e8a30305afedff9cbe50f69e5c7e5c6bbc8c25f9eff",
+  "test_sha256": "cd0d40e2c3130c013b9af451d6b6e74acd671a2e4674cef2a81ae40b3711b242",
+  "independent_review_sha256": "0c90ee76e7cb21bc14a84bc95f4e94a731d42f717b67c87bf483e5706481bc21",
+  "independent_result": "3 passed, 11 deselected",
+  "status": "SOURCE_AND_SYNTHETIC_REVIEW_PASS",
+  "actual_boundary": "Prior P09 saved protocol result reused; new M10 adapter actual execution not yet run. No physical-unit or full-market certification.",
+  "research_only": true,
+  "production_allowed": false,
+  "buy_gate_updated": false,
+  "orders_sent": false
+}

@@ -217,3 +217,47 @@ def test_archive_fields_legacy_checkpoint_producer_not_relabelled(tmp_path):
     assert reused['owner_execution_id']=='OLD' and reused['reuse_producing_code_sha256']=='old-code-sha'
     assert p.read_bytes()==before and 'producing_code_sha256' not in json.loads(before)
     with pytest.raises(m.Stop,match='PRODUCER_DRIFT'):m._amount_existing(root,'sem',{'name':'member'},{'NEW':'new-code-sha'})
+
+def test_single_connect_guard_then_one_setup_original_parameters_and_no_retry(tmp_path,monkeypatch):
+    import hashlib
+    src=tmp_path/'module.py';src.write_text('# source fixture\n');events=[]
+    c=dict(query_host='218.6.170.47',query_port=7709,tdxpy_single_connect=dict(package_root=str(tmp_path),sources={'bound':dict(path=str(src),sha256=hashlib.sha256(src.read_bytes()).hexdigest())},setup_packet_hex='0c0000000001030003000d0001'))
+    class Parser:
+        def __init__(self,client):self.client=client
+        def call_api(self):events.append(('setup',self.send_pkg));return self.parseResponse(b'ack')
+    class API:
+        def __init__(self,**kw):events.append(('api',kw));self.client=SimpleNamespace(settimeout=lambda x:events.append(('timeout',x)))
+        def connect(self,*args,**kw):events.append(('connect',args,kw));self.setup();return self
+        def get_security_bars(self,**kw):events.append(('daily',kw));return 'unchanged-original-parser-result'
+        def disconnect(self):events.append(('disconnect',))
+    def guard():events.append(('guard',))
+    with m.tdxpy_single_connect_session(c,guard,api_factory=API,parser_class=Parser) as api:
+        assert api.get_security_bars(**m.REQUESTS[0])=='unchanged-original-parser-result'
+    assert events[0]==('guard',) and events[1][0]=='api'
+    assert events[1][1]==dict(multithread=False,heartbeat=False,auto_retry=False,raise_exception=True)
+    assert [v for v in events if v[0]=='setup']==[('setup',bytes.fromhex('0c0000000001030003000d0001'))]
+    assert [v for v in events if v[0]=='daily']==[('daily',m.REQUESTS[0])]
+    assert len([v for v in events if v[0]=='connect'])==1 and events[-1]==('disconnect',)
+    before=list(events)
+    def inactive():raise PermissionError('NOT_STARTED')
+    with pytest.raises(PermissionError):
+        with m.tdxpy_single_connect_session(c,inactive,api_factory=API,parser_class=Parser):pass
+    assert events==before
+    src.write_text('changed')
+    with pytest.raises(m.Stop,match='TDXPY_SOURCE_DRIFT'):
+        with m.tdxpy_single_connect_session(c,guard,api_factory=API,parser_class=Parser):pass
+    assert not any(v[0]=='api' for v in events[len(before):])
+
+
+def test_single_connect_fetch_passes_active_guard_and_preserves_query_error(tmp_path,monkeypatch):
+    evidence=dict(bar_connect_calls=0,bar_query_calls=0,bar_raw_responses=[]);calls=[]
+    @contextmanager
+    def session(c):
+        c['_registered_active_checker']();calls.append('guarded')
+        class API:
+            auto_retry=False;heartbeat=False;client=SimpleNamespace(settimeout=lambda _:None)
+            def get_security_bars(self,**request):calls.append(request);raise RuntimeError('same-source-failure')
+        yield API()
+    c=dict(run_dir=str(tmp_path),tdxpy_single_connect={'explicit':True});life=Life()
+    with pytest.raises(RuntimeError,match='same-source-failure'):m.fetch_bar_page(life,c,m.base.Budget(tmp_path,m.CAPS),m.REQUESTS[0],0,evidence,session)
+    assert calls==['guarded',m.REQUESTS[0]] and evidence['bar_query_calls']==1

@@ -103,8 +103,51 @@ def summarize_actions(symbol,target,events):
 
 
 @contextmanager
+def tdxpy_single_connect_session(config,active_checker,*,api_factory=None,parser_class=None):
+    """Source-bound task transport repair; no vendor changes or implicit requests."""
+    import types
+    if not callable(active_checker):raise Stop('REGISTERED_SESSION_GUARD_REQUIRED')
+    active_checker()  # Before SDK imports or API initialization.
+    binding=config['tdxpy_single_connect']
+    if binding.get('setup_packet_hex')!='0c0000000001030003000d0001':raise Stop('SINGLE_CONNECT_PACKET_DRIFT')
+    root=Path(binding['package_root']).resolve()
+    for ref in binding['sources'].values():
+        if registry.sha(ref['path'])!=ref['sha256'] or root not in Path(ref['path']).resolve().parents:raise Stop('TDXPY_SOURCE_DRIFT')
+    if not binding['sources']:raise Stop('TDXPY_SOURCES_REQUIRED')
+    for name,module in list(sys.modules.items()):
+        if name=='tdxpy' or name.startswith('tdxpy.'):
+            if not getattr(module,'__file__',None) or root not in Path(module.__file__).resolve().parents:raise Stop('TDXPY_IMPORT_COLLISION')
+    sys.path.insert(0,str(root));api=None
+    try:
+        if api_factory is None:
+            api_factory=importlib.import_module('tdxpy.hq').TdxHq_API
+            parser_class=importlib.import_module('tdxpy.parser.base').BaseParser
+        elif parser_class is None:raise Stop('SYNTHETIC_PARSER_REQUIRED')
+        api=api_factory(multithread=False,heartbeat=False,auto_retry=False,raise_exception=True)
+        def setup(self):
+            class Connect(parser_class):
+                def parseResponse(parser,body):return body
+            cmd=Connect(self.client);cmd.send_pkg=bytes.fromhex(binding['setup_packet_hex']);cmd.call_api()
+        api.setup=types.MethodType(setup,api)
+        active_checker()
+        if not api.connect(config['query_host'],config['query_port'],time_out=5):raise Stop('SINGLE_CONNECT_FAILED')
+        api.client.settimeout(5)
+        yield api
+    finally:
+        active_exception=sys.exc_info()[0] is not None
+        try:
+            if api is not None:api.disconnect()
+        except Exception:
+            if not active_exception:raise
+        finally:sys.path.pop(0)
+
+
+@contextmanager
 def original_session(config):
-    """Same bound DLI/pytdx root as original m11.query_events; no alternate API."""
+    """Original session, with an explicit source-bound task-only transport repair."""
+    if config.get('tdxpy_single_connect'):
+        with tdxpy_single_connect_session(config,config.get('_registered_active_checker')) as api:yield api
+        return
     for ref in config['query_sources'].values():
         if registry.sha(ref['path'])!=ref['sha256']:raise Stop('QUERY_SOURCE_DRIFT')
     root=Path(config['query_package_root']).resolve()
@@ -128,7 +171,8 @@ def fetch_bar_page(life,config,budget,request,index,evidence,session_factory=Non
     factory=session_factory or original_session
     with original.m11.query_wall(budget,POLICY['query_wall_seconds']):
         evidence['bar_connect_calls']+=1
-        with factory(config) as api:
+        session_config=dict(config,_registered_active_checker=life.require) if config.get('tdxpy_single_connect') else config
+        with factory(session_config) as api:
             if api.auto_retry or api.heartbeat:raise Stop('UNBOUNDED_API_CONFIGURATION')
             api.client.settimeout(5)
             evidence['bar_query_calls']+=1
