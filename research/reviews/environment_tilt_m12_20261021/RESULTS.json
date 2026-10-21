@@ -1,0 +1,15 @@
+{
+  "scope": "Temporary registered fixed7 execution adapter: original four checkpoint references plus three previous blocked cases; no new producer or price algorithm",
+  "source_handoff_sha256": "a6748b892c4985d7593ccc51f8218e331f6b37a34d4d76313d1505d30dfe2c52",
+  "independent_source_review_sha256": "4cb6ae9bfaea807e28a3078bff10fa927700335b2c588f7e9db772278cb8b46d",
+  "independent_tests": "16 passed; metadata-only load_config PASS",
+  "repair": "Before worker dispatch require nonempty well-formed saved event lists; reject null and missing bindings before inherited network fallback",
+  "compatibility_map_sha256": "e62391df4af2eba98dda05306ac40bf6885d8a368d5192d5d56686aed05d8e0e",
+  "status": "SOURCE_AND_SYNTHETIC_GUARD_PASS",
+  "actual_acceptance": "PENDING",
+  "runtime_dependency": "Original bound project runtime and frozen local configuration; no portable standalone runtime claim. Raw inputs and runtime data excluded.",
+  "research_only": true,
+  "production_allowed": false,
+  "buy_gate_updated": false,
+  "orders_sent": false
+}
