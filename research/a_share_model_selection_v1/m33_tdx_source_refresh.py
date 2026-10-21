@@ -248,4 +248,229 @@ def main():
     print(registry.canonical(dict(status=result['status'],query_calls=result['query_calls'],training_ready=False)))
 
 
-if __name__=='__main__':main()
+# Original archive field projection: no OHLC adjustment or feature calculation.
+_AMOUNT_READER = None
+_AMOUNT_CONTEXT = None
+AMOUNT_FIELD_POLICY = dict(universe_count=5576, cutoff=20261015,
+    history="ALL_ORIGINAL_OBSERVED_HISTORY", amount="CNY", volume="shares",
+    input_version="TDX_ORIGINAL_DAY_AMOUNT_CNY_SHARES_V1", workers=2, worker_threads=1)
+
+
+def _amount_reader(binding):
+    import ast, __future__, struct
+    import numpy as np
+    import pandas as pd
+    if registry.sha(binding['path']) != binding['sha256']:raise Stop('ORIGINAL_READER_DRIFT')
+    tree=ast.parse(Path(binding['path']).read_text());names={'read_day_tail','is_ext_market_ts'}
+    nodes=[n for n in tree.body if isinstance(n,ast.FunctionDef) and n.name in names]
+    nodes += [n for n in tree.body if isinstance(n,ast.Assign) and any(isinstance(t,ast.Name) and t.id in {'DAY_STRUCT','EXT_MARKET_DAY_STRUCT'} for t in n.targets)]
+    if {n.name for n in nodes if isinstance(n,ast.FunctionDef)}!=names:raise Stop('ORIGINAL_READER_DEFINITIONS')
+    scope=dict(np=np,pd=pd,struct=struct,Path=Path)
+    exec(compile(ast.Module(body=nodes,type_ignores=[]),binding['path'],'exec',flags=__future__.annotations.compiler_flag),scope)
+    return scope['read_day_tail']
+
+
+class _AmountDayBytes:
+    """Pass authenticated member bytes into the unchanged original reader."""
+    def __init__(self,payload):self.payload=payload
+    def stat(self):
+        from types import SimpleNamespace
+        return SimpleNamespace(st_size=len(self.payload))
+    def open(self,mode):
+        import io
+        if mode!='rb':raise Stop('RAW_READER_WRITE_FORBIDDEN')
+        return io.BytesIO(self.payload)
+
+
+def amount_field_frame(payload,code,reader,cutoff=20261015):
+    import numpy as np
+    import pandas as pd
+    if not payload or len(payload)%32:raise Stop('RAW_MEMBER_RECORD_SIZE')
+    raw=reader(code,_AmountDayBytes(payload),tail_records=len(payload)//32)
+    if raw.empty:raise Stop('NO_OBSERVED_RAW_ROWS')
+    raw=raw.loc[raw.trade_date<=cutoff,['trade_date','ts_code','amount','vol']].copy()
+    if raw.empty:raise Stop('NO_ROWS_THROUGH_CUTOFF')
+    dates=pd.to_datetime(raw.trade_date.astype(str),format='%Y%m%d',errors='raise')
+    if raw.trade_date.duplicated().any() or not dates.is_monotonic_increasing:raise Stop('RAW_DATE_KEYS')
+    if set(raw.ts_code)!={code}:raise Stop('RAW_SYMBOL_IDENTITY')
+    if not np.isfinite(raw[['amount','vol']].to_numpy(dtype='float64')).all() or (raw[['amount','vol']]<0).any().any():raise Stop('INVALID_AMOUNT_VOLUME')
+    if not (raw.vol==raw.vol.astype('int64')).all():raise Stop('NONINTEGER_SHARES')
+    return raw.rename(columns={'amount':'amount_CNY','vol':'volume_shares'}).astype({'trade_date':'int32','amount_CNY':'float64','volume_shares':'int64'})
+
+
+def _amount_worker_initialize(config,active_checker=None):
+    global _AMOUNT_READER,_AMOUNT_CONTEXT
+    for key in ('OMP_NUM_THREADS','OPENBLAS_NUM_THREADS','MKL_NUM_THREADS','VECLIB_MAXIMUM_THREADS','NUMEXPR_NUM_THREADS'):os.environ[key]='1'
+    if active_checker is None:
+        worker_life=AmountFieldLifecycle(registry.load_adapter(config),config);worker_life.started=True
+        event=worker_life.require()
+        if event['event_sha256']!=config['worker_start_sha256']:raise Stop('WORKER_START_IDENTITY_DRIFT')
+    else:active_checker()  # dependency injection for synthetic fixtures; never selected by JSON/CLI
+    _AMOUNT_READER=_amount_reader(config['original_reader'])
+    config=dict(config,arrow_pools=base.configure_arrow_pools(1));_AMOUNT_CONTEXT=config
+
+
+def _amount_existing(root,semantic,member):
+    path=root/'CHECKPOINT.json'
+    if not path.exists():return None
+    if path.is_symlink() or any(p.is_symlink() for p in path.parents):raise Stop('CHECKPOINT_SYMLINK')
+    item=base.read_json(path)
+    if item.get('symbol')!=root.name:raise Stop('CHECKPOINT_SYMBOL_DRIFT')
+    if item.get('semantic_sha256')!=semantic or item.get('member')!=member:raise Stop('CHECKPOINT_INPUT_DRIFT')
+    for artifact in item.get('artifacts',[]):original.check_artifact(artifact,root)
+    return dict(item,reused=True,checkpoint=dict(path=str(path),sha256=registry.sha(path)))
+
+
+def _amount_symbol_job(task):
+    import io
+    import pyarrow as pa
+    import pyarrow.parquet as pq
+    code,member,old_dates=task
+    c=_AMOUNT_CONTEXT;root=Path(c['run_dir'])/'symbols'/code
+    reused=_amount_existing(root,c['semantic_sha256'],member) if root.exists() else None
+    if reused:return reused
+    if root.exists():raise Stop('PARTIAL_SYMBOL_OUTPUT_REQUIRES_SCOPED_RECOVERY:'+code)
+    root.mkdir(parents=True,exist_ok=False)
+    result=dict(symbol=code,semantic_sha256=c['semantic_sha256'],member=member,
+        owner_execution_id=c['execution_id'],worker_pid=os.getpid(),artifacts=[],reused=False,training_ready=False,**FLAGS)
+    budget=original.RecoveryBudget(root,c['worker_caps'])
+    try:
+        with budget:
+            if member is None:raise Stop('ORIGINAL_MEMBER_NOT_IN_INVENTORY')
+            payload=original.read_member(c,member,budget)
+            frame=amount_field_frame(payload,code,_AMOUNT_READER)
+            actual=set(map(int,frame.trade_date));old=set(old_dates);missing=sorted(old-actual)
+            first=min(old);prefix=int((frame.trade_date<first).sum())
+            sink=pa.BufferOutputStream();pq.write_table(pa.Table.from_pandas(frame,preserve_index=False),sink,compression='zstd')
+            output=original.durable_new(root/'AMOUNT_VOLUME.parquet',sink.getvalue().to_pybytes())
+            result.update(status='PROJECTED' if not missing else 'PROJECTED_WITH_OLD_KEY_GAPS',rows=len(frame),
+                date_min=int(frame.trade_date.min()),date_max=int(frame.trade_date.max()),old_first=first,
+                early_prefix_rows=prefix,old_key_count=len(old),missing_old_dates=missing,coverage_complete=not missing,
+                observed_history_only=True,historical_source_completeness='CANNOT_CONFIRM',units=c['unit_binding'],
+                arrow_pools=c['arrow_pools'],artifacts=[output])
+            budget.check()
+    except Exception as exc:
+        result.update(status='REFUSED',reason=str(exc),exception_class=type(exc).__name__,
+            fatal_run=any(t in str(exc) for t in ('ARCHIVE_STAT_DRIFT','ARCHIVE_CHANGED','ORIGINAL_READER_DRIFT','RSS_LIMIT','WALL_LIMIT','PAYLOAD_LIMIT')))
+    result.update(sampled_peak_rss_bytes=budget.peak,wall_seconds=time.monotonic()-budget.start_time)
+    binding=original.new_json(root/'CHECKPOINT.json',result)
+    return dict(result,checkpoint=binding)
+
+
+def load_amount_projection_config(path):
+    c=base.read_json(path)
+    if c['policy']!=AMOUNT_FIELD_POLICY or c.get('network_allowed') is not False or c.get('fit_count')!=0:raise Stop('FIELD_POLICY_DRIFT')
+    if not 1<=c['workers']<=2 or c['worker_caps']['threads']!=1 or c['caps']['threads']!=1:raise Stop('FIELD_CONCURRENCY_DRIFT')
+    for name,binding in c['code_by_file'].items():
+        if registry.sha(binding['path'])!=binding['sha256']:raise Stop('SOURCE_DRIFT:'+name)
+    if Path(c['code_by_file']['wrapper']['path']).resolve()!=Path(__file__).resolve():raise Stop('SOURCE_IMPORT_COLLISION')
+    if registry.sha(c['contract_path'])!=c['contract_sha256']:raise Stop('CONTRACT_DRIFT')
+    c.update(config_path=str(Path(path).resolve()),config_sha256=registry.sha(path),
+        code_composite_sha256=original.digest({k:v['sha256'] for k,v in c['code_by_file'].items()}))
+    root=Path(c['run_dir'])
+    if root.parent.resolve()!=Path(c['batch_root']).resolve()/'M37_TDX_REPAIR' or root.name!='AMOUNT_FIELDS_FULL':raise Stop('FIELD_OUTPUT_SCOPE')
+    return c
+
+
+class AmountFieldLifecycle(RefreshLifecycle):
+    def event(self,kind,decision,receipt,metrics):
+        event=super().event(kind,decision,receipt,metrics)
+        event.update(route_id='a-share-environment-tilt-original-archive-field-projection',
+            experiment_id='A_SHARE_ENV_TILT_ORIGINAL_ARCHIVE_FIELDS',stage='ORIGINAL_5576_AMOUNT_SHARES_PROJECTION',
+            arm='ORIGINAL_5576_RAW_AMOUNT_VOLUME',baseline_id='ORIGINAL_TDX_DAY_RAW_CNY_SHARES',
+            one_variable='VERSIONED_RAW_FIELDS_NO_IEEE_GATE_NO_QFQ_OVERWRITE',truth_access='ONLY_RAW_AMOUNT_VOLUME_DATE_AND_ORIGINAL_UNIVERSE_KEYS')
+        return event
+
+
+def run_amount_projection(c,activation=None):
+    from concurrent.futures import ProcessPoolExecutor,wait,FIRST_COMPLETED
+    import multiprocessing
+    import pandas as pd
+    import pyarrow.parquet as pq
+    if (not activation or activation.get('decision')!='INDEPENDENT_REVIEW_PASS_ACTIVATE'
+        or activation.get('execution_id')!=c['execution_id'] or activation.get('config_sha256')!=c['config_sha256']
+        or activation.get('code_composite_sha256')!=c['code_composite_sha256']
+        or registry.sha(c['source_review_receipt_path'])!=activation.get('review_receipt_sha256')):raise Stop('FIELD_NOT_REVIEW_ACTIVATED')
+    if registry.sha(c['canary_review']['path'])!=c['canary_review']['sha256']:raise Stop('CANARY_ACCEPTANCE_DRIFT')
+    root=Path(c['run_dir']);root.mkdir(exist_ok=True)
+    if root.is_symlink() or any(p.is_symlink() for p in root.parents):raise Stop('OUTPUT_SYMLINK')
+    receipt=root/('RECEIPT_'+c['execution_id']+'.json');original.new_json(receipt,dict(status='PREPARED_NOT_REGISTERED',**FLAGS))
+    adapter=registry.load_adapter(c);life=AmountFieldLifecycle(adapter,c);budget=original.RecoveryBudget(root,c['caps'])
+    report=dict(status='INTENT',execution_id=c['execution_id'],results=[],network_calls=0,fits=0,training_ready=False,**FLAGS)
+    with original.owner(root):
+        try:
+            life.start(receipt)
+            with budget:
+                if base.available_memory()<c['caps']['min_memory_bytes'] or shutil.disk_usage(root).free<c['caps']['min_disk_bytes']:raise Stop('DEFERRED_RESOURCE')
+                c['arrow_pools']=base.configure_arrow_pools(1)
+                proof=c['qfq_fast_bind_proof']
+                if registry.sha(proof['path'])!=proof['sha256']:raise Stop('FAST_BIND_PROOF_DRIFT')
+                old=base.read_json(proof['path'])['files']['old_qfq'];path=Path(c['qfq']['path'])
+                if old['sha256']!=c['qfq']['sha256'] or base.file_identity(path.stat())!=old['stat']:raise Stop('OLD_QFQ_FAST_BIND_DRIFT')
+                if base.file_identity(Path(c['archive']['path']).stat())!=c['archive']['frozen_stat']:raise Stop('ARCHIVE_STAT_DRIFT')
+                life.require()
+                # Only original universe/date keys; no OHLC, labels or model columns.
+                grouped={};pf=pq.ParquetFile(path)
+                for batch in pf.iter_batches(columns=['ts_code','trade_date'],batch_size=65536):
+                    for row in batch.to_pylist():
+                        code=row['ts_code'];date=int(row['trade_date'])
+                        if not isinstance(code,str) or not original.re.fullmatch(r'\d{6}\.(SH|SZ|BJ)',code):raise Stop('ORIGINAL_UNIVERSE_KEY')
+                        values=grouped.setdefault(code,set())
+                        if date in values:raise Stop('DUPLICATE_OLD_DATE_CODE')
+                        if date>20261015:raise Stop('OLD_KEY_AFTER_CUTOFF')
+                        values.add(date)
+                    budget.check()
+                if base.file_identity(path.stat())!=old['stat'] or len(grouped)!=5576:raise Stop('ORIGINAL_5576_OR_STAT_DRIFT')
+                with base.authenticated(life,c['inventory'],budget) as handle:members=original.inventory(handle)
+                codes=sorted(grouped);universe=original.content_once(root/'UNIVERSE_AND_OLD_KEYS.json',dict(qfq=c['qfq'],codes=codes,old_first={k:min(v) for k,v in grouped.items()},count=5576))
+                c['worker_start_sha256']=life.require()['event_sha256']
+                tasks=iter((code,members.get(code),sorted(grouped[code])) for code in codes);results=[];checkpointed=0
+                with ProcessPoolExecutor(max_workers=c['workers'],mp_context=multiprocessing.get_context('spawn'),initializer=_amount_worker_initialize,initargs=(c,)) as executor:
+                    active={};exhausted=False;last_check=0.0
+                    while active or not exhausted:
+                        while len(active)<c['workers'] and not exhausted:
+                            try:task=next(tasks)
+                            except StopIteration:exhausted=True;break
+                            active[executor.submit(_amount_symbol_job,task)]=task[0]
+                        if not active:break
+                        done,_=wait(active,timeout=1,return_when=FIRST_COMPLETED)
+                        for future in done:
+                            code=active.pop(future);result=future.result();results.append(result)
+                            if result.get('fatal_run'):raise Stop('FATAL_SYMBOL:'+code+':'+result.get('reason',''))
+                        if len(results)-checkpointed>=100:
+                            bundle=original.new_json(root/('PROGRESS_'+c['execution_id']+'_'+str(len(results))+'.json'),dict(completed=len(results),checkpoints=[r['checkpoint'] for r in results[checkpointed:]]))
+                            spec=life.event('CHECKPOINT','FIELDS_PROGRESS',bundle['path'],dict(completed_members=len(results),fits=0))
+                            spec.update(registry_event_id=c['execution_id']+'_PROGRESS_'+str(len(results)),checkpoint_ref=bundle)
+                            life.require()
+                            with adapter._locked():
+                                raw,events=adapter._read_validated();adapter._append_unlocked(raw,events,spec)
+                            checkpointed=len(results)
+                        if time.monotonic()-last_check>=10:
+                            budget.check()
+                            if base.available_memory()<c['caps']['min_memory_bytes'] or shutil.disk_usage(root).free<c['caps']['min_disk_bytes']:raise Stop('DEFERRED_RESOURCE_DURING_RUN')
+                            last_check=time.monotonic();report.update(completed_members=len(results));base.write_json(receipt,report)
+                report.update(status='FIELD_PROJECTION_COMPLETE',results=results,universe=universe,
+                    completed_members=len(results),projected=sum(r['status'].startswith('PROJECTED') for r in results),
+                    refused=sum(r['status']=='REFUSED' for r in results),with_old_key_gaps=sum(r['status']=='PROJECTED_WITH_OLD_KEY_GAPS' for r in results),
+                    total_rows=sum(r.get('rows',0) for r in results),early_prefix_rows=sum(r.get('early_prefix_rows',0) for r in results),
+                    input_version=AMOUNT_FIELD_POLICY['input_version'],qfq_authentication='FAST_BIND_ACCEPTED_SHA_AND_SAME_STAT_NO_REHASH',
+                    whole_zip='REUSED_RECORDED_NOT_REHASHED; EACH_CONSUMED_MEMBER_SHA_VERIFIED',arrow_pools=c['arrow_pools'])
+                original.new_json(root/('COVERAGE_AND_REFUSALS_'+c['execution_id']+'.json'),report);budget.check()
+        except BaseException as exc:report.update(status='STOPPED_WITH_CHECKPOINTS',error_class=type(exc).__name__,error=str(exc))
+        finally:
+            report.update(elapsed_seconds=time.monotonic()-budget.start_time,sampled_parent_peak_rss_bytes=budget.peak)
+            base.write_json(receipt,report)
+            if life.started and not life.finished:life.finish(receipt,report['status'],dict(fits=0,completed_members=report.get('completed_members',0),network_calls=0))
+    return report
+
+
+def amount_projection_main():
+    p=argparse.ArgumentParser(description='Original archive amount/share fields only');p.add_argument('--amount-projection-config',required=True);p.add_argument('--execute',action='store_true');p.add_argument('--activation');args=p.parse_args();c=load_amount_projection_config(args.amount_projection_config)
+    if not args.execute:print(registry.canonical(dict(status='FIELD_METADATA_ONLY_NO_SCIENCE',workers=c['workers'])));return
+    if not args.activation:p.error('--activation required')
+    report=run_amount_projection(c,base.read_json(args.activation));print(registry.canonical({k:v for k,v in report.items() if k!='results'}))
+
+
+if __name__=='__main__':
+    if '--amount-projection-config' in sys.argv:amount_projection_main()
+    else:main()

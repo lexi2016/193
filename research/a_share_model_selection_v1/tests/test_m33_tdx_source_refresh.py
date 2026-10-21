@@ -107,3 +107,85 @@ def test_draft_and_fetch_failure_do_not_retry_and_keep_terminal(tmp_path,monkeyp
     with pytest.raises(ConnectionError):m.run(c,object(),a,bar_fetch=fail,action_fetch=actions)
     assert calls==[1] and events==['START','TERMINAL']
     assert json.loads((Path(c['run_dir'])/'RECEIPT.json').read_text())['status']=='FAILED_NO_RETRY'
+
+
+@pytest.fixture
+def archive_fields_reader(tmp_path):
+    import hashlib
+    source=tmp_path/'original_reader_fixture.py'
+    source.write_text("""raise RuntimeError('module main must not execute')
+DAY_STRUCT = struct.Struct('<IIIIIfII')
+EXT_MARKET_DAY_STRUCT = struct.Struct('<IfffffII')
+def is_ext_market_ts(ts_code):
+    return ts_code.endswith('.HK')
+def read_day_tail(ts_code, path, tail_records=360):
+    data=path.open('rb').read(); rows=[]
+    for offset in range(0,len(data),32):
+        d,o,h,l,c,a,v,_=DAY_STRUCT.unpack(data[offset:offset+32])
+        rows.append(dict(trade_date=d,ts_code=ts_code,amount=float(a),vol=int(v)))
+    return pd.DataFrame(rows)
+""")
+    binding=dict(path=str(source),sha256=hashlib.sha256(source.read_bytes()).hexdigest())
+    return binding,m._amount_reader(binding)
+
+
+def test_archive_fields_original_reader_units_zero_and_cutoff(archive_fields_reader):
+    import struct
+    _,reader=archive_fields_reader
+    pack=lambda d,a,v:struct.pack('<IIIIIfII',d,100,110,90,100,a,v,0)
+    payload=pack(20200102,123.5,250)+pack(20200103,0.,0)+pack(20261016,float('nan'),3)
+    frame=m.amount_field_frame(payload,'600000.SH',reader)
+    assert list(frame.trade_date)==[20200102,20200103]
+    assert list(frame.amount_CNY)==[123.5,0.] and list(frame.volume_shares)==[250,0]
+    assert str(frame.volume_shares.dtype)=='int64' and str(frame.amount_CNY.dtype)=='float64'
+
+
+def test_archive_fields_invalid_member_keys_and_nonfinite(archive_fields_reader):
+    import struct
+    _,reader=archive_fields_reader
+    row=lambda d,a=1.:struct.pack('<IIIIIfII',d,100,100,100,100,a,1,0)
+    for data,reason in [(b'x','RECORD_SIZE'),(row(20200102)*2,'DATE_KEYS'),(row(20200103)+row(20200102),'DATE_KEYS'),(row(20200102,float('inf')),'INVALID_AMOUNT_VOLUME')]:
+        with pytest.raises(m.Stop,match=reason):m.amount_field_frame(data,'600000.SH',reader)
+
+
+def test_archive_fields_start_guard_precedes_reader_and_arrow_one(archive_fields_reader,monkeypatch):
+    import pyarrow as pa
+    binding,_=archive_fields_reader
+    calls=[]
+    def blocked():calls.append('guard');raise PermissionError('NO_DURABLE_START')
+    original=m._amount_reader
+    monkeypatch.setattr(m,'_amount_reader',lambda _:calls.append('reader'))
+    with pytest.raises(PermissionError):m._amount_worker_initialize(dict(original_reader=binding),active_checker=blocked)
+    assert calls==['guard']
+    monkeypatch.setattr(m,'_amount_reader',original);pa.set_cpu_count(4);pa.set_io_thread_count(8)
+    m._amount_worker_initialize(dict(original_reader=binding),active_checker=lambda:calls.append('synthetic_active'))
+    assert m._AMOUNT_CONTEXT['arrow_pools']==dict(cpu=1,io=1)
+
+
+def test_archive_fields_checkpoint_preserves_values_gaps_and_reuses(archive_fields_reader,tmp_path,monkeypatch):
+    import hashlib,struct,zipfile
+    import pyarrow.parquet as pq
+    binding,_=archive_fields_reader
+    payload=b''.join(struct.pack('<IIIIIfII',d,100,100,100,100,a,v,0) for d,a,v in [(19990101,12.5,100),(20200102,99.25,700)])
+    archive=tmp_path/'raw.zip'
+    with zipfile.ZipFile(archive,'w') as z:z.writestr('sh/lday/sh600000.day',payload)
+    member=dict(name='sh/lday/sh600000.day',bytes=len(payload),sha256=hashlib.sha256(payload).hexdigest())
+    run=tmp_path/'outputs';run.mkdir()
+    c=dict(original_reader=binding,run_dir=str(run),execution_id='SOFTWARE_FIXTURE',semantic_sha256='fixed-source-semantic',archive=dict(path=str(archive),frozen_stat=m.base.file_identity(archive.stat())),member_byte_limit=2**20,worker_caps=dict(threads=1,rss_bytes=2**31,payload_bytes=2**20,total_wall_sec=30),unit_binding=dict(amount='CNY',vol='shares'))
+    m._amount_worker_initialize(c,active_checker=lambda:None)
+    result=m._amount_symbol_job(('600000.SH',member,[20200102,20200103]))
+    assert result['status']=='PROJECTED_WITH_OLD_KEY_GAPS' and result['missing_old_dates']==[20200103]
+    assert result['early_prefix_rows']==1 and result['rows']==2
+    table=pq.read_table(result['artifacts'][0]['path']).to_pandas()
+    assert list(table.amount_CNY)==[12.5,99.25] and list(table.volume_shares)==[100,700]
+    monkeypatch.setattr(m.original,'read_member',lambda *args:(_ for _ in ()).throw(AssertionError('must reuse checkpoint')))
+    reused=m._amount_symbol_job(('600000.SH',member,[20200102,20200103]));assert reused['reused']
+    Path(result['artifacts'][0]['path']).write_bytes(b'tampered')
+    with pytest.raises(m.original.Stop,match='ARTIFACT_IDENTITY_DRIFT'):m._amount_symbol_job(('600000.SH',member,[20200102,20200103]))
+
+
+def test_archive_fields_no_activation_no_output_or_input_read(tmp_path):
+    root=tmp_path/'not-created'
+    with pytest.raises(m.Stop,match='FIELD_NOT_REVIEW_ACTIVATED'):
+        m.run_amount_projection(dict(run_dir=str(root)))
+    assert not root.exists()
