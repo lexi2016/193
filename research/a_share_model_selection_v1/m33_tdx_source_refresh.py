@@ -310,15 +310,17 @@ def _amount_worker_initialize(config,active_checker=None):
     config=dict(config,arrow_pools=base.configure_arrow_pools(1));_AMOUNT_CONTEXT=config
 
 
-def _amount_existing(root,semantic,member):
+def _amount_existing(root,semantic,member,producers=None):
     path=root/'CHECKPOINT.json'
     if not path.exists():return None
     if path.is_symlink() or any(p.is_symlink() for p in path.parents):raise Stop('CHECKPOINT_SYMLINK')
     item=base.read_json(path)
     if item.get('symbol')!=root.name:raise Stop('CHECKPOINT_SYMBOL_DRIFT')
     if item.get('semantic_sha256')!=semantic or item.get('member')!=member:raise Stop('CHECKPOINT_INPUT_DRIFT')
+    producer=(producers or {}).get(item.get('owner_execution_id'))
+    if producers is not None and (not producer or item.get('producing_code_sha256',producer)!=producer):raise Stop('CHECKPOINT_PRODUCER_DRIFT')
     for artifact in item.get('artifacts',[]):original.check_artifact(artifact,root)
-    return dict(item,reused=True,checkpoint=dict(path=str(path),sha256=registry.sha(path)))
+    return dict(item,reused=True,reuse_producing_code_sha256=producer,checkpoint=dict(path=str(path),sha256=registry.sha(path)))
 
 
 def _amount_symbol_job(task):
@@ -327,12 +329,12 @@ def _amount_symbol_job(task):
     import pyarrow.parquet as pq
     code,member,old_dates=task
     c=_AMOUNT_CONTEXT;root=Path(c['run_dir'])/'symbols'/code
-    reused=_amount_existing(root,c['semantic_sha256'],member) if root.exists() else None
+    reused=_amount_existing(root,c['semantic_sha256'],member,c.get('accepted_checkpoint_producers')) if root.exists() else None
     if reused:return reused
     if root.exists():raise Stop('PARTIAL_SYMBOL_OUTPUT_REQUIRES_SCOPED_RECOVERY:'+code)
     root.mkdir(parents=True,exist_ok=False)
     result=dict(symbol=code,semantic_sha256=c['semantic_sha256'],member=member,
-        owner_execution_id=c['execution_id'],worker_pid=os.getpid(),artifacts=[],reused=False,training_ready=False,**FLAGS)
+        owner_execution_id=c['execution_id'],producing_code_sha256=c['code_by_file']['wrapper']['sha256'],worker_pid=os.getpid(),artifacts=[],reused=False,training_ready=False,**FLAGS)
     budget=original.RecoveryBudget(root,c['worker_caps'])
     try:
         with budget:
@@ -355,6 +357,24 @@ def _amount_symbol_job(task):
     result.update(sampled_peak_rss_bytes=budget.peak,wall_seconds=time.monotonic()-budget.start_time)
     binding=original.new_json(root/'CHECKPOINT.json',result)
     return dict(result,checkpoint=binding)
+
+
+def _amount_compact_keys(grouped,rows):
+    from array import array
+    for row in rows:
+        code=row['ts_code'];date=int(row['trade_date'])
+        if not isinstance(code,str) or not original.re.fullmatch(r'\d{6}\.(SH|SZ|BJ)',code):raise Stop('ORIGINAL_UNIVERSE_KEY')
+        if date>20261015:raise Stop('OLD_KEY_AFTER_CUTOFF')
+        grouped.setdefault(code,array('I')).append(date)
+
+
+def _amount_validate_compact_keys(grouped):
+    import numpy as np
+    for code,dates in grouped.items():
+        values=np.sort(np.frombuffer(dates,dtype=np.uint32)).copy()
+        if len(values)>1 and (values[1:]==values[:-1]).any():raise Stop('DUPLICATE_OLD_DATE_CODE')
+        grouped[code]=values
+    return grouped
 
 
 def load_amount_projection_config(path):
@@ -412,19 +432,15 @@ def run_amount_projection(c,activation=None):
                 # Only original universe/date keys; no OHLC, labels or model columns.
                 grouped={};pf=pq.ParquetFile(path)
                 for batch in pf.iter_batches(columns=['ts_code','trade_date'],batch_size=65536):
-                    for row in batch.to_pylist():
-                        code=row['ts_code'];date=int(row['trade_date'])
-                        if not isinstance(code,str) or not original.re.fullmatch(r'\d{6}\.(SH|SZ|BJ)',code):raise Stop('ORIGINAL_UNIVERSE_KEY')
-                        values=grouped.setdefault(code,set())
-                        if date in values:raise Stop('DUPLICATE_OLD_DATE_CODE')
-                        if date>20261015:raise Stop('OLD_KEY_AFTER_CUTOFF')
-                        values.add(date)
+                    _amount_compact_keys(grouped,batch.to_pylist())
                     budget.check()
+                _amount_validate_compact_keys(grouped)
+                del batch,pf
                 if base.file_identity(path.stat())!=old['stat'] or len(grouped)!=5576:raise Stop('ORIGINAL_5576_OR_STAT_DRIFT')
                 with base.authenticated(life,c['inventory'],budget) as handle:members=original.inventory(handle)
-                codes=sorted(grouped);universe=original.content_once(root/'UNIVERSE_AND_OLD_KEYS.json',dict(qfq=c['qfq'],codes=codes,old_first={k:min(v) for k,v in grouped.items()},count=5576))
+                codes=sorted(grouped);universe=original.content_once(root/'UNIVERSE_AND_OLD_KEYS.json',dict(qfq=c['qfq'],codes=codes,old_first={k:int(v[0]) for k,v in grouped.items()},count=5576))
                 c['worker_start_sha256']=life.require()['event_sha256']
-                tasks=iter((code,members.get(code),sorted(grouped[code])) for code in codes);results=[];checkpointed=0
+                tasks=iter((code,members.get(code),grouped[code].tolist()) for code in codes);results=[];checkpointed=0
                 with ProcessPoolExecutor(max_workers=c['workers'],mp_context=multiprocessing.get_context('spawn'),initializer=_amount_worker_initialize,initargs=(c,)) as executor:
                     active={};exhausted=False;last_check=0.0
                     while active or not exhausted:

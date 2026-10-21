@@ -1,27 +1,28 @@
 {
-  "actual_output_acceptance": "PENDING_REGISTERED_EXECUTION_AND_REVIEW",
+  "actual_output_acceptance": "EXECUTION_07_COMPLETE_PENDING_INDEPENDENT_OUTPUT_REVIEW",
   "buy_gate_updated": false,
-  "decision": "PASS_NARROW_SOURCE_PREFLIGHT",
+  "decision": "PASS_NARROW_R1_SOURCE_AND_CHECKPOINT_BINDING",
   "files": [
     {
-      "after_sha256": "aa3ace59ad411a68b5b8b157d1d4479b7204f20a7b5dd048243ee6b594751a30",
-      "before_sha256": "13bf48727dcb650a1f8fe5650778ecad5ceb91fb3f574aaf9bb80b96b2d90e39",
+      "after_sha256": "86a697a626686b09bfbc8b076ff704833f24a1150ef04d609d2186d69152283a",
+      "before_sha256": "aa3ace59ad411a68b5b8b157d1d4479b7204f20a7b5dd048243ee6b594751a30",
       "path": "research/a_share_model_selection_v1/m33_tdx_source_refresh.py"
     },
     {
-      "after_sha256": "e2d1b5e5258291cb7fb8f1ca63c987d3c56e4cfc3be3a5ba4323fb188fa22288",
-      "before_sha256": "072411b2ffa52fd34d44acd42579c150450a816cb849aec0afd9a83a38139756",
+      "after_sha256": "c1939fa06cc38e9be2a7d9496fc223340300e663cdb46abb22cc0f172bad501f",
+      "before_sha256": "e2d1b5e5258291cb7fb8f1ca63c987d3c56e4cfc3be3a5ba4323fb188fa22288",
       "path": "research/a_share_model_selection_v1/tests/test_m33_tdx_source_refresh.py"
     }
   ],
-  "independent_qa_sha256": "a0d6adf60d604d279b5b3148d1a7aa9e5aa71fde8220ec4b51024a40b0987d1a",
+  "independent_qa_sha256": "695e931b8bf7828b29b08a1561b9b35b25136c597ec66bb511e5da020671f09d",
   "orders_sent": false,
+  "original_data_reuse_policy": "Normal rounding does not mandate replacing accepted original data; use this projection for real missing fields only",
   "production_allowed": false,
   "research_only": true,
+  "revision": "R1 compact date keys and producer-bound checkpoint reuse",
   "scope": "M37 original archive amount and volume field projection source only",
   "test_commands": [
-    "python -B -m pytest -q -p no:cacheprovider tests/test_m33_tdx_source_refresh.py -k \"archive_fields and not no_activation\"",
-    "python -B -m pytest -q -p no:cacheprovider tests/test_m33_tdx_source_refresh.py -k \"archive_fields and no_activation\""
+    "python -B -m pytest -q -p no:cacheprovider tests/test_m33_tdx_source_refresh.py -k \"archive_fields_checkpoint_preserves_values_gaps_and_reuses or archive_fields_compact_keys_preserve_set_semantics_and_bound_storage or archive_fields_legacy_checkpoint_producer_not_relabelled\""
   ],
-  "test_result": "4 projection tests and 1 activation guard passed independently; legacy source and tests AST unchanged"
+  "test_result": "3 passed, 9 deselected; prior unchanged field checks reused"
 }

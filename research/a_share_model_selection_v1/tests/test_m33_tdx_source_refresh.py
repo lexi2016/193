@@ -171,7 +171,7 @@ def test_archive_fields_checkpoint_preserves_values_gaps_and_reuses(archive_fiel
     with zipfile.ZipFile(archive,'w') as z:z.writestr('sh/lday/sh600000.day',payload)
     member=dict(name='sh/lday/sh600000.day',bytes=len(payload),sha256=hashlib.sha256(payload).hexdigest())
     run=tmp_path/'outputs';run.mkdir()
-    c=dict(original_reader=binding,run_dir=str(run),execution_id='SOFTWARE_FIXTURE',semantic_sha256='fixed-source-semantic',archive=dict(path=str(archive),frozen_stat=m.base.file_identity(archive.stat())),member_byte_limit=2**20,worker_caps=dict(threads=1,rss_bytes=2**31,payload_bytes=2**20,total_wall_sec=30),unit_binding=dict(amount='CNY',vol='shares'))
+    c=dict(code_by_file=dict(wrapper=dict(sha256='fixture-producing-code')),accepted_checkpoint_producers={'SOFTWARE_FIXTURE':'fixture-producing-code'},original_reader=binding,run_dir=str(run),execution_id='SOFTWARE_FIXTURE',semantic_sha256='fixed-source-semantic',archive=dict(path=str(archive),frozen_stat=m.base.file_identity(archive.stat())),member_byte_limit=2**20,worker_caps=dict(threads=1,rss_bytes=2**31,payload_bytes=2**20,total_wall_sec=30),unit_binding=dict(amount='CNY',vol='shares'))
     m._amount_worker_initialize(c,active_checker=lambda:None)
     result=m._amount_symbol_job(('600000.SH',member,[20200102,20200103]))
     assert result['status']=='PROJECTED_WITH_OLD_KEY_GAPS' and result['missing_old_dates']==[20200103]
@@ -189,3 +189,31 @@ def test_archive_fields_no_activation_no_output_or_input_read(tmp_path):
     with pytest.raises(m.Stop,match='FIELD_NOT_REVIEW_ACTIVATED'):
         m.run_amount_projection(dict(run_dir=str(root)))
     assert not root.exists()
+
+
+def test_archive_fields_compact_keys_preserve_set_semantics_and_bound_storage():
+    from array import array
+    import numpy as np
+    grouped={}
+    rows=[dict(ts_code='600000.SH',trade_date=d) for d in [20200103,20200102]]
+    m._amount_compact_keys(grouped,rows)
+    assert isinstance(grouped['600000.SH'],array) and grouped['600000.SH'].itemsize==4
+    m._amount_validate_compact_keys(grouped)
+    assert grouped['600000.SH'].dtype==np.uint32 and list(grouped['600000.SH'])==[20200102,20200103]
+    assert grouped['600000.SH'].nbytes==8
+    assert all(type(d) is int for d in grouped['600000.SH'].tolist())
+    dup={};m._amount_compact_keys(dup,rows+rows[:1])
+    with pytest.raises(m.Stop,match='DUPLICATE_OLD_DATE_CODE'):m._amount_validate_compact_keys(dup)
+    for row,reason in [(dict(ts_code='bad',trade_date=20200102),'UNIVERSE_KEY'),(dict(ts_code='600000.SH',trade_date=20261016),'AFTER_CUTOFF')]:
+        with pytest.raises(m.Stop,match=reason):m._amount_compact_keys({},[row])
+
+
+def test_archive_fields_legacy_checkpoint_producer_not_relabelled(tmp_path):
+    import json,hashlib
+    root=tmp_path/'600000.SH';root.mkdir();p=root/'CHECKPOINT.json'
+    item=dict(symbol='600000.SH',semantic_sha256='sem',member={'name':'member'},owner_execution_id='OLD',artifacts=[])
+    p.write_text(json.dumps(item));before=p.read_bytes()
+    reused=m._amount_existing(root,'sem',{'name':'member'},{'OLD':'old-code-sha'})
+    assert reused['owner_execution_id']=='OLD' and reused['reuse_producing_code_sha256']=='old-code-sha'
+    assert p.read_bytes()==before and 'producing_code_sha256' not in json.loads(before)
+    with pytest.raises(m.Stop,match='PRODUCER_DRIFT'):m._amount_existing(root,'sem',{'name':'member'},{'NEW':'new-code-sha'})
