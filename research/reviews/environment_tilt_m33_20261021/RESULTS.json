@@ -1,0 +1,102 @@
+{
+  "action_result": [
+    {
+      "categories": [
+        14
+      ],
+      "date": 20051201,
+      "same_date_category1_count": 0,
+      "same_date_record_count": 1,
+      "standard_terms_status": "UNRESOLVED_UNSUPPORTED_TERMS",
+      "symbol": "000002.SZ",
+      "total_records": 112
+    },
+    {
+      "categories": [
+        14
+      ],
+      "date": 20051219,
+      "same_date_category1_count": 0,
+      "same_date_record_count": 1,
+      "standard_terms_status": "UNRESOLVED_UNSUPPORTED_TERMS",
+      "symbol": "600004.SH",
+      "total_records": 40
+    },
+    {
+      "categories": [
+        4
+      ],
+      "date": 20070630,
+      "same_date_category1_count": 0,
+      "same_date_record_count": 1,
+      "standard_terms_status": "UNRESOLVED_UNSUPPORTED_TERMS",
+      "symbol": "000014.SZ",
+      "total_records": 43
+    }
+  ],
+  "buy_gate_updated": false,
+  "calls": {
+    "actions": 3,
+    "daily": 2,
+    "retries": 0
+  },
+  "configuration_sha256": "c992e869d97ef079fd15ce9b6df6da931a01a5d91dae363d57f3c29e272de853",
+  "contract_sha256": "6f08408cc25bcdf724bef23c5f7d1586b69cd15a6671891c15fbb01812cf8421",
+  "daily_result": {
+    "amount_values_emitted": false,
+    "error": "DAILY_RESPONSE_NOT_LIST",
+    "fixed_amount_dates_available": 0,
+    "fixed_amount_dates_required": 5,
+    "response_type": "NoneType"
+  },
+  "diagnosis": "Bound original pytdx can swallow request exceptions and return None; underlying exception was not retained. Three action calls returned; generic network failure is not established. No further call included.",
+  "elapsed_seconds": 4.408407415961847,
+  "execution_id": "M33_ORIGINAL_TDX_SOURCE_REFRESH_20261021_01",
+  "fit_count": 0,
+  "orders_sent": false,
+  "production_allowed": false,
+  "registry_point_in_time": {
+    "correction_count": 88,
+    "event_count": 3460,
+    "execution_count": 1100,
+    "route_count": 377,
+    "sha256": "94647b6559146d450a6d10c14dd087a6af7d1bd0b59277cbff86907595e02c3a"
+  },
+  "research_only": true,
+  "reused_tests": true,
+  "review": {
+    "actual": "PASS_NARROW_FAILED_CAPTURE_ACCOUNTING_ONLY",
+    "actual_receipt": {
+      "logical_path": "local-evidence/M33_ACTUAL_LINEAGE_REVIEW.json",
+      "sha256": "a8a66b7e32a2ac1bda99ed32d3fe099d4e52868c7b4d3f8f22f589816cbdf862"
+    },
+    "source": "INDEPENDENT_SYNTHETIC_PASS_5_TESTS",
+    "source_receipt": {
+      "logical_path": "local-evidence/M33_INDEPENDENT_SOURCE_REVIEW.json",
+      "sha256": "3da70a80f3dc0c514eb60f399a0d561a82d87a6ed396967eee05c6a99c6a498d"
+    }
+  },
+  "sampled_peak_rss_bytes": 515489792,
+  "scope": "Bounded original Mac TDX source refresh; no model or strategy change",
+  "scope_counts": {
+    "contract_only_count": 0,
+    "correction_count": 0,
+    "event_count": 2,
+    "execution_count": 1,
+    "route_count": 1,
+    "unregistered_count": 0
+  },
+  "source_dependencies": "Imports accepted local producer, registry adapter and bound interface. This packet is not a standalone data pipeline; no private bindings or runtime configuration shipped.",
+  "source_sha256": {
+    "test": "072411b2ffa52fd34d44acd42579c150450a816cb849aec0afd9a83a38139756",
+    "wrapper": "13bf48727dcb650a1f8fe5650778ecad5ceb91fb3f574aaf9bb80b96b2d90e39"
+  },
+  "status": "REGISTERED_FAILED_NO_RETRY",
+  "test_command": "PYTHONDONTWRITEBYTECODE=1 OMP_NUM_THREADS=4 OPENBLAS_NUM_THREADS=4 MKL_NUM_THREADS=4 <approved_training_python> -B -m pytest -q -p no:cacheprovider research/a_share_model_selection_v1/tests/test_m33_tdx_source_refresh.py",
+  "training_ready": false,
+  "units": {
+    "amount": "Expected native endpoint CNY; fresh daily values unavailable",
+    "old_model_numeric_bridge": "NOT_ESTABLISHED",
+    "volume": "Expected endpoint lots multiplied by 100 to shares; not observed in this failed run"
+  }
+}
